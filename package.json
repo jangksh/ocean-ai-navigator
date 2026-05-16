@@ -1,0 +1,12 @@
+{
+  "name": "ai-ocean",
+  "version": "1.0.0",
+  "description": "AI-OCEAN 커리어 나침반 - Big 5 성향 분석 & AI 도구 추천 서비스",
+  "scripts": {
+    "dev": "npx serve . --listen 3000",
+    "start": "npx serve ."
+  },
+  "keywords": ["big5", "ocean", "personality", "ai", "career"],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,31 @@
+# Office temp files
+~$*
+
+# Log files
+*.log
+*.txt
+
+# Binary/Office documents
+*.docx
+*.xlsx
+*.pdf
+*.pptx
+
+# Test & debug scripts
+test_*.py
+debug_*.py
+extract_*.py
+
+# Temp data files
+gen_partial_data.json
+missing_personas.json
+missing_with_tools.json
+job08_personas.json
+job09_personas.json
+
+# Claude settings
+.claude/
+
+# Python
+__pycache__/
+*.pyc
