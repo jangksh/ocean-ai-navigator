@@ -1164,8 +1164,8 @@
   }
 
   .persona-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px; margin-bottom: 40px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px; margin-bottom: 40px;
   }
 
   .persona-preview-card {
@@ -1696,7 +1696,7 @@
           <div class="hsm-item"><div class="hsm-num">25</div><div class="hsm-label" data-i18n="stat_questions">테스트 문항</div></div>
           <div class="hsm-item"><div class="hsm-num">15</div><div class="hsm-label" data-i18n="stat_jobs">직업군</div></div>
           <div class="hsm-item"><div class="hsm-num">32</div><div class="hsm-label" data-i18n="stat_types">성향 유형</div></div>
-          <div class="hsm-item"><div class="hsm-num">50+</div><div class="hsm-label" data-i18n="stat_tools">AI 도구</div></div>
+          <div class="hsm-item"><div class="hsm-num">200+</div><div class="hsm-label" data-i18n="stat_tools">AI 도구</div></div>
         </div>
       </div>
       <div class="hero-char-side">
@@ -2276,7 +2276,7 @@
       <button class="btn-back" onclick="showScreen('landing')" style="margin-bottom:24px;" data-i18n="personas_back">&larr; 처음으로</button>
       <div class="about-hero-label" data-i18n="personas_label">&#127937; 32가지 OCEAN 유형</div>
       <h2 data-i18n="personas_h2">나는 어떤 유형일까?</h2>
-      <p data-i18n="personas_sub">OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 대표 유형 8가지를 미리 만나보세요.</p>
+      <p data-i18n="personas_sub">OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 나는 어떤 유형인지 지금 바로 확인해보세요.</p>
     </div>
   </div>
 
@@ -2284,7 +2284,7 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-O-bg)">&#9733;</div>
-        <h3 data-i18n="personas_featured_h">대표 페르소나 유형 8선</h3>
+        <h3 data-i18n="personas_featured_h">32가지 OCEAN 유형 전체</h3>
       </div>
       <div class="persona-grid" id="personaPreviewGrid"></div>
     </div>
@@ -2539,6 +2539,44 @@ const FEATURED_PERSONAS = [
 const DIM_CODE_COLORS = ['#7048E8','#1971C2','#E67700','#0CA678','#C92A2A'];
 const DIM_CODE_BG = ['#F3F0FF','#E7F5FF','#FFF9DB','#EBFBEE','#FFF5F5'];
 
+const PERSONA_EN_NAME = {
+  '11111':'The Harmonist',     '11110':'The Passionate Dynamo',
+  '11101':'The Cold Strategist','11100':'The Perfectionist',
+  '11011':'The Silent Genius',  '11010':'The Artisan',
+  '11001':'The Scholar',        '11000':'The Specialist',
+  '10111':'The Pioneer',        '10110':'The Lovable Wildcard',
+  '10101':'The Executor',       '10100':'The Maverick',
+  '10011':'The Empath',         '10010':'The Dreamer',
+  '10001':'The Lone Wolf',      '10000':'The Lone Eagle',
+  '01111':'The Guardian',       '01110':'The Caretaker',
+  '01101':'The Anchor',         '01100':'The Enforcer',
+  '01011':'The Helper',         '01010':'The Turtle',
+  '01001':'The Optimizer',      '01000':'The Minimalist',
+  '00111':'The Connector',      '00110':'The Social Butterfly',
+  '00101':'The Achiever',       '00100':'The Gambler',
+  '00011':'The Peacekeeper',    '00010':'The Gentle Soul',
+  '00001':'The Realist',        '00000':'The Hermit',
+};
+
+const PERSONA_AI_REC = {
+  '11111':'Claude + Notion AI',        '11110':'Claude + Wysa',
+  '11101':'ChatGPT + Notion AI',       '11100':'Claude + GitHub Copilot',
+  '11011':'Claude + Perplexity',       '11010':'Midjourney + Notion AI',
+  '11001':'Perplexity + WolframAlpha', '11000':'GitHub Copilot + WolframAlpha',
+  '10111':'ChatGPT + Gamma',           '10110':'ChatGPT + Otter.ai',
+  '10101':'ChatGPT + Notion AI',       '10100':'ChatGPT + Gamma',
+  '10011':'Claude + Wysa',             '10010':'Claude + Wysa',
+  '10001':'Perplexity + Claude',       '10000':'Perplexity + Claude',
+  '01111':'Notion AI + ChatGPT',       '01110':'Notion AI + Wysa',
+  '01101':'Notion AI + Beautiful.ai',  '01100':'Notion AI + ChatGPT',
+  '01011':'Notion AI + Claude',        '01010':'Notion AI + Wysa',
+  '01001':'Notion AI + Perplexity',    '01000':'Notion AI + ChatGPT',
+  '00111':'Otter.ai + Gamma',          '00110':'ChatGPT + Otter.ai',
+  '00101':'ChatGPT + Notion AI',       '00100':'ChatGPT + Gamma',
+  '00011':'Claude + Wysa',             '00010':'Claude + Wysa',
+  '00001':'ChatGPT + Perplexity',      '00000':'ChatGPT',
+};
+
 const TOOL_CATEGORIES = [
   { name:'창작 & 이미지 생성', en_name:'Creation & Image Generation', icon:'🎨', bg:'var(--dim-O-bg)', color:'var(--dim-O)',
     tools:[
@@ -2671,8 +2709,8 @@ const STRINGS = {
     air_N: '<strong>정서 안정성</strong>은 AI 활용 스타일에도 영향을 줍니다. 안정형은 복잡한 멀티툴 세팅에 유리하고, 예민형은 단순하고 즉각적인 피드백을 주는 AI가 적합합니다.',
     about_cta_h: '지금 나의 OCEAN 성향을 확인해 보세요', about_cta_p: '25문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.', about_cta_btn: '🏁 테스트 시작하기',
     personas_back: '← 처음으로', personas_label: '🏆 32가지 OCEAN 유형', personas_h2: '나는 어떤 유형일까?',
-    personas_sub: 'OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 대표 유형 8가지를 미리 만나보세요.',
-    personas_featured_h: '대표 페르소나 유형 8선',
+    personas_sub: 'OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 나는 어떤 유형인지 지금 바로 확인해보세요.',
+    personas_featured_h: '32가지 OCEAN 유형 전체',
     code_guide_h: '성향 코드 읽는 법',
     code_guide_p: '결과 화면에 표시되는 5자리 코드(예: <strong style="color:var(--wave-1)">11010</strong>)는 각 차원이 50% 이상이면 <strong>1</strong>, 미만이면 <strong>0</strong>으로 표시됩니다.',
     code_O_hi: '개방성<br>높음', code_C_hi: '성실성<br>높음', code_E_lo: '외향성<br>낮음', code_A_hi: '친화성<br>높음', code_N_lo: '안정성<br>낮음',
@@ -2763,8 +2801,8 @@ const STRINGS = {
     air_N: '<strong>Emotional Stability</strong> also affects AI usage style. Stable types benefit from complex multi-tool setups, while sensitive types do better with simple, immediate-feedback AI.',
     about_cta_h: 'Discover Your OCEAN Profile Now', about_cta_p: 'In 25 questions, about 5 minutes, get your personalized AI tool prescription.', about_cta_btn: '🏁 Start Test',
     personas_back: '← Home', personas_label: '🏆 32 OCEAN Types', personas_h2: 'Which type am I?',
-    personas_sub: '2⁵ = 32 unique personality types emerge from combinations of OCEAN\'s 5 dimensions. Preview 8 featured types.',
-    personas_featured_h: '8 Featured Persona Types',
+    personas_sub: '2⁵ = 32 unique personality types from OCEAN\'s 5 dimensions. Find out which one you are.',
+    personas_featured_h: 'All 32 OCEAN Types',
     code_guide_h: 'How to Read Your Personality Code',
     code_guide_p: 'The 5-digit code shown on the results screen (e.g. <strong style="color:var(--wave-1)">11010</strong>) shows <strong>1</strong> if each dimension is 50% or above, and <strong>0</strong> if below.',
     code_O_hi: 'Openness<br>High', code_C_hi: 'Conscientiousness<br>High', code_E_lo: 'Extraversion<br>Low', code_A_hi: 'Agreeableness<br>High', code_N_lo: 'Stability<br>Low',
@@ -2823,19 +2861,24 @@ function renderPersonaGrid() {
   const grid = document.getElementById('personaPreviewGrid');
   if (!grid) return;
   const isEn = window.LANG === 'en';
-  grid.innerHTML = FEATURED_PERSONAS.map(p => {
+  const personas = (typeof OCEAN_MASTER_PERSONAS !== 'undefined') ? OCEAN_MASTER_PERSONAS : FEATURED_PERSONAS;
+  grid.innerHTML = personas.map(p => {
+    const emoji = PERSONA_EMOJI[p.code] || '✨';
+    const enName = PERSONA_EN_NAME[p.code] || p.code;
+    const aiRec = PERSONA_AI_REC[p.code] || 'ChatGPT';
+    const desc = p.summary || p.desc || '';
     const digits = p.code.split('').map((d, i) => {
       const on = d === '1';
       return `<div class="pp-digit" style="background:${on ? DIM_CODE_BG[i] : '#F0F2F8'};color:${on ? DIM_CODE_COLORS[i] : '#A0AEC0'}">${['O','C','E','A','N'][i]}</div>`;
     }).join('');
     return `
       <div class="persona-preview-card">
-        <div class="pp-emoji">${p.emoji}</div>
+        <div class="pp-emoji">${emoji}</div>
         <div class="pp-code">${digits}</div>
-        <div class="pp-name">${isEn ? p.en : p.name}</div>
-        <div class="pp-en">${isEn ? p.name : p.en}</div>
-        <div class="pp-desc">${isEn ? (p.en_desc || p.desc) : p.desc}</div>
-        <div class="pp-ai">${isEn ? 'Recommended AI → ' : '추천 AI → '}${p.ai}</div>
+        <div class="pp-name">${isEn ? enName : p.name}</div>
+        <div class="pp-en">${isEn ? p.name : enName}</div>
+        <div class="pp-desc">${desc}</div>
+        <div class="pp-ai">${isEn ? 'Recommended AI → ' : '추천 AI → '}${aiRec}</div>
       </div>`;
   }).join('');
 }
