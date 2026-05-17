@@ -1042,10 +1042,11 @@
     background: #fff; border: 1px solid var(--card-border);
     border-radius: 16px; padding: 16px; display: flex;
     gap: 14px; align-items: flex-start; transition: all 0.18s; box-shadow: var(--shadow-sm);
+    text-decoration: none; color: inherit; cursor: pointer;
   }
-  .tool-preview-card:hover { border-color: var(--wave-1); box-shadow: var(--shadow-md); }
+  .tool-preview-card:hover { border-color: var(--wave-1); box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
-  .tp-icon { font-size: 26px; flex-shrink: 0; line-height: 1; padding-top: 2px; }
+  .tp-icon { font-size: 26px; flex-shrink: 0; line-height: 1; padding-top: 2px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
   .tp-info { flex: 1; min-width: 0; }
   .tp-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; color: var(--text-primary); }
   .tp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 6px; }
@@ -2269,38 +2270,48 @@ const DIM_CODE_BG = ['#F3F0FF','#E7F5FF','#FFF9DB','#EBFBEE','#FFF5F5'];
 const TOOL_CATEGORIES = [
   { name:'창작 & 이미지 생성', en_name:'Creation & Image Generation', icon:'🎨', bg:'var(--dim-O-bg)', color:'var(--dim-O)',
     tools:[
-      { icon:'🎨', name:'Midjourney', desc:'텍스트 프롬프트로 고품질 아트워크 생성', en_desc:'Generate high-quality artwork from text prompts', tag:'개방성 높음(O↑)', en_tag:'High Openness (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🦋', name:'Adobe Firefly', desc:'전문가 수준의 AI 이미지·그래픽 편집', en_desc:'Professional-grade AI image & graphic editing', tag:'디자이너·크리에이터', en_tag:'Designers & Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'✏️', name:'Canva AI', desc:'누구나 쉬운 AI 기반 SNS·발표 디자인', en_desc:'Easy AI-powered SNS & presentation design for everyone', tag:'마케터·외향형', en_tag:'Marketers & Extroverts', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🎬', name:'Runway', desc:'AI 영상 생성·편집·인페인팅', en_desc:'AI video generation, editing & inpainting', tag:'영상 크리에이터', en_tag:'Video Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎨', name:'Midjourney', domain:'midjourney.com', url:'https://www.midjourney.com', desc:'텍스트 프롬프트로 최고 품질 아트워크 생성', en_desc:'Generate stunning artwork from text prompts', tag:'개방성 높음(O↑)', en_tag:'High Openness (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🔥', name:'Adobe Firefly', domain:'firefly.adobe.com', url:'https://firefly.adobe.com', desc:'전문가 수준의 AI 이미지·그래픽 편집', en_desc:'Professional-grade AI image & graphic editing', tag:'디자이너·크리에이터', en_tag:'Designers & Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🖼️', name:'DALL-E 3', domain:'openai.com', url:'https://chat.openai.com', desc:'OpenAI 텍스트→이미지 AI, ChatGPT에 내장', en_desc:"OpenAI's text-to-image AI, built into ChatGPT", tag:'창의형(O↑)', en_tag:'Creative (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎬', name:'Runway', domain:'runwayml.com', url:'https://runwayml.com', desc:'AI 영상 생성·편집·인페인팅 최강자', en_desc:'AI video generation, editing & inpainting', tag:'영상 크리에이터', en_tag:'Video Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎨', name:'Canva AI', domain:'canva.com', url:'https://www.canva.com', desc:'누구나 쉬운 AI 기반 SNS·발표 디자인', en_desc:'Easy AI-powered design for everyone', tag:'마케터·외향형', en_tag:'Marketers & Extroverts', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'⚗️', name:'Stable Diffusion', domain:'stability.ai', url:'https://stability.ai', desc:'오픈소스 이미지 생성 AI, 로컬 실행 가능', en_desc:'Open-source image generation AI, runs locally', tag:'개발자·DIY형', en_tag:'Developers & DIY', tagColor:'#7048E8', tagBg:'#F3F0FF' },
     ]},
   { name:'글쓰기 & 대화 AI', en_name:'Writing & Conversational AI', icon:'✍️', bg:'var(--dim-C-bg)', color:'var(--dim-C)',
     tools:[
-      { icon:'🧠', name:'Claude', desc:'긴 문서 분석·창의적 글쓰기·코딩', en_desc:'Long document analysis, creative writing & coding', tag:'분석형(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'🤖', name:'ChatGPT', desc:'다목적 범용 AI 어시스턴트', en_desc:'Multi-purpose general-purpose AI assistant', tag:'모든 유형', en_tag:'All Types', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'📝', name:'Notion AI', desc:'문서 작성·정리·요약·번역', en_desc:'Document writing, organization, summarizing & translation', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'✍️', name:'Jasper', desc:'마케팅 특화 AI 카피라이터', en_desc:'Marketing-specialized AI copywriter', tag:'마케터·광고기획자', en_tag:'Marketers & Ad Planners', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🟣', name:'Claude', domain:'claude.ai', url:'https://claude.ai', desc:'긴 문서 분석·창의적 글쓰기·깊은 추론', en_desc:'Long document analysis, creative writing & deep reasoning', tag:'분석형(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🤖', name:'ChatGPT', domain:'chat.openai.com', url:'https://chat.openai.com', desc:'다목적 범용 AI 어시스턴트, 최대 생태계', en_desc:'Multi-purpose AI assistant with the largest ecosystem', tag:'모든 유형', en_tag:'All Types', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🌐', name:'Gemini', domain:'gemini.google.com', url:'https://gemini.google.com', desc:'Google Workspace 완전 연동 멀티모달 AI', en_desc:'Google Workspace-integrated multimodal AI', tag:'실용형(C↑)', en_tag:'Practical (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'📝', name:'Notion AI', domain:'notion.so', url:'https://www.notion.so', desc:'문서 작성·정리·요약·번역 올인원', en_desc:'All-in-one writing, organizing, summarizing & translation', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'✍️', name:'Jasper', domain:'jasper.ai', url:'https://www.jasper.ai', desc:'마케팅 특화 AI 카피라이터', en_desc:'Marketing-specialized AI copywriter', tag:'마케터·광고기획자', en_tag:'Marketers & Ad Planners', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'📋', name:'Copy.ai', domain:'copy.ai', url:'https://www.copy.ai', desc:'빠른 SNS·이메일·광고 카피 자동 생성', en_desc:'Fast SNS, email & ad copy auto-generation', tag:'창업자·마케터', en_tag:'Entrepreneurs & Marketers', tagColor:'#1971C2', tagBg:'#E7F5FF' },
     ]},
   { name:'리서치 & 데이터 분석', en_name:'Research & Data Analysis', icon:'🔍', bg:'var(--dim-A-bg)', color:'var(--dim-A)',
     tools:[
-      { icon:'🔍', name:'Perplexity', desc:'실시간 웹 검색 기반 AI 리서치 엔진', en_desc:'Real-time web search-based AI research engine', tag:'연구자·지식탐구형', en_tag:'Researchers & Knowledge Seekers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'♊', name:'Gemini', desc:'구글 연동 멀티모달 AI 어시스턴트', en_desc:'Google-connected multimodal AI assistant', tag:'실용형 분석가', en_tag:'Practical Analysts', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'🧮', name:'WolframAlpha', desc:'수학·과학·데이터 정밀 계산', en_desc:'Precise math, science & data computation', tag:'분석적(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'📚', name:'Consensus', desc:'논문 기반 과학적 근거 답변', en_desc:'Science-backed answers based on research papers', tag:'연구자·의료·법률', en_tag:'Research / Medical / Legal', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🔍', name:'Perplexity', domain:'perplexity.ai', url:'https://www.perplexity.ai', desc:'실시간 웹 검색 기반 AI 리서치 엔진', en_desc:'Real-time web search-based AI research engine', tag:'연구자·지식탐구형', en_tag:'Researchers & Knowledge Seekers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🧮', name:'WolframAlpha', domain:'wolframalpha.com', url:'https://www.wolframalpha.com', desc:'수학·과학·데이터 정밀 계산 엔진', en_desc:'Precise math, science & data computation engine', tag:'분석적(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'📚', name:'Consensus', domain:'consensus.app', url:'https://consensus.app', desc:'논문 기반 과학적 근거 AI 답변', en_desc:'Science-backed answers sourced from research papers', tag:'연구자·의료·법률', en_tag:'Research / Medical / Legal', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🧪', name:'Elicit', domain:'elicit.com', url:'https://elicit.com', desc:'AI로 학술 논문 분석·요약·비교', en_desc:'AI-powered academic paper analysis & comparison', tag:'대학원생·연구자', en_tag:'Graduate Students & Researchers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'📓', name:'NotebookLM', domain:'notebooklm.google.com', url:'https://notebooklm.google.com', desc:'자료 업로드 후 AI 맞춤 Q&A·팟캐스트 생성', en_desc:'Upload sources, get AI-tailored Q&A & podcast generation', tag:'학습자·지식관리형', en_tag:'Learners & Knowledge Managers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🔬', name:'Semantic Scholar', domain:'semanticscholar.org', url:'https://www.semanticscholar.org', desc:'AI 기반 학술 논문 검색·인용 그래프 분석', en_desc:'AI-powered academic search & citation graph analysis', tag:'연구자·박사과정', en_tag:'Researchers & PhD Students', tagColor:'#0CA678', tagBg:'#EBFBEE' },
     ]},
   { name:'생산성 & 자동화', en_name:'Productivity & Automation', icon:'⚙️', bg:'var(--dim-E-bg)', color:'#E67700',
     tools:[
-      { icon:'⚙️', name:'Zapier AI', desc:'앱 간 자동화 워크플로우 설계', en_desc:'Design automated workflows between apps', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'🦦', name:'Otter.ai', desc:'회의 음성 자동 기록·요약', en_desc:'Auto-record & summarize meeting audio', tag:'외향형(E↑)', en_tag:'Extroverts (E↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'⚡', name:'Grok', desc:'실시간 트렌드 파악 AI', en_desc:'Real-time trend intelligence AI', tag:'사교형(E↑O↑)', en_tag:'Social (E↑O↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'📊', name:'Gamma', desc:'AI 기반 자동 프레젠테이션 생성', en_desc:'AI-powered automatic presentation generation', tag:'발표형(E↑C↑)', en_tag:'Presenters (E↑C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'⚙️', name:'Zapier', domain:'zapier.com', url:'https://zapier.com', desc:'앱 간 AI 자동화 워크플로우 설계', en_desc:'Design AI-powered automated workflows between apps', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'🔀', name:'Make', domain:'make.com', url:'https://www.make.com', desc:'드래그앤드롭 시각화 자동화 플랫폼', en_desc:'Visual drag-and-drop automation platform', tag:'시스템 구축형', en_tag:'Systems Builders', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'🦦', name:'Otter.ai', domain:'otter.ai', url:'https://otter.ai', desc:'회의 음성 자동 기록·요약·검색', en_desc:'Auto-record, summarize & search meeting audio', tag:'외향형(E↑)', en_tag:'Extroverts (E↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'📊', name:'Gamma', domain:'gamma.app', url:'https://gamma.app', desc:'AI 기반 자동 프레젠테이션·문서 생성', en_desc:'AI-powered automatic presentation & document generation', tag:'발표형(E↑C↑)', en_tag:'Presenters (E↑C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'🗂️', name:'Notion', domain:'notion.so', url:'https://www.notion.so', desc:'AI 올인원 워크스페이스·프로젝트 관리', en_desc:'AI-powered all-in-one workspace & project management', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'📅', name:'Motion', domain:'usemotion.com', url:'https://www.usemotion.com', desc:'AI가 일정·업무를 자동 최적화 스케줄링', en_desc:'AI automatically optimizes your schedule & tasks', tag:'생산성 극대화형', en_tag:'Productivity Maximizers', tagColor:'#E67700', tagBg:'#FFF9DB' },
     ]},
   { name:'감성 & 웰빙 AI', en_name:'Emotional & Wellbeing AI', icon:'💆', bg:'var(--dim-N-bg)', color:'var(--dim-N)',
     tools:[
-      { icon:'💆', name:'Wysa', desc:'AI 기반 심리 상담·마음 챙김 가이드', en_desc:'AI-based mental health support & mindfulness guide', tag:'공감형(A↑) 추천', en_tag:'Empathetic (A↑) Recommended', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🎵', name:'Suno', desc:'AI 작곡·음악 생성', en_desc:'AI music composition & generation', tag:'창의형(O↑)', en_tag:'Creative (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🌍', name:'DeepL', desc:'세계 최고 수준의 AI 번역기', en_desc:'World-class AI translation', tag:'글로벌 업무자', en_tag:'Global Workers', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🎙️', name:'ElevenLabs', desc:'AI 음성 생성·더빙·TTS', en_desc:'AI voice generation, dubbing & TTS', tag:'크리에이터·강사', en_tag:'Creators & Instructors', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'💆', name:'Wysa', domain:'wysa.com', url:'https://www.wysa.com', desc:'AI 기반 심리 상담·마음 챙김 가이드', en_desc:'AI-based mental health support & mindfulness guide', tag:'공감형(A↑) 추천', en_tag:'Empathetic (A↑) Recommended', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🤝', name:'Replika', domain:'replika.ai', url:'https://replika.ai', desc:'감정적 지지·대화를 나누는 AI 친구', en_desc:'AI companion for emotional support and meaningful conversation', tag:'외로움 극복·감성형', en_tag:'Emotional Support Seekers', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎵', name:'Suno', domain:'suno.ai', url:'https://suno.ai', desc:'텍스트로 완성곡을 만드는 AI 작곡', en_desc:'Create complete songs from text with AI composition', tag:'창의형(O↑)', en_tag:'Creative (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎶', name:'Udio', domain:'udio.com', url:'https://www.udio.com', desc:'고품질 AI 음악 생성·편곡 플랫폼', en_desc:'High-quality AI music generation & arrangement platform', tag:'음악 창작형(O↑)', en_tag:'Music Creatives (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🌍', name:'DeepL', domain:'deepl.com', url:'https://www.deepl.com', desc:'세계 최고 수준의 AI 번역기', en_desc:'World-class AI translation with unmatched accuracy', tag:'글로벌 업무자', en_tag:'Global Workers', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎙️', name:'ElevenLabs', domain:'elevenlabs.io', url:'https://elevenlabs.io', desc:'AI 음성 복제·더빙·TTS 최강자', en_desc:'AI voice cloning, dubbing & TTS leader', tag:'크리에이터·강사', en_tag:'Creators & Instructors', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
     ]},
 ];
 
@@ -2718,7 +2729,7 @@ function renderToolsCatalog() {
   const el = document.getElementById('toolsCatalogContent');
   if (!el) return;
   const isEn = window.LANG === 'en';
-  const dbNote = isEn ? 'Top 4 picks · 20+ in DB' : '대표 4개 · DB 20개+';
+  const dbNote = isEn ? `Top ${6} picks · 30+ in DB` : `대표 ${6}개 · DB 30개+`;
   el.innerHTML = TOOL_CATEGORIES.map(cat => `
     <div class="tools-category about-section">
       <div class="tools-cat-header">
@@ -2729,14 +2740,20 @@ function renderToolsCatalog() {
       </div>
       <div class="tool-preview-grid">
         ${cat.tools.map(t => `
-          <div class="tool-preview-card">
-            <div class="tp-icon">${t.icon}</div>
+          <a class="tool-preview-card" href="${t.url}" target="_blank" rel="noopener noreferrer">
+            <div class="tp-icon">
+              <img src="https://www.google.com/s2/favicons?domain=${t.domain}&sz=64"
+                   width="36" height="36"
+                   style="border-radius:10px;object-fit:contain;display:block;"
+                   onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<span style=\\"font-size:26px;line-height:1\\">${t.icon}</span>')"
+                   alt="${t.name}" loading="lazy" />
+            </div>
             <div class="tp-info">
-              <div class="tp-name">${t.name}</div>
+              <div class="tp-name">${t.name} <span style="font-size:10px;color:var(--text-secondary);font-weight:400">↗</span></div>
               <div class="tp-desc">${isEn ? (t.en_desc || t.desc) : t.desc}</div>
               <span class="tp-tag" style="color:${t.tagColor};background:${t.tagBg};border-color:${t.tagColor}33">${isEn ? (t.en_tag || t.tag) : t.tag}</span>
             </div>
-          </div>`).join('')}
+          </a>`).join('')}
       </div>
     </div>`).join('');
 }
