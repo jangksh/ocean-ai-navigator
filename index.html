@@ -1363,6 +1363,76 @@
 }
 .v2-section-body { font-size: 15px; line-height: 1.8; color: var(--text-primary); }
 
+/* ── AI DB stats bar ── */
+.ai-db-stats {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px;
+}
+.ai-db-stat {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(12,166,120,0.1); border: 1px solid rgba(12,166,120,0.2);
+  border-radius: 20px; padding: 7px 16px;
+  font-size: 13px; font-weight: 700; color: var(--mint);
+}
+.ai-db-stat span { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+
+/* ── LM AI Guide ── */
+.lm-guide-section {
+  background: white; border: 1px solid var(--card-border);
+  border-radius: 20px; padding: 28px 28px 20px; margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.lm-guide-title {
+  font-size: 18px; font-weight: 800; color: var(--text-primary);
+  margin-bottom: 6px; letter-spacing: -0.3px;
+}
+.lm-guide-sub {
+  font-size: 13.5px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;
+}
+.lm-cards { display: flex; flex-direction: column; gap: 14px; }
+.lm-card {
+  border: 1.5px solid var(--card-border); border-radius: 16px;
+  overflow: hidden; background: var(--ocean-deep);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.lm-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
+.lm-card-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; cursor: pointer; user-select: none;
+}
+.lm-card-header:hover { background: rgba(0,0,0,0.015); }
+.lm-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.lm-name { font-size: 16px; font-weight: 800; color: var(--text-primary); }
+.lm-maker { font-size: 11px; color: var(--text-secondary); margin-top: 1px; font-weight: 500; }
+.lm-tagline { font-size: 13px; color: var(--text-secondary); flex: 1; line-height: 1.4; }
+.lm-expand { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--ocean-mid); font-size: 11px; color: var(--text-secondary); transition: transform 0.2s; flex-shrink: 0; }
+.lm-card.open .lm-expand { transform: rotate(180deg); }
+.lm-card-body {
+  display: none; padding: 0 20px 20px; border-top: 1px solid var(--card-border);
+}
+.lm-card.open .lm-card-body { display: block; }
+.lm-features { list-style: none; padding: 0; margin: 16px 0 12px; display: flex; flex-direction: column; gap: 8px; }
+.lm-feature-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 14px; color: var(--text-primary); line-height: 1.55;
+}
+.lm-feature-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.lm-best-for {
+  background: var(--ocean-light); border-radius: 10px; padding: 10px 14px;
+  font-size: 13px; line-height: 1.55; border-left: 3px solid;
+}
+.lm-best-label { font-size: 10px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
+
+/* ── DB note in category header ── */
+.tools-cat-db-note {
+  font-size: 11px; color: var(--text-secondary); font-weight: 500;
+  margin-left: auto; background: var(--ocean-mid); border-radius: 20px;
+  padding: 3px 10px; white-space: nowrap;
+}
+
 /* ── Language toggle button ── */
 .lang-toggle-btn {
   position: fixed; top: 16px; right: 16px; z-index: 9999;
@@ -2007,10 +2077,16 @@
       <div class="about-hero-label" data-i18n="tools_label">&#129302; AI 도구 카탈로그</div>
       <h2 data-i18n="tools_h2">당신에게 맞는 AI,<br>미리 만나보세요</h2>
       <p data-i18n="tools_sub">성향 테스트 결과에 따라 추천되는 AI 도구들을 카테고리별로 소개합니다. 테스트 후 당신에게 가장 잘 맞는 조합을 처방받으세요.</p>
+      <div class="ai-db-stats">
+        <div class="ai-db-stat">🗄️ 100+ <span data-i18n="tools_db_total">AI 도구 DB 보유</span></div>
+        <div class="ai-db-stat">📂 5 <span data-i18n="tools_db_cats">카테고리</span></div>
+        <div class="ai-db-stat">🔄 <span data-i18n="tools_db_each">카테고리별 수십 개 수록</span></div>
+      </div>
     </div>
   </div>
 
   <div class="container">
+    <div id="lmGuideContent"></div>
     <div id="toolsCatalogContent"></div>
     <div class="about-cta">
       <h3 data-i18n="tools_cta_h">나에게 맞는 AI 조합을 처방받으세요</h3>
@@ -2321,6 +2397,8 @@ const STRINGS = {
     personas_cta_h: '내 정확한 유형이 궁금하다면', personas_cta_p: '25문항, 약 5분이면 32가지 중 나의 유형과 맞춤 AI 처방전을 받을 수 있습니다.', personas_cta_btn: '🏁 테스트 시작하기',
     tools_back: '← 처음으로', tools_label: '🤖 AI 도구 카탈로그', tools_h2: '당신에게 맞는 AI,<br>미리 만나보세요',
     tools_sub: '성향 테스트 결과에 따라 추천되는 AI 도구들을 카테고리별로 소개합니다. 테스트 후 당신에게 가장 잘 맞는 조합을 처방받으세요.',
+    tools_db_total: 'AI 도구 DB 보유', tools_db_cats: '카테고리', tools_db_each: '카테고리별 수십 개 수록',
+    tools_lm_title: '주요 LM AI 비교 가이드', tools_lm_sub: '언어 모델 AI(LLM)는 텍스트 기반 작업의 핵심 도구입니다. 대표적인 5가지 LM AI의 특징과 최적 활용 상황을 비교해 보세요.',
     tools_cta_h: '나에게 맞는 AI 조합을 처방받으세요', tools_cta_p: '성향 테스트 결과에 따라 위 도구 중 당신의 OCEAN 유형에 최적화된 AI 세트를 추천해드립니다.', tools_cta_btn: '🏁 테스트 시작하기',
   },
   en: {
@@ -2410,6 +2488,8 @@ const STRINGS = {
     personas_cta_h: 'Want to find your exact type?', personas_cta_p: 'In 25 questions, about 5 minutes, find your type among 32 and get your personalized AI prescription.', personas_cta_btn: '🏁 Start Test',
     tools_back: '← Home', tools_label: '🤖 AI Tools Catalog', tools_h2: 'Find Your Perfect AI,<br>Before You Take the Test',
     tools_sub: 'AI tools recommended based on your personality test results, organized by category. Take the test to get your optimal combination.',
+    tools_db_total: 'AI Tools in DB', tools_db_cats: 'Categories', tools_db_each: 'Dozens per Category',
+    tools_lm_title: 'Major LM AI Comparison Guide', tools_lm_sub: 'Large Language Models are the backbone of text-based AI work. Compare the 5 leading LM AIs — their strengths, specializations, and best use cases.',
     tools_cta_h: 'Get Your Personalized AI Combination', tools_cta_p: 'Based on your personality test results, we\'ll recommend the optimal AI set for your OCEAN type from the tools above.', tools_cta_btn: '🏁 Start Test',
   }
 };
@@ -2425,6 +2505,7 @@ function setLang(lang) {
   });
   renderJobGrid();
   renderPersonaGrid();
+  renderLMGuide();
   renderToolsCatalog();
   renderTypeShowcase();
 }
@@ -2448,6 +2529,7 @@ function init() {
   window.LANG = 'ko';
   renderJobGrid();
   renderPersonaGrid();
+  renderLMGuide();
   renderToolsCatalog();
   renderTypeShowcase();
 }
@@ -2473,16 +2555,177 @@ function renderPersonaGrid() {
   }).join('');
 }
 
+const LM_AIS = [
+  {
+    icon: '🟣', name: 'Claude', maker: 'Anthropic',
+    color: '#8B5CF6', tagColor: 'rgba(139,92,246,0.15)',
+    tagline: '깊은 사고력·윤리적 판단·장문 분석의 최강자',
+    en_tagline: 'Deep reasoning, ethical judgment, and long-document analysis',
+    features: [
+      '100K+ 토큰 컨텍스트 윈도우로 긴 문서·코드베이스 전체를 한 번에 분석',
+      '복잡한 논리 추론과 다단계 사고(Chain-of-Thought)에서 일관되게 우수한 성능',
+      '윤리적 가이드라인이 내장되어 민감한 주제도 균형 잡힌 시각으로 응답',
+      '글쓰기 보조, 리서치 요약, 코드 리뷰, 비즈니스 문서 작성에 최적화',
+      'Projects 기능으로 장기 컨텍스트 유지 및 맞춤 지시(Custom Instructions) 지원',
+    ],
+    en_features: [
+      '100K+ token context window — analyze entire documents or codebases in one pass',
+      'Consistently strong at complex logical reasoning and multi-step chain-of-thought',
+      'Built-in ethical guidelines ensure balanced, nuanced responses on sensitive topics',
+      'Excels at writing assistance, research summaries, code review, business documents',
+      'Projects feature maintains long-term context with custom system instructions',
+    ],
+    best_for: '긴 계약서·논문 분석, 복잡한 코드 리뷰, 전략 보고서 작성, 윤리적 판단이 필요한 상황',
+    en_best_for: 'Long contracts/papers, complex code reviews, strategy reports, situations requiring ethical judgment',
+  },
+  {
+    icon: '🔵', name: 'ChatGPT', maker: 'OpenAI',
+    color: '#10A37F', tagColor: 'rgba(16,163,127,0.15)',
+    tagline: '범용성 1위 · 플러그인 생태계 · 가장 넓은 사용자 기반',
+    en_tagline: 'Most versatile — largest plugin ecosystem and user base',
+    features: [
+      'GPT-4o 기반으로 텍스트·이미지·음성을 하나의 모델에서 멀티모달 처리',
+      'GPTs Store를 통해 수백만 개의 커스텀 GPT를 바로 사용 가능한 최대 생태계',
+      '코딩(Code Interpreter), 이미지 생성(DALL-E), 웹 검색을 All-in-One으로 지원',
+      '가장 광범위한 언어와 도메인을 커버하며 일반 대화부터 전문 분석까지 대응',
+      'API 생태계가 가장 성숙해 있어 기업·개발자 통합에 가장 많이 선택',
+    ],
+    en_features: [
+      'GPT-4o handles text, images, and voice natively in one multimodal model',
+      "Millions of custom GPTs available via GPTs Store — the world's largest AI app ecosystem",
+      'Code Interpreter, DALL-E image gen, and web search all built in as one package',
+      'Broadest language and domain coverage — from casual chat to expert analysis',
+      'Most mature API ecosystem, making it the top choice for enterprise integrations',
+    ],
+    best_for: '범용 업무, 이미지 생성·편집, 코드 실행 및 데이터 분석, 다양한 GPT 플러그인 활용',
+    en_best_for: 'General-purpose tasks, image creation, code execution & data analysis, plugin integrations',
+  },
+  {
+    icon: '🌐', name: 'Gemini', maker: 'Google',
+    color: '#4285F4', tagColor: 'rgba(66,133,244,0.15)',
+    tagline: 'Google 검색·Drive·Docs 완전 통합 · 실시간 정보 강점',
+    en_tagline: 'Deep Google integration — real-time info + Workspace sync',
+    features: [
+      'Google Search와 실시간 연동되어 최신 뉴스·주가·날씨·스포츠 결과를 즉시 반영',
+      'Gmail, Google Docs, Drive, Meet와 원클릭 통합으로 업무 자동화에 강점',
+      'Gemini 1.5 Pro는 업계 최대 수준의 1M 토큰 컨텍스트로 초장문 처리 가능',
+      '유튜브 영상 요약, 구글 지도 연동 등 Google 서비스 전체를 AI로 확장',
+      'Workspace 구독자는 추가 비용 없이 Gemini Advanced 기능 일부 이용 가능',
+    ],
+    en_features: [
+      'Real-time Google Search integration — latest news, prices, weather, sports in answers',
+      'One-click sync with Gmail, Google Docs, Drive, and Meet for seamless workflow automation',
+      'Gemini 1.5 Pro offers 1M-token context — largest in the industry for ultra-long documents',
+      'YouTube video summaries, Google Maps integration, expanding all Google services with AI',
+      'Google Workspace subscribers get Gemini Advanced features at no extra cost',
+    ],
+    best_for: '실시간 정보 검색, Google Workspace 업무 자동화, 초장문 문서 처리, YouTube 콘텐츠 분석',
+    en_best_for: 'Real-time info lookup, Google Workspace automation, ultra-long documents, YouTube analysis',
+  },
+  {
+    icon: '⚡', name: 'Grok', maker: 'xAI (Elon Musk)',
+    color: '#E7E7E7', tagColor: 'rgba(231,231,231,0.1)',
+    tagline: 'X(트위터) 실시간 데이터 · 거침없는 솔직함 · 빠른 응답',
+    en_tagline: 'Real-time X/Twitter data · unfiltered honesty · lightning fast',
+    features: [
+      'X(구 트위터) 플랫폼과 직접 연동되어 트렌딩 토픽·밈·실시간 대화를 즉시 분석',
+      '타 AI 대비 검열이 적어 민감하거나 논쟁적인 주제도 솔직하게 답변하는 경향',
+      'Aurora 이미지 생성 모델을 내장해 텍스트→이미지 작업을 별도 앱 없이 처리',
+      'Grok 3 기준 수학·과학 추론 벤치마크에서 GPT-4o와 경쟁하는 수준의 성능',
+      'X Premium 구독 시 포함되어 SNS 마케터·저널리스트에게 가성비 높은 선택',
+    ],
+    en_features: [
+      'Direct X (Twitter) integration — analyze trending topics, memes, and live conversations instantly',
+      'Less filtered than other AIs — gives frank, direct answers on sensitive or controversial topics',
+      'Built-in Aurora image generation handles text-to-image without switching apps',
+      'Grok 3 matches GPT-4o on math and science reasoning benchmarks',
+      'Bundled with X Premium — cost-effective for social media marketers and journalists',
+    ],
+    best_for: 'SNS 트렌드 분석, 실시간 이슈 파악, 거침없는 브레인스토밍, X 플랫폼 콘텐츠 전략',
+    en_best_for: 'Social media trend analysis, real-time issue tracking, unfiltered brainstorming, X content strategy',
+  },
+  {
+    icon: '🔍', name: 'Perplexity', maker: 'Perplexity AI',
+    color: '#20B2AA', tagColor: 'rgba(32,178,170,0.15)',
+    tagline: 'AI 검색 엔진 · 출처 인용 · 리서치 특화',
+    en_tagline: 'AI-powered search engine with citations — research-first design',
+    features: [
+      '모든 답변에 실시간 웹 출처(URL)를 인용해 팩트 검증과 추가 조사가 용이',
+      'Google 검색을 대체하는 AI 검색 엔진으로 광고 없이 정확한 정보를 빠르게 제공',
+      'Spaces 기능으로 특정 주제의 리서치 노트·출처를 팀과 공유·협업 가능',
+      '학술 논문, 뉴스, 제품 리뷰 등 특화 소스를 선택해 검색 범위를 좁힐 수 있음',
+      '모바일 앱의 음성 검색 기능으로 이동 중에도 즉각적인 리서치 가능',
+    ],
+    en_features: [
+      'Every answer cites real-time web sources (URLs) — easy fact-checking and deeper research',
+      'Replaces Google Search with an ad-free AI engine that delivers precise information fast',
+      'Spaces feature lets teams share and collaborate on research notes and source collections',
+      'Filter by academic papers, news, product reviews, or custom sources to narrow searches',
+      'Voice search on mobile app enables instant research on the go',
+    ],
+    best_for: '리서치 및 사실 확인, 최신 기술/시장 동향 파악, 학술 자료 수집, 팀 리서치 협업',
+    en_best_for: 'Research & fact-checking, latest tech/market trends, academic sourcing, team research collaboration',
+  },
+];
+
+function toggleLMCard(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.lm-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+function renderLMGuide() {
+  const el = document.getElementById('lmGuideContent');
+  if (!el) return;
+  const isEn = window.LANG === 'en';
+  const S = STRINGS[window.LANG];
+  el.innerHTML = `
+    <div class="lm-guide-section about-section">
+      <div class="lm-guide-title">${S.tools_lm_title || '주요 LM AI 비교 가이드'}</div>
+      <div class="lm-guide-sub">${S.tools_lm_sub || '언어 모델 AI(LLM)는 텍스트 기반 작업의 핵심 도구입니다. 대표적인 5가지 LM AI의 특징과 최적 활용 상황을 비교해 보세요.'}</div>
+      <div class="lm-cards">
+        ${LM_AIS.map((ai, idx) => {
+          const feats = isEn ? ai.en_features : ai.features;
+          const bestFor = isEn ? ai.en_best_for : ai.best_for;
+          const tagline = isEn ? ai.en_tagline : ai.tagline;
+          return `
+          <div class="lm-card${idx === 0 ? ' open' : ''}" onclick="toggleLMCard(this)">
+            <div class="lm-card-header">
+              <div class="lm-icon" style="background:${ai.tagColor};border:1.5px solid ${ai.color}33">${ai.icon}</div>
+              <div>
+                <div class="lm-name" style="color:${ai.color}">${ai.name}</div>
+                <div class="lm-maker">${ai.maker}</div>
+              </div>
+              <div class="lm-tagline">${tagline}</div>
+              <div class="lm-expand" style="color:${ai.color}">▼</div>
+            </div>
+            <div class="lm-card-body">
+              <ul class="lm-features">
+                ${feats.map(f => `<li class="lm-feature-item"><span class="lm-feature-dot" style="background:${ai.color}"></span>${f}</li>`).join('')}
+              </ul>
+              <div class="lm-best-for" style="border-color:${ai.color};background:${ai.tagColor}">
+                <div class="lm-best-label" style="color:${ai.color}">${isEn ? 'Best For' : '최적 활용 상황'}</div>
+                ${bestFor}
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
 function renderToolsCatalog() {
   const el = document.getElementById('toolsCatalogContent');
   if (!el) return;
   const isEn = window.LANG === 'en';
+  const dbNote = isEn ? 'Top 4 picks · 20+ in DB' : '대표 4개 · DB 20개+';
   el.innerHTML = TOOL_CATEGORIES.map(cat => `
     <div class="tools-category about-section">
       <div class="tools-cat-header">
         <div class="tools-cat-icon" style="background:${cat.bg}">${cat.icon}</div>
         <span class="tools-cat-title">${isEn ? (cat.en_name || cat.name) : cat.name}</span>
         <span class="tools-cat-count">${cat.tools.length}${isEn ? ' tools' : '개 도구'}</span>
+        <span class="tools-cat-db-note">${dbNote}</span>
       </div>
       <div class="tool-preview-grid">
         ${cat.tools.map(t => `
