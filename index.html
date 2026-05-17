@@ -43,13 +43,13 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Noto Sans KR', 'Inter', 'Segoe UI', -apple-system, sans-serif;
+    font-family: 'Inter', 'Noto Sans KR', 'Segoe UI', -apple-system, sans-serif;
     background: var(--ocean-deep);
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
-    line-height: 1.65;
-    font-size: 15px;
+    line-height: 1.7;
+    font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -92,7 +92,7 @@
     box-shadow: 0 1px 0 rgba(0,0,0,0.06);
   }
   .landing-logo { font-size: 15px; font-weight: 800; color: var(--wave-1); letter-spacing: -0.3px; }
-  .landing-nav-link { font-size: 14px; color: var(--text-secondary); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .landing-nav-link { font-size: 14px; color: var(--text-secondary); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; line-height: 1.5; }
   .landing-nav-link:hover { color: var(--wave-1); }
 
   .hero-wrapper { padding-top: 80px; max-width: 680px; margin: 0 auto; }
@@ -319,12 +319,12 @@
   }
 
   .q-text {
-    font-size: clamp(17px, 3.5vw, 22px);
+    font-size: clamp(18px, 3.5vw, 24px);
     font-weight: 700;
-    line-height: 1.55;
+    line-height: 1.5;
     margin-bottom: 28px;
     color: var(--text-primary);
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
   }
 
   .likert-scale {
@@ -370,7 +370,7 @@
     background: white;
   }
 
-  .likert-label { font-size: 15px; color: var(--text-secondary); font-weight: 500; }
+  .likert-label { font-size: 16px; color: var(--text-secondary); font-weight: 500; }
   .likert-option.selected .likert-label { color: var(--text-primary); font-weight: 600; }
 
   .quiz-nav {
@@ -415,44 +415,222 @@
   .btn-next.ready:hover { background: var(--wave-2); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(76,110,245,0.3); }
 
   /* ── LOADING ── */
+  /* ── Nautical Loading Scene ── */
   #screen-loading {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 32px;
-    background: var(--ocean-deep);
+    background: #060E1B;
+    padding: 0;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
   }
-
-  .loading-orb {
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    background: var(--dim-C-bg);
-    border: 2px solid rgba(76,110,245,0.25);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 40px;
-    animation: orb-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes orb-pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76,110,245,0.15); }
-    50% { transform: scale(1.04); box-shadow: 0 0 24px 6px rgba(76,110,245,0.08); }
-  }
-
-  .loading-orb::after { content: none; }
-
-  .loading-title { font-size: 22px; font-weight: 700; color: var(--text-primary); }
-  .loading-steps { display: flex; flex-direction: column; gap: 10px; text-align: left; }
-
-  .loading-step {
+  .nav-scene {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 100vh;
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    color: var(--text-secondary);
+    justify-content: flex-end;
+    padding-bottom: 28px;
+  }
+  /* Sky */
+  .nav-sky {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 62%;
+    background: linear-gradient(180deg, #030B16 0%, #060F22 48%, #0C2850 100%);
+    overflow: hidden;
+  }
+  .nav-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(76,110,245,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(76,110,245,0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  /* Stars */
+  .nav-star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: nav-twinkle var(--dur, 3s) ease-in-out infinite;
+    animation-delay: var(--del, 0s);
+  }
+  @keyframes nav-twinkle {
+    0%,100% { opacity: 0.1; transform: scale(0.6); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+  /* Moon */
+  .nav-moon {
+    position: absolute;
+    top: 10%; right: 18%;
+    font-size: 34px; z-index: 2;
+    animation: nav-moon-drift 7s ease-in-out infinite;
+    filter: drop-shadow(0 0 18px rgba(255,225,100,0.45));
+  }
+  @keyframes nav-moon-drift {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+  /* Compass */
+  .nav-compass {
+    position: absolute;
+    top: 9%; left: 8%;
+    z-index: 3;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 5px;
+  }
+  .nav-compass-ring {
+    width: 62px; height: 62px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(76,110,245,0.48);
+    box-shadow: 0 0 22px rgba(76,110,245,0.22), inset 0 0 14px rgba(76,110,245,0.07);
+    display: flex; align-items: center; justify-content: center;
+    animation: nav-cmp-spin 12s linear infinite;
+  }
+  @keyframes nav-cmp-spin { to { transform: rotate(360deg); } }
+  .nav-compass-needle { font-size: 28px; animation: nav-cmp-spin 12s linear infinite reverse; }
+  .nav-compass-label { font-size: 9px; font-weight: 700; color: rgba(76,110,245,0.55); letter-spacing: 2.5px; text-transform: uppercase; }
+  /* Radar */
+  .nav-radar {
+    position: absolute;
+    top: 8%; right: 8%;
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,200,100,0.38);
+    box-shadow: 0 0 20px rgba(0,200,100,0.14);
+    z-index: 3; overflow: hidden;
+    background: rgba(0,200,100,0.03);
+  }
+  .nav-radar-rings {
+    position: absolute; inset: 0; border-radius: 50%;
+    background:
+      radial-gradient(circle at center, transparent 30%, rgba(0,200,100,0.15) 32%, transparent 34%),
+      radial-gradient(circle at center, transparent 61%, rgba(0,200,100,0.1) 63%, transparent 65%);
+  }
+  .nav-radar-sweep {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: conic-gradient(rgba(0,200,100,0) 0deg, rgba(0,200,100,0.48) 60deg, rgba(0,200,100,0) 80deg);
+    animation: nav-radar-spin 2.4s linear infinite;
+  }
+  @keyframes nav-radar-spin { to { transform: rotate(360deg); } }
+  .nav-radar-dot {
+    position: absolute;
+    width: 4px; height: 4px; background: #00C864;
+    border-radius: 50%; top: 35%; left: 60%;
+    box-shadow: 0 0 6px #00C864;
+    animation: nav-dot-blink 2.4s ease-in-out infinite;
+  }
+  @keyframes nav-dot-blink { 0%,55%,100% { opacity:0; } 65%,90% { opacity:1; } }
+  /* Coordinates */
+  .nav-coords {
+    position: absolute;
+    bottom: 5%; left: 8%;
+    font-size: 10px; font-weight: 600;
+    color: rgba(76,110,245,0.5);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.4px; line-height: 1.9; z-index: 3;
+  }
+  /* Horizon glow */
+  .nav-horizon-glow {
+    position: absolute;
+    top: 60%; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(76,110,245,0.35) 25%, rgba(255,255,255,0.18) 50%, rgba(76,110,245,0.35) 75%, transparent 100%);
+    z-index: 8;
+  }
+  /* Boat */
+  .nav-boat-area {
+    position: absolute;
+    top: 54%; transform: translateY(-50%);
+    left: 0; right: 0;
+    display: flex; justify-content: center; align-items: flex-end;
+    z-index: 12;
+  }
+  .nav-boat-group {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center;
+    animation: nav-boat-bob 3.2s ease-in-out infinite;
+  }
+  @keyframes nav-boat-bob {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    28% { transform: translateY(-15px) rotate(2.5deg); }
+    72% { transform: translateY(-7px) rotate(-2deg); }
+  }
+  .nav-boat { font-size: 80px; line-height: 1; filter: drop-shadow(0 14px 30px rgba(76,110,245,0.6)); }
+  .nav-wake {
+    width: 190px; height: 14px;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+    margin-top: -4px;
+    animation: nav-wake-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes nav-wake-pulse {
+    0%,100% { opacity:0.4; transform:scaleX(0.78); }
+    50% { opacity:1; transform:scaleX(1.22); }
+  }
+  .nav-route-line {
+    position: absolute;
+    top: 42%; left: 50%;
+    transform: translateX(-260px);
+    width: 180px; height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(76,110,245,0.55) 0px, rgba(76,110,245,0.55) 6px,
+      transparent 6px, transparent 14px
+    );
+    z-index: -1;
+  }
+  /* Ocean */
+  .nav-ocean {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 44%; z-index: 6; overflow: hidden;
+    background: linear-gradient(180deg, #0C2850 0%, #071420 35%, #040C18 100%);
+  }
+  .nav-wave {
+    position: absolute; left: -50%; width: 200%; border-radius: 50%;
+  }
+  .nav-wave-1 { height: 100px; top: -48px; background: rgba(76,110,245,0.22); animation: nav-wave-roll 5.5s ease-in-out infinite; }
+  .nav-wave-2 { height: 90px; top: -32px; background: rgba(8,36,72,0.96); animation: nav-wave-roll 8s ease-in-out infinite 0.8s reverse; }
+  .nav-wave-3 { height: 80px; top: 2px; background: rgba(76,110,245,0.1); animation: nav-wave-roll 11s ease-in-out infinite 1.5s; }
+  @keyframes nav-wave-roll {
+    0%,100% { transform: translateX(0) scaleY(1); }
+    50% { transform: translateX(-7%) scaleY(1.1); }
+  }
+  .nav-ocean-shimmer {
+    position: absolute;
+    top: 2px; left: -60%; width: 220%; height: 48px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.08) 35%, transparent 50%, transparent 65%, rgba(255,255,255,0.04) 75%, transparent 100%);
+    animation: nav-shimmer-move 6s linear infinite;
+  }
+  @keyframes nav-shimmer-move {
+    from { transform: translateX(-10%); }
+    to { transform: translateX(30%); }
+  }
+  /* Content glass card */
+  .nav-content {
+    position: relative;
+    z-index: 20;
+    width: calc(100% - 48px); max-width: 400px;
+    background: rgba(4,11,22,0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(76,110,245,0.22);
+    border-radius: 22px;
+    padding: 22px 28px 26px;
+    box-shadow: 0 0 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+    text-align: center;
+  }
+  .nav-content-title { font-size: 22px; font-weight: 800; color: white; margin-bottom: 5px; letter-spacing: -0.4px; }
+  .nav-content-sub { font-size: 13px; color: rgba(255,255,255,0.42); margin-bottom: 18px; line-height: 1.5; }
+  .loading-steps { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+  .loading-step {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: rgba(255,255,255,0.35);
     transition: color 0.5s;
   }
-
-  .loading-step.done { color: var(--mint); }
+  .loading-step.done { color: rgba(80,220,150,0.92); }
   .loading-step-icon { font-size: 18px; }
 
   /* ── RESULTS ── */
@@ -487,7 +665,7 @@
   }
 
   .persona-tagline {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--text-secondary);
     line-height: 1.75;
     max-width: 540px;
@@ -509,12 +687,13 @@
   }
 
   .section-title {
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 700;
     margin-bottom: 20px;
     align-self: flex-start;
     color: var(--text-primary);
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
+    line-height: 1.3;
   }
 
   canvas#radarChart {
@@ -576,9 +755,9 @@
   }
 
   .insight-text {
-    font-size: 15px;
+    font-size: 20px;
     line-height: 1.9;
-    color: var(--text-secondary);
+    color: var(--text-primary);
   }
 
   .insight-text strong { color: var(--text-primary); }
@@ -618,14 +797,14 @@
   }
 
   .engine-name {
-    font-size: 32px;
+    font-size: 42px;
     font-weight: 900;
     margin-bottom: 8px;
   }
 
   .engine-desc {
-    font-size: 14px;
-    color: var(--text-secondary);
+    font-size: 18px;
+    color: var(--text-primary);
     line-height: 1.7;
     margin-bottom: 20px;
   }
@@ -635,8 +814,8 @@
     border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 16px;
-    font-size: 13px;
-    color: var(--text-secondary);
+    font-size: 17px;
+    color: var(--text-primary);
     line-height: 1.6;
     border-left: 3px solid var(--wave-1);
   }
@@ -658,9 +837,9 @@
   .tool-card:hover { border-color: var(--wave-1); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
   .tool-icon { font-size: 36px; margin-bottom: 12px; }
-  .tool-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .tool-name { font-size: 23px; font-weight: 700; margin-bottom: 6px; }
   .tool-category { font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-  .tool-reason { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .tool-reason { font-size: 17px; color: var(--text-primary); line-height: 1.6; }
   .tool-scenario { font-size: 12px; color: var(--wave-1); margin-top: 10px; font-style: italic; }
 
   /* Retake */
@@ -750,7 +929,7 @@
   }
 
   .about-hero p {
-    font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 560px; margin: 0 auto 32px;
+    font-size: 18px; color: var(--text-secondary); line-height: 1.75; max-width: 560px; margin: 0 auto 32px; font-weight: 400;
   }
 
   /* Trust badges */
@@ -778,7 +957,7 @@
     margin-bottom: 24px; padding-bottom: 12px;
     border-bottom: 1px solid var(--card-border);
   }
-  .about-section-header h3 { font-size: 20px; font-weight: 700; }
+  .about-section-header h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
   .about-section-header .section-icon {
     width: 40px; height: 40px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center; font-size: 20px;
@@ -808,8 +987,8 @@
   }
 
   .dim-card-title { flex: 1; }
-  .dim-card-title h4 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
-  .dim-card-title p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .dim-card-title h4 { font-size: 18px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.2px; }
+  .dim-card-title p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 
   .dim-toggle { font-size: 18px; color: var(--text-secondary); transition: transform 0.3s; }
   .dim-card.open .dim-toggle { transform: rotate(180deg); }
@@ -827,11 +1006,11 @@
     flex: 1; background: var(--ocean-deep); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px 16px;
   }
   .spectrum-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; text-transform: uppercase; }
-  .spectrum-traits { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+  .spectrum-traits { font-size: 15px; color: var(--text-secondary); line-height: 1.8; }
 
   .dim-analogy {
     background: var(--ocean-light); border-radius: 12px; padding: 14px 16px;
-    font-size: 14px; color: var(--text-secondary); line-height: 1.65;
+    font-size: 15px; color: var(--text-secondary); line-height: 1.7;
     border-left: 3px solid;
   }
   .dim-analogy strong { color: var(--text-primary); }
@@ -891,8 +1070,8 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 13px; font-weight: 700; flex-shrink: 0;
   }
-  .step-content h5 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-  .step-content p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .step-content h5 { font-size: 16px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.2px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.65; }
 
   /* Compare table */
   .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 16px; }
@@ -916,8 +1095,8 @@
     border: 1px solid var(--card-border); border-radius: 24px;
     box-shadow: var(--shadow-sm);
   }
-  .about-cta h3 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
-  .about-cta p { font-size: 15px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.65; }
+  .about-cta h3 { font-size: 24px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.4px; }
+  .about-cta p { font-size: 17px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.7; font-weight: 400; }
 
   .btn-back {
     display: inline-flex; align-items: center; gap: 8px;
@@ -943,7 +1122,7 @@
   }
   .htl-body {
     flex: 1; background: var(--card-bg); border: 1px solid var(--card-border);
-    border-radius: 14px; padding: 14px 18px; font-size: 14px;
+    border-radius: 14px; padding: 14px 18px; font-size: 15px;
     color: var(--text-secondary); line-height: 1.7; box-shadow: var(--shadow-sm);
   }
   .htl-body strong { color: var(--text-primary); }
@@ -980,8 +1159,8 @@
     color: var(--text-primary); margin-bottom: 14px; letter-spacing: -0.5px;
   }
   .info-screen-hero p {
-    font-size: 15px; color: var(--text-secondary); line-height: 1.75;
-    max-width: 520px; margin: 0 auto 32px;
+    font-size: 18px; color: var(--text-secondary); line-height: 1.75;
+    max-width: 520px; margin: 0 auto 32px; font-weight: 400;
   }
 
   .persona-grid {
@@ -1005,9 +1184,9 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 10px; font-weight: 800;
   }
-  .pp-name { font-size: 16px; font-weight: 800; color: var(--text-primary); margin-bottom: 3px; }
+  .pp-name { font-size: 17px; font-weight: 800; color: var(--text-primary); margin-bottom: 3px; letter-spacing: -0.2px; }
   .pp-en { font-size: 11px; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.3px; margin-bottom: 10px; text-transform: uppercase; }
-  .pp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 10px; }
+  .pp-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; }
   .pp-ai { font-size: 12px; color: var(--wave-1); font-weight: 600; }
 
   /* Code guide in personas screen */
@@ -1031,7 +1210,7 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; flex-shrink: 0;
   }
-  .tools-cat-title { font-size: 16px; font-weight: 700; flex: 1; }
+  .tools-cat-title { font-size: 18px; font-weight: 700; flex: 1; letter-spacing: -0.3px; }
   .tools-cat-count { font-size: 12px; color: var(--text-secondary); }
 
   .tool-preview-grid {
@@ -1052,8 +1231,8 @@
   .tp-icon-img { position: absolute; top: 0; left: 0; border-radius: 9px; object-fit: contain; opacity: 0; transition: opacity 0.2s; }
   .tp-link-arrow { font-size: 10px; color: var(--text-secondary); font-weight: 400; }
   .tp-info { flex: 1; min-width: 0; }
-  .tp-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; color: var(--text-primary); }
-  .tp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 6px; }
+  .tp-name { font-size: 16px; font-weight: 700; margin-bottom: 3px; color: var(--text-primary); letter-spacing: -0.2px; }
+  .tp-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px; }
   .tp-tag {
     display: inline-block; font-size: 10px; font-weight: 700;
     padding: 2px 8px; border-radius: 100px; border: 1px solid;
@@ -1072,8 +1251,8 @@
 
 /* Enhanced Nav */
 .landing-header { height: 72px !important; padding: 0 40px !important; box-shadow: 0 2px 16px rgba(0,0,0,0.07) !important; position: fixed !important; }
-.landing-logo { font-size: 20px !important; font-weight: 900 !important; letter-spacing: -0.5px !important; }
-.landing-nav-link { font-size: 14px !important; font-weight: 600 !important; padding: 8px 16px !important; border-radius: 8px !important; text-decoration: none !important; }
+.landing-logo { font-size: 20px !important; font-weight: 900 !important; letter-spacing: -0.6px !important; }
+.landing-nav-link { font-size: 14px !important; font-weight: 600 !important; padding: 8px 16px !important; border-radius: 8px !important; text-decoration: none !important; line-height: 1.5 !important; }
 .landing-nav-link:hover { background: var(--ocean-light) !important; color: var(--text-primary) !important; text-decoration: none !important; }
 .landing-nav { gap: 4px !important; position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; }
 
@@ -1101,13 +1280,13 @@
   font-size: 12px; font-weight: 700; color: var(--dim-O); margin-bottom: 24px; letter-spacing: 0.3px;
 }
 .hero-title-new {
-  font-size: clamp(36px,4.5vw,58px); font-weight: 900; line-height: 1.1;
-  color: var(--text-primary); letter-spacing: -1.5px; margin-bottom: 20px;
+  font-size: clamp(38px,4.5vw,58px); font-weight: 800; line-height: 1.12;
+  color: var(--text-primary); letter-spacing: -1.2px; margin-bottom: 22px;
 }
 .hero-title-new .hl { color: var(--wave-1); }
 .hero-sub-new {
-  font-size: clamp(15px,1.8vw,17px); color: var(--text-secondary);
-  line-height: 1.8; margin-bottom: 36px; max-width: 460px;
+  font-size: clamp(16px,2vw,18px); color: var(--text-secondary);
+  line-height: 1.8; margin-bottom: 36px; max-width: 460px; font-weight: 400;
 }
 .hero-cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 36px; }
 .btn-hero-start {
@@ -1162,8 +1341,8 @@
   background: var(--ocean-mid); padding: 72px 20px; text-align: center;
 }
 .ts-label { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--wave-1); margin-bottom: 14px; }
-.ts-title { font-size: clamp(24px,4vw,36px); font-weight: 900; color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.5px; }
-.ts-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 40px; }
+.ts-title { font-size: clamp(26px,4vw,38px); font-weight: 800; color: var(--text-primary); margin-bottom: 12px; letter-spacing: -0.5px; line-height: 1.2; }
+.ts-sub { font-size: 17px; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.65; font-weight: 400; }
 .type-cards-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 14px; max-width: 920px; margin: 0 auto;
@@ -1183,8 +1362,10 @@
 
 /* ── Job Section ── */
 .job-section-new { background: white; padding: 72px 20px 80px; text-align: center; }
-.js-title { font-size: clamp(22px,3.5vw,32px); font-weight: 900; color: var(--text-primary); margin-bottom: 8px; letter-spacing: -0.5px; }
-.js-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; }
+#screen-jobs { background: var(--ocean-deep); }
+.job-screen-inner { padding: 40px 20px 80px; max-width: 720px; margin: 0 auto; text-align: center; }
+.js-title { font-size: clamp(24px,3.5vw,34px); font-weight: 800; color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.5px; line-height: 1.25; }
+.js-sub { font-size: 17px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.65; font-weight: 400; }
 .job-grid-16p {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 10px; max-width: 680px; margin: 0 auto 32px;
@@ -1217,7 +1398,7 @@
   padding: 5px 14px; border-radius: 100px; margin-bottom: 14px;
 }
 .rb-name { font-size: clamp(28px,5vw,48px); font-weight: 900; line-height: 1.1; margin-bottom: 10px; letter-spacing: -1px; }
-.rb-tagline { font-size: 14px; line-height: 1.75; margin-bottom: 20px; max-width: 400px; }
+.rb-tagline { font-size: 18px; line-height: 1.75; margin-bottom: 20px; max-width: 420px; font-weight: 400; }
 .rb-code-row { display: flex; gap: 10px; flex-wrap: wrap; }
 @media(max-width:600px) { .rb-code-row { justify-content: center; } }
 .rbc-item { text-align: center; }
@@ -1242,8 +1423,8 @@
   border-radius: 20px; padding: 28px 24px; margin-bottom: 20px;
   box-shadow: var(--shadow-sm); text-align: center;
 }
-.sns-section-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
-.sns-section-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+.sns-section-title { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.3px; }
+.sns-section-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
 .sns-btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .sns-btn {
   display: flex; align-items: center; gap: 8px;
@@ -1256,6 +1437,7 @@
 .sns-x { background: #0F0F0F; color: white; }
 .sns-ig { background: linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888); color: white; }
 .sns-kakao { background: #FEE500; color: #3C1E1E; }
+.sns-tiktok { background: #010101; color: white; border: 1px solid #333; }
 
 /* ── Result: persona title sub-headline ── */
 .rb-persona-title {
@@ -1276,12 +1458,12 @@
 .op-dim-row:last-child { border-bottom: none; }
 .op-dim-icon { font-size: 22px; width: 32px; text-align: center; flex-shrink: 0; }
 .op-dim-label {
-  font-size: 12px; font-weight: 700; width: 72px; flex-shrink: 0;
+  font-size: 16px; font-weight: 700; width: 90px; flex-shrink: 0;
 }
 .op-dim-bar-wrap { flex: 1; height: 8px; background: var(--ocean-light); border-radius: 4px; overflow: hidden; }
 .op-dim-bar-fill { height: 100%; border-radius: 4px; transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
-.op-dim-pct { font-size: 12px; font-weight: 700; width: 38px; text-align: right; flex-shrink: 0; }
-.op-dim-insight { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-top: 4px; padding-left: 44px; }
+.op-dim-pct { font-size: 16px; font-weight: 700; width: 46px; text-align: right; flex-shrink: 0; }
+.op-dim-insight { font-size: 17px; color: var(--text-primary); line-height: 1.55; margin-top: 4px; padding-left: 44px; }
 .op-insight-badge {
   display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px;
   border-radius: 100px; margin-right: 6px; letter-spacing: 0.4px;
@@ -1302,8 +1484,8 @@
   transition: all 0.18s;
 }
 .job-ai-extra-card:hover { border-color: var(--wave-1); background: var(--dim-C-bg); transform: translateY(-2px); }
-.jaec-name { font-size: 14px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; }
-.jaec-use { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+.jaec-name { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; }
+.jaec-use { font-size: 16px; color: var(--text-primary); line-height: 1.55; }
 
 /* ── v2 AI cards (expandable) ── */
 .v2-ai-card {
@@ -1322,14 +1504,21 @@
   padding: 3px 9px; border-radius: 20px; flex-shrink: 0;
   text-transform: uppercase;
 }
-.v2-ai-name { font-size: 15px; font-weight: 800; flex: 1; min-width: 0; }
+.v2-ai-name { font-size: 20px; font-weight: 800; flex: 1; min-width: 0; }
 .ai-tool-link {
   color: inherit; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 3px;
+  display: inline-flex; align-items: center; gap: 6px;
   transition: color 0.15s;
 }
 .ai-tool-link:hover { color: var(--wave-1); text-decoration: underline; }
-.v2-ai-tagline { font-size: 12px; color: var(--text-secondary); flex: 2; min-width: 0; }
+.ai-logo-wrap {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  overflow: hidden; flex-shrink: 0; background: var(--ocean-mid);
+  vertical-align: middle;
+}
+.ai-logo-img { width: 18px; height: 18px; object-fit: contain; border-radius: 3px; display: block; }
+.v2-ai-tagline { font-size: 15px; color: var(--text-secondary); flex: 2; min-width: 0; }
 .v2-expand-icon {
   width: 22px; height: 22px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -1337,6 +1526,10 @@
   transition: transform 0.2s; flex-shrink: 0;
 }
 .v2-ai-card.open .v2-expand-icon { transform: rotate(180deg); }
+.v2-ai-daily {
+  padding: 14px 18px 16px;
+  border-top: 1px solid var(--card-border);
+}
 .v2-ai-body {
   display: none; padding: 0 18px 16px;
   border-top: 1px solid var(--card-border);
@@ -1345,19 +1538,19 @@
 @keyframes fadeInDown { from { opacity:0; transform:translateY(-6px) } to { opacity:1; transform:none } }
 .v2-guide-block { margin-top: 14px; }
 .v2-guide-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
   color: var(--text-secondary); margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
 }
-.v2-guide-text { font-size: 14.5px; line-height: 1.7; color: var(--text-primary); }
+.v2-guide-text { font-size: 19px; line-height: 1.7; color: var(--text-primary); }
 .v2-prompt-box {
   background: var(--ocean-mid); border-left: 3px solid var(--wave-1);
   border-radius: 0 10px 10px 0; padding: 10px 14px; margin-top: 6px;
-  font-size: 13px; line-height: 1.6; color: var(--text-primary); font-style: italic;
+  font-size: 17px; line-height: 1.6; color: var(--text-primary); font-style: italic;
 }
 
 /* ── v2 strengths / growth ── */
 .v2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
-.v2-list-item { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.65; }
+.v2-list-item { display: flex; gap: 10px; align-items: flex-start; font-size: 19px; line-height: 1.65; }
 .v2-dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
 
 /* ── v2 synergy / daily routine ── */
@@ -1366,7 +1559,7 @@
   border-radius: 20px; padding: 24px 28px; margin-bottom: 20px;
   box-shadow: var(--shadow-sm);
 }
-.v2-section-body { font-size: 15px; line-height: 1.8; color: var(--text-primary); }
+.v2-section-body { font-size: 20px; line-height: 1.8; color: var(--text-primary); }
 
 /* ── Tools match description ── */
 .tools-match-desc {
@@ -1395,11 +1588,11 @@
   box-shadow: var(--shadow-sm);
 }
 .lm-guide-title {
-  font-size: 18px; font-weight: 800; color: var(--text-primary);
-  margin-bottom: 6px; letter-spacing: -0.3px;
+  font-size: 22px; font-weight: 800; color: var(--text-primary);
+  margin-bottom: 8px; letter-spacing: -0.4px;
 }
 .lm-guide-sub {
-  font-size: 13.5px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;
+  font-size: 15px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.65; font-weight: 400;
 }
 .lm-cards { display: flex; flex-direction: column; gap: 14px; }
 .lm-card {
@@ -1418,9 +1611,9 @@
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; flex-shrink: 0; position: relative; overflow: hidden;
 }
-.lm-name { font-size: 16px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 2px; }
+.lm-name { font-size: 17px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 2px; letter-spacing: -0.2px; }
 .lm-maker { font-size: 11px; color: var(--text-secondary); margin-top: 1px; font-weight: 500; }
-.lm-tagline { font-size: 13px; color: var(--text-secondary); flex: 1; line-height: 1.4; }
+.lm-tagline { font-size: 14px; color: var(--text-secondary); flex: 1; line-height: 1.5; }
 .lm-icon-logo { position: relative; font-size: 0; }
 .lm-icon-fallback { font-size: 22px; line-height: 44px; display: block; text-align: center; }
 .lm-icon-img { position: absolute; top: 4px; left: 4px; width: 36px; height: 36px; border-radius: 8px; object-fit: contain; opacity: 0; transition: opacity 0.2s; }
@@ -1435,7 +1628,7 @@
 .lm-features { list-style: none; padding: 0; margin: 16px 0 12px; display: flex; flex-direction: column; gap: 8px; }
 .lm-feature-item {
   display: flex; gap: 10px; align-items: flex-start;
-  font-size: 14px; color: var(--text-primary); line-height: 1.55;
+  font-size: 15px; color: var(--text-primary); line-height: 1.65;
 }
 .lm-feature-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
 .lm-best-for {
@@ -1496,7 +1689,7 @@
           Big 5 심리학(OCEAN) 기반의 25문항 성향 테스트로<br>당신에게 꼭 맞는 AI 파트너와 커리어 인사이트를 찾아드립니다.
         </p>
         <div class="hero-cta-row">
-          <button class="btn-hero-start" id="btnStartHero" disabled onclick="scrollToJobSection()" data-i18n="hero_cta1">나의 AI DNA 분석 시작 →</button>
+          <button class="btn-hero-start" id="btnStartHero" onclick="showScreen('jobs')" data-i18n="hero_cta1">나의 AI DNA 분석 시작 →</button>
           <button class="btn-hero-about" onclick="showScreen('about')" data-i18n="hero_about_btn">OCEAN이란?</button>
         </div>
         <div class="hero-stats-mini">
@@ -1528,17 +1721,28 @@
       <button class="btn-hero-about" style="margin-top:28px" onclick="showScreen('personas')" data-i18n="ts_btn">모든 유형 탐색하기</button>
     </div>
 
-    <!-- Job selector section -->
-    <div class="job-section-new" id="jobSectionAnchor">
-      <div class="ts-label" data-i18n="js_step">STEP 1</div>
-      <div class="js-title" data-i18n="js_title">먼저 내 직업군을 선택해 주세요</div>
-      <div class="js-sub" data-i18n="js_sub">직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다</div>
-      <div class="job-grid-16p" id="jobGrid"></div>
-      <button class="btn-hero-start" id="btnStart" disabled onclick="startQuiz()" style="margin-top:8px" data-i18n="js_start">
-        나의 OCEAN 분석 시작 →
-      </button>
-      <p class="disclaimer" style="margin-top:16px" data-i18n="disclaimer">본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. IPIP 공공 도메인 기반.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: JOB SELECTION
+══════════════════════════════════════ -->
+<div id="screen-jobs" class="screen">
+  <nav class="landing-header">
+    <span class="landing-logo">AI-OCEAN</span>
+    <div class="landing-nav">
+      <span class="landing-nav-link" onclick="showScreen('landing')">← 처음으로</span>
     </div>
+  </nav>
+  <div class="job-screen-inner">
+    <div class="ts-label">STEP 1 / 2</div>
+    <div class="js-title" data-i18n="js_title">먼저 내 직업군을 선택해 주세요</div>
+    <div class="js-sub" data-i18n="js_sub">직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다</div>
+    <div class="job-grid-16p" id="jobGrid"></div>
+    <button class="btn-hero-start" id="btnStart" disabled onclick="startQuiz()" style="margin-top:8px" data-i18n="js_start">
+      나의 OCEAN 분석 시작 →
+    </button>
+    <p class="disclaimer" style="margin-top:16px" data-i18n="disclaimer">본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. IPIP 공공 도메인 기반.</p>
   </div>
 </div>
 
@@ -1963,7 +2167,7 @@
     <!-- ── CTA ── -->
     <div class="about-cta">
       <h3 data-i18n="about_cta_h">지금 나의 OCEAN 성향을 확인해 보세요</h3>
-      <p data-i18n="about_cta_p">30문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.</p>
+      <p data-i18n="about_cta_p">25문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.</p>
       <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="about_cta_btn">
         &#127988; 테스트 시작하기
       </button>
@@ -1997,16 +2201,62 @@
 </div>
 
 <!-- ══════════════════════════════════════
-     SCREEN 3: LOADING
+     SCREEN 3: LOADING — Nautical Navigator
 ══════════════════════════════════════ -->
 <div id="screen-loading" class="screen">
-  <div class="loading-orb">🧠</div>
-  <div class="loading-title">성향 분석 중...</div>
-  <div class="loading-steps" id="loadingSteps">
-    <div class="loading-step" id="ls1"><span class="loading-step-icon">📊</span> Big 5 지수 계산 중</div>
-    <div class="loading-step" id="ls2"><span class="loading-step-icon">🎭</span> 페르소나 생성 중</div>
-    <div class="loading-step" id="ls3"><span class="loading-step-icon">🤖</span> AI 도구 매칭 중</div>
-    <div class="loading-step" id="ls4"><span class="loading-step-icon">✨</span> 처방전 완성 중</div>
+  <div class="nav-scene">
+
+    <!-- Sky: stars, grid, compass, radar, moon -->
+    <div class="nav-sky">
+      <div class="nav-grid"></div>
+      <div class="nav-stars" id="navStars"></div>
+      <div class="nav-moon">🌙</div>
+      <div class="nav-compass">
+        <div class="nav-compass-ring">
+          <div class="nav-compass-needle">🧭</div>
+        </div>
+        <div class="nav-compass-label">COURSE</div>
+      </div>
+      <div class="nav-radar">
+        <div class="nav-radar-rings"></div>
+        <div class="nav-radar-sweep"></div>
+        <div class="nav-radar-dot"></div>
+      </div>
+      <div class="nav-coords">36°31'N 127°14'E<br>HEADING: 045° NE</div>
+    </div>
+
+    <!-- Horizon glow -->
+    <div class="nav-horizon-glow"></div>
+
+    <!-- Boat at horizon -->
+    <div class="nav-boat-area">
+      <div class="nav-boat-group">
+        <div class="nav-route-line"></div>
+        <div class="nav-boat">⛵</div>
+        <div class="nav-wake"></div>
+      </div>
+    </div>
+
+    <!-- Ocean with animated waves -->
+    <div class="nav-ocean">
+      <div class="nav-wave nav-wave-1"></div>
+      <div class="nav-wave nav-wave-2"></div>
+      <div class="nav-wave nav-wave-3"></div>
+      <div class="nav-ocean-shimmer"></div>
+    </div>
+
+    <!-- Glass-morphism content card -->
+    <div class="nav-content">
+      <div class="nav-content-title">항로 분석 중...</div>
+      <div class="nav-content-sub">OCEAN Navigator가 당신의 성향을 탐색합니다</div>
+      <div class="loading-steps" id="loadingSteps">
+        <div class="loading-step" id="ls1"><span class="loading-step-icon">⚓</span> OCEAN 5차원 측정 중</div>
+        <div class="loading-step" id="ls2"><span class="loading-step-icon">🗺️</span> 항로 설정 &amp; 페르소나 생성</div>
+        <div class="loading-step" id="ls3"><span class="loading-step-icon">🤖</span> AI 도구 매칭 중</div>
+        <div class="loading-step" id="ls4"><span class="loading-step-icon">⭐</span> 항해 지도 완성 중</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -2419,7 +2669,7 @@ const STRINGS = {
     air_E: '<strong>외향성 높은 사람</strong>은 소통·발표 AI(Gamma, Otter.ai)가 강점을 증폭시킵니다. 내향형은 깊은 분석과 글쓰기 AI(Claude, Perplexity)에서 진가를 발휘.',
     air_A: '<strong>친화성 높은 사람</strong>은 협업·공감형 AI와 잘 맞습니다. 낮은 친화성의 전략가형은 데이터 기반 분석 AI에서 실력을 발휘.',
     air_N: '<strong>정서 안정성</strong>은 AI 활용 스타일에도 영향을 줍니다. 안정형은 복잡한 멀티툴 세팅에 유리하고, 예민형은 단순하고 즉각적인 피드백을 주는 AI가 적합합니다.',
-    about_cta_h: '지금 나의 OCEAN 성향을 확인해 보세요', about_cta_p: '30문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.', about_cta_btn: '🏁 테스트 시작하기',
+    about_cta_h: '지금 나의 OCEAN 성향을 확인해 보세요', about_cta_p: '25문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.', about_cta_btn: '🏁 테스트 시작하기',
     personas_back: '← 처음으로', personas_label: '🏆 32가지 OCEAN 유형', personas_h2: '나는 어떤 유형일까?',
     personas_sub: 'OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 대표 유형 8가지를 미리 만나보세요.',
     personas_featured_h: '대표 페르소나 유형 8선',
@@ -2850,8 +3100,6 @@ function selectJob(id) {
     btn.classList.toggle('selected', JOBS[i].id === id);
   });
   document.getElementById('btnStart').disabled = false;
-  const heroBtn = document.getElementById('btnStartHero');
-  if (heroBtn) heroBtn.disabled = false;
 }
 
 function showScreen(id) {
@@ -2937,9 +3185,36 @@ function prevQuestion() {
 }
 
 // ═══════════════════════════════════════════════════════
+//  NAV STARS — inject star elements into loading scene
+// ═══════════════════════════════════════════════════════
+function initNavStars() {
+  const container = document.getElementById('navStars');
+  if (!container) return;
+  container.innerHTML = '';
+  // [x%, y%, sizePx, durSec, delaySec]
+  const stars = [
+    [8,15,1.5,3.2,0],[22,8,2,4.1,0.5],[38,22,1,3.6,1.1],[55,11,1.8,4.8,1.6],
+    [70,18,1.2,3.3,0.3],[85,7,2,5.2,2.1],[14,38,1,4.4,0.8],[30,30,1.5,3.9,1.3],
+    [50,42,1,4.7,1.9],[68,33,1.8,3.1,0.5],[82,44,1.2,5,1.1],[94,28,1,3.7,0.7],
+    [6,52,1.5,4.3,1.5],[28,50,1,3.3,0.2],[44,55,2,4.6,0.9],[66,48,1.2,3.8,1.4],
+    [78,57,1,4.1,0.6],[20,24,1.8,3.4,1.8],[52,17,1,5.3,0.4],[74,9,2,4.2,1.2],
+    [32,12,1.2,3.7,0.8],[58,27,1,4.4,2.2],[12,44,1.5,3.1,1.4],[42,40,1,4.8,0.3],
+    [76,50,2,3.6,1.7],[90,38,1,4.5,0.5],[24,58,1.5,5.1,1.1],[64,40,1,3.2,0.6],
+    [96,12,1.8,4.6,1.3],[40,6,1,3.9,0.2],[18,5,1.6,4.3,0.9],[60,4,1,5,1.7]
+  ];
+  stars.forEach(function(d) {
+    var el = document.createElement('div');
+    el.className = 'nav-star';
+    el.style.cssText = 'left:'+d[0]+'%;top:'+d[1]+'%;width:'+d[2]+'px;height:'+d[2]+'px;--dur:'+d[3]+'s;--del:'+d[4]+'s;';
+    container.appendChild(el);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
 //  CALCULATE
 // ═══════════════════════════════════════════════════════
 function calculateResults() {
+  initNavStars();
   showScreen('loading');
 
   // Animate loading steps
@@ -3222,10 +3497,51 @@ function getAIUrl(name) {
     || AI_TOOL_URLS[k.split(' ')[0]] || null;
 }
 
-function makeAILink(name, cls = '') {
+const AI_DOMAIN_MAP = {
+  'claude': 'claude.ai', 'chatgpt': 'chat.openai.com', 'gemini': 'gemini.google.com',
+  'grok': 'grok.com', 'perplexity': 'perplexity.ai', 'notion ai': 'notion.so', 'notion': 'notion.so',
+  'midjourney': 'midjourney.com', 'dall-e': 'openai.com', 'dall·e': 'openai.com',
+  'stable diffusion': 'stability.ai', 'canva': 'canva.com', 'figma': 'figma.com',
+  'github copilot': 'github.com', 'copilot': 'github.com', 'cursor': 'cursor.sh',
+  'replit': 'replit.com', 'tabnine': 'tabnine.com', 'v0': 'v0.dev',
+  'jasper': 'jasper.ai', 'copy.ai': 'copy.ai', 'writesonic': 'writesonic.com',
+  'grammarly': 'grammarly.com', 'elevenlabs': 'elevenlabs.io', 'murf ai': 'murf.ai',
+  'synthesia': 'synthesia.io', 'runway': 'runwayml.com', 'runwayml': 'runwayml.com',
+  'heygen': 'heygen.com', 'khanmigo': 'khanacademy.org', 'duolingo': 'duolingo.com',
+  'photomath': 'photomath.com', 'wolfram alpha': 'wolframalpha.com', 'chatpdf': 'chatpdf.com',
+  'elicit': 'elicit.org', 'semantic scholar': 'semanticscholar.org', 'consensus': 'consensus.app',
+  'scite': 'scite.ai', 'research rabbit': 'researchrabbit.ai', 'tableau': 'tableau.com',
+  'powerbi': 'powerbi.microsoft.com', 'power bi': 'powerbi.microsoft.com',
+  'julius': 'julius.ai', 'bardeen': 'bardeen.ai', 'zapier': 'zapier.com',
+  'make': 'make.com', 'salesforce': 'salesforce.com', 'hubspot': 'hubspot.com',
+  'gong.io': 'gong.io', 'lavender': 'lavender.ai', 'surfer seo': 'surferseo.com',
+  'adobe firefly': 'adobe.com', 'firefly': 'adobe.com', 'pika': 'pika.art',
+  'luma': 'lumalabs.ai', 'sora': 'openai.com', 'openevidence': 'openevidence.com',
+  'sully.ai': 'sully.ai', 'chatgpt enterprise': 'chat.openai.com',
+  'microsoft 365 copilot': 'microsoft.com', 'adobe express': 'adobe.com',
+  'google workspace': 'workspace.google.com', 'otter.ai': 'otter.ai',
+  'fireflies.ai': 'fireflies.ai', 'krisp': 'krisp.ai', 'zoom ai': 'zoom.us',
+  'atlas': 'atlassian.com', 'linear': 'linear.app', 'clickup': 'clickup.com',
+  'asana': 'asana.com', 'monday.com': 'monday.com', 'airtable': 'airtable.com',
+  'loom': 'loom.com', 'miro': 'miro.com', 'whimsical': 'whimsical.com',
+};
+function getAIDomain(name) {
+  if (!name) return null;
+  const k = name.toLowerCase().trim();
+  return AI_DOMAIN_MAP[k] || AI_DOMAIN_MAP[k.replace(/\s*\(.*\)/, '').trim()] || null;
+}
+
+function makeAILink(name, cls, showLogo) {
+  cls = cls || '';
+  showLogo = showLogo !== false ? true : false;
   const url = getAIUrl(name);
-  if (!url) return `<span class="${cls}">${name}</span>`;
-  return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="ai-tool-link ${cls}">${name}<svg width="9" height="9" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-left:2px;flex-shrink:0"><path d="M2 1h9v9M10 2 2 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`;
+  const domain = getAIDomain(name);
+  const logoHtml = (showLogo && domain)
+    ? '<span class="ai-logo-wrap"><img class="ai-logo-img" src="https://www.google.com/s2/favicons?domain=' + domain + '&sz=32" width="18" height="18" alt="" loading="lazy" /></span>'
+    : '';
+  const arrowSvg = '<svg width="9" height="9" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-left:2px;flex-shrink:0"><path d="M2 1h9v9M10 2 2 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  if (!url) return '<span class="' + cls + '">' + logoHtml + name + '</span>';
+  return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="ai-tool-link ' + cls + '">' + logoHtml + name + arrowSvg + '</a>';
 }
 
 function toggleV2AI(card) { card.classList.toggle('open'); }
@@ -3259,16 +3575,6 @@ function renderResults(scores) {
   const barColors = { O: '#7048E8', C: '#1971C2', E: '#E67700', A: '#0CA678', N: '#C92A2A' };
   const dimLabels = ['개방성', '성실성', '외향성', '친화성', '정서안정성'];
   const dimKeys = ['O', 'C', 'E', 'A', 'N'];
-
-  const scoreBars = dimKeys.map((k, i) => `
-    <div class="score-bar-item">
-      <div class="score-bar-label">${getDimEmoji(k)} ${dimLabels[i]}</div>
-      <div class="score-bar-track">
-        <div class="score-bar-fill" style="width:0%;background:${barColors[k]}" data-pct="${scores[k]}"></div>
-      </div>
-      <div class="score-bar-pct" style="color:${barColors[k]}">${scores[k]}%</div>
-    </div>
-  `).join('');
 
   // Dominant dimension for banner color
   const dominantDim = dimKeys.reduce((a, b) => scores[a] >= scores[b] ? a : b);
@@ -3325,7 +3631,7 @@ function renderResults(scores) {
   // ── Build AI prescription section ──
   let prescriptionHTML;
   if (v2 && v2.ai_tools?.length) {
-    // v2 expandable cards with links
+    // v2 expandable cards — daily_guide always visible, rest in accordion
     const aiCards = v2.ai_tools.map((t, idx) => {
       const isMain = t.type === '메인';
       const badgeColor = isMain ? bannerColor : '#868E96';
@@ -3335,33 +3641,38 @@ function renderResults(scores) {
           <div class="v2-guide-label">💬 추천 프롬프트</div>
           <div class="v2-prompt-box">${t.prompt_example}</div>
         </div>` : '';
+      const dailyBlock = t.daily_guide ? `
+        <div class="v2-ai-daily">
+          <div class="v2-guide-label">📱 일상 활용 가이드</div>
+          <div class="v2-guide-text">${t.daily_guide}</div>
+        </div>` : '';
+      const hasAccordion = !!(t.morning_tip || t.power_use || t.prompt_example);
       return `
-        <div class="v2-ai-card ${idx === 0 ? 'open' : ''}" onclick="toggleV2AI(this)">
-          <div class="v2-ai-header">
+        <div class="v2-ai-card ${idx === 0 ? 'open' : ''}">
+          <div class="v2-ai-header" onclick="toggleV2AI(this.parentElement)">
             <span class="v2-engine-badge" style="background:${badgeBg};color:${badgeColor}">${isMain ? 'MAIN ENGINE' : t.type || '전문 AI'}</span>
             <div class="v2-ai-name">${makeAILink(t.name)}</div>
             <div class="v2-ai-tagline">${t.tagline || ''}</div>
-            <div class="v2-expand-icon">▾</div>
+            ${hasAccordion ? '<div class="v2-expand-icon">▾</div>' : ''}
           </div>
-          <div class="v2-ai-body">
-            ${t.daily_guide ? `<div class="v2-guide-block"><div class="v2-guide-label">📱 일상 활용 가이드</div><div class="v2-guide-text">${t.daily_guide}</div></div>` : ''}
+          ${dailyBlock}
+          ${hasAccordion ? `<div class="v2-ai-body">
             ${t.morning_tip ? `<div class="v2-guide-block"><div class="v2-guide-label">☀️ 아침 루틴 활용법</div><div class="v2-guide-text">${t.morning_tip}</div></div>` : ''}
             ${t.power_use ? `<div class="v2-guide-block"><div class="v2-guide-label">⚡ 이 성향을 위한 파워 활용</div><div class="v2-guide-text">${t.power_use}</div></div>` : ''}
             ${promptBlock}
-          </div>
+          </div>` : ''}
         </div>`;
     }).join('');
     prescriptionHTML = `
       <div class="prescription-section fade-up-d3">
         <div class="section-title" style="margin-bottom:4px">🤖 AI 맞춤형 생존 전략</div>
-        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">각 AI 도구 클릭 시 상세 활용법이 펼쳐집니다 · 이름 클릭 시 해당 사이트로 이동</div>
+        <div style="font-size:16px;color:var(--text-secondary);margin-bottom:16px">아침 루틴 &amp; 파워 활용법은 헤더 클릭으로 펼쳐보세요 · 이름 클릭 시 해당 사이트로 이동</div>
         ${aiCards}
       </div>`;
   } else {
     // v1 fallback with links added
     const toolCards = specialistAIs.map(ai => `
       <div class="tool-card">
-        <div class="tool-icon">${getAIIcon(ai.name)}</div>
         <div class="tool-name">${makeAILink(ai.name)}</div>
         <div class="tool-category">전문 AI 도구</div>
         <div class="tool-reason">${ai.reason}</div>
@@ -3371,7 +3682,7 @@ function renderResults(scores) {
         <div class="section-title" style="margin-bottom:16px">🤖 나의 AI 처방전</div>
         <div class="main-engine-card">
           <div class="rx-label">MAIN ENGINE</div>
-          <div class="engine-name">${getAIIcon(mainAI.name)} ${makeAILink(mainAI.name)}</div>
+          <div class="engine-name">${makeAILink(mainAI.name)}</div>
           <div class="engine-scenario">💊 <strong>처방 이유:</strong> ${mainAI.reason}</div>
         </div>
         ${toolCards ? `<div class="rx-label" style="margin-bottom:12px;padding-left:4px">SPECIALIST TOOLS</div><div class="tools-grid">${toolCards}</div>` : ''}
@@ -3396,7 +3707,7 @@ function renderResults(scores) {
   const jobExtraTools = (JOB_AI_TOOLS[selectedJob] || []).filter(t => !usedTools.has(t.name.toLowerCase())).slice(0, 4);
   const jobExtraCards = jobExtraTools.map(t => `
     <div class="job-ai-extra-card">
-      <div class="jaec-name">${getAIIcon(t.name)} ${makeAILink(t.name)}</div>
+      <div class="jaec-name">${makeAILink(t.name)}</div>
       <div class="jaec-use">${t.use}</div>
     </div>`).join('');
 
@@ -3428,7 +3739,6 @@ function renderResults(scores) {
     <div class="chart-section fade-up-d1">
       <div class="section-title">📊 나의 OCEAN 레이더</div>
       <canvas id="radarChart" width="340" height="340"></canvas>
-      <div class="score-bars">${scoreBars}</div>
     </div>
 
     <!-- Insight -->
@@ -3446,24 +3756,7 @@ function renderResults(scores) {
     <!-- v2 Strengths & Growth (if available) -->
     ${v2StrengthsSection}
 
-    <!-- AI Prescription (v2 or v1 fallback) -->
-    ${prescriptionHTML}
-
-    <!-- v2 Synergy Strategy -->
-    ${v2SynergySection}
-
-    <!-- v2 Daily Routine -->
-    ${v2RoutineSection}
-
-    <!-- Job AI Extra Tools -->
-    ${jobExtraCards ? `
-    <div class="job-ai-extra-section fade-up-d3">
-      <div class="section-title" style="margin-bottom:4px">🏆 ${job?.label} 직군 추천 AI 도구</div>
-      <div style="font-size:13px;color:var(--text-secondary);margin-bottom:0">당신의 직업군에서 가장 효과적인 AI 도구들입니다</div>
-      <div class="job-ai-extra-grid">${jobExtraCards}</div>
-    </div>` : ''}
-
-    <!-- SNS Share -->
+    <!-- SNS Share (결과 공유 — 보완 포인트 바로 다음) -->
     <div class="sns-share-section fade-up-d4">
       <div class="sns-section-title">🔗 결과를 공유해보세요</div>
       <div class="sns-section-sub">나의 AI 성향 분석 결과를 친구들과 비교해보세요</div>
@@ -3482,10 +3775,31 @@ function renderResults(scores) {
         </button>
         <button class="sns-btn sns-kakao" onclick="shareKakao('${masterNameEsc}','${code}',${scoresForShare})">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.57 1.522 4.837 3.836 6.237L4.89 20.5l4.194-2.617A10.1 10.1 0 0012 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
-          카카오
+          카카오톡
+        </button>
+        <button class="sns-btn sns-tiktok" onclick="shareTiktok('${masterNameEsc}','${code}',${scoresForShare})">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.21 8.21 0 0 0 4.79 1.52V6.77a4.85 4.85 0 0 1-1.02-.08z"/></svg>
+          TikTok
         </button>
       </div>
     </div>
+
+    <!-- AI Prescription (v2 or v1 fallback) -->
+    ${prescriptionHTML}
+
+    <!-- v2 Synergy Strategy -->
+    ${v2SynergySection}
+
+    <!-- Job AI Extra Tools -->
+    ${jobExtraCards ? `
+    <div class="job-ai-extra-section fade-up-d3">
+      <div class="section-title" style="margin-bottom:4px">🏆 ${job?.label} 직군 추천 AI 도구</div>
+      <div style="font-size:16px;color:var(--text-secondary);margin-bottom:0">당신의 직업군에서 가장 효과적인 AI 도구들입니다</div>
+      <div class="job-ai-extra-grid">${jobExtraCards}</div>
+    </div>` : ''}
+
+    <!-- v2 Daily Routine (맨 마지막) -->
+    ${v2RoutineSection}
 
     <!-- Retake -->
     <div class="retake-section">
@@ -3498,7 +3812,7 @@ function renderResults(scores) {
 
   // Animate bars after render
   setTimeout(() => {
-    document.querySelectorAll('.score-bar-fill, .op-dim-bar-fill').forEach(el => {
+    document.querySelectorAll('.op-dim-bar-fill').forEach(el => {
       el.style.width = el.dataset.pct + '%';
     });
     drawRadar(scores);
@@ -3591,8 +3905,6 @@ function goHome() {
   selectedJob = null;
   document.querySelectorAll('.job-btn-16p').forEach(b => b.classList.remove('selected'));
   document.getElementById('btnStart').disabled = true;
-  const heroBtn = document.getElementById('btnStartHero');
-  if (heroBtn) heroBtn.disabled = true;
   showScreen('landing');
 }
 
@@ -3649,27 +3961,78 @@ function renderTypeShowcase() {
 // ═══════════════════════════════════════════════════════
 //  SNS SHARING
 // ═══════════════════════════════════════════════════════
+function _shareText(name, code, scores) {
+  return '🌊 AI-OCEAN 성향 분석 결과!\n\n✨ "' + name + '" 유형 (' + code + ')\n'
+    + '🔮 개방성 ' + scores.O + '% | 📐 성실성 ' + scores.C + '%\n'
+    + '⚡ 외향성 ' + scores.E + '% | 💚 친화성 ' + scores.A + '% | 🌊 안정성 ' + scores.N + '%\n\n'
+    + '#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전';
+}
+
+function showShareToast(msg) {
+  var t = document.getElementById('shareToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'shareToast';
+    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(10px);background:#1a1a2e;color:white;padding:13px 22px;border-radius:14px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,0.35);text-align:center;max-width:340px;border:1px solid rgba(255,255,255,0.12);opacity:0;transition:opacity 0.3s,transform 0.3s;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(10px)';
+  }, 3200);
+}
+
 function shareFacebook(name, code, scores) {
-  const text = encodeURIComponent(`🌊 AI-OCEAN 성향 분석 결과\n"${name}" (${code})\n개방성 ${scores.O}% | 성실성 ${scores.C}% | 외향성 ${scores.E}% | 친화성 ${scores.A}% | 안정성 ${scores.N}%\n\n나도 해보기: `);
-  window.open(`https://www.facebook.com/sharer/sharer.php?quote=${text}`, '_blank', 'width=600,height=400');
+  var url = encodeURIComponent(window.location.href);
+  var quote = encodeURIComponent('"' + name + '" (' + code + ') — 개방성 ' + scores.O + '% | 성실성 ' + scores.C + '% | 외향성 ' + scores.E + '% | 친화성 ' + scores.A + '% | 안정성 ' + scores.N + '%');
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + url + '&quote=' + quote, '_blank', 'width=620,height=520');
 }
 
 function shareTwitterX(name, code, scores) {
-  const text = encodeURIComponent(`🌊 AI-OCEAN 성향 분석으로 나의 유형을 발견했어요!\n\n✨ "${name}" 유형 (${code})\n🔮 개방성 ${scores.O}% | 📐 성실성 ${scores.C}% | ⚡ 외향성 ${scores.E}% | 💚 친화성 ${scores.A}% | 🌊 안정성 ${scores.N}%\n\n나도 해보기 👉 `);
-  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'width=600,height=400');
+  var text = encodeURIComponent(_shareText(name, code, scores));
+  var url = encodeURIComponent(window.location.href);
+  window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'width=620,height=420');
 }
 
 function copyInstagram(name, code, scores) {
-  const text = `🌊 AI-OCEAN 성향 분석 결과\n\n✨ "${name}" (${code})\n\n📊 나의 OCEAN 지수\n🔮 개방성: ${scores.O}%\n📐 성실성: ${scores.C}%\n⚡ 외향성: ${scores.E}%\n💚 친화성: ${scores.A}%\n🌊 안정성: ${scores.N}%\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트`;
-  navigator.clipboard.writeText(text).then(() => {
-    alert('📸 인스타그램 공유용 텍스트가 복사됐습니다!\n인스타그램 앱을 열고 새 게시물에 붙여넣으세요.');
+  var text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + scores.O + '%\n📐 성실성: ' + scores.C + '%\n⚡ 외향성: ' + scores.E + '%\n💚 친화성: ' + scores.A + '%\n🌊 안정성: ' + scores.N + '%\n\n🔗 ' + window.location.href + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+  navigator.clipboard.writeText(text).then(function() {
+    showShareToast('📸 인스타그램용 텍스트 복사 완료! 앱 열고 새 게시물에 붙여넣으세요.');
+  }).catch(function() {
+    showShareToast('복사 실패 — 브라우저 설정에서 클립보드 권한을 허용해주세요.');
   });
 }
 
 function shareKakao(name, code, scores) {
-  const text = `🌊 AI-OCEAN 성향 분석\n"${name}" (${code})\n개방성 ${scores.O}% | 성실성 ${scores.C}%\n외향성 ${scores.E}% | 친화성 ${scores.A}%\n안정성 ${scores.N}%`;
-  const encoded = encodeURIComponent(text);
-  window.open(`https://story.kakao.com/share?url=${window.location.href}&text=${encoded}`, '_blank', 'width=600,height=400');
+  var text = _shareText(name, code, scores) + '\n\n👉 ' + window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: window.location.href })
+      .catch(function() {});
+  } else {
+    navigator.clipboard.writeText(text).then(function() {
+      showShareToast('🔗 텍스트 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.');
+    }).catch(function() {
+      window.open('https://story.kakao.com/share?url=' + encodeURIComponent(window.location.href), '_blank', 'width=620,height=520');
+    });
+  }
+}
+
+function shareTiktok(name, code, scores) {
+  var text = _shareText(name, code, scores) + '\n\n👉 ' + window.location.href + '\n\n#TikTok #성격테스트';
+  if (navigator.share) {
+    navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: window.location.href })
+      .catch(function() {});
+  } else {
+    navigator.clipboard.writeText(text).then(function() {
+      showShareToast('🎵 텍스트 복사 완료! TikTok 앱에서 게시물 작성 후 붙여넣으세요.');
+    }).catch(function() {
+      showShareToast('복사 실패 — 브라우저 설정에서 클립보드 권한을 허용해주세요.');
+    });
+  }
 }
 
 // Start
