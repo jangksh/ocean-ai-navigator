@@ -1047,6 +1047,10 @@
   .tool-preview-card:hover { border-color: var(--wave-1); box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
   .tp-icon { font-size: 26px; flex-shrink: 0; line-height: 1; padding-top: 2px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+  .tp-icon-logo { position: relative; font-size: 0; }
+  .tp-icon-fallback { font-size: 26px; line-height: 36px; display: block; }
+  .tp-icon-img { position: absolute; top: 0; left: 0; border-radius: 9px; object-fit: contain; opacity: 0; transition: opacity 0.2s; }
+  .tp-link-arrow { font-size: 10px; color: var(--text-secondary); font-weight: 400; }
   .tp-info { flex: 1; min-width: 0; }
   .tp-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; color: var(--text-primary); }
   .tp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 6px; }
@@ -2729,33 +2733,47 @@ function renderToolsCatalog() {
   const el = document.getElementById('toolsCatalogContent');
   if (!el) return;
   const isEn = window.LANG === 'en';
-  const dbNote = isEn ? `Top ${6} picks · 30+ in DB` : `대표 ${6}개 · DB 30개+`;
-  el.innerHTML = TOOL_CATEGORIES.map(cat => `
-    <div class="tools-category about-section">
-      <div class="tools-cat-header">
-        <div class="tools-cat-icon" style="background:${cat.bg}">${cat.icon}</div>
-        <span class="tools-cat-title">${isEn ? (cat.en_name || cat.name) : cat.name}</span>
-        <span class="tools-cat-count">${cat.tools.length}${isEn ? ' tools' : '개 도구'}</span>
-        <span class="tools-cat-db-note">${dbNote}</span>
-      </div>
-      <div class="tool-preview-grid">
-        ${cat.tools.map(t => `
-          <a class="tool-preview-card" href="${t.url}" target="_blank" rel="noopener noreferrer">
-            <div class="tp-icon">
-              <img src="https://www.google.com/s2/favicons?domain=${t.domain}&sz=64"
-                   width="36" height="36"
-                   style="border-radius:10px;object-fit:contain;display:block;"
-                   onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<span style=\\"font-size:26px;line-height:1\\">${t.icon}</span>')"
-                   alt="${t.name}" loading="lazy" />
-            </div>
-            <div class="tp-info">
-              <div class="tp-name">${t.name} <span style="font-size:10px;color:var(--text-secondary);font-weight:400">↗</span></div>
-              <div class="tp-desc">${isEn ? (t.en_desc || t.desc) : t.desc}</div>
-              <span class="tp-tag" style="color:${t.tagColor};background:${t.tagBg};border-color:${t.tagColor}33">${isEn ? (t.en_tag || t.tag) : t.tag}</span>
-            </div>
-          </a>`).join('')}
-      </div>
-    </div>`).join('');
+  const dbNote = isEn ? 'Top 6 picks · 30+ in DB' : '대표 6개 · DB 30개+';
+  let html = '';
+  TOOL_CATEGORIES.forEach(cat => {
+    let toolsHtml = '';
+    cat.tools.forEach(t => {
+      const desc = isEn ? (t.en_desc || t.desc) : t.desc;
+      const tag  = isEn ? (t.en_tag  || t.tag)  : t.tag;
+      const faviconSrc = 'https://www.google.com/s2/favicons?domain=' + t.domain + '&sz=64';
+      toolsHtml += '<a class="tool-preview-card" href="' + t.url + '" target="_blank" rel="noopener noreferrer">'
+        + '<div class="tp-icon tp-icon-logo">'
+        +   '<span class="tp-icon-fallback">' + t.icon + '</span>'
+        +   '<img class="tp-icon-img" src="' + faviconSrc + '" width="36" height="36" alt="' + t.name + '" loading="lazy" />'
+        + '</div>'
+        + '<div class="tp-info">'
+        +   '<div class="tp-name">' + t.name + ' <span class="tp-link-arrow">↗</span></div>'
+        +   '<div class="tp-desc">' + desc + '</div>'
+        +   '<span class="tp-tag" style="color:' + t.tagColor + ';background:' + t.tagBg + ';border-color:' + t.tagColor + '33">' + tag + '</span>'
+        + '</div>'
+        + '</a>';
+    });
+    const catName = isEn ? (cat.en_name || cat.name) : cat.name;
+    html += '<div class="tools-category about-section">'
+      + '<div class="tools-cat-header">'
+      +   '<div class="tools-cat-icon" style="background:' + cat.bg + '">' + cat.icon + '</div>'
+      +   '<span class="tools-cat-title">' + catName + '</span>'
+      +   '<span class="tools-cat-count">' + cat.tools.length + (isEn ? ' tools' : '개 도구') + '</span>'
+      +   '<span class="tools-cat-db-note">' + dbNote + '</span>'
+      + '</div>'
+      + '<div class="tool-preview-grid">' + toolsHtml + '</div>'
+      + '</div>';
+  });
+  el.innerHTML = html;
+  el.querySelectorAll('.tp-icon-img').forEach(img => {
+    img.addEventListener('load', function() {
+      this.style.opacity = '1';
+      this.previousElementSibling.style.display = 'none';
+    });
+    img.addEventListener('error', function() {
+      this.style.display = 'none';
+    });
+  });
 }
 
 function renderJobGrid() {
