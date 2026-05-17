@@ -1368,6 +1368,14 @@
 }
 .v2-section-body { font-size: 15px; line-height: 1.8; color: var(--text-primary); }
 
+/* ── Tools match description ── */
+.tools-match-desc {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.7;
+  margin-top: 10px; margin-bottom: 0;
+  padding: 12px 16px; border-radius: 12px;
+  background: rgba(12,166,120,0.07); border-left: 3px solid var(--mint);
+}
+
 /* ── AI DB stats bar ── */
 .ai-db-stats {
   display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px;
@@ -1408,11 +1416,16 @@
 .lm-icon {
   width: 44px; height: 44px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 22px; flex-shrink: 0;
+  font-size: 22px; flex-shrink: 0; position: relative; overflow: hidden;
 }
-.lm-name { font-size: 16px; font-weight: 800; color: var(--text-primary); }
+.lm-name { font-size: 16px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 2px; }
 .lm-maker { font-size: 11px; color: var(--text-secondary); margin-top: 1px; font-weight: 500; }
 .lm-tagline { font-size: 13px; color: var(--text-secondary); flex: 1; line-height: 1.4; }
+.lm-icon-logo { position: relative; font-size: 0; }
+.lm-icon-fallback { font-size: 22px; line-height: 44px; display: block; text-align: center; }
+.lm-icon-img { position: absolute; top: 4px; left: 4px; width: 36px; height: 36px; border-radius: 8px; object-fit: contain; opacity: 0; transition: opacity 0.2s; }
+.lm-site-link { display: inline-flex; align-items: center; justify-content: center; margin-left: 4px; font-size: 11px; color: var(--text-secondary); text-decoration: none; background: var(--ocean-mid); border-radius: 50%; width: 18px; height: 18px; flex-shrink: 0; transition: background 0.15s, color 0.15s; }
+.lm-site-link:hover { background: var(--wave-1); color: white; }
 .lm-expand { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--ocean-mid); font-size: 11px; color: var(--text-secondary); transition: transform 0.2s; flex-shrink: 0; }
 .lm-card.open .lm-expand { transform: rotate(180deg); }
 .lm-card-body {
@@ -2082,10 +2095,11 @@
       <div class="about-hero-label" data-i18n="tools_label">&#129302; AI 도구 카탈로그</div>
       <h2 data-i18n="tools_h2">당신에게 맞는 AI,<br>미리 만나보세요</h2>
       <p data-i18n="tools_sub">성향 테스트 결과에 따라 추천되는 AI 도구들을 카테고리별로 소개합니다. 테스트 후 당신에게 가장 잘 맞는 조합을 처방받으세요.</p>
+      <p class="tools-match-desc" data-i18n="tools_match_desc">사용자의 가장 지배적인 성향에 맞춰 메인 엔진(주요 LM AI)을 매칭하고, 15개 직업군별로 큐레이션한 전문 도구 풀에서 가장 적합한 2개를 추출합니다.</p>
       <div class="ai-db-stats">
-        <div class="ai-db-stat">🗄️ 100+ <span data-i18n="tools_db_total">AI 도구 DB 보유</span></div>
-        <div class="ai-db-stat">📂 5 <span data-i18n="tools_db_cats">카테고리</span></div>
-        <div class="ai-db-stat">🔄 <span data-i18n="tools_db_each">카테고리별 수십 개 수록</span></div>
+        <div class="ai-db-stat">🗄️ 200+ <span data-i18n="tools_db_total">AI 도구 DB 보유</span></div>
+        <div class="ai-db-stat">💼 15 <span data-i18n="tools_db_cats">개 직업군</span></div>
+        <div class="ai-db-stat">🎯 <span data-i18n="tools_db_each">직업군별 전문 도구 큐레이션</span></div>
       </div>
     </div>
   </div>
@@ -2412,7 +2426,8 @@ const STRINGS = {
     personas_cta_h: '내 정확한 유형이 궁금하다면', personas_cta_p: '25문항, 약 5분이면 32가지 중 나의 유형과 맞춤 AI 처방전을 받을 수 있습니다.', personas_cta_btn: '🏁 테스트 시작하기',
     tools_back: '← 처음으로', tools_label: '🤖 AI 도구 카탈로그', tools_h2: '당신에게 맞는 AI,<br>미리 만나보세요',
     tools_sub: '성향 테스트 결과에 따라 추천되는 AI 도구들을 카테고리별로 소개합니다. 테스트 후 당신에게 가장 잘 맞는 조합을 처방받으세요.',
-    tools_db_total: 'AI 도구 DB 보유', tools_db_cats: '카테고리', tools_db_each: '카테고리별 수십 개 수록',
+    tools_match_desc: '사용자의 가장 지배적인 성향에 맞춰 메인 엔진(주요 LM AI)을 매칭하고, 15개 직업군별로 큐레이션한 전문 도구 풀에서 가장 적합한 2개를 추출합니다.',
+    tools_db_total: 'AI 도구 DB 보유', tools_db_cats: '개 직업군', tools_db_each: '직업군별 전문 도구 큐레이션',
     tools_lm_title: '주요 LM AI 비교 가이드', tools_lm_sub: '언어 모델 AI(LLM)는 텍스트 기반 작업의 핵심 도구입니다. 대표적인 5가지 LM AI의 특징과 최적 활용 상황을 비교해 보세요.',
     tools_cta_h: '나에게 맞는 AI 조합을 처방받으세요', tools_cta_p: '성향 테스트 결과에 따라 위 도구 중 당신의 OCEAN 유형에 최적화된 AI 세트를 추천해드립니다.', tools_cta_btn: '🏁 테스트 시작하기',
   },
@@ -2503,7 +2518,8 @@ const STRINGS = {
     personas_cta_h: 'Want to find your exact type?', personas_cta_p: 'In 25 questions, about 5 minutes, find your type among 32 and get your personalized AI prescription.', personas_cta_btn: '🏁 Start Test',
     tools_back: '← Home', tools_label: '🤖 AI Tools Catalog', tools_h2: 'Find Your Perfect AI,<br>Before You Take the Test',
     tools_sub: 'AI tools recommended based on your personality test results, organized by category. Take the test to get your optimal combination.',
-    tools_db_total: 'AI Tools in DB', tools_db_cats: 'Categories', tools_db_each: 'Dozens per Category',
+    tools_match_desc: 'Matches your dominant personality trait to the ideal LM AI engine, then extracts the 2 best-fit tools from a curated pool of 200+ AIs organized across 15 job groups.',
+    tools_db_total: 'AI Tools in DB', tools_db_cats: 'Job Groups', tools_db_each: 'Expert Tools per Job Group',
     tools_lm_title: 'Major LM AI Comparison Guide', tools_lm_sub: 'Large Language Models are the backbone of text-based AI work. Compare the 5 leading LM AIs — their strengths, specializations, and best use cases.',
     tools_cta_h: 'Get Your Personalized AI Combination', tools_cta_p: 'Based on your personality test results, we\'ll recommend the optimal AI set for your OCEAN type from the tools above.', tools_cta_btn: '🏁 Start Test',
   }
@@ -2573,6 +2589,7 @@ function renderPersonaGrid() {
 const LM_AIS = [
   {
     icon: '🟣', name: 'Claude', maker: 'Anthropic',
+    domain: 'claude.ai', url: 'https://claude.ai',
     color: '#8B5CF6', tagColor: 'rgba(139,92,246,0.15)',
     tagline: '깊은 사고력·윤리적 판단·장문 분석의 최강자',
     en_tagline: 'Deep reasoning, ethical judgment, and long-document analysis',
@@ -2595,6 +2612,7 @@ const LM_AIS = [
   },
   {
     icon: '🔵', name: 'ChatGPT', maker: 'OpenAI',
+    domain: 'chat.openai.com', url: 'https://chat.openai.com',
     color: '#10A37F', tagColor: 'rgba(16,163,127,0.15)',
     tagline: '범용성 1위 · 플러그인 생태계 · 가장 넓은 사용자 기반',
     en_tagline: 'Most versatile — largest plugin ecosystem and user base',
@@ -2617,6 +2635,7 @@ const LM_AIS = [
   },
   {
     icon: '🌐', name: 'Gemini', maker: 'Google',
+    domain: 'gemini.google.com', url: 'https://gemini.google.com',
     color: '#4285F4', tagColor: 'rgba(66,133,244,0.15)',
     tagline: 'Google 검색·Drive·Docs 완전 통합 · 실시간 정보 강점',
     en_tagline: 'Deep Google integration — real-time info + Workspace sync',
@@ -2639,6 +2658,7 @@ const LM_AIS = [
   },
   {
     icon: '⚡', name: 'Grok', maker: 'xAI (Elon Musk)',
+    domain: 'grok.com', url: 'https://grok.com',
     color: '#E7E7E7', tagColor: 'rgba(231,231,231,0.1)',
     tagline: 'X(트위터) 실시간 데이터 · 거침없는 솔직함 · 빠른 응답',
     en_tagline: 'Real-time X/Twitter data · unfiltered honesty · lightning fast',
@@ -2661,6 +2681,7 @@ const LM_AIS = [
   },
   {
     icon: '🔍', name: 'Perplexity', maker: 'Perplexity AI',
+    domain: 'perplexity.ai', url: 'https://www.perplexity.ai',
     color: '#20B2AA', tagColor: 'rgba(32,178,170,0.15)',
     tagline: 'AI 검색 엔진 · 출처 인용 · 리서치 특화',
     en_tagline: 'AI-powered search engine with citations — research-first design',
@@ -2694,39 +2715,71 @@ function renderLMGuide() {
   if (!el) return;
   const isEn = window.LANG === 'en';
   const S = STRINGS[window.LANG];
-  el.innerHTML = `
-    <div class="lm-guide-section about-section">
-      <div class="lm-guide-title">${S.tools_lm_title || '주요 LM AI 비교 가이드'}</div>
-      <div class="lm-guide-sub">${S.tools_lm_sub || '언어 모델 AI(LLM)는 텍스트 기반 작업의 핵심 도구입니다. 대표적인 5가지 LM AI의 특징과 최적 활용 상황을 비교해 보세요.'}</div>
-      <div class="lm-cards">
-        ${LM_AIS.map((ai, idx) => {
-          const feats = isEn ? ai.en_features : ai.features;
-          const bestFor = isEn ? ai.en_best_for : ai.best_for;
-          const tagline = isEn ? ai.en_tagline : ai.tagline;
-          return `
-          <div class="lm-card${idx === 0 ? ' open' : ''}" onclick="toggleLMCard(this)">
-            <div class="lm-card-header">
-              <div class="lm-icon" style="background:${ai.tagColor};border:1.5px solid ${ai.color}33">${ai.icon}</div>
-              <div>
-                <div class="lm-name" style="color:${ai.color}">${ai.name}</div>
-                <div class="lm-maker">${ai.maker}</div>
-              </div>
-              <div class="lm-tagline">${tagline}</div>
-              <div class="lm-expand" style="color:${ai.color}">▼</div>
-            </div>
-            <div class="lm-card-body">
-              <ul class="lm-features">
-                ${feats.map(f => `<li class="lm-feature-item"><span class="lm-feature-dot" style="background:${ai.color}"></span>${f}</li>`).join('')}
-              </ul>
-              <div class="lm-best-for" style="border-color:${ai.color};background:${ai.tagColor}">
-                <div class="lm-best-label" style="color:${ai.color}">${isEn ? 'Best For' : '최적 활용 상황'}</div>
-                ${bestFor}
-              </div>
-            </div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`;
+  const title   = S.tools_lm_title || '주요 LM AI 비교 가이드';
+  const sub     = S.tools_lm_sub   || '언어 모델 AI(LLM)는 텍스트 기반 작업의 핵심 도구입니다.';
+  const bestLbl = isEn ? 'Best For' : '최적 활용 상황';
+
+  let cardsHtml = '';
+  LM_AIS.forEach(function(ai, idx) {
+    const feats   = isEn ? ai.en_features : ai.features;
+    const bestFor = isEn ? ai.en_best_for : ai.best_for;
+    const tagline = isEn ? ai.en_tagline  : ai.tagline;
+    const faviconSrc = ai.domain ? 'https://www.google.com/s2/favicons?domain=' + ai.domain + '&sz=64' : '';
+
+    let featsHtml = '';
+    feats.forEach(function(f) {
+      featsHtml += '<li class="lm-feature-item">'
+        + '<span class="lm-feature-dot" style="background:' + ai.color + '"></span>'
+        + f + '</li>';
+    });
+
+    const iconHtml = faviconSrc
+      ? '<div class="lm-icon lm-icon-logo" style="background:' + ai.tagColor + ';border:1.5px solid ' + ai.color + '33">'
+        + '<span class="lm-icon-fallback">' + ai.icon + '</span>'
+        + '<img class="lm-icon-img" src="' + faviconSrc + '" width="36" height="36" alt="' + ai.name + '" loading="lazy" />'
+        + '</div>'
+      : '<div class="lm-icon" style="background:' + ai.tagColor + ';border:1.5px solid ' + ai.color + '33">' + ai.icon + '</div>';
+
+    const linkBtn = ai.url
+      ? ' <a class="lm-site-link" href="' + ai.url + '" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗</a>'
+      : '';
+
+    cardsHtml += '<div class="lm-card' + (idx === 0 ? ' open' : '') + '" onclick="toggleLMCard(this)">'
+      + '<div class="lm-card-header">'
+      +   iconHtml
+      +   '<div>'
+      +     '<div class="lm-name" style="color:' + ai.color + '">' + ai.name + linkBtn + '</div>'
+      +     '<div class="lm-maker">' + ai.maker + '</div>'
+      +   '</div>'
+      +   '<div class="lm-tagline">' + tagline + '</div>'
+      +   '<div class="lm-expand" style="color:' + ai.color + '">▼</div>'
+      + '</div>'
+      + '<div class="lm-card-body">'
+      +   '<ul class="lm-features">' + featsHtml + '</ul>'
+      +   '<div class="lm-best-for" style="border-color:' + ai.color + ';background:' + ai.tagColor + '">'
+      +     '<div class="lm-best-label" style="color:' + ai.color + '">' + bestLbl + '</div>'
+      +     bestFor
+      +   '</div>'
+      + '</div>'
+      + '</div>';
+  });
+
+  el.innerHTML = '<div class="lm-guide-section about-section">'
+    + '<div class="lm-guide-title">' + title + '</div>'
+    + '<div class="lm-guide-sub">' + sub + '</div>'
+    + '<div class="lm-cards">' + cardsHtml + '</div>'
+    + '</div>';
+
+  el.querySelectorAll('.lm-icon-img').forEach(function(img) {
+    img.addEventListener('load', function() {
+      this.style.opacity = '1';
+      var fallback = this.previousElementSibling;
+      if (fallback) fallback.style.display = 'none';
+    });
+    img.addEventListener('error', function() {
+      this.style.display = 'none';
+    });
+  });
 }
 
 function renderToolsCatalog() {
