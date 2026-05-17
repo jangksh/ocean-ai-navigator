@@ -1355,9 +1355,27 @@
   box-shadow: var(--shadow-sm);
 }
 .v2-section-body { font-size: 14px; line-height: 1.8; color: var(--text-primary); }
+
+/* ── Language toggle button ── */
+.lang-toggle-btn {
+  position: fixed; top: 16px; right: 16px; z-index: 9999;
+  background: rgba(15,15,35,0.6); backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.88);
+  border-radius: 20px; padding: 5px 15px;
+  font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
+  cursor: pointer; transition: all 0.2s;
+}
+.lang-toggle-btn:hover {
+  background: rgba(76,110,245,0.75); border-color: rgba(76,110,245,0.5);
+  color: white; transform: translateY(-1px);
+}
 </style>
 </head>
 <body>
+
+<!-- Fixed language toggle -->
+<button class="lang-toggle-btn" id="langToggle" onclick="toggleLang()">EN</button>
 
 <!-- ══════════════════════════════════════
      SCREEN 1: LANDING
@@ -1366,31 +1384,31 @@
   <nav class="landing-header">
     <span class="landing-logo">AI-OCEAN</span>
     <div class="landing-nav">
-      <span class="landing-nav-link" onclick="showScreen('about')">OCEAN이란?</span>
-      <span class="landing-nav-link" onclick="showScreen('personas')">페르소나 유형</span>
-      <span class="landing-nav-link" onclick="showScreen('tools')">AI 도구 소개</span>
+      <span class="landing-nav-link" onclick="showScreen('about')" data-i18n="nav_about">OCEAN이란?</span>
+      <span class="landing-nav-link" onclick="showScreen('personas')" data-i18n="nav_personas">페르소나 유형</span>
+      <span class="landing-nav-link" onclick="showScreen('tools')" data-i18n="nav_tools">AI 도구 소개</span>
     </div>
   </nav>
   <div class="hero-wrapper" style="width:100%;">
     <!-- 2-col hero -->
     <div class="landing-hero-grid">
       <div class="hero-text-side">
-        <div class="hero-badge-new">🌊 AI × OCEAN 성향 분석 · Big5 기반</div>
-        <h1 class="hero-title-new">
+        <div class="hero-badge-new" data-i18n="hero_badge">🌊 AI × OCEAN 성향 분석 · Big5 기반</div>
+        <h1 class="hero-title-new" data-i18n="hero_title">
           나의 성향에 맞는<br><span class="hl">AI를 처방받다</span>
         </h1>
-        <p class="hero-sub-new">
+        <p class="hero-sub-new" data-i18n="hero_sub">
           Big 5 심리학(OCEAN) 기반의 25문항 성향 테스트로<br>당신에게 꼭 맞는 AI 파트너와 커리어 인사이트를 찾아드립니다.
         </p>
         <div class="hero-cta-row">
-          <button class="btn-hero-start" id="btnStartHero" disabled onclick="scrollToJobSection()">나의 AI DNA 분석 시작 →</button>
-          <button class="btn-hero-about" onclick="showScreen('about')">OCEAN이란?</button>
+          <button class="btn-hero-start" id="btnStartHero" disabled onclick="scrollToJobSection()" data-i18n="hero_cta1">나의 AI DNA 분석 시작 →</button>
+          <button class="btn-hero-about" onclick="showScreen('about')" data-i18n="hero_about_btn">OCEAN이란?</button>
         </div>
         <div class="hero-stats-mini">
-          <div class="hsm-item"><div class="hsm-num">25</div><div class="hsm-label">테스트 문항</div></div>
-          <div class="hsm-item"><div class="hsm-num">15</div><div class="hsm-label">직업군</div></div>
-          <div class="hsm-item"><div class="hsm-num">32</div><div class="hsm-label">성향 유형</div></div>
-          <div class="hsm-item"><div class="hsm-num">50+</div><div class="hsm-label">AI 도구</div></div>
+          <div class="hsm-item"><div class="hsm-num">25</div><div class="hsm-label" data-i18n="stat_questions">테스트 문항</div></div>
+          <div class="hsm-item"><div class="hsm-num">15</div><div class="hsm-label" data-i18n="stat_jobs">직업군</div></div>
+          <div class="hsm-item"><div class="hsm-num">32</div><div class="hsm-label" data-i18n="stat_types">성향 유형</div></div>
+          <div class="hsm-item"><div class="hsm-num">50+</div><div class="hsm-label" data-i18n="stat_tools">AI 도구</div></div>
         </div>
       </div>
       <div class="hero-char-side">
@@ -1408,23 +1426,23 @@
 
     <!-- Type showcase -->
     <div class="type-showcase-section">
-      <div class="ts-label">OCEAN 32가지 유형</div>
-      <div class="ts-title">나는 어떤 유형일까?</div>
-      <div class="ts-sub">5가지 차원의 조합으로 완전히 다른 32가지 성향 유형이 만들어집니다</div>
+      <div class="ts-label" data-i18n="ts_label">OCEAN 32가지 유형</div>
+      <div class="ts-title" data-i18n="ts_title">나는 어떤 유형일까?</div>
+      <div class="ts-sub" data-i18n="ts_sub">5가지 차원의 조합으로 완전히 다른 32가지 성향 유형이 만들어집니다</div>
       <div class="type-cards-grid" id="typeShowcaseGrid"></div>
-      <button class="btn-hero-about" style="margin-top:28px" onclick="showScreen('personas')">모든 유형 탐색하기</button>
+      <button class="btn-hero-about" style="margin-top:28px" onclick="showScreen('personas')" data-i18n="ts_btn">모든 유형 탐색하기</button>
     </div>
 
     <!-- Job selector section -->
     <div class="job-section-new" id="jobSectionAnchor">
-      <div class="ts-label">STEP 1</div>
-      <div class="js-title">먼저 내 직업군을 선택해 주세요</div>
-      <div class="js-sub">직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다</div>
+      <div class="ts-label" data-i18n="js_step">STEP 1</div>
+      <div class="js-title" data-i18n="js_title">먼저 내 직업군을 선택해 주세요</div>
+      <div class="js-sub" data-i18n="js_sub">직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다</div>
       <div class="job-grid-16p" id="jobGrid"></div>
-      <button class="btn-hero-start" id="btnStart" disabled onclick="startQuiz()" style="margin-top:8px">
+      <button class="btn-hero-start" id="btnStart" disabled onclick="startQuiz()" style="margin-top:8px" data-i18n="js_start">
         나의 OCEAN 분석 시작 →
       </button>
-      <p class="disclaimer" style="margin-top:16px">본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. IPIP 공공 도메인 기반.</p>
+      <p class="disclaimer" style="margin-top:16px" data-i18n="disclaimer">본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. IPIP 공공 도메인 기반.</p>
     </div>
   </div>
 </div>
@@ -1435,31 +1453,31 @@
 <div id="screen-about" class="screen">
   <div class="about-hero">
     <div class="container">
-      <button class="btn-back" onclick="showScreen('landing')" style="margin-bottom:24px;">&larr; 테스트로 돌아가기</button>
-      <div class="about-hero-label">&#128209; 심리학 기반 신뢰 지표</div>
-      <h2>Big 5 OCEAN이란<br>무엇인가?</h2>
-      <p>수십 년간 50개국 이상에서 검증된 성격 과학. 왜 이 테스트를 신뢰할 수 있는지, 각 차원이 무엇을 의미하는지 명확하게 설명합니다.</p>
+      <button class="btn-back" onclick="showScreen('landing')" style="margin-bottom:24px;" data-i18n="about_back">&larr; 테스트로 돌아가기</button>
+      <div class="about-hero-label" data-i18n="about_hero_label">&#128209; 심리학 기반 신뢰 지표</div>
+      <h2 data-i18n="about_h2">Big 5 OCEAN이란<br>무엇인가?</h2>
+      <p data-i18n="about_sub">수십 년간 50개국 이상에서 검증된 성격 과학. 왜 이 테스트를 신뢰할 수 있는지, 각 차원이 무엇을 의미하는지 명확하게 설명합니다.</p>
 
       <div class="trust-grid">
         <div class="trust-badge">
           <div class="trust-badge-icon">&#128218;</div>
           <div class="trust-badge-num">1,000+</div>
-          <div class="trust-badge-label">동료 심사 논문</div>
+          <div class="trust-badge-label" data-i18n="trust1">동료 심사 논문</div>
         </div>
         <div class="trust-badge">
           <div class="trust-badge-icon">&#127757;</div>
           <div class="trust-badge-num">50+</div>
-          <div class="trust-badge-label">검증 국가 수</div>
+          <div class="trust-badge-label" data-i18n="trust2">검증 국가 수</div>
         </div>
         <div class="trust-badge">
           <div class="trust-badge-icon">&#128275;</div>
-          <div class="trust-badge-num">무료</div>
-          <div class="trust-badge-label">IPIP 오픈소스<br>공공 도메인</div>
+          <div class="trust-badge-num" data-i18n="trust3_num">무료</div>
+          <div class="trust-badge-label" data-i18n="trust3">IPIP 오픈소스<br>공공 도메인</div>
         </div>
         <div class="trust-badge">
           <div class="trust-badge-icon">&#128188;</div>
-          <div class="trust-badge-num">실사용</div>
-          <div class="trust-badge-label">기업 HR &amp; 임상<br>심리 현장 활용</div>
+          <div class="trust-badge-num" data-i18n="trust4_num">실사용</div>
+          <div class="trust-badge-label" data-i18n="trust4">기업 HR &amp; 임상<br>심리 현장 활용</div>
         </div>
       </div>
     </div>
@@ -1471,46 +1489,46 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-C-bg)">&#9989;</div>
-        <h3>왜 신뢰할 수 있는가?</h3>
+        <h3 data-i18n="why_trust_h">왜 신뢰할 수 있는가?</h3>
       </div>
-      <table class="compare-table">
+      <table class="compare-table" id="compareTable">
         <thead>
           <tr>
-            <th>비교 항목</th>
-            <th>Big5 / OCEAN</th>
-            <th>MBTI</th>
+            <th data-i18n="compare_col1">비교 항목</th>
+            <th data-i18n="compare_col2">Big5 / OCEAN</th>
+            <th data-i18n="compare_col3">MBTI</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>측정 방식</td>
-            <td class="highlight-cell">연속 스펙트럼 (0~100%)</td>
-            <td>이분법 유형 (I or E)</td>
+            <td data-i18n="cmp_r1c1">측정 방식</td>
+            <td class="highlight-cell" data-i18n="cmp_r1c2">연속 스펙트럼 (0~100%)</td>
+            <td data-i18n="cmp_r1c3">이분법 유형 (I or E)</td>
           </tr>
           <tr>
-            <td>과학적 검증</td>
-            <td class="highlight-cell">수천 편의 피어리뷰 논문</td>
-            <td>과학계 신뢰도 낮음</td>
+            <td data-i18n="cmp_r2c1">과학적 검증</td>
+            <td class="highlight-cell" data-i18n="cmp_r2c2">수천 편의 피어리뷰 논문</td>
+            <td data-i18n="cmp_r2c3">과학계 신뢰도 낮음</td>
           </tr>
           <tr>
-            <td>문화 보편성</td>
-            <td class="highlight-cell">50+ 국가 교차 문화 검증</td>
-            <td>미국 중심, 문화 편향</td>
+            <td data-i18n="cmp_r3c1">문화 보편성</td>
+            <td class="highlight-cell" data-i18n="cmp_r3c2">50+ 국가 교차 문화 검증</td>
+            <td data-i18n="cmp_r3c3">미국 중심, 문화 편향</td>
           </tr>
           <tr>
-            <td>재검사 신뢰도</td>
-            <td class="highlight-cell">높음 &mdash; 시간이 지나도 일관</td>
-            <td>낮음 &mdash; 재검사 시 다른 결과</td>
+            <td data-i18n="cmp_r4c1">재검사 신뢰도</td>
+            <td class="highlight-cell" data-i18n="cmp_r4c2">높음 &mdash; 시간이 지나도 일관</td>
+            <td data-i18n="cmp_r4c3">낮음 &mdash; 재검사 시 다른 결과</td>
           </tr>
           <tr>
-            <td>행동 예측력</td>
-            <td class="highlight-cell">직무 성과, 대인관계 예측 가능</td>
-            <td>예측력 제한적</td>
+            <td data-i18n="cmp_r5c1">행동 예측력</td>
+            <td class="highlight-cell" data-i18n="cmp_r5c2">직무 성과, 대인관계 예측 가능</td>
+            <td data-i18n="cmp_r5c3">예측력 제한적</td>
           </tr>
           <tr>
-            <td>출처</td>
-            <td class="highlight-cell">IPIP 공공 도메인 (저작권 없음)</td>
-            <td>Myers-Briggs 상업 저작권</td>
+            <td data-i18n="cmp_r6c1">출처</td>
+            <td class="highlight-cell" data-i18n="cmp_r6c2">IPIP 공공 도메인 (저작권 없음)</td>
+            <td data-i18n="cmp_r6c3">Myers-Briggs 상업 저작권</td>
           </tr>
         </tbody>
       </table>
@@ -1520,9 +1538,9 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-O-bg)">&#127744;</div>
-        <h3>5가지 차원 완전 해설</h3>
+        <h3 data-i18n="dim5_h">5가지 차원 완전 해설</h3>
       </div>
-      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.6;">
+      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.6;" data-i18n="dim5_click">
         각 항목을 클릭하면 상세 설명과 높은/낮은 점수의 특징을 볼 수 있습니다.
       </p>
 
@@ -1533,27 +1551,27 @@
           <div class="dim-card-header">
             <div class="dim-letter" style="background:rgba(168,85,247,0.15);color:#c084fc">O</div>
             <div class="dim-card-title">
-              <h4 style="color:#c084fc">개방성 &mdash; Openness to Experience</h4>
-              <p>새로운 경험, 아이디어, 창의성에 얼마나 열려 있는가</p>
+              <h4 style="color:#c084fc" data-i18n="dim_O_title">개방성 &mdash; Openness to Experience</h4>
+              <p data-i18n="dim_O_sub">새로운 경험, 아이디어, 창의성에 얼마나 열려 있는가</p>
             </div>
             <span class="dim-toggle">&#8964;</span>
           </div>
-          <div class="dim-card-body">
+          <div class="dim-card-body" id="dim-O-body">
             <div class="dim-spectrum">
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:#c084fc">높음 (70%+)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:#c084fc" data-i18n="dim_O_hi">높음 (70%+)</div>
+                <div class="spectrum-traits" data-i18n="dim_O_hi_traits">
                   호기심 왕성<br>창의적 사고<br>예술&middot;철학 관심<br>변화 수용<br>상상력 풍부
                 </div>
               </div>
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--text-secondary)">낮음 (30%-)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--text-secondary)" data-i18n="dim_O_lo">낮음 (30%-)</div>
+                <div class="spectrum-traits" data-i18n="dim_O_lo_traits">
                   실용주의적<br>검증된 방법 선호<br>안정 중시<br>구체적 사실 집중<br>변화에 신중
                 </div>
               </div>
             </div>
-            <div class="dim-analogy" style="border-color:#c084fc">
+            <div class="dim-analogy" style="border-color:#c084fc" data-i18n="dim_O_analogy">
               <strong>한국인 공감 표현:</strong> 유튜브 알고리즘을 타다 새벽 3시에 우주론을 공부하고 있는 사람 vs. 늘 보던 채널만 보는 사람
             </div>
           </div>
@@ -1564,27 +1582,27 @@
           <div class="dim-card-header">
             <div class="dim-letter" style="background:var(--dim-C-bg);color:var(--wave-1)">C</div>
             <div class="dim-card-title">
-              <h4 style="color:var(--wave-1)">성실성 &mdash; Conscientiousness</h4>
-              <p>계획적이고 책임감 있게 행동하는 경향</p>
+              <h4 style="color:var(--wave-1)" data-i18n="dim_C_title">성실성 &mdash; Conscientiousness</h4>
+              <p data-i18n="dim_C_sub">계획적이고 책임감 있게 행동하는 경향</p>
             </div>
             <span class="dim-toggle">&#8964;</span>
           </div>
-          <div class="dim-card-body">
+          <div class="dim-card-body" id="dim-C-body">
             <div class="dim-spectrum">
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--wave-1)">높음 (70%+)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--wave-1)" data-i18n="dim_C_hi">높음 (70%+)</div>
+                <div class="spectrum-traits" data-i18n="dim_C_hi_traits">
                   철저한 계획<br>마감 사수<br>플래너 애용<br>세부 사항 꼼꼼<br>목표 완수
                 </div>
               </div>
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--text-secondary)">낮음 (30%-)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--text-secondary)" data-i18n="dim_C_lo">낮음 (30%-)</div>
+                <div class="spectrum-traits" data-i18n="dim_C_lo_traits">
                   즉흥적&middot;유연<br>규칙보다 흐름<br>큰 그림 집중<br>상황 대처형<br>자유로운 스타일
                 </div>
               </div>
             </div>
-            <div class="dim-analogy" style="border-color:var(--wave-1)">
+            <div class="dim-analogy" style="border-color:var(--wave-1)" data-i18n="dim_C_analogy">
               <strong>한국인 공감 표현:</strong> 가방에 항상 여분 충전기&middot;우산&middot;구급약이 있는 사람 vs. 매번 빌리는 사람
             </div>
           </div>
@@ -1595,27 +1613,27 @@
           <div class="dim-card-header">
             <div class="dim-letter" style="background:rgba(245,197,24,0.15);color:var(--gold)">E</div>
             <div class="dim-card-title">
-              <h4 style="color:var(--gold)">외향성 &mdash; Extraversion</h4>
-              <p>사람과 함께할 때 에너지를 얻는가, 혼자일 때 에너지를 얻는가</p>
+              <h4 style="color:var(--gold)" data-i18n="dim_E_title">외향성 &mdash; Extraversion</h4>
+              <p data-i18n="dim_E_sub">사람과 함께할 때 에너지를 얻는가, 혼자일 때 에너지를 얻는가</p>
             </div>
             <span class="dim-toggle">&#8964;</span>
           </div>
-          <div class="dim-card-body">
+          <div class="dim-card-body" id="dim-E-body">
             <div class="dim-spectrum">
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--gold)">높음 (70%+)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--gold)" data-i18n="dim_E_hi">높음 (70%+)</div>
+                <div class="spectrum-traits" data-i18n="dim_E_hi_traits">
                   모임 분위기 주도<br>낯선 이에게 먼저 말<br>혼자면 심심함<br>대화&middot;네트워킹 즐김<br>활동적 에너지
                 </div>
               </div>
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--text-secondary)">낮음 (내향성)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--text-secondary)" data-i18n="dim_E_lo">낮음 (내향성)</div>
+                <div class="spectrum-traits" data-i18n="dim_E_lo_traits">
                   혼자일 때 충전<br>깊은 1:1 선호<br>소규모 모임 편안<br>관찰&middot;사색형<br>내향 ≠ 사회성 부족
                 </div>
               </div>
             </div>
-            <div class="dim-analogy" style="border-color:var(--gold)">
+            <div class="dim-analogy" style="border-color:var(--gold)" data-i18n="dim_E_analogy">
               <strong>한국인 공감 표현:</strong> 회식에서 건배사 외치며 분위기 잡는 사람 vs. 집에 와서야 에너지가 돌아오는 사람
             </div>
           </div>
@@ -1626,27 +1644,27 @@
           <div class="dim-card-header">
             <div class="dim-letter" style="background:var(--dim-A-bg);color:var(--mint)">A</div>
             <div class="dim-card-title">
-              <h4 style="color:var(--mint)">친화성 &mdash; Agreeableness</h4>
-              <p>타인을 얼마나 배려하고, 협력하고, 신뢰하는가</p>
+              <h4 style="color:var(--mint)" data-i18n="dim_A_title">친화성 &mdash; Agreeableness</h4>
+              <p data-i18n="dim_A_sub">타인을 얼마나 배려하고, 협력하고, 신뢰하는가</p>
             </div>
             <span class="dim-toggle">&#8964;</span>
           </div>
-          <div class="dim-card-body">
+          <div class="dim-card-body" id="dim-A-body">
             <div class="dim-spectrum">
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--mint)">높음 (70%+)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--mint)" data-i18n="dim_A_hi">높음 (70%+)</div>
+                <div class="spectrum-traits" data-i18n="dim_A_hi_traits">
                   공감 능력 뛰어남<br>갈등 중재자 역할<br>돕기를 좋아함<br>"괜찮아" 잘 함<br>신뢰&middot;협력 중시
                 </div>
               </div>
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--text-secondary)">낮음 (30%-)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--text-secondary)" data-i18n="dim_A_lo">낮음 (30%-)</div>
+                <div class="spectrum-traits" data-i18n="dim_A_lo_traits">
                   직설적&middot;경쟁적<br>결과 중심<br>비판 두려움 없음<br>독립적 판단<br>냉철한 분석
                 </div>
               </div>
             </div>
-            <div class="dim-analogy" style="border-color:var(--mint)">
+            <div class="dim-analogy" style="border-color:var(--mint)" data-i18n="dim_A_analogy">
               <strong>한국인 공감 표현:</strong> 음식이 남아도 먹고 싶어도 "다 드세요" 하는 사람 vs. 맛있으면 당당하게 더 먹는 사람
             </div>
           </div>
@@ -1657,27 +1675,27 @@
           <div class="dim-card-header">
             <div class="dim-letter" style="background:rgba(255,107,107,0.15);color:var(--coral)">N</div>
             <div class="dim-card-title">
-              <h4 style="color:var(--coral)">정서 안정성 &mdash; Neuroticism (역방향)</h4>
-              <p>감정 기복 없이 안정적으로 스트레스를 처리하는 능력</p>
+              <h4 style="color:var(--coral)" data-i18n="dim_N_title">정서 안정성 &mdash; Neuroticism (역방향)</h4>
+              <p data-i18n="dim_N_sub">감정 기복 없이 안정적으로 스트레스를 처리하는 능력</p>
             </div>
             <span class="dim-toggle">&#8964;</span>
           </div>
-          <div class="dim-card-body">
+          <div class="dim-card-body" id="dim-N-body">
             <div class="dim-spectrum">
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--coral)">높음 = 안정 (70%+)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--coral)" data-i18n="dim_N_hi">높음 = 안정 (70%+)</div>
+                <div class="spectrum-traits" data-i18n="dim_N_hi_traits">
                   스트레스 침착 대처<br>사소한 걱정 없음<br>감정 기복 적음<br>위기에 냉정<br>회복 탄력성 강함
                 </div>
               </div>
               <div class="spectrum-side">
-                <div class="spectrum-label" style="color:var(--text-secondary)">낮음 = 예민 (30%-)</div>
-                <div class="spectrum-traits">
+                <div class="spectrum-label" style="color:var(--text-secondary)" data-i18n="dim_N_lo">낮음 = 예민 (30%-)</div>
+                <div class="spectrum-traits" data-i18n="dim_N_lo_traits">
                   감정 기복 있음<br>걱정&middot;불안 많음<br>비판에 민감<br>단, 섬세하고<br>공감 능력이 높음
                 </div>
               </div>
             </div>
-            <div class="dim-analogy" style="border-color:var(--coral)">
+            <div class="dim-analogy" style="border-color:var(--coral)" data-i18n="dim_N_analogy">
               <strong>한국인 공감 표현:</strong> 발표 전날 바로 잠드는 사람 vs. 1000가지 시나리오를 머릿속으로 돌리며 새벽 4시까지 못 자는 사람
             </div>
           </div>
@@ -1690,70 +1708,70 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-A-bg)">&#128203;</div>
-        <h3>IPIP 테스트 구조 (25문항)</h3>
+        <h3 data-i18n="ipip_h">IPIP 테스트 구조 (25문항)</h3>
       </div>
 
       <div class="ipip-structure">
-        <div class="ipip-stat"><div class="ipip-stat-num">25</div><div class="ipip-stat-unit">총 문항 수</div></div>
-        <div class="ipip-stat"><div class="ipip-stat-num">5</div><div class="ipip-stat-unit">차원별 문항 수</div></div>
-        <div class="ipip-stat"><div class="ipip-stat-num">5점</div><div class="ipip-stat-unit">리커트 척도</div></div>
-        <div class="ipip-stat"><div class="ipip-stat-num">%</div><div class="ipip-stat-unit">퍼센트 결과 표시</div></div>
+        <div class="ipip-stat"><div class="ipip-stat-num">25</div><div class="ipip-stat-unit" data-i18n="ipip_total">총 문항 수</div></div>
+        <div class="ipip-stat"><div class="ipip-stat-num">5</div><div class="ipip-stat-unit" data-i18n="ipip_perdim">차원별 문항 수</div></div>
+        <div class="ipip-stat"><div class="ipip-stat-num">5점</div><div class="ipip-stat-unit" data-i18n="ipip_likert">리커트 척도</div></div>
+        <div class="ipip-stat"><div class="ipip-stat-num">%</div><div class="ipip-stat-unit" data-i18n="ipip_pct">퍼센트 결과 표시</div></div>
       </div>
 
       <div class="scoring-steps">
         <div class="scoring-step">
           <div class="step-num">1</div>
           <div class="step-content">
-            <h5>응답</h5>
-            <p>각 문항에 1점(매우 그렇지 않다) ~ 5점(매우 그렇다)으로 응답합니다.</p>
+            <h5 data-i18n="step1_h">응답</h5>
+            <p data-i18n="step1_p">각 문항에 1점(매우 그렇지 않다) ~ 5점(매우 그렇다)으로 응답합니다.</p>
           </div>
         </div>
         <div class="scoring-step">
           <div class="step-num">2</div>
           <div class="step-content">
-            <h5>역채점 (R 문항)</h5>
-            <p>일부 문항은 역방향으로 채점합니다. 예: "나는 말수가 적다 (R)" &rarr; 5점 응답 시 실제 계산은 1점. 의도적 응답 조작을 방지합니다.</p>
+            <h5 data-i18n="step2_h">역채점 (R 문항)</h5>
+            <p data-i18n="step2_p">일부 문항은 역방향으로 채점합니다. 예: "나는 말수가 적다 (R)" &rarr; 5점 응답 시 실제 계산은 1점. 의도적 응답 조작을 방지합니다.</p>
           </div>
         </div>
         <div class="scoring-step">
           <div class="step-num">3</div>
           <div class="step-content">
-            <h5>합산 및 변환</h5>
-            <p>각 차원 5문항 점수를 합산 (5~25점) 후 퍼센트로 변환합니다.<br>공식: <strong>(합산 − 5) ÷ 20 × 100 = %</strong><br>예: 성실성 합산 20점 &rarr; 75%</p>
+            <h5 data-i18n="step3_h">합산 및 변환</h5>
+            <p data-i18n="step3_p">각 차원 5문항 점수를 합산 (5~25점) 후 퍼센트로 변환합니다.<br>공식: <strong>(합산 − 5) ÷ 20 × 100 = %</strong><br>예: 성실성 합산 20점 &rarr; 75%</p>
           </div>
         </div>
         <div class="scoring-step">
           <div class="step-num">4</div>
           <div class="step-content">
-            <h5>페르소나 매칭</h5>
-            <p>5개 차원의 % 점수를 기반으로 가장 유사한 페르소나 유형을 찾아 AI 도구를 추천합니다.</p>
+            <h5 data-i18n="step4_h">페르소나 매칭</h5>
+            <p data-i18n="step4_p">5개 차원의 % 점수를 기반으로 가장 유사한 페르소나 유형을 찾아 AI 도구를 추천합니다.</p>
           </div>
         </div>
       </div>
 
       <!-- Sample questions -->
       <div class="sample-questions">
-        <p style="font-size:14px;font-weight:600;margin:24px 0 12px;">실제 문항 예시</p>
+        <p style="font-size:14px;font-weight:600;margin:24px 0 12px;" data-i18n="sample_q_label">실제 문항 예시</p>
 
-        <div class="sq-dim-label" style="color:#c084fc">개방성 (O)</div>
-        <div class="sq-item">나는 새로운 아이디어를 떠올리는 것을 즐긴다.</div>
-        <div class="sq-item">나는 익숙한 방식보다 새로운 방식을 시도하는 것을 꺼린다. <span class="sq-r-badge">역채점</span></div>
+        <div class="sq-dim-label" style="color:#c084fc" data-i18n="sample_O_label">개방성 (O)</div>
+        <div class="sq-item" data-i18n="sample_O_q1">나는 새로운 아이디어를 떠올리는 것을 즐긴다.</div>
+        <div class="sq-item" data-i18n="sample_O_q2">나는 익숙한 방식보다 새로운 방식을 시도하는 것을 꺼린다. <span class="sq-r-badge" data-i18n="r_badge">역채점</span></div>
 
-        <div class="sq-dim-label" style="color:var(--wave-1)">성실성 (C)</div>
-        <div class="sq-item">나는 항상 준비가 철저하다.</div>
-        <div class="sq-item">나는 해야 할 일을 자주 미루는 편이다. <span class="sq-r-badge">역채점</span></div>
+        <div class="sq-dim-label" style="color:var(--wave-1)" data-i18n="sample_C_label">성실성 (C)</div>
+        <div class="sq-item" data-i18n="sample_C_q1">나는 항상 준비가 철저하다.</div>
+        <div class="sq-item" data-i18n="sample_C_q2">나는 해야 할 일을 자주 미루는 편이다. <span class="sq-r-badge" data-i18n="r_badge">역채점</span></div>
 
-        <div class="sq-dim-label" style="color:var(--gold)">외향성 (E)</div>
-        <div class="sq-item">나는 파티나 모임에서 분위기를 주도한다.</div>
-        <div class="sq-item">나는 많은 사람과 함께 있을 때보다 혼자 있을 때 편하다. <span class="sq-r-badge">역채점</span></div>
+        <div class="sq-dim-label" style="color:var(--gold)" data-i18n="sample_E_label">외향성 (E)</div>
+        <div class="sq-item" data-i18n="sample_E_q1">나는 파티나 모임에서 분위기를 주도한다.</div>
+        <div class="sq-item" data-i18n="sample_E_q2">나는 많은 사람과 함께 있을 때보다 혼자 있을 때 편하다. <span class="sq-r-badge" data-i18n="r_badge">역채점</span></div>
 
-        <div class="sq-dim-label" style="color:var(--mint)">친화성 (A)</div>
-        <div class="sq-item">나는 타인의 감정에 진심으로 공감한다.</div>
-        <div class="sq-item">나는 타인의 기분을 상하게 하는 말을 서슴지 않는다. <span class="sq-r-badge">역채점</span></div>
+        <div class="sq-dim-label" style="color:var(--mint)" data-i18n="sample_A_label">친화성 (A)</div>
+        <div class="sq-item" data-i18n="sample_A_q1">나는 타인의 감정에 진심으로 공감한다.</div>
+        <div class="sq-item" data-i18n="sample_A_q2">나는 타인의 기분을 상하게 하는 말을 서슴지 않는다. <span class="sq-r-badge" data-i18n="r_badge">역채점</span></div>
 
-        <div class="sq-dim-label" style="color:var(--coral)">정서 안정성 (N)</div>
-        <div class="sq-item">나는 스트레스를 받아도 평정심을 잘 유지한다.</div>
-        <div class="sq-item">나는 가끔 이유 없이 불안하거나 초조해진다. <span class="sq-r-badge">역채점</span></div>
+        <div class="sq-dim-label" style="color:var(--coral)" data-i18n="sample_N_label">정서 안정성 (N)</div>
+        <div class="sq-item" data-i18n="sample_N_q1">나는 스트레스를 받아도 평정심을 잘 유지한다.</div>
+        <div class="sq-item" data-i18n="sample_N_q2">나는 가끔 이유 없이 불안하거나 초조해진다. <span class="sq-r-badge" data-i18n="r_badge">역채점</span></div>
       </div>
     </div>
 
@@ -1761,39 +1779,39 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-C-bg)">&#128214;</div>
-        <h3>Big5 OCEAN의 역사</h3>
+        <h3 data-i18n="history_h">Big5 OCEAN의 역사</h3>
       </div>
-      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:24px;line-height:1.7;">
+      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:24px;line-height:1.7;" data-i18n="history_intro">
         Big5는 단일 연구자의 이론이 아니라 수십 년에 걸친 과학적 수렴의 결과입니다.
       </p>
       <div class="history-timeline">
         <div class="htl-item">
           <div class="htl-year">1936</div>
-          <div class="htl-body">
+          <div class="htl-body" data-i18n="htl1_body">
             <strong>언어 가설</strong> — 심리학자 Allport &amp; Odbert가 영어 단어 18,000개를 분석, 성격을 표현하는 단어들이 수렴한다는 가설을 제시.
           </div>
         </div>
         <div class="htl-item">
           <div class="htl-year">1960s</div>
-          <div class="htl-body">
+          <div class="htl-body" data-i18n="htl2_body">
             <strong>요인 분석 등장</strong> — Cattell이 성격 기술 단어를 통계적으로 분석해 16개 요인을 도출. Big5의 토대가 됨.
           </div>
         </div>
         <div class="htl-item">
           <div class="htl-year">1980s</div>
-          <div class="htl-body">
+          <div class="htl-body" data-i18n="htl3_body">
             <strong>5요인 수렴</strong> — Lewis Goldberg, Costa &amp; McCrae 등 여러 독립 연구팀이 서로 다른 방법으로 연구했음에도 동일한 5가지 차원에 도달.
           </div>
         </div>
         <div class="htl-item">
           <div class="htl-year">1990s</div>
-          <div class="htl-body">
+          <div class="htl-body" data-i18n="htl4_body">
             <strong>NEO PI-R &amp; IPIP 탄생</strong> — Costa &amp; McCrae의 공식 검사(NEO PI-R), Goldberg의 무료 오픈소스 IPIP 문항 발표. 전 세계 연구자에게 공개.
           </div>
         </div>
         <div class="htl-item htl-last">
           <div class="htl-year">2000s~</div>
-          <div class="htl-body">
+          <div class="htl-body" data-i18n="htl5_body">
             <strong>글로벌 검증</strong> — 50개국 이상에서 교차 문화 연구 진행. 언어·문화를 막론하고 5가지 차원이 일관되게 나타남을 확인. 현재 심리학 표준으로 자리잡음.
           </div>
         </div>
@@ -1804,39 +1822,39 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-O-bg)">&#129302;</div>
-        <h3>OCEAN × AI 시대 — 왜 성향이 중요한가?</h3>
+        <h3 data-i18n="ocean_ai_h">OCEAN × AI 시대 — 왜 성향이 중요한가?</h3>
       </div>
-      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.75;">
+      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.75;" data-i18n="ocean_ai_intro">
         AI 도구의 폭발적 증가로 "어떤 AI를 써야 하나?"라는 질문이 생겼습니다. 정답은 <strong>나의 성향에 달려 있습니다.</strong>
       </p>
       <div class="ai-reason-grid">
         <div class="air-card">
           <div class="air-icon" style="background:var(--dim-O-bg);color:var(--dim-O)">O</div>
-          <div class="air-text">
+          <div class="air-text" data-i18n="air_O">
             <strong>개방성 높은 사람</strong>은 창의적 AI(Midjourney, Runway)에서 폭발적 시너지를 냅니다. 반면 개방성이 낮은 사람에게는 검증된 실용 도구가 더 효과적.
           </div>
         </div>
         <div class="air-card">
           <div class="air-icon" style="background:var(--dim-C-bg);color:var(--dim-C)">C</div>
-          <div class="air-text">
+          <div class="air-text" data-i18n="air_C">
             <strong>성실성 높은 사람</strong>은 체계적 관리 AI(Notion AI, Zapier)와 궁합이 좋습니다. 성실성이 낮다면 즉흥적 아이디어를 받아주는 ChatGPT 스타일이 맞습니다.
           </div>
         </div>
         <div class="air-card">
           <div class="air-icon" style="background:var(--dim-E-bg);color:var(--dim-E)">E</div>
-          <div class="air-text">
+          <div class="air-text" data-i18n="air_E">
             <strong>외향성 높은 사람</strong>은 소통·발표 AI(Gamma, Otter.ai)가 강점을 증폭시킵니다. 내향형은 깊은 분석과 글쓰기 AI(Claude, Perplexity)에서 진가를 발휘.
           </div>
         </div>
         <div class="air-card">
           <div class="air-icon" style="background:var(--dim-A-bg);color:var(--dim-A)">A</div>
-          <div class="air-text">
+          <div class="air-text" data-i18n="air_A">
             <strong>친화성 높은 사람</strong>은 협업·공감형 AI와 잘 맞습니다. 낮은 친화성의 전략가형은 데이터 기반 분석 AI에서 실력을 발휘.
           </div>
         </div>
         <div class="air-card" style="grid-column:span 2">
           <div class="air-icon" style="background:var(--dim-N-bg);color:var(--dim-N)">N</div>
-          <div class="air-text">
+          <div class="air-text" data-i18n="air_N">
             <strong>정서 안정성</strong>은 AI 활용 스타일에도 영향을 줍니다. 안정형은 복잡한 멀티툴 세팅에 유리하고, 예민형은 단순하고 즉각적인 피드백을 주는 AI가 적합합니다.
           </div>
         </div>
@@ -1845,9 +1863,9 @@
 
     <!-- ── CTA ── -->
     <div class="about-cta">
-      <h3>지금 나의 OCEAN 성향을 확인해 보세요</h3>
-      <p>30문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.</p>
-      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;">
+      <h3 data-i18n="about_cta_h">지금 나의 OCEAN 성향을 확인해 보세요</h3>
+      <p data-i18n="about_cta_p">30문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.</p>
+      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="about_cta_btn">
         &#127988; 테스트 시작하기
       </button>
     </div>
@@ -1906,10 +1924,10 @@
 <div id="screen-personas" class="screen">
   <div class="info-screen-hero" style="background:radial-gradient(ellipse at 50% 0%,rgba(112,72,232,0.07) 0%,transparent 70%)">
     <div class="container">
-      <button class="btn-back" onclick="showScreen('landing')" style="margin-bottom:24px;">&larr; 처음으로</button>
-      <div class="about-hero-label">&#127937; 32가지 OCEAN 유형</div>
-      <h2>나는 어떤 유형일까?</h2>
-      <p>OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 대표 유형 8가지를 미리 만나보세요.</p>
+      <button class="btn-back" onclick="showScreen('landing')" style="margin-bottom:24px;" data-i18n="personas_back">&larr; 처음으로</button>
+      <div class="about-hero-label" data-i18n="personas_label">&#127937; 32가지 OCEAN 유형</div>
+      <h2 data-i18n="personas_h2">나는 어떤 유형일까?</h2>
+      <p data-i18n="personas_sub">OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 대표 유형 8가지를 미리 만나보세요.</p>
     </div>
   </div>
 
@@ -1917,7 +1935,7 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-O-bg)">&#9733;</div>
-        <h3>대표 페르소나 유형 8선</h3>
+        <h3 data-i18n="personas_featured_h">대표 페르소나 유형 8선</h3>
       </div>
       <div class="persona-grid" id="personaPreviewGrid"></div>
     </div>
@@ -1926,48 +1944,48 @@
     <div class="about-section">
       <div class="about-section-header">
         <div class="section-icon" style="background:var(--dim-E-bg)">&#128272;</div>
-        <h3>성향 코드 읽는 법</h3>
+        <h3 data-i18n="code_guide_h">성향 코드 읽는 법</h3>
       </div>
-      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.6;">
+      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.6;" data-i18n="code_guide_p">
         결과 화면에 표시되는 5자리 코드(예: <strong style="color:var(--wave-1)">11010</strong>)는 각 차원이 50% 이상이면 <strong>1</strong>, 미만이면 <strong>0</strong>으로 표시됩니다.
       </p>
       <div class="score-code-demo">
         <div class="code-digit" style="border-color:rgba(112,72,232,0.4)">
           <div class="code-digit-letter" style="color:var(--dim-O)">O</div>
           <div class="code-digit-val" style="color:var(--dim-O)">1</div>
-          <div class="code-digit-meaning">개방성<br>높음</div>
+          <div class="code-digit-meaning" data-i18n="code_O_hi">개방성<br>높음</div>
         </div>
         <div class="code-digit" style="border-color:rgba(76,110,245,0.4)">
           <div class="code-digit-letter" style="color:var(--wave-1)">C</div>
           <div class="code-digit-val" style="color:var(--wave-1)">1</div>
-          <div class="code-digit-meaning">성실성<br>높음</div>
+          <div class="code-digit-meaning" data-i18n="code_C_hi">성실성<br>높음</div>
         </div>
         <div class="code-digit" style="border-color:var(--card-border)">
           <div class="code-digit-letter" style="color:var(--text-secondary)">E</div>
           <div class="code-digit-val" style="color:#CBD5E1">0</div>
-          <div class="code-digit-meaning">외향성<br>낮음</div>
+          <div class="code-digit-meaning" data-i18n="code_E_lo">외향성<br>낮음</div>
         </div>
         <div class="code-digit" style="border-color:rgba(12,166,120,0.4)">
           <div class="code-digit-letter" style="color:var(--mint)">A</div>
           <div class="code-digit-val" style="color:var(--mint)">1</div>
-          <div class="code-digit-meaning">친화성<br>높음</div>
+          <div class="code-digit-meaning" data-i18n="code_A_hi">친화성<br>높음</div>
         </div>
         <div class="code-digit" style="border-color:var(--card-border)">
           <div class="code-digit-letter" style="color:var(--text-secondary)">N</div>
           <div class="code-digit-val" style="color:#CBD5E1">0</div>
-          <div class="code-digit-meaning">안정성<br>낮음</div>
+          <div class="code-digit-meaning" data-i18n="code_N_lo">안정성<br>낮음</div>
         </div>
       </div>
-      <div style="text-align:center;background:var(--dim-C-bg);border:1px solid rgba(76,110,245,0.2);border-radius:14px;padding:16px;margin-top:16px;font-size:14px;color:var(--text-secondary)">
+      <div style="text-align:center;background:var(--dim-C-bg);border:1px solid rgba(76,110,245,0.2);border-radius:14px;padding:16px;margin-top:16px;font-size:14px;color:var(--text-secondary)" data-i18n="code_summary">
         코드 <strong style="color:var(--wave-1)">11010</strong> = 개방적·성실·내향적·친화력 높음·감정 기복 있음<br>
         <span style="color:var(--purple);margin-top:6px;display:block;font-weight:600">"조용한 완벽주의 예술가"</span>
       </div>
     </div>
 
     <div class="about-cta">
-      <h3>내 정확한 유형이 궁금하다면</h3>
-      <p>25문항, 약 5분이면 32가지 중 나의 유형과 맞춤 AI 처방전을 받을 수 있습니다.</p>
-      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;">&#127988; 테스트 시작하기</button>
+      <h3 data-i18n="personas_cta_h">내 정확한 유형이 궁금하다면</h3>
+      <p data-i18n="personas_cta_p">25문항, 약 5분이면 32가지 중 나의 유형과 맞춤 AI 처방전을 받을 수 있습니다.</p>
+      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="personas_cta_btn">&#127988; 테스트 시작하기</button>
     </div>
   </div>
 </div>
@@ -1978,19 +1996,19 @@
 <div id="screen-tools" class="screen">
   <div class="info-screen-hero" style="background:radial-gradient(ellipse at 50% 0%,rgba(12,166,120,0.07) 0%,transparent 70%)">
     <div class="container">
-      <button class="btn-back" onclick="showScreen('landing')" style="margin-bottom:24px;">&larr; 처음으로</button>
-      <div class="about-hero-label">&#129302; AI 도구 카탈로그</div>
-      <h2>당신에게 맞는 AI,<br>미리 만나보세요</h2>
-      <p>성향 테스트 결과에 따라 추천되는 AI 도구들을 카테고리별로 소개합니다. 테스트 후 당신에게 가장 잘 맞는 조합을 처방받으세요.</p>
+      <button class="btn-back" onclick="showScreen('landing')" style="margin-bottom:24px;" data-i18n="tools_back">&larr; 처음으로</button>
+      <div class="about-hero-label" data-i18n="tools_label">&#129302; AI 도구 카탈로그</div>
+      <h2 data-i18n="tools_h2">당신에게 맞는 AI,<br>미리 만나보세요</h2>
+      <p data-i18n="tools_sub">성향 테스트 결과에 따라 추천되는 AI 도구들을 카테고리별로 소개합니다. 테스트 후 당신에게 가장 잘 맞는 조합을 처방받으세요.</p>
     </div>
   </div>
 
   <div class="container">
     <div id="toolsCatalogContent"></div>
     <div class="about-cta">
-      <h3>나에게 맞는 AI 조합을 처방받으세요</h3>
-      <p>성향 테스트 결과에 따라 위 도구 중 당신의 OCEAN 유형에 최적화된 AI 세트를 추천해드립니다.</p>
-      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;">&#127988; 테스트 시작하기</button>
+      <h3 data-i18n="tools_cta_h">나에게 맞는 AI 조합을 처방받으세요</h3>
+      <p data-i18n="tools_cta_p">성향 테스트 결과에 따라 위 도구 중 당신의 OCEAN 유형에 최적화된 AI 세트를 추천해드립니다.</p>
+      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="tools_cta_btn">&#127988; 테스트 시작하기</button>
     </div>
   </div>
 </div>
@@ -2004,21 +2022,21 @@ if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
 // ═══════════════════════════════════════════════════════
 
 const JOBS = [
-  { id: 1, icon: '📚', label: '학생 (초/중/고)', short: '학생' },
-  { id: 2, icon: '🎓', label: '대학(원)생/취준생', short: '대학/취준' },
-  { id: 3, icon: '👩‍🏫', label: '교육/강연/코칭', short: '교육자' },
-  { id: 4, icon: '💰', label: '금융/회계/법률', short: '금융·법률' },
-  { id: 5, icon: '🏢', label: '경영지원/기획/HR', short: '경영지원' },
-  { id: 6, icon: '💻', label: 'IT 개발/데이터/AI', short: 'IT·개발' },
-  { id: 7, icon: '⚙️', label: '제조/엔지니어링', short: '제조·엔지니어' },
-  { id: 8, icon: '🚚', label: '물류/운송/유통', short: '물류·유통' },
-  { id: 9, icon: '🤝', label: '영업/고객관리', short: '영업·CS' },
-  { id: 10, icon: '📣', label: '마케팅/광고', short: '마케팅' },
-  { id: 11, icon: '🎨', label: '디자인/예술/미디어', short: '디자인·예술' },
-  { id: 12, icon: '🏥', label: '보건/의료/스포츠', short: '의료·건강' },
-  { id: 13, icon: '🏛️', label: '공공/행정/치안', short: '공공·행정' },
-  { id: 14, icon: '🚀', label: '1인 창업/프리랜서', short: '창업·프리랜서' },
-  { id: 15, icon: '🏠', label: '가정주부/은퇴자', short: '가정·은퇴' },
+  { id: 1,  icon: '📚', label: '학생 (초/중/고)',    en_label: 'Student (K-12)',              short: '학생' },
+  { id: 2,  icon: '🎓', label: '대학(원)생/취준생',  en_label: 'University / Job-seeker',     short: '대학/취준' },
+  { id: 3,  icon: '👩‍🏫', label: '교육/강연/코칭',   en_label: 'Education / Coaching',        short: '교육자' },
+  { id: 4,  icon: '💰', label: '금융/회계/법률',     en_label: 'Finance / Accounting / Legal', short: '금융·법률' },
+  { id: 5,  icon: '🏢', label: '경영지원/기획/HR',   en_label: 'Business / Planning / HR',    short: '경영지원' },
+  { id: 6,  icon: '💻', label: 'IT 개발/데이터/AI',  en_label: 'IT / Data / AI',              short: 'IT·개발' },
+  { id: 7,  icon: '⚙️', label: '제조/엔지니어링',   en_label: 'Manufacturing / Engineering',  short: '제조·엔지니어' },
+  { id: 8,  icon: '🚚', label: '물류/운송/유통',     en_label: 'Logistics / Distribution',    short: '물류·유통' },
+  { id: 9,  icon: '🤝', label: '영업/고객관리',      en_label: 'Sales / Customer Success',    short: '영업·CS' },
+  { id: 10, icon: '📣', label: '마케팅/광고',        en_label: 'Marketing / Advertising',     short: '마케팅' },
+  { id: 11, icon: '🎨', label: '디자인/예술/미디어', en_label: 'Design / Arts / Media',       short: '디자인·예술' },
+  { id: 12, icon: '🏥', label: '보건/의료/스포츠',   en_label: 'Healthcare / Sports',         short: '의료·건강' },
+  { id: 13, icon: '🏛️', label: '공공/행정/치안',    en_label: 'Public Sector / Administration', short: '공공·행정' },
+  { id: 14, icon: '🚀', label: '1인 창업/프리랜서',  en_label: 'Entrepreneur / Freelancer',   short: '창업·프리랜서' },
+  { id: 15, icon: '🏠', label: '가정주부/은퇴자',    en_label: 'Homemaker / Retiree',         short: '가정·은퇴' },
 ];
 
 // 25 IPIP-based questions (5 per dimension, reversed marked)
@@ -2129,63 +2147,284 @@ function lookupJobPersona(code, jobId) {
 // ═══════════════════════════════════════════════════════
 const FEATURED_PERSONAS = [
   { code:'11111', emoji:'🌟', name:'완전 균형형', en:'The Harmonist',
-    desc:'5가지 모든 역량이 균형 잡힌 매우 드문 유형. 어떤 상황에도 유연하게 대응하며 팀의 중심이 된다.', ai:'Claude + Notion AI' },
+    desc:'5가지 모든 역량이 균형 잡힌 매우 드문 유형. 어떤 상황에도 유연하게 대응하며 팀의 중심이 된다.',
+    en_desc:'A rare type with all 5 dimensions in balance. Adapts flexibly to any situation and becomes the center of any team.',
+    ai:'Claude + Notion AI' },
   { code:'11010', emoji:'🎨', name:'창의적 완벽주의자', en:'The Artisan',
-    desc:'넘치는 창의력을 철저한 계획으로 현실화하는 희귀한 조합. 예술과 시스템을 동시에 사랑한다.', ai:'Midjourney + Notion AI' },
+    desc:'넘치는 창의력을 철저한 계획으로 현실화하는 희귀한 조합. 예술과 시스템을 동시에 사랑한다.',
+    en_desc:'A rare combination that turns overflowing creativity into reality through meticulous planning. Loves both art and systems.',
+    ai:'Midjourney + Notion AI' },
   { code:'10111', emoji:'💡', name:'열정적 탐험가', en:'The Pioneer',
-    desc:'새로운 것에 열려 있고 사람들 속에서 에너지를 얻으며, 따뜻한 공감으로 주변을 빛나게 한다.', ai:'ChatGPT + Gamma' },
+    desc:'새로운 것에 열려 있고 사람들 속에서 에너지를 얻으며, 따뜻한 공감으로 주변을 빛나게 한다.',
+    en_desc:'Open to new things, energized by people, and lights up their surroundings with warm empathy.',
+    ai:'ChatGPT + Gamma' },
   { code:'11001', emoji:'📚', name:'조용한 지식인', en:'The Scholar',
-    desc:'혼자 깊이 파고드는 것을 즐기며 철저하게 준비하고 감정적으로도 안정적인 신뢰의 아이콘.', ai:'Perplexity + WolframAlpha' },
+    desc:'혼자 깊이 파고드는 것을 즐기며 철저하게 준비하고 감정적으로도 안정적인 신뢰의 아이콘.',
+    en_desc:'Enjoys deep solo exploration, prepares thoroughly, and is emotionally stable — an icon of reliability.',
+    ai:'Perplexity + WolframAlpha' },
   { code:'00111', emoji:'🚀', name:'사교적 실행가', en:'The Connector',
-    desc:'네트워크와 친화력으로 결과를 만들어내는 현장형. 관계에서 에너지를 얻고 안정감도 높다.', ai:'Otter.ai + Gamma' },
+    desc:'네트워크와 친화력으로 결과를 만들어내는 현장형. 관계에서 에너지를 얻고 안정감도 높다.',
+    en_desc:'Gets results through networks and people skills. Gains energy from relationships and stays emotionally grounded.',
+    ai:'Otter.ai + Gamma' },
   { code:'01101', emoji:'👑', name:'카리스마 리더', en:'The Anchor',
-    desc:'성실하고 외향적이며 정서적으로 안정된 팀의 중심. 신뢰와 실행력으로 사람들을 이끈다.', ai:'Notion AI + Beautiful.ai' },
+    desc:'성실하고 외향적이며 정서적으로 안정된 팀의 중심. 신뢰와 실행력으로 사람들을 이끈다.',
+    en_desc:'Conscientious, extroverted, and emotionally stable — the anchor of any team. Leads people through trust and execution.',
+    ai:'Notion AI + Beautiful.ai' },
   { code:'10011', emoji:'🌿', name:'공감형 수호자', en:'The Empath',
-    desc:'창의적 감수성과 높은 친화력을 가진 따뜻한 리스너. 팀의 심리적 안전망 역할을 한다.', ai:'Claude + Wysa' },
+    desc:'창의적 감수성과 높은 친화력을 가진 따뜻한 리스너. 팀의 심리적 안전망 역할을 한다.',
+    en_desc:'A warm listener with creative sensitivity and high agreeableness. Serves as the team\'s psychological safety net.',
+    ai:'Claude + Wysa' },
   { code:'11000', emoji:'⚙️', name:'조용한 전문가', en:'The Specialist',
-    desc:'호기심과 성실함만으로 전문 분야를 깊이 파고드는 장인형. 말보다 실력으로 증명한다.', ai:'GitHub Copilot + WolframAlpha' },
+    desc:'호기심과 성실함만으로 전문 분야를 깊이 파고드는 장인형. 말보다 실력으로 증명한다.',
+    en_desc:'A craftsman who digs deep into their field through curiosity and conscientiousness alone. Proves their worth through results, not words.',
+    ai:'GitHub Copilot + WolframAlpha' },
 ];
 
 const DIM_CODE_COLORS = ['#7048E8','#1971C2','#E67700','#0CA678','#C92A2A'];
 const DIM_CODE_BG = ['#F3F0FF','#E7F5FF','#FFF9DB','#EBFBEE','#FFF5F5'];
 
 const TOOL_CATEGORIES = [
-  { name:'창작 & 이미지 생성', icon:'🎨', bg:'var(--dim-O-bg)', color:'var(--dim-O)',
+  { name:'창작 & 이미지 생성', en_name:'Creation & Image Generation', icon:'🎨', bg:'var(--dim-O-bg)', color:'var(--dim-O)',
     tools:[
-      { icon:'🎨', name:'Midjourney', desc:'텍스트 프롬프트로 고품질 아트워크 생성', tag:'개방성 높음(O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🦋', name:'Adobe Firefly', desc:'전문가 수준의 AI 이미지·그래픽 편집', tag:'디자이너·크리에이터', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'✏️', name:'Canva AI', desc:'누구나 쉬운 AI 기반 SNS·발표 디자인', tag:'마케터·외향형', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🎬', name:'Runway', desc:'AI 영상 생성·편집·인페인팅', tag:'영상 크리에이터', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎨', name:'Midjourney', desc:'텍스트 프롬프트로 고품질 아트워크 생성', en_desc:'Generate high-quality artwork from text prompts', tag:'개방성 높음(O↑)', en_tag:'High Openness (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🦋', name:'Adobe Firefly', desc:'전문가 수준의 AI 이미지·그래픽 편집', en_desc:'Professional-grade AI image & graphic editing', tag:'디자이너·크리에이터', en_tag:'Designers & Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'✏️', name:'Canva AI', desc:'누구나 쉬운 AI 기반 SNS·발표 디자인', en_desc:'Easy AI-powered SNS & presentation design for everyone', tag:'마케터·외향형', en_tag:'Marketers & Extroverts', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎬', name:'Runway', desc:'AI 영상 생성·편집·인페인팅', en_desc:'AI video generation, editing & inpainting', tag:'영상 크리에이터', en_tag:'Video Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
     ]},
-  { name:'글쓰기 & 대화 AI', icon:'✍️', bg:'var(--dim-C-bg)', color:'var(--dim-C)',
+  { name:'글쓰기 & 대화 AI', en_name:'Writing & Conversational AI', icon:'✍️', bg:'var(--dim-C-bg)', color:'var(--dim-C)',
     tools:[
-      { icon:'🧠', name:'Claude', desc:'긴 문서 분석·창의적 글쓰기·코딩', tag:'분석형(O↑C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'🤖', name:'ChatGPT', desc:'다목적 범용 AI 어시스턴트', tag:'모든 유형', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'📝', name:'Notion AI', desc:'문서 작성·정리·요약·번역', tag:'성실형(C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'✍️', name:'Jasper', desc:'마케팅 특화 AI 카피라이터', tag:'마케터·광고기획자', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🧠', name:'Claude', desc:'긴 문서 분석·창의적 글쓰기·코딩', en_desc:'Long document analysis, creative writing & coding', tag:'분석형(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🤖', name:'ChatGPT', desc:'다목적 범용 AI 어시스턴트', en_desc:'Multi-purpose general-purpose AI assistant', tag:'모든 유형', en_tag:'All Types', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'📝', name:'Notion AI', desc:'문서 작성·정리·요약·번역', en_desc:'Document writing, organization, summarizing & translation', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'✍️', name:'Jasper', desc:'마케팅 특화 AI 카피라이터', en_desc:'Marketing-specialized AI copywriter', tag:'마케터·광고기획자', en_tag:'Marketers & Ad Planners', tagColor:'#1971C2', tagBg:'#E7F5FF' },
     ]},
-  { name:'리서치 & 데이터 분석', icon:'🔍', bg:'var(--dim-A-bg)', color:'var(--dim-A)',
+  { name:'리서치 & 데이터 분석', en_name:'Research & Data Analysis', icon:'🔍', bg:'var(--dim-A-bg)', color:'var(--dim-A)',
     tools:[
-      { icon:'🔍', name:'Perplexity', desc:'실시간 웹 검색 기반 AI 리서치 엔진', tag:'연구자·지식탐구형', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'♊', name:'Gemini', desc:'구글 연동 멀티모달 AI 어시스턴트', tag:'실용형 분석가', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'🧮', name:'WolframAlpha', desc:'수학·과학·데이터 정밀 계산', tag:'분석적(O↑C↑)', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'📚', name:'Consensus', desc:'논문 기반 과학적 근거 답변', tag:'연구자·의료·법률', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🔍', name:'Perplexity', desc:'실시간 웹 검색 기반 AI 리서치 엔진', en_desc:'Real-time web search-based AI research engine', tag:'연구자·지식탐구형', en_tag:'Researchers & Knowledge Seekers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'♊', name:'Gemini', desc:'구글 연동 멀티모달 AI 어시스턴트', en_desc:'Google-connected multimodal AI assistant', tag:'실용형 분석가', en_tag:'Practical Analysts', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🧮', name:'WolframAlpha', desc:'수학·과학·데이터 정밀 계산', en_desc:'Precise math, science & data computation', tag:'분석적(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'📚', name:'Consensus', desc:'논문 기반 과학적 근거 답변', en_desc:'Science-backed answers based on research papers', tag:'연구자·의료·법률', en_tag:'Research / Medical / Legal', tagColor:'#0CA678', tagBg:'#EBFBEE' },
     ]},
-  { name:'생산성 & 자동화', icon:'⚙️', bg:'var(--dim-E-bg)', color:'#E67700',
+  { name:'생산성 & 자동화', en_name:'Productivity & Automation', icon:'⚙️', bg:'var(--dim-E-bg)', color:'#E67700',
     tools:[
-      { icon:'⚙️', name:'Zapier AI', desc:'앱 간 자동화 워크플로우 설계', tag:'성실형(C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'🦦', name:'Otter.ai', desc:'회의 음성 자동 기록·요약', tag:'외향형(E↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'⚡', name:'Grok', desc:'실시간 트렌드 파악 AI', tag:'사교형(E↑O↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'📊', name:'Gamma', desc:'AI 기반 자동 프레젠테이션 생성', tag:'발표형(E↑C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'⚙️', name:'Zapier AI', desc:'앱 간 자동화 워크플로우 설계', en_desc:'Design automated workflows between apps', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'🦦', name:'Otter.ai', desc:'회의 음성 자동 기록·요약', en_desc:'Auto-record & summarize meeting audio', tag:'외향형(E↑)', en_tag:'Extroverts (E↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'⚡', name:'Grok', desc:'실시간 트렌드 파악 AI', en_desc:'Real-time trend intelligence AI', tag:'사교형(E↑O↑)', en_tag:'Social (E↑O↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'📊', name:'Gamma', desc:'AI 기반 자동 프레젠테이션 생성', en_desc:'AI-powered automatic presentation generation', tag:'발표형(E↑C↑)', en_tag:'Presenters (E↑C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
     ]},
-  { name:'감성 & 웰빙 AI', icon:'💆', bg:'var(--dim-N-bg)', color:'var(--dim-N)',
+  { name:'감성 & 웰빙 AI', en_name:'Emotional & Wellbeing AI', icon:'💆', bg:'var(--dim-N-bg)', color:'var(--dim-N)',
     tools:[
-      { icon:'💆', name:'Wysa', desc:'AI 기반 심리 상담·마음 챙김 가이드', tag:'공감형(A↑) 추천', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🎵', name:'Suno', desc:'AI 작곡·음악 생성', tag:'창의형(O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🌍', name:'DeepL', desc:'세계 최고 수준의 AI 번역기', tag:'글로벌 업무자', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🎙️', name:'ElevenLabs', desc:'AI 음성 생성·더빙·TTS', tag:'크리에이터·강사', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'💆', name:'Wysa', desc:'AI 기반 심리 상담·마음 챙김 가이드', en_desc:'AI-based mental health support & mindfulness guide', tag:'공감형(A↑) 추천', en_tag:'Empathetic (A↑) Recommended', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎵', name:'Suno', desc:'AI 작곡·음악 생성', en_desc:'AI music composition & generation', tag:'창의형(O↑)', en_tag:'Creative (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🌍', name:'DeepL', desc:'세계 최고 수준의 AI 번역기', en_desc:'World-class AI translation', tag:'글로벌 업무자', en_tag:'Global Workers', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎙️', name:'ElevenLabs', desc:'AI 음성 생성·더빙·TTS', en_desc:'AI voice generation, dubbing & TTS', tag:'크리에이터·강사', en_tag:'Creators & Instructors', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
     ]},
 ];
+
+// ═══════════════════════════════════════════════════════
+//  I18N
+// ═══════════════════════════════════════════════════════
+window.LANG = 'ko';
+
+const STRINGS = {
+  ko: {
+    nav_about: 'OCEAN이란?', nav_personas: '페르소나 유형', nav_tools: 'AI 도구 소개',
+    hero_badge: '🌊 AI × OCEAN 성향 분석 · Big5 기반',
+    hero_title: '나의 성향에 맞는<br><span class="hl">AI를 처방받다</span>',
+    hero_sub: 'Big 5 심리학(OCEAN) 기반의 25문항 성향 테스트로<br>당신에게 꼭 맞는 AI 파트너와 커리어 인사이트를 찾아드립니다.',
+    hero_cta1: '나의 AI DNA 분석 시작 →', hero_about_btn: 'OCEAN이란?',
+    stat_questions: '테스트 문항', stat_jobs: '직업군', stat_types: '성향 유형', stat_tools: 'AI 도구',
+    ts_label: 'OCEAN 32가지 유형', ts_title: '나는 어떤 유형일까?',
+    ts_sub: '5가지 차원의 조합으로 완전히 다른 32가지 성향 유형이 만들어집니다',
+    ts_btn: '모든 유형 탐색하기',
+    js_step: 'STEP 1', js_title: '먼저 내 직업군을 선택해 주세요',
+    js_sub: '직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다',
+    js_start: '나의 OCEAN 분석 시작 →',
+    disclaimer: '본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. IPIP 공공 도메인 기반.',
+    about_back: '← 테스트로 돌아가기',
+    about_hero_label: '📖 심리학 기반 신뢰 지표',
+    about_h2: 'Big 5 OCEAN이란<br>무엇인가?',
+    about_sub: '수십 년간 50개국 이상에서 검증된 성격 과학. 왜 이 테스트를 신뢰할 수 있는지, 각 차원이 무엇을 의미하는지 명확하게 설명합니다.',
+    trust1: '동료 심사 논문', trust2: '검증 국가 수',
+    trust3_num: '무료', trust3: 'IPIP 오픈소스<br>공공 도메인',
+    trust4_num: '실사용', trust4: '기업 HR &amp; 임상<br>심리 현장 활용',
+    why_trust_h: '왜 신뢰할 수 있는가?',
+    compare_col1: '비교 항목', compare_col2: 'Big5 / OCEAN', compare_col3: 'MBTI',
+    cmp_r1c1: '측정 방식', cmp_r1c2: '연속 스펙트럼 (0~100%)', cmp_r1c3: '이분법 유형 (I or E)',
+    cmp_r2c1: '과학적 검증', cmp_r2c2: '수천 편의 피어리뷰 논문', cmp_r2c3: '과학계 신뢰도 낮음',
+    cmp_r3c1: '문화 보편성', cmp_r3c2: '50+ 국가 교차 문화 검증', cmp_r3c3: '미국 중심, 문화 편향',
+    cmp_r4c1: '재검사 신뢰도', cmp_r4c2: '높음 &mdash; 시간이 지나도 일관', cmp_r4c3: '낮음 &mdash; 재검사 시 다른 결과',
+    cmp_r5c1: '행동 예측력', cmp_r5c2: '직무 성과, 대인관계 예측 가능', cmp_r5c3: '예측력 제한적',
+    cmp_r6c1: '출처', cmp_r6c2: 'IPIP 공공 도메인 (저작권 없음)', cmp_r6c3: 'Myers-Briggs 상업 저작권',
+    dim5_h: '5가지 차원 완전 해설',
+    dim5_click: '각 항목을 클릭하면 상세 설명과 높은/낮은 점수의 특징을 볼 수 있습니다.',
+    dim_O_title: '개방성 &mdash; Openness to Experience', dim_O_sub: '새로운 경험, 아이디어, 창의성에 얼마나 열려 있는가',
+    dim_O_hi: '높음 (70%+)', dim_O_hi_traits: '호기심 왕성<br>창의적 사고<br>예술&middot;철학 관심<br>변화 수용<br>상상력 풍부',
+    dim_O_lo: '낮음 (30%-)', dim_O_lo_traits: '실용주의적<br>검증된 방법 선호<br>안정 중시<br>구체적 사실 집중<br>변화에 신중',
+    dim_O_analogy: '<strong>한국인 공감 표현:</strong> 유튜브 알고리즘을 타다 새벽 3시에 우주론을 공부하고 있는 사람 vs. 늘 보던 채널만 보는 사람',
+    dim_C_title: '성실성 &mdash; Conscientiousness', dim_C_sub: '계획적이고 책임감 있게 행동하는 경향',
+    dim_C_hi: '높음 (70%+)', dim_C_hi_traits: '철저한 계획<br>마감 사수<br>플래너 애용<br>세부 사항 꼼꼼<br>목표 완수',
+    dim_C_lo: '낮음 (30%-)', dim_C_lo_traits: '즉흥적&middot;유연<br>규칙보다 흐름<br>큰 그림 집중<br>상황 대처형<br>자유로운 스타일',
+    dim_C_analogy: '<strong>한국인 공감 표현:</strong> 가방에 항상 여분 충전기&middot;우산&middot;구급약이 있는 사람 vs. 매번 빌리는 사람',
+    dim_E_title: '외향성 &mdash; Extraversion', dim_E_sub: '사람과 함께할 때 에너지를 얻는가, 혼자일 때 에너지를 얻는가',
+    dim_E_hi: '높음 (70%+)', dim_E_hi_traits: '모임 분위기 주도<br>낯선 이에게 먼저 말<br>혼자면 심심함<br>대화&middot;네트워킹 즐김<br>활동적 에너지',
+    dim_E_lo: '낮음 (내향성)', dim_E_lo_traits: '혼자일 때 충전<br>깊은 1:1 선호<br>소규모 모임 편안<br>관찰&middot;사색형<br>내향 ≠ 사회성 부족',
+    dim_E_analogy: '<strong>한국인 공감 표현:</strong> 회식에서 건배사 외치며 분위기 잡는 사람 vs. 집에 와서야 에너지가 돌아오는 사람',
+    dim_A_title: '친화성 &mdash; Agreeableness', dim_A_sub: '타인을 얼마나 배려하고, 협력하고, 신뢰하는가',
+    dim_A_hi: '높음 (70%+)', dim_A_hi_traits: '공감 능력 뛰어남<br>갈등 중재자 역할<br>돕기를 좋아함<br>"괜찮아" 잘 함<br>신뢰&middot;협력 중시',
+    dim_A_lo: '낮음 (30%-)', dim_A_lo_traits: '직설적&middot;경쟁적<br>결과 중심<br>비판 두려움 없음<br>독립적 판단<br>냉철한 분석',
+    dim_A_analogy: '<strong>한국인 공감 표현:</strong> 음식이 남아도 먹고 싶어도 "다 드세요" 하는 사람 vs. 맛있으면 당당하게 더 먹는 사람',
+    dim_N_title: '정서 안정성 &mdash; Neuroticism (역방향)', dim_N_sub: '감정 기복 없이 안정적으로 스트레스를 처리하는 능력',
+    dim_N_hi: '높음 = 안정 (70%+)', dim_N_hi_traits: '스트레스 침착 대처<br>사소한 걱정 없음<br>감정 기복 적음<br>위기에 냉정<br>회복 탄력성 강함',
+    dim_N_lo: '낮음 = 예민 (30%-)', dim_N_lo_traits: '감정 기복 있음<br>걱정&middot;불안 많음<br>비판에 민감<br>단, 섬세하고<br>공감 능력이 높음',
+    dim_N_analogy: '<strong>한국인 공감 표현:</strong> 발표 전날 바로 잠드는 사람 vs. 1000가지 시나리오를 머릿속으로 돌리며 새벽 4시까지 못 자는 사람',
+    ipip_h: 'IPIP 테스트 구조 (25문항)', ipip_total: '총 문항 수', ipip_perdim: '차원별 문항 수', ipip_likert: '리커트 척도', ipip_pct: '퍼센트 결과 표시',
+    step1_h: '응답', step1_p: '각 문항에 1점(매우 그렇지 않다) ~ 5점(매우 그렇다)으로 응답합니다.',
+    step2_h: '역채점 (R 문항)', step2_p: '일부 문항은 역방향으로 채점합니다. 예: "나는 말수가 적다 (R)" &rarr; 5점 응답 시 실제 계산은 1점. 의도적 응답 조작을 방지합니다.',
+    step3_h: '합산 및 변환', step3_p: '각 차원 5문항 점수를 합산 (5~25점) 후 퍼센트로 변환합니다.<br>공식: <strong>(합산 − 5) ÷ 20 × 100 = %</strong><br>예: 성실성 합산 20점 &rarr; 75%',
+    step4_h: '페르소나 매칭', step4_p: '5개 차원의 % 점수를 기반으로 가장 유사한 페르소나 유형을 찾아 AI 도구를 추천합니다.',
+    sample_q_label: '실제 문항 예시',
+    sample_O_label: '개방성 (O)', sample_O_q1: '나는 새로운 아이디어를 떠올리는 것을 즐긴다.', sample_O_q2: '나는 익숙한 방식보다 새로운 방식을 시도하는 것을 꺼린다. <span class="sq-r-badge">역채점</span>',
+    sample_C_label: '성실성 (C)', sample_C_q1: '나는 항상 준비가 철저하다.', sample_C_q2: '나는 해야 할 일을 자주 미루는 편이다. <span class="sq-r-badge">역채점</span>',
+    sample_E_label: '외향성 (E)', sample_E_q1: '나는 파티나 모임에서 분위기를 주도한다.', sample_E_q2: '나는 많은 사람과 함께 있을 때보다 혼자 있을 때 편하다. <span class="sq-r-badge">역채점</span>',
+    sample_A_label: '친화성 (A)', sample_A_q1: '나는 타인의 감정에 진심으로 공감한다.', sample_A_q2: '나는 타인의 기분을 상하게 하는 말을 서슴지 않는다. <span class="sq-r-badge">역채점</span>',
+    sample_N_label: '정서 안정성 (N)', sample_N_q1: '나는 스트레스를 받아도 평정심을 잘 유지한다.', sample_N_q2: '나는 가끔 이유 없이 불안하거나 초조해진다. <span class="sq-r-badge">역채점</span>',
+    r_badge: '역채점',
+    history_h: 'Big5 OCEAN의 역사', history_intro: 'Big5는 단일 연구자의 이론이 아니라 수십 년에 걸친 과학적 수렴의 결과입니다.',
+    htl1_body: '<strong>언어 가설</strong> — 심리학자 Allport &amp; Odbert가 영어 단어 18,000개를 분석, 성격을 표현하는 단어들이 수렴한다는 가설을 제시.',
+    htl2_body: '<strong>요인 분석 등장</strong> — Cattell이 성격 기술 단어를 통계적으로 분석해 16개 요인을 도출. Big5의 토대가 됨.',
+    htl3_body: '<strong>5요인 수렴</strong> — Lewis Goldberg, Costa &amp; McCrae 등 여러 독립 연구팀이 서로 다른 방법으로 연구했음에도 동일한 5가지 차원에 도달.',
+    htl4_body: '<strong>NEO PI-R &amp; IPIP 탄생</strong> — Costa &amp; McCrae의 공식 검사(NEO PI-R), Goldberg의 무료 오픈소스 IPIP 문항 발표. 전 세계 연구자에게 공개.',
+    htl5_body: '<strong>글로벌 검증</strong> — 50개국 이상에서 교차 문화 연구 진행. 언어·문화를 막론하고 5가지 차원이 일관되게 나타남을 확인. 현재 심리학 표준으로 자리잡음.',
+    ocean_ai_h: 'OCEAN × AI 시대 — 왜 성향이 중요한가?',
+    ocean_ai_intro: 'AI 도구의 폭발적 증가로 "어떤 AI를 써야 하나?"라는 질문이 생겼습니다. 정답은 <strong>나의 성향에 달려 있습니다.</strong>',
+    air_O: '<strong>개방성 높은 사람</strong>은 창의적 AI(Midjourney, Runway)에서 폭발적 시너지를 냅니다. 반면 개방성이 낮은 사람에게는 검증된 실용 도구가 더 효과적.',
+    air_C: '<strong>성실성 높은 사람</strong>은 체계적 관리 AI(Notion AI, Zapier)와 궁합이 좋습니다. 성실성이 낮다면 즉흥적 아이디어를 받아주는 ChatGPT 스타일이 맞습니다.',
+    air_E: '<strong>외향성 높은 사람</strong>은 소통·발표 AI(Gamma, Otter.ai)가 강점을 증폭시킵니다. 내향형은 깊은 분석과 글쓰기 AI(Claude, Perplexity)에서 진가를 발휘.',
+    air_A: '<strong>친화성 높은 사람</strong>은 협업·공감형 AI와 잘 맞습니다. 낮은 친화성의 전략가형은 데이터 기반 분석 AI에서 실력을 발휘.',
+    air_N: '<strong>정서 안정성</strong>은 AI 활용 스타일에도 영향을 줍니다. 안정형은 복잡한 멀티툴 세팅에 유리하고, 예민형은 단순하고 즉각적인 피드백을 주는 AI가 적합합니다.',
+    about_cta_h: '지금 나의 OCEAN 성향을 확인해 보세요', about_cta_p: '30문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.', about_cta_btn: '🏁 테스트 시작하기',
+    personas_back: '← 처음으로', personas_label: '🏆 32가지 OCEAN 유형', personas_h2: '나는 어떤 유형일까?',
+    personas_sub: 'OCEAN 5가지 차원의 조합으로 2⁵ = 32가지 고유한 성향 유형이 탄생합니다. 대표 유형 8가지를 미리 만나보세요.',
+    personas_featured_h: '대표 페르소나 유형 8선',
+    code_guide_h: '성향 코드 읽는 법',
+    code_guide_p: '결과 화면에 표시되는 5자리 코드(예: <strong style="color:var(--wave-1)">11010</strong>)는 각 차원이 50% 이상이면 <strong>1</strong>, 미만이면 <strong>0</strong>으로 표시됩니다.',
+    code_O_hi: '개방성<br>높음', code_C_hi: '성실성<br>높음', code_E_lo: '외향성<br>낮음', code_A_hi: '친화성<br>높음', code_N_lo: '안정성<br>낮음',
+    code_summary: '코드 <strong style="color:var(--wave-1)">11010</strong> = 개방적·성실·내향적·친화력 높음·감정 기복 있음<br><span style="color:var(--purple);margin-top:6px;display:block;font-weight:600">"조용한 완벽주의 예술가"</span>',
+    personas_cta_h: '내 정확한 유형이 궁금하다면', personas_cta_p: '25문항, 약 5분이면 32가지 중 나의 유형과 맞춤 AI 처방전을 받을 수 있습니다.', personas_cta_btn: '🏁 테스트 시작하기',
+    tools_back: '← 처음으로', tools_label: '🤖 AI 도구 카탈로그', tools_h2: '당신에게 맞는 AI,<br>미리 만나보세요',
+    tools_sub: '성향 테스트 결과에 따라 추천되는 AI 도구들을 카테고리별로 소개합니다. 테스트 후 당신에게 가장 잘 맞는 조합을 처방받으세요.',
+    tools_cta_h: '나에게 맞는 AI 조합을 처방받으세요', tools_cta_p: '성향 테스트 결과에 따라 위 도구 중 당신의 OCEAN 유형에 최적화된 AI 세트를 추천해드립니다.', tools_cta_btn: '🏁 테스트 시작하기',
+  },
+  en: {
+    nav_about: 'About OCEAN', nav_personas: 'Persona Types', nav_tools: 'AI Tools',
+    hero_badge: '🌊 AI × OCEAN Personality Analysis · Big5-Based',
+    hero_title: 'Get AI matched to<br><span class="hl">your personality</span>',
+    hero_sub: '25-question personality test based on Big 5 Psychology (OCEAN)<br>to find your perfect AI partner and career insights.',
+    hero_cta1: 'Start My AI DNA Analysis →', hero_about_btn: 'About OCEAN',
+    stat_questions: 'Questions', stat_jobs: 'Job Groups', stat_types: 'Personality Types', stat_tools: 'AI Tools',
+    ts_label: '32 OCEAN Types', ts_title: 'Which type am I?',
+    ts_sub: '32 unique personality types emerge from combinations of 5 dimensions',
+    ts_btn: 'Explore All Types',
+    js_step: 'STEP 1', js_title: 'Select your job group first',
+    js_sub: 'The same personality gets different AI recommendations based on your job',
+    js_start: 'Start My OCEAN Analysis →',
+    disclaimer: 'This test is not a medical diagnosis and is for reference only to help with AI utilization. Based on IPIP public domain questions.',
+    about_back: '← Back to Test',
+    about_hero_label: '📖 Science-Based Trust Indicators',
+    about_h2: 'What is<br>Big 5 OCEAN?',
+    about_sub: 'Personality science validated in 50+ countries over decades. Clearly explains why you can trust this test and what each dimension means.',
+    trust1: 'Peer-reviewed Papers', trust2: 'Countries Validated',
+    trust3_num: 'Free', trust3: 'IPIP Open Source<br>Public Domain',
+    trust4_num: 'In Use', trust4: 'Corporate HR &amp; Clinical<br>Psychology Applications',
+    why_trust_h: 'Why Trust It?',
+    compare_col1: 'Category', compare_col2: 'Big5 / OCEAN', compare_col3: 'MBTI',
+    cmp_r1c1: 'Measurement', cmp_r1c2: 'Continuous spectrum (0–100%)', cmp_r1c3: 'Binary type (I or E)',
+    cmp_r2c1: 'Scientific Validity', cmp_r2c2: 'Thousands of peer-reviewed studies', cmp_r2c3: 'Low scientific credibility',
+    cmp_r3c1: 'Cultural Universality', cmp_r3c2: 'Cross-cultural validation in 50+ countries', cmp_r3c3: 'US-centric, culturally biased',
+    cmp_r4c1: 'Test-retest Reliability', cmp_r4c2: 'High &mdash; consistent over time', cmp_r4c3: 'Low &mdash; different results on retest',
+    cmp_r5c1: 'Behavioral Prediction', cmp_r5c2: 'Predicts job performance &amp; relationships', cmp_r5c3: 'Limited predictive power',
+    cmp_r6c1: 'Source', cmp_r6c2: 'IPIP public domain (no copyright)', cmp_r6c3: 'Myers-Briggs commercial copyright',
+    dim5_h: '5 Dimensions Explained',
+    dim5_click: 'Click each item to see details and high/low score characteristics.',
+    dim_O_title: 'Openness to Experience', dim_O_sub: 'How open you are to new experiences, ideas, and creativity',
+    dim_O_hi: 'High (70%+)', dim_O_hi_traits: 'Highly curious<br>Creative thinking<br>Interest in arts &amp; philosophy<br>Embraces change<br>Rich imagination',
+    dim_O_lo: 'Low (30%-)', dim_O_lo_traits: 'Pragmatic<br>Prefers proven methods<br>Values stability<br>Focuses on concrete facts<br>Cautious about change',
+    dim_O_analogy: '<strong>Analogy:</strong> Someone who follows YouTube rabbit holes until 3 AM studying cosmology vs. someone who only watches familiar channels',
+    dim_C_title: 'Conscientiousness', dim_C_sub: 'The tendency to act in an organized, responsible, and goal-directed manner',
+    dim_C_hi: 'High (70%+)', dim_C_hi_traits: 'Thorough planning<br>Meets deadlines<br>Uses planners<br>Attention to detail<br>Goal-oriented',
+    dim_C_lo: 'Low (30%-)', dim_C_lo_traits: 'Spontaneous &amp; flexible<br>Goes with the flow<br>Big-picture thinker<br>Adaptive<br>Free-spirited',
+    dim_C_analogy: '<strong>Analogy:</strong> Someone who always has a spare charger, umbrella &amp; first aid kit in their bag vs. someone who borrows them every time',
+    dim_E_title: 'Extraversion', dim_E_sub: 'Do you gain energy from being with people, or from being alone?',
+    dim_E_hi: 'High (70%+)', dim_E_hi_traits: 'Leads group energy<br>Initiates with strangers<br>Gets bored alone<br>Enjoys talking &amp; networking<br>Active energy',
+    dim_E_lo: 'Low (Introversion)', dim_E_lo_traits: 'Recharges alone<br>Prefers deep 1:1 talks<br>Comfortable in small groups<br>Observant &amp; reflective<br>Introvert ≠ antisocial',
+    dim_E_analogy: '<strong>Analogy:</strong> Someone who leads toasts and energizes the room at company dinners vs. someone who only feels recharged once they get home',
+    dim_A_title: 'Agreeableness', dim_A_sub: 'How much you care for others, cooperate, and trust people',
+    dim_A_hi: 'High (70%+)', dim_A_hi_traits: 'Highly empathetic<br>Mediates conflicts<br>Loves helping others<br>Says "it\'s okay" easily<br>Values trust &amp; cooperation',
+    dim_A_lo: 'Low (30%-)', dim_A_lo_traits: 'Direct &amp; competitive<br>Results-focused<br>Unafraid of criticism<br>Independent judgment<br>Analytical',
+    dim_A_analogy: '<strong>Analogy:</strong> Someone who says "please have more" even when they want the last piece vs. someone who confidently takes seconds when food is delicious',
+    dim_N_title: 'Emotional Stability — Neuroticism (reversed)', dim_N_sub: 'The ability to handle stress steadily without emotional volatility',
+    dim_N_hi: 'High = Stable (70%+)', dim_N_hi_traits: 'Calm under stress<br>Little minor worry<br>Few mood swings<br>Cool-headed in crisis<br>High resilience',
+    dim_N_lo: 'Low = Sensitive (30%-)', dim_N_lo_traits: 'Mood swings<br>Prone to worry &amp; anxiety<br>Sensitive to criticism<br>But thoughtful &amp;<br>highly empathetic',
+    dim_N_analogy: '<strong>Analogy:</strong> Someone who falls asleep immediately the night before a presentation vs. someone who runs 1,000 scenarios in their head until 4 AM',
+    ipip_h: 'IPIP Test Structure (25 Questions)', ipip_total: 'Total Questions', ipip_perdim: 'Per Dimension', ipip_likert: 'Likert Scale', ipip_pct: 'Percentage Results',
+    step1_h: 'Response', step1_p: 'Answer each question from 1 (Strongly disagree) to 5 (Strongly agree).',
+    step2_h: 'Reverse Scoring (R items)', step2_p: 'Some questions are scored in reverse. e.g. "I tend to be quiet (R)" — a score of 5 is calculated as 1. This prevents deliberate response manipulation.',
+    step3_h: 'Summing &amp; Converting', step3_p: 'Sum the 5 questions per dimension (5–25 points) then convert to percentage.<br>Formula: <strong>(sum − 5) ÷ 20 × 100 = %</strong><br>e.g. Conscientiousness sum 20 → 75%',
+    step4_h: 'Persona Matching', step4_p: 'Based on the % scores of 5 dimensions, the most similar persona type is found and AI tools are recommended.',
+    sample_q_label: 'Sample Questions',
+    sample_O_label: 'Openness (O)', sample_O_q1: 'I enjoy coming up with new ideas.', sample_O_q2: 'I prefer familiar ways over trying new ones. <span class="sq-r-badge">Reversed</span>',
+    sample_C_label: 'Conscientiousness (C)', sample_C_q1: 'I am always well-prepared.', sample_C_q2: 'I often put off things I need to do. <span class="sq-r-badge">Reversed</span>',
+    sample_E_label: 'Extraversion (E)', sample_E_q1: 'I lead the atmosphere at parties or gatherings.', sample_E_q2: 'I feel more comfortable alone than with many people. <span class="sq-r-badge">Reversed</span>',
+    sample_A_label: 'Agreeableness (A)', sample_A_q1: 'I genuinely empathize with others\' feelings.', sample_A_q2: 'I don\'t hesitate to say things that may upset others. <span class="sq-r-badge">Reversed</span>',
+    sample_N_label: 'Emotional Stability (N)', sample_N_q1: 'I maintain my composure well even under stress.', sample_N_q2: 'I sometimes feel anxious or nervous for no reason. <span class="sq-r-badge">Reversed</span>',
+    r_badge: 'Reversed',
+    history_h: 'History of Big5 OCEAN', history_intro: 'Big5 is not the theory of a single researcher, but the result of decades of scientific convergence.',
+    htl1_body: '<strong>Lexical Hypothesis</strong> — Psychologists Allport &amp; Odbert analyzed 18,000 English words and proposed that personality-describing words converge.',
+    htl2_body: '<strong>Factor Analysis Emerges</strong> — Cattell statistically analyzed personality-describing words to derive 16 factors — the foundation of Big5.',
+    htl3_body: '<strong>5-Factor Convergence</strong> — Multiple independent teams including Lewis Goldberg, Costa &amp; McCrae arrived at the same 5 dimensions through different methods.',
+    htl4_body: '<strong>NEO PI-R &amp; IPIP Born</strong> — Costa &amp; McCrae\'s official test (NEO PI-R) and Goldberg\'s free open-source IPIP questions released to researchers worldwide.',
+    htl5_body: '<strong>Global Validation</strong> — Cross-cultural research in 50+ countries confirmed the 5 dimensions appear consistently regardless of language or culture. Now the psychology standard.',
+    ocean_ai_h: 'OCEAN × AI Era — Why Does Personality Matter?',
+    ocean_ai_intro: 'The explosion of AI tools raises the question: "Which AI should I use?" The answer <strong>depends on your personality.</strong>',
+    air_O: '<strong>High Openness people</strong> achieve explosive synergy with creative AI (Midjourney, Runway). For low-openness people, proven practical tools work better.',
+    air_C: '<strong>High Conscientiousness people</strong> pair well with systematic management AI (Notion AI, Zapier). Low conscientiousness? ChatGPT-style AI for spontaneous ideas works better.',
+    air_E: '<strong>High Extraversion people</strong> amplify their strengths with communication &amp; presentation AI (Gamma, Otter.ai). Introverts shine with deep analysis &amp; writing AI (Claude, Perplexity).',
+    air_A: '<strong>High Agreeableness people</strong> pair well with collaborative &amp; empathetic AI. Low-agreeableness strategists excel with data-driven analysis AI.',
+    air_N: '<strong>Emotional Stability</strong> also affects AI usage style. Stable types benefit from complex multi-tool setups, while sensitive types do better with simple, immediate-feedback AI.',
+    about_cta_h: 'Discover Your OCEAN Profile Now', about_cta_p: 'In 25 questions, about 5 minutes, get your personalized AI tool prescription.', about_cta_btn: '🏁 Start Test',
+    personas_back: '← Home', personas_label: '🏆 32 OCEAN Types', personas_h2: 'Which type am I?',
+    personas_sub: '2⁵ = 32 unique personality types emerge from combinations of OCEAN\'s 5 dimensions. Preview 8 featured types.',
+    personas_featured_h: '8 Featured Persona Types',
+    code_guide_h: 'How to Read Your Personality Code',
+    code_guide_p: 'The 5-digit code shown on the results screen (e.g. <strong style="color:var(--wave-1)">11010</strong>) shows <strong>1</strong> if each dimension is 50% or above, and <strong>0</strong> if below.',
+    code_O_hi: 'Openness<br>High', code_C_hi: 'Conscientiousness<br>High', code_E_lo: 'Extraversion<br>Low', code_A_hi: 'Agreeableness<br>High', code_N_lo: 'Stability<br>Low',
+    code_summary: 'Code <strong style="color:var(--wave-1)">11010</strong> = Open · Conscientious · Introverted · High Agreeableness · Emotionally variable<br><span style="color:var(--purple);margin-top:6px;display:block;font-weight:600">"The Quiet Perfectionist Artist"</span>',
+    personas_cta_h: 'Want to find your exact type?', personas_cta_p: 'In 25 questions, about 5 minutes, find your type among 32 and get your personalized AI prescription.', personas_cta_btn: '🏁 Start Test',
+    tools_back: '← Home', tools_label: '🤖 AI Tools Catalog', tools_h2: 'Find Your Perfect AI,<br>Before You Take the Test',
+    tools_sub: 'AI tools recommended based on your personality test results, organized by category. Take the test to get your optimal combination.',
+    tools_cta_h: 'Get Your Personalized AI Combination', tools_cta_p: 'Based on your personality test results, we\'ll recommend the optimal AI set for your OCEAN type from the tools above.', tools_cta_btn: '🏁 Start Test',
+  }
+};
+
+function setLang(lang) {
+  window.LANG = lang;
+  const btn = document.getElementById('langToggle');
+  if (btn) btn.textContent = lang === 'ko' ? 'EN' : 'KO';
+  const S = STRINGS[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (S[key] !== undefined) el.innerHTML = S[key];
+  });
+  renderJobGrid();
+  renderPersonaGrid();
+  renderToolsCatalog();
+  renderTypeShowcase();
+}
+
+function toggleLang() {
+  setLang(window.LANG === 'ko' ? 'en' : 'ko');
+}
 
 // ═══════════════════════════════════════════════════════
 //  STATE
@@ -2199,6 +2438,7 @@ let shuffledQuestions = [];
 //  INIT
 // ═══════════════════════════════════════════════════════
 function init() {
+  window.LANG = 'ko';
   renderJobGrid();
   renderPersonaGrid();
   renderToolsCatalog();
@@ -2208,6 +2448,7 @@ function init() {
 function renderPersonaGrid() {
   const grid = document.getElementById('personaPreviewGrid');
   if (!grid) return;
+  const isEn = window.LANG === 'en';
   grid.innerHTML = FEATURED_PERSONAS.map(p => {
     const digits = p.code.split('').map((d, i) => {
       const on = d === '1';
@@ -2217,10 +2458,10 @@ function renderPersonaGrid() {
       <div class="persona-preview-card">
         <div class="pp-emoji">${p.emoji}</div>
         <div class="pp-code">${digits}</div>
-        <div class="pp-name">${p.name}</div>
-        <div class="pp-en">${p.en}</div>
-        <div class="pp-desc">${p.desc}</div>
-        <div class="pp-ai">추천 AI → ${p.ai}</div>
+        <div class="pp-name">${isEn ? p.en : p.name}</div>
+        <div class="pp-en">${isEn ? p.name : p.en}</div>
+        <div class="pp-desc">${isEn ? (p.en_desc || p.desc) : p.desc}</div>
+        <div class="pp-ai">${isEn ? 'Recommended AI → ' : '추천 AI → '}${p.ai}</div>
       </div>`;
   }).join('');
 }
@@ -2228,12 +2469,13 @@ function renderPersonaGrid() {
 function renderToolsCatalog() {
   const el = document.getElementById('toolsCatalogContent');
   if (!el) return;
+  const isEn = window.LANG === 'en';
   el.innerHTML = TOOL_CATEGORIES.map(cat => `
     <div class="tools-category about-section">
       <div class="tools-cat-header">
         <div class="tools-cat-icon" style="background:${cat.bg}">${cat.icon}</div>
-        <span class="tools-cat-title">${cat.name}</span>
-        <span class="tools-cat-count">${cat.tools.length}개 도구</span>
+        <span class="tools-cat-title">${isEn ? (cat.en_name || cat.name) : cat.name}</span>
+        <span class="tools-cat-count">${cat.tools.length}${isEn ? ' tools' : '개 도구'}</span>
       </div>
       <div class="tool-preview-grid">
         ${cat.tools.map(t => `
@@ -2241,8 +2483,8 @@ function renderToolsCatalog() {
             <div class="tp-icon">${t.icon}</div>
             <div class="tp-info">
               <div class="tp-name">${t.name}</div>
-              <div class="tp-desc">${t.desc}</div>
-              <span class="tp-tag" style="color:${t.tagColor};background:${t.tagBg};border-color:${t.tagColor}33">${t.tag}</span>
+              <div class="tp-desc">${isEn ? (t.en_desc || t.desc) : t.desc}</div>
+              <span class="tp-tag" style="color:${t.tagColor};background:${t.tagBg};border-color:${t.tagColor}33">${isEn ? (t.en_tag || t.tag) : t.tag}</span>
             </div>
           </div>`).join('')}
       </div>
@@ -2251,10 +2493,11 @@ function renderToolsCatalog() {
 
 function renderJobGrid() {
   const grid = document.getElementById('jobGrid');
+  const isEn = window.LANG === 'en';
   grid.innerHTML = JOBS.map(j => `
     <button class="job-btn-16p" onclick="selectJob(${j.id})">
       <span class="job-icon">${j.icon}</span>
-      ${j.label}
+      ${isEn ? (j.en_label || j.label) : j.label}
     </button>
   `).join('');
 }
@@ -3045,6 +3288,7 @@ function scrollToJobSection() {
 function renderTypeShowcase() {
   const grid = document.getElementById('typeShowcaseGrid');
   if (!grid) return;
+  const isEn = window.LANG === 'en';
   grid.innerHTML = FEATURED_PERSONAS.map(p => {
     const digits = p.code.split('').map((d, i) => {
       const on = d === '1';
@@ -3053,8 +3297,8 @@ function renderTypeShowcase() {
     return `
       <div class="type-card-16p" onclick="showScreen('personas')">
         <span class="tc-emoji">${p.emoji}</span>
-        <div class="tc-name">${p.name}</div>
-        <div class="tc-en">${p.en}</div>
+        <div class="tc-name">${isEn ? p.en : p.name}</div>
+        <div class="tc-en">${isEn ? p.name : p.en}</div>
         <div class="tc-code-mini">${digits}</div>
       </div>`;
   }).join('');
