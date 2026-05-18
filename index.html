@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI-OCEAN | 나만의 AI 처방전</title>
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jangksh.github.io/ocean-ai-navigator/">
+<meta property="og:title" content="AI-OCEAN | 나만의 AI 처방전">
+<meta property="og:description" content="Big Five(OCEAN) 성향 분석으로 나에게 딱 맞는 AI 도구를 추천받으세요. 25문항, 3분 완성.">
+<meta property="og:image" content="https://jangksh.github.io/ocean-ai-navigator/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI-OCEAN | 나만의 AI 처방전">
+<meta name="twitter:description" content="Big Five(OCEAN) 성향 분석으로 나에게 딱 맞는 AI 도구를 추천받으세요. 25문항, 3분 완성.">
+<meta name="twitter:image" content="https://jangksh.github.io/ocean-ai-navigator/og-image.png">
 <style>
   /* ── Google Fonts ── */
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -4008,6 +4018,8 @@ function renderTypeShowcase() {
 // ═══════════════════════════════════════════════════════
 //  SNS SHARING
 // ═══════════════════════════════════════════════════════
+var SITE_URL = 'https://jangksh.github.io/ocean-ai-navigator/';
+
 function _shareText(name, code, scores) {
   return '🌊 AI-OCEAN 성향 분석 결과!\n\n✨ "' + name + '" 유형 (' + code + ')\n'
     + '🔮 개방성 ' + scores.O + '% | 📐 성실성 ' + scores.C + '%\n'
@@ -4034,19 +4046,18 @@ function showShareToast(msg) {
 }
 
 function shareFacebook(name, code, scores) {
-  var url = encodeURIComponent(window.location.href);
-  var quote = encodeURIComponent('"' + name + '" (' + code + ') — 개방성 ' + scores.O + '% | 성실성 ' + scores.C + '% | 외향성 ' + scores.E + '% | 친화성 ' + scores.A + '% | 안정성 ' + scores.N + '%');
-  window.open('https://www.facebook.com/sharer/sharer.php?u=' + url + '&quote=' + quote, '_blank', 'width=620,height=520');
+  var url = encodeURIComponent(SITE_URL);
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=620,height=520');
 }
 
 function shareTwitterX(name, code, scores) {
   var text = encodeURIComponent(_shareText(name, code, scores));
-  var url = encodeURIComponent(window.location.href);
+  var url = encodeURIComponent(SITE_URL);
   window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'width=620,height=420');
 }
 
 function copyInstagram(name, code, scores) {
-  var text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + scores.O + '%\n📐 성실성: ' + scores.C + '%\n⚡ 외향성: ' + scores.E + '%\n💚 친화성: ' + scores.A + '%\n🌊 안정성: ' + scores.N + '%\n\n🔗 ' + window.location.href + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+  var text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + scores.O + '%\n📐 성실성: ' + scores.C + '%\n⚡ 외향성: ' + scores.E + '%\n💚 친화성: ' + scores.A + '%\n🌊 안정성: ' + scores.N + '%\n\n🔗 ' + SITE_URL + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
   navigator.clipboard.writeText(text).then(function() {
     showShareToast('📸 인스타그램용 텍스트 복사 완료! 앱 열고 새 게시물에 붙여넣으세요.');
   }).catch(function() {
@@ -4055,24 +4066,33 @@ function copyInstagram(name, code, scores) {
 }
 
 function shareKakao(name, code, scores) {
-  var text = _shareText(name, code, scores) + '\n\n👉 ' + window.location.href;
+  var shareUrl = SITE_URL;
+  var text = _shareText(name, code, scores) + '\n\n👉 ' + shareUrl;
   if (navigator.share) {
-    navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: window.location.href })
-      .catch(function() {});
+    navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: shareUrl })
+      .catch(function() {
+        navigator.clipboard.writeText(text).then(function() {
+          showShareToast('🔗 링크 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.');
+        });
+      });
   } else {
     navigator.clipboard.writeText(text).then(function() {
-      showShareToast('🔗 텍스트 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.');
+      showShareToast('🔗 링크 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.');
     }).catch(function() {
-      window.open('https://story.kakao.com/share?url=' + encodeURIComponent(window.location.href), '_blank', 'width=620,height=520');
+      window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + encodeURIComponent(shareUrl), '_blank', 'width=350,height=520');
     });
   }
 }
 
 function shareTiktok(name, code, scores) {
-  var text = _shareText(name, code, scores) + '\n\n👉 ' + window.location.href + '\n\n#TikTok #성격테스트';
+  var text = _shareText(name, code, scores) + '\n\n👉 ' + SITE_URL + '\n\n#TikTok #성격테스트';
   if (navigator.share) {
-    navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: window.location.href })
-      .catch(function() {});
+    navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: SITE_URL })
+      .catch(function() {
+        navigator.clipboard.writeText(text).then(function() {
+          showShareToast('🎵 텍스트 복사 완료! TikTok 앱에서 게시물 작성 후 붙여넣으세요.');
+        });
+      });
   } else {
     navigator.clipboard.writeText(text).then(function() {
       showShareToast('🎵 텍스트 복사 완료! TikTok 앱에서 게시물 작성 후 붙여넣으세요.');
