@@ -1261,12 +1261,6 @@
     display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
     position: absolute; left: 50%; transform: translateX(-50%);
   }
-  @media (max-width: 768px) {
-    .landing-header { padding: 0 16px !important; height: auto !important; min-height: 56px !important; flex-wrap: wrap !important; justify-content: center !important; gap: 4px !important; padding-top: 8px !important; padding-bottom: 8px !important; }
-    .landing-logo { width: 100%; text-align: center; }
-    .landing-nav { position: static !important; transform: none !important; left: auto !important; justify-content: center !important; width: 100% !important; gap: 2px !important; flex-wrap: wrap !important; }
-    .landing-nav-link { font-size: 12px !important; padding: 6px 10px !important; }
-  }
 
 /* ─────────────────────────────────────
    16P VISUAL OVERHAUL
@@ -1278,6 +1272,13 @@
 .landing-nav-link { font-size: 14px !important; font-weight: 600 !important; padding: 8px 16px !important; border-radius: 8px !important; text-decoration: none !important; line-height: 1.5 !important; }
 .landing-nav-link:hover { background: var(--ocean-light) !important; color: var(--text-primary) !important; text-decoration: none !important; }
 .landing-nav { gap: 4px !important; position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; }
+
+@media (max-width: 768px) {
+  .landing-header { padding: 8px 16px !important; height: auto !important; min-height: 56px !important; flex-wrap: wrap !important; justify-content: center !important; }
+  .landing-logo { width: 100% !important; text-align: center !important; }
+  .landing-nav { position: static !important; transform: none !important; left: auto !important; justify-content: center !important; width: 100% !important; gap: 2px !important; flex-wrap: wrap !important; }
+  .landing-nav-link { font-size: 12px !important; padding: 6px 10px !important; }
+}
 
 /* Landing screen full-width */
 #screen-landing { align-items: stretch !important; text-align: left !important; }
