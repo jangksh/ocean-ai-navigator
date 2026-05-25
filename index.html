@@ -3768,8 +3768,9 @@ function renderResults(scores) {
       <div class="jaec-use">${t.use}</div>
     </div>`).join('');
 
-  const scoresForShare = JSON.stringify(scores);
   const masterNameEsc = master.name.replace(/'/g, "\\'");
+  // 공유 데이터 전역 저장 (onclick에 JSON 직접 삽입 시 쌍따옴표가 속성을 깨뜨리는 버그 방지)
+  window._shareData = { name: master.name, code: code, scores: scores };
 
   document.getElementById('resultsContent').innerHTML = `
     <!-- Banner -->
@@ -3818,23 +3819,23 @@ function renderResults(scores) {
       <div class="sns-section-title">🔗 결과를 공유해보세요</div>
       <div class="sns-section-sub">나의 AI 성향 분석 결과를 친구들과 비교해보세요</div>
       <div class="sns-btn-row">
-        <button class="sns-btn sns-fb" onclick="shareFacebook('${masterNameEsc}','${code}',${scoresForShare})">
+        <button class="sns-btn sns-fb" onclick="shareFacebook()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           Facebook
         </button>
-        <button class="sns-btn sns-x" onclick="shareTwitterX('${masterNameEsc}','${code}',${scoresForShare})">
+        <button class="sns-btn sns-x" onclick="shareTwitterX()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           X (Twitter)
         </button>
-        <button class="sns-btn sns-ig" onclick="copyInstagram('${masterNameEsc}','${code}',${scoresForShare})">
+        <button class="sns-btn sns-ig" onclick="copyInstagram()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
           Instagram 복사
         </button>
-        <button class="sns-btn sns-kakao" onclick="shareKakao('${masterNameEsc}','${code}',${scoresForShare})">
+        <button class="sns-btn sns-kakao" onclick="shareKakao()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.57 1.522 4.837 3.836 6.237L4.89 20.5l4.194-2.617A10.1 10.1 0 0012 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
           카카오톡
         </button>
-        <button class="sns-btn sns-tiktok" onclick="shareTiktok('${masterNameEsc}','${code}',${scoresForShare})">
+        <button class="sns-btn sns-tiktok" onclick="shareTiktok()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.21 8.21 0 0 0 4.79 1.52V6.77a4.85 4.85 0 0 1-1.02-.08z"/></svg>
           TikTok
         </button>
@@ -4020,10 +4021,12 @@ function renderTypeShowcase() {
 // ═══════════════════════════════════════════════════════
 var SITE_URL = 'https://jangksh.github.io/ocean-ai-navigator/';
 
-function _shareText(name, code, scores) {
+function _shareText() {
+  var d = window._shareData || {};
+  var name = d.name || '', code = d.code || '', scores = d.scores || {};
   return '🌊 AI-OCEAN 성향 분석 결과!\n\n✨ "' + name + '" 유형 (' + code + ')\n'
-    + '🔮 개방성 ' + scores.O + '% | 📐 성실성 ' + scores.C + '%\n'
-    + '⚡ 외향성 ' + scores.E + '% | 💚 친화성 ' + scores.A + '% | 🌊 안정성 ' + scores.N + '%\n\n'
+    + '🔮 개방성 ' + (scores.O||0) + '% | 📐 성실성 ' + (scores.C||0) + '%\n'
+    + '⚡ 외향성 ' + (scores.E||0) + '% | 💚 친화성 ' + (scores.A||0) + '% | 🌊 안정성 ' + (scores.N||0) + '%\n\n'
     + '#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전';
 }
 
@@ -4045,19 +4048,21 @@ function showShareToast(msg) {
   }, 3200);
 }
 
-function shareFacebook(name, code, scores) {
+function shareFacebook() {
   var url = encodeURIComponent(SITE_URL);
   window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=620,height=520');
 }
 
-function shareTwitterX(name, code, scores) {
-  var text = encodeURIComponent(_shareText(name, code, scores));
+function shareTwitterX() {
+  var text = encodeURIComponent(_shareText());
   var url = encodeURIComponent(SITE_URL);
   window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'width=620,height=420');
 }
 
-function copyInstagram(name, code, scores) {
-  var text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + scores.O + '%\n📐 성실성: ' + scores.C + '%\n⚡ 외향성: ' + scores.E + '%\n💚 친화성: ' + scores.A + '%\n🌊 안정성: ' + scores.N + '%\n\n🔗 ' + SITE_URL + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+function copyInstagram() {
+  var d = window._shareData || {};
+  var name = d.name || '', code = d.code || '', scores = d.scores || {};
+  var text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + SITE_URL + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
   navigator.clipboard.writeText(text).then(function() {
     showShareToast('📸 인스타그램용 텍스트 복사 완료! 앱 열고 새 게시물에 붙여넣으세요.');
   }).catch(function() {
@@ -4065,27 +4070,33 @@ function copyInstagram(name, code, scores) {
   });
 }
 
-function shareKakao(name, code, scores) {
+function shareKakao() {
+  var d = window._shareData || {};
+  var name = d.name || '';
   var shareUrl = SITE_URL;
-  var text = _shareText(name, code, scores) + '\n\n👉 ' + shareUrl;
+  var text = _shareText() + '\n\n👉 ' + shareUrl;
   if (navigator.share) {
     navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: shareUrl })
       .catch(function() {
         navigator.clipboard.writeText(text).then(function() {
           showShareToast('🔗 링크 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.');
+        }).catch(function() {
+          showShareToast('공유 실패 — 링크를 직접 복사해 카카오톡에 붙여넣기 해주세요: ' + shareUrl);
         });
       });
   } else {
     navigator.clipboard.writeText(text).then(function() {
       showShareToast('🔗 링크 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.');
     }).catch(function() {
-      window.open('https://sharer.kakao.com/talk/friends/picker/link?url=' + encodeURIComponent(shareUrl), '_blank', 'width=350,height=520');
+      showShareToast('공유 실패 — 링크를 직접 복사해 카카오톡에 붙여넣기 해주세요: ' + shareUrl);
     });
   }
 }
 
-function shareTiktok(name, code, scores) {
-  var text = _shareText(name, code, scores) + '\n\n👉 ' + SITE_URL + '\n\n#TikTok #성격테스트';
+function shareTiktok() {
+  var d = window._shareData || {};
+  var name = d.name || '';
+  var text = _shareText() + '\n\n👉 ' + SITE_URL + '\n\n#TikTok #성격테스트';
   if (navigator.share) {
     navigator.share({ title: 'AI-OCEAN 성향 분석 — ' + name, text: text, url: SITE_URL })
       .catch(function() {
