@@ -1261,7 +1261,12 @@
     display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
     position: absolute; left: 50%; transform: translateX(-50%);
   }
-  @media (max-width: 480px) { .landing-nav { position: static; transform: none; gap: 4px; } .landing-nav-link { font-size: 12px; } }
+  @media (max-width: 768px) {
+    .landing-header { padding: 0 16px !important; height: auto !important; min-height: 56px !important; flex-wrap: wrap !important; justify-content: center !important; gap: 4px !important; padding-top: 8px !important; padding-bottom: 8px !important; }
+    .landing-logo { width: 100%; text-align: center; }
+    .landing-nav { position: static !important; transform: none !important; left: auto !important; justify-content: center !important; width: 100% !important; gap: 2px !important; flex-wrap: wrap !important; }
+    .landing-nav-link { font-size: 12px !important; padding: 6px 10px !important; }
+  }
 
 /* ─────────────────────────────────────
    16P VISUAL OVERHAUL
