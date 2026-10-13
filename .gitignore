@@ -6,6 +6,7 @@
 *.txt
 !결과지 DB.txt
 !결과지_구조_및_추천AI.txt
+!robots.txt
 
 # Binary/Office documents
 *.docx
