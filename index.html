@@ -1380,6 +1380,15 @@
   cursor: pointer; transition: all 0.22s; box-shadow: var(--shadow-sm); text-align: center;
 }
 .type-card-16p:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: transparent; }
+a.type-card-16p { display: block; text-decoration: none; color: inherit; }
+a.persona-preview-card { display: block; text-decoration: none; color: inherit; cursor: pointer; }
+
+/* ── 유형 전체 링크 (정적 HTML — 검색엔진이 따라갈 수 있는 링크) ── */
+.type-links-section { background: white; padding: 56px 20px 64px; text-align: center; }
+.tl-title { font-size: clamp(20px,3vw,26px); font-weight: 800; color: var(--text-primary); margin: 0 0 24px; letter-spacing: -0.3px; }
+.tl-grid { list-style: none; margin: 0 auto; padding: 0; max-width: 920px; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; text-align: left; }
+.tl-grid a { word-break: keep-all; display: block; padding: 11px 14px; border: 1.5px solid var(--card-border); border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--text-primary); text-decoration: none; background: var(--ocean-deep); transition: border-color 0.18s, background 0.18s; }
+.tl-grid a:hover { border-color: var(--wave-1); background: var(--dim-C-bg); }
 .tc-emoji { font-size: 48px; margin-bottom: 10px; line-height: 1; display: block; }
 .tc-name { font-size: 13px; font-weight: 800; color: var(--text-primary); margin-bottom: 3px; line-height: 1.3; }
 .tc-en { font-size: 10px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
@@ -1746,6 +1755,46 @@
       <div class="type-cards-grid" id="typeShowcaseGrid"></div>
       <button class="btn-hero-about" style="margin-top:28px" onclick="showScreen('personas')" data-i18n="ts_btn">모든 유형 탐색하기</button>
     </div>
+
+    <!-- TYPE-LINKS:START (build_type_pages.js가 생성 — 직접 수정하지 마세요) -->
+    <nav class="type-links-section" aria-label="OCEAN 32가지 유형 전체 보기" lang="ko">
+      <h2 class="tl-title">OCEAN 32가지 유형 전체 보기</h2>
+      <ul class="tl-grid">
+      <li><a href="/types/11111/">🌟 천상계 올라운더 리더</a></li>
+      <li><a href="/types/11110/">⚡ 열정 넘치는 유리멘탈 대장</a></li>
+      <li><a href="/types/11101/">💼 냉철한 야망가 CEO</a></li>
+      <li><a href="/types/11100/">🔥 예민한 독설가 장인</a></li>
+      <li><a href="/types/11011/">🔬 조용히 세상을 바꾸는 천재</a></li>
+      <li><a href="/types/11010/">🎨 섬세한 은둔형 예술가</a></li>
+      <li><a href="/types/11001/">📚 차 가운 두뇌의 고고한 학자</a></li>
+      <li><a href="/types/11000/">⚙️ 까칠한 디테일의 악마</a></li>
+      <li><a href="/types/10111/">💡 낙천적인 아이디어 뱅크</a></li>
+      <li><a href="/types/10110/">🤸 사랑받는 허당 리더</a></li>
+      <li><a href="/types/10101/">🏃 실행력 갑, 필드의 승부사</a></li>
+      <li><a href="/types/10100/">🎯 충동적인 마이웨이 리틀 잡스</a></li>
+      <li><a href="/types/10011/">🌿 꿈꾸는 방구석 철학자</a></li>
+      <li><a href="/types/10010/">🌸 마음 약한 공상가</a></li>
+      <li><a href="/types/10001/">🧩 조용한 혁명가 (독립 연구원)</a></li>
+      <li><a href="/types/10000/">🦅 비판적인 고독한 천재</a></li>
+      <li><a href="/types/01111/">🏛️ 따뜻한 원칙주의 리더</a></li>
+      <li><a href="/types/01110/">🌈 걱정 많은 수호천사</a></li>
+      <li><a href="/types/01101/">👑 강력한 카리스마 관리자</a></li>
+      <li><a href="/types/01100/">📐 깐깐한 시어머니 스타일</a></li>
+      <li><a href="/types/01011/">🤝 성실한 조력자 (인간 교과서)</a></li>
+      <li><a href="/types/01010/">🐢 소심한 성실쟁이</a></li>
+      <li><a href="/types/01001/">🤖 냉정한 관리의 달인</a></li>
+      <li><a href="/types/01000/">🗂️ 철저한 개인주의 관리자</a></li>
+      <li><a href="/types/00111/">🚀 긍정 파워 행동파</a></li>
+      <li><a href="/types/00110/">😄 사람 좋은 허허실실 리더</a></li>
+      <li><a href="/types/00101/">🏆 저돌적인 결과 지향가</a></li>
+      <li><a href="/types/00100/">🎲 본능적인 승부사</a></li>
+      <li><a href="/types/00011/">🌙 평화로운 나무늘보</a></li>
+      <li><a href="/types/00010/">💙 소외된 순정파</a></li>
+      <li><a href="/types/00001/">😎 냉소적인 현실주의자</a></li>
+      <li><a href="/types/00000/">🏔️ 고집불통 은둔자</a></li>
+      </ul>
+    </nav>
+    <!-- TYPE-LINKS:END -->
 
   </div>
 </div>
@@ -2902,14 +2951,14 @@ function renderPersonaGrid() {
       return `<div class="pp-digit" style="background:${on ? DIM_CODE_BG[i] : '#F0F2F8'};color:${on ? DIM_CODE_COLORS[i] : '#A0AEC0'}">${['O','C','E','A','N'][i]}</div>`;
     }).join('');
     return `
-      <div class="persona-preview-card">
+      <a class="persona-preview-card" href="/types/${p.code}/">
         <div class="pp-emoji">${emoji}</div>
         <div class="pp-code">${digits}</div>
         <div class="pp-name">${isEn ? enName : p.name}</div>
         <div class="pp-en">${isEn ? p.name : enName}</div>
         <div class="pp-desc">${desc}</div>
         <div class="pp-ai">${isEn ? 'Recommended AI → ' : '추천 AI → '}${aiRec}</div>
-      </div>`;
+      </a>`;
   }).join('');
 }
 
@@ -4023,12 +4072,12 @@ function renderTypeShowcase() {
       return `<div class="tcc-dot" style="background:${on ? DIM_CODE_BG[i] : '#F0F2F8'};color:${on ? DIM_CODE_COLORS[i] : '#A0AEC0'}">${['O','C','E','A','N'][i]}</div>`;
     }).join('');
     return `
-      <div class="type-card-16p" onclick="showScreen('personas')">
+      <a class="type-card-16p" href="/types/${p.code}/">
         <span class="tc-emoji">${p.emoji}</span>
         <div class="tc-name">${isEn ? p.en : p.name}</div>
         <div class="tc-en">${isEn ? p.name : p.en}</div>
         <div class="tc-code-mini">${digits}</div>
-      </div>`;
+      </a>`;
   }).join('');
 }
 
@@ -4131,6 +4180,8 @@ function shareTiktok() {
 
 // Start
 init();
+// 유형 페이지(/types/…)의 '테스트 시작' 버튼이 /?start=1 로 들어오면 바로 직업군 선택 화면을 연다
+if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
 </script>
 </body>
 </html>
