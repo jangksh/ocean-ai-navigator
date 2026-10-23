@@ -7,7 +7,14 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-180ERLEMSE');
+  // 내부(운영자) 트래픽 표시: 운영자 기기에서 한 번 /?internal=1 을 열면 이후 모든 이벤트에 traffic_type=internal 이 붙는다 (해제: /?internal=0)
+  var _ocInternal = false;
+  try {
+    if (/[?&]internal=1(&|$)/.test(location.search)) localStorage.setItem('ocean_internal', '1');
+    if (/[?&]internal=0(&|$)/.test(location.search)) localStorage.removeItem('ocean_internal');
+    _ocInternal = localStorage.getItem('ocean_internal') === '1';
+  } catch (e) {}
+  gtag('config', 'G-180ERLEMSE', _ocInternal ? { traffic_type: 'internal' } : {});
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2925,6 +2932,43 @@ let answers = [];
 let shuffledQuestions = [];
 
 // ═══════════════════════════════════════════════════════
+//  ANALYTICS (GA4 사용자 정의 이벤트)
+//  test_start → quiz_progress(5/10/15/20) → test_complete → result_view → outbound_click / share_click
+//  핵심 이벤트(전환) 후보: test_complete, outbound_click
+// ═══════════════════════════════════════════════════════
+const ENTRY_SOURCE = /[?&]start=1(&|$)/.test(location.search) ? 'type_page' : 'direct';
+function track(name, params) {
+  try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {}
+}
+function jobParams() {
+  const j = JOBS.find(x => x.id === selectedJob);
+  return j ? { job_id: String(selectedJob).padStart(2, '0'), job_label: j.label } : {};
+}
+document.addEventListener('click', function (e) {
+  const t = e.target;
+  if (!t || !t.closest) return;
+  const a = t.closest('a[href]');
+  if (a) {
+    let host = '';
+    try { host = new URL(a.href, location.href).hostname; } catch (_) {}
+    if (host && host !== location.hostname) {
+      const scr = a.closest('.screen');
+      const p = Object.assign({
+        tool_name: ((a.querySelector('.tp-name') || a).textContent || '').replace(/[↗\s]+/g, ' ').trim().slice(0, 60) || host,
+        link_domain: host,
+        placement: scr ? scr.id.replace('screen-', '') : 'other'
+      }, jobParams());
+      track('outbound_click', p);
+    }
+  }
+  const sb = t.closest('.sns-btn');
+  if (sb) {
+    const m = (sb.className.match(/sns-(?!btn)\w+/) || [''])[0].replace('sns-', '');
+    track('share_click', { method: m });
+  }
+}, true);
+
+// ═══════════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════════
 function init() {
@@ -3218,6 +3262,7 @@ function renderJobGrid() {
 
 function selectJob(id) {
   selectedJob = id;
+  track('job_select', jobParams());
   document.querySelectorAll('.job-btn-16p').forEach((btn, i) => {
     btn.classList.toggle('selected', JOBS[i].id === id);
   });
@@ -3234,6 +3279,8 @@ function showScreen(id) {
 //  QUIZ
 // ═══════════════════════════════════════════════════════
 function startQuiz() {
+  const _scr = document.getElementById('screen-results');
+  track('test_start', Object.assign({ entry: ENTRY_SOURCE, is_retake: !!(_scr && _scr.classList.contains('active')) }, jobParams()));
   currentQ = 0;
   shuffledQuestions = [...QUESTIONS].sort(() => Math.random() - 0.5);
   answers = new Array(shuffledQuestions.length).fill(null);
@@ -3293,6 +3340,7 @@ function nextQuestion() {
   if (answers[currentQ] === null) return;
   if (currentQ < shuffledQuestions.length - 1) {
     currentQ++;
+    if (currentQ % 5 === 0) track('quiz_progress', Object.assign({ answered: currentQ }, jobParams()));
     renderQuestion();
   } else {
     calculateResults();
@@ -3336,6 +3384,7 @@ function initNavStars() {
 //  CALCULATE
 // ═══════════════════════════════════════════════════════
 function calculateResults() {
+  track('test_complete', jobParams());
   initNavStars();
   showScreen('loading');
 
@@ -3940,6 +3989,8 @@ function renderResults(scores) {
     });
     drawRadar(scores);
   }, 100);
+
+  track('result_view', Object.assign({ persona_code: code, main_ai: (mainAI && mainAI.name) || '' }, jobParams()));
 }
 
 // ═══════════════════════════════════════════════════════
