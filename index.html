@@ -1561,6 +1561,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 }
 .ai-logo-img { width: 18px; height: 18px; object-fit: contain; border-radius: 3px; display: block; }
 .v2-ai-tagline { font-size: 15px; color: var(--text-secondary); flex: 2; min-width: 0; }
+@media (max-width: 600px) { .v2-ai-header { flex-wrap: wrap; row-gap: 6px; } .v2-ai-name { flex: 1 1 60%; } .v2-ai-tagline { flex: 1 1 100%; order: 5; font-size: 14px; } }
 .v2-expand-icon {
   width: 22px; height: 22px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -1590,6 +1591,13 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   font-size: 17px; line-height: 1.6; color: var(--text-primary); font-style: italic;
 }
 
+
+.more-fold { margin: 20px 0; border: 1px solid var(--border, #E9ECEF); border-radius: 16px; background: #fff; overflow: hidden; }
+.more-fold > summary { cursor: pointer; list-style: none; padding: 18px 20px; font-weight: 800; font-size: 17px; }
+.more-fold > summary::-webkit-details-marker { display: none; }
+.more-fold > summary span { display: block; margin-top: 4px; font-size: 13px; font-weight: 500; color: var(--text-secondary, #868E96); }
+.more-fold[open] > summary { border-bottom: 1px solid var(--border, #E9ECEF); }
+.more-fold > div { margin: 0; }
 /* ── v2 strengths / growth ── */
 .v2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
 .v2-list-item { display: flex; gap: 10px; align-items: flex-start; font-size: 19px; line-height: 1.65; }
@@ -3821,7 +3829,7 @@ function renderResults(scores) {
           <div class="v2-guide-label">📱 일상 활용 가이드</div>
           <div class="v2-guide-text">${t.daily_guide}</div>
         </div>` : '';
-      const hasAccordion = !!(t.morning_tip || t.power_use || t.prompt_example);
+      const hasAccordion = !!(t.morning_tip || t.power_use || t.prompt_example || idx > 0);
       return `
         <div class="v2-ai-card ${idx === 0 ? 'open' : ''}">
           <div class="v2-ai-header" onclick="toggleV2AI(this.parentElement)">
@@ -3830,8 +3838,9 @@ function renderResults(scores) {
             <div class="v2-ai-tagline">${t.tagline || ''}</div>
             ${hasAccordion ? '<div class="v2-expand-icon">▾</div>' : ''}
           </div>
-          ${dailyBlock}
-          ${hasAccordion ? `<div class="v2-ai-body">
+          ${idx === 0 ? dailyBlock : ''}
+          ${hasAccordion || dailyBlock ? `<div class="v2-ai-body">
+            ${idx === 0 ? '' : dailyBlock}
             ${t.morning_tip ? `<div class="v2-guide-block"><div class="v2-guide-label">☀️ 아침 루틴 활용법</div><div class="v2-guide-text">${t.morning_tip}</div></div>` : ''}
             ${t.power_use ? `<div class="v2-guide-block"><div class="v2-guide-label">⚡ 이 성향을 위한 파워 활용</div><div class="v2-guide-text">${t.power_use}</div></div>` : ''}
             ${promptBlock}
@@ -3923,12 +3932,6 @@ function renderResults(scores) {
       <div class="insight-text">${insightText}</div>
     </div>
 
-    <!-- OCEAN Profile -->
-    <div class="ocean-profile-section fade-up-d2">
-      <div class="section-title" style="margin-bottom:16px">🧬 나의 OCEAN 강점 프로파일</div>
-      ${oceanProfileRows}
-    </div>
-
     <!-- v2 Strengths & Growth (if available) -->
     ${v2StrengthsSection}
 
@@ -3963,7 +3966,13 @@ function renderResults(scores) {
     <!-- AI Prescription (v2 or v1 fallback) -->
     ${prescriptionHTML}
 
-    <!-- v2 Synergy Strategy -->
+    <!-- 상세 분석 (접힘) -->
+    <details class="more-fold fade-up-d3" ontoggle="if(this.open)track('detail_open',{})">
+    <summary>📖 상세 분석 더 보기 <span>OCEAN 프로파일 · 시너지 전략 · 추천 도구 · 하루 루틴</span></summary>
+    <div class="ocean-profile-section">
+      <div class="section-title" style="margin-bottom:16px">🧬 나의 OCEAN 강점 프로파일</div>
+      ${oceanProfileRows}
+    </div>
     ${v2SynergySection}
 
     <!-- Job AI Extra Tools -->
@@ -3974,8 +3983,8 @@ function renderResults(scores) {
       <div class="job-ai-extra-grid">${jobExtraCards}</div>
     </div>` : ''}
 
-    <!-- v2 Daily Routine (맨 마지막) -->
     ${v2RoutineSection}
+    </details>
 
     <!-- Retake -->
     <div class="retake-section">
