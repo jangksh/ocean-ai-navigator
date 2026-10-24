@@ -1561,6 +1561,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 }
 .ai-logo-img { width: 18px; height: 18px; object-fit: contain; border-radius: 3px; display: block; }
 .v2-ai-tagline { font-size: 15px; color: var(--text-secondary); flex: 2; min-width: 0; }
+@media (max-width: 600px) { .v2-ai-header { flex-wrap: wrap; row-gap: 6px; } .v2-ai-name { flex: 1 1 60%; } .v2-ai-tagline { flex: 1 1 100%; order: 5; font-size: 14px; } }
 .v2-expand-icon {
   width: 22px; height: 22px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -1590,6 +1591,13 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   font-size: 17px; line-height: 1.6; color: var(--text-primary); font-style: italic;
 }
 
+
+.more-fold { margin: 20px 0; border: 1px solid var(--border, #E9ECEF); border-radius: 16px; background: #fff; overflow: hidden; }
+.more-fold > summary { cursor: pointer; list-style: none; padding: 18px 20px; font-weight: 800; font-size: 17px; }
+.more-fold > summary::-webkit-details-marker { display: none; }
+.more-fold > summary span { display: block; margin-top: 4px; font-size: 13px; font-weight: 500; color: var(--text-secondary, #868E96); }
+.more-fold[open] > summary { border-bottom: 1px solid var(--border, #E9ECEF); }
+.more-fold > div { margin: 0; }
 /* ── v2 strengths / growth ── */
 .v2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
 .v2-list-item { display: flex; gap: 10px; align-items: flex-start; font-size: 19px; line-height: 1.65; }
@@ -3462,8 +3470,8 @@ const JOB_AI_TOOLS = {
     { name:'Curipod', use:'프롬프트 하나로 인터랙티브 수업 슬라이드 자동 생성' },
   ],
   4:  [
-    { name:'Harvey AI', use:'법률 문서 분석·계약 검토 전문 AI' },
-    { name:'Claude Enterprise', use:'대용량 재무·법률 문서 분석·보안 환경' },
+    { name:'Power BI', use:'월 마감·예산 대비 실적을 대시보드로 시각화' },
+    { name:'Claude Enterprise', use:'대용량 재무 문서 분석·보안 환경' },
     { name:'MindBridge', use:'이상거래·감사 리스크 AI 자동 탐지' },
     { name:'DataSnipper', use:'감사 증빙 자료 자동 추출·교차 검증' },
     { name:'BlackLine', use:'재무 마감·조정 자동화 및 검증' },
@@ -3657,6 +3665,8 @@ const AI_TOOL_URLS = {
   'whoop ai': 'https://www.whoop.com',
   'chatgpt enterprise': 'https://chat.openai.com',
   'sap ibp': 'https://www.sap.com',
+  'datasnipper': 'https://datasnipper.com',
+  'mindbridge': 'https://www.mindbridge.ai',
   'chatpdf': 'https://www.chatpdf.com',
 };
 
@@ -3695,6 +3705,8 @@ const AI_DOMAIN_MAP = {
   'atlas': 'atlassian.com', 'linear': 'linear.app', 'clickup': 'clickup.com',
   'asana': 'asana.com', 'monday.com': 'monday.com', 'airtable': 'airtable.com',
   'loom': 'loom.com', 'miro': 'miro.com', 'whimsical': 'whimsical.com',
+  'datasnipper': 'datasnipper.com', 'mindbridge': 'mindbridge.ai', 'alphasense': 'alpha-sense.com',
+  'notebooklm': 'notebooklm.google.com', 'microsoft copilot': 'copilot.microsoft.com',
 };
 function getAIDomain(name) {
   if (!name) return null;
@@ -3817,7 +3829,7 @@ function renderResults(scores) {
           <div class="v2-guide-label">📱 일상 활용 가이드</div>
           <div class="v2-guide-text">${t.daily_guide}</div>
         </div>` : '';
-      const hasAccordion = !!(t.morning_tip || t.power_use || t.prompt_example);
+      const hasAccordion = !!(t.morning_tip || t.power_use || t.prompt_example || idx > 0);
       return `
         <div class="v2-ai-card ${idx === 0 ? 'open' : ''}">
           <div class="v2-ai-header" onclick="toggleV2AI(this.parentElement)">
@@ -3826,8 +3838,9 @@ function renderResults(scores) {
             <div class="v2-ai-tagline">${t.tagline || ''}</div>
             ${hasAccordion ? '<div class="v2-expand-icon">▾</div>' : ''}
           </div>
-          ${dailyBlock}
-          ${hasAccordion ? `<div class="v2-ai-body">
+          ${idx === 0 ? dailyBlock : ''}
+          ${hasAccordion || dailyBlock ? `<div class="v2-ai-body">
+            ${idx === 0 ? '' : dailyBlock}
             ${t.morning_tip ? `<div class="v2-guide-block"><div class="v2-guide-label">☀️ 아침 루틴 활용법</div><div class="v2-guide-text">${t.morning_tip}</div></div>` : ''}
             ${t.power_use ? `<div class="v2-guide-block"><div class="v2-guide-label">⚡ 이 성향을 위한 파워 활용</div><div class="v2-guide-text">${t.power_use}</div></div>` : ''}
             ${promptBlock}
@@ -3919,12 +3932,6 @@ function renderResults(scores) {
       <div class="insight-text">${insightText}</div>
     </div>
 
-    <!-- OCEAN Profile -->
-    <div class="ocean-profile-section fade-up-d2">
-      <div class="section-title" style="margin-bottom:16px">🧬 나의 OCEAN 강점 프로파일</div>
-      ${oceanProfileRows}
-    </div>
-
     <!-- v2 Strengths & Growth (if available) -->
     ${v2StrengthsSection}
 
@@ -3959,7 +3966,13 @@ function renderResults(scores) {
     <!-- AI Prescription (v2 or v1 fallback) -->
     ${prescriptionHTML}
 
-    <!-- v2 Synergy Strategy -->
+    <!-- 상세 분석 (접힘) -->
+    <details class="more-fold fade-up-d3" ontoggle="if(this.open)track('detail_open',{})">
+    <summary>📖 상세 분석 더 보기 <span>OCEAN 프로파일 · 시너지 전략 · 추천 도구 · 하루 루틴</span></summary>
+    <div class="ocean-profile-section">
+      <div class="section-title" style="margin-bottom:16px">🧬 나의 OCEAN 강점 프로파일</div>
+      ${oceanProfileRows}
+    </div>
     ${v2SynergySection}
 
     <!-- Job AI Extra Tools -->
@@ -3970,8 +3983,8 @@ function renderResults(scores) {
       <div class="job-ai-extra-grid">${jobExtraCards}</div>
     </div>` : ''}
 
-    <!-- v2 Daily Routine (맨 마지막) -->
     ${v2RoutineSection}
+    </details>
 
     <!-- Retake -->
     <div class="retake-section">
