@@ -338,9 +338,9 @@ function pageFor(code) {
 <style>${CSS}</style>
 </head>
 <body>
-<header class="site-header"><div class="in"><a class="logo" href="/">AI-OCEAN</a><nav><a href="/">홈</a><a href="/?start=1">테스트 시작</a></nav></div></header>
+<header class="site-header"><div class="in"><a class="logo" href="/">AI-OCEAN</a><nav><a href="/?lang=ko">홈</a><a href="/?start=1&amp;lang=ko">테스트 시작</a></nav></div></header>
 <main>
-  <nav class="crumbs" aria-label="breadcrumb"><a href="/">홈</a> › OCEAN 32가지 유형 › ${esc(name)}</nav>
+  <nav class="crumbs" aria-label="breadcrumb"><a href="/?lang=ko">홈</a> › OCEAN 32가지 유형 › ${esc(name)}</nav>
 
   <div class="hero">
     <div class="emoji" aria-hidden="true">${emoji}</div>
@@ -349,7 +349,7 @@ function pageFor(code) {
     <p class="lead">${esc(m.summary)}</p>
     ${alias ? `<p class="alias">메인 화면 카드 이름: ‘${esc(alias)}’</p>` : ''}
     <div class="pills">${pills}</div>
-    <a class="btn" href="/?start=1">나의 AI DNA 분석 시작 →</a>
+    <a class="btn" href="/?start=1&amp;lang=ko">나의 AI DNA 분석 시작 →</a>
   </div>
 
   <section>
@@ -376,7 +376,7 @@ function pageFor(code) {
   <div class="cta">
     <h2 style="margin-bottom:6px">내 결과도 ${esc(name)}일까요?</h2>
     <p>25문항에 답하면 내 직업군에 맞춘 AI 처방전을 받을 수 있습니다.</p>
-    <a class="btn" href="/?start=1">테스트 시작하기 →</a>
+    <a class="btn" href="/?start=1&amp;lang=ko">테스트 시작하기 →</a>
   </div>
 
   <section>
@@ -418,7 +418,7 @@ const NAV_START = '<!-- TYPE-LINKS:START (build_type_pages.js가 생성 — 직�
 const NAV_END = '<!-- TYPE-LINKS:END -->';
 function typeLinksBlock() {
   const items = CODES.map((c) =>
-    `      <li><a href="${typePath(c)}">${EMOJI[c] || ''} ${esc(masterByCode[c].name)}</a></li>`).join('\n');
+    `      <li><a href="${typePath(c)}" data-code="${c}">${EMOJI[c] || ''} ${esc(masterByCode[c].name)}</a></li>`).join('\n');
   return `${NAV_START}
     <nav class="type-links-section" aria-label="OCEAN 32가지 유형 전체 보기" lang="ko">
       <h2 class="tl-title">OCEAN 32가지 유형 전체 보기</h2>
