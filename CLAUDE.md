@@ -10,6 +10,8 @@ Big 5(OCEAN) 심리 측정 기반의 성향 분석 웹사이트.
 ├── index.html          # 메인 앱 (UI + 퀴즈 + 결과 렌더링 로직)
 ├── ocean-personas.js   # 32종 페르소나 데이터 + 직업군별 AI 추천 DB (444개)
 ├── v2_data.js          # 직업군×유형 480개 상세 문장/AI 도구 (약 4MB, 결과 화면에서 로드)
+├── i18n_en.js          # 영어 문항·결과 화면 문구·32유형 영어 요약 (영어가 기본 언어)
+├── i18n_en_job04.js    # 직군 04(금융/재무/회계) 영어 결과 본문 32개 (다른 직군은 영어 본문 없음 → 유형 요약 + 안내 문구 표시)
 ├── build_type_pages.js # 유형별 정적 페이지 + sitemap.xml 생성기 (node로 실행)
 ├── types/<코드>/index.html  # 생성물: 32개 유형 정적 페이지 (예: /types/11010/)
 ├── robots.txt, sitemap.xml  # 검색엔진용 (sitemap.xml은 생성기가 덮어씀, 33 URL)
@@ -74,6 +76,11 @@ node build_type_pages.js   # types/*/index.html 32개, sitemap.xml(33 URL), inde
 - 직업군 섹션 본문은 `ocean-personas.js` 직업군 페르소나를 우선 쓰고, 없는 칸만 `v2_data.js`로 보완한다(코드와 모순되는 문장은 제외).
 - 데이터가 화면의 직업군 이름과 맞지 않아 **06, 14번 직업군은 페이지에서 제외**했다 (`EXCLUDED_JOB_GROUPS`). 데이터 정리 후 목록에서 빼면 된다.
 - 테스트 시작 버튼은 `/?start=1`로 연결되고, 메인 `index.html`이 이를 받아 직업군 선택 화면을 연다.
+
+## 언어 (i18n)
+- 기본 언어는 영어. `?lang=ko` 또는 우측 상단 KO/EN 버튼으로 전환하며 선택은 localStorage `ocean_lang`에 저장된다.
+- 한국어 정적 유형 페이지(`/types/…`)의 시작 링크는 `?lang=ko`를 붙여 한국어로 연결된다.
+- 새 직군의 영어 본문은 `window.EN_JOB['<직군>_<코드>']`에 추가한다 (title, mainAI, specialistAIs, v2 구조는 i18n_en_job04.js 참고).
 
 ## 개발 시 주의사항
 - `ocean-personas.js`는 ES module 아님 (plain script). `export` 없음.
