@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy — AI-OCEAN</title>
+<meta name="robots" content="noindex">
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif; max-width: 680px; margin: 0 auto; padding: 32px 20px 64px; color: #1A1B2E; line-height: 1.7; background: #F7F8FC; }
+  h1 { font-size: 24px; margin: 0 0 4px; } h2 { font-size: 17px; margin: 28px 0 6px; }
+  .meta { color: #6C757D; font-size: 14px; margin-bottom: 20px; }
+  a { color: #3451D1; }
+  .lang { float: right; font-size: 14px; }
+  [data-l] { display: none; } body.en [data-l=en], body.ko [data-l=ko] { display: block; }
+  li[data-l] { display: none; } body.en li[data-l=en], body.ko li[data-l=ko] { display: list-item; }
+</style>
+</head>
+<body class="en">
+<div class="lang"><a href="#" onclick="setLang('en');return false">EN</a> · <a href="#" onclick="setLang('ko');return false">KO</a></div>
+
+<div data-l="en">
+<h1>Privacy</h1>
+<div class="meta">AI-OCEAN · thepersonalityai.com · Last updated: October 2026</div>
+
+<h2>The test</h2>
+<p>Your test answers are scored in your browser. We do not store your answers or your scores on a server. We use Google Analytics to count visits and clicks (for example, which result type was shown); this data is not linked to your email address.</p>
+
+<h2>The email series (optional)</h2>
+<p>If you enter your email on the result page, we store: your email address, the result type code, the job group you chose, your language, and the sign-up and confirmation times. We use them only to send you the 5-day AI guide and the weekly tips for your type.</p>
+<ul>
+  <li>We send a confirmation email first. Nothing else is sent until you click the link.</li>
+  <li>Every email has an unsubscribe link. After you unsubscribe we keep only your email address, marked as unsubscribed, so that you are not emailed again.</li>
+  <li>The series ends after about 10 weeks. We do not sell or share your email address.</li>
+  <li>Your data is stored in a Google Sheet and sent through Google’s mail service, which process it on our behalf.</li>
+</ul>
+
+<h2>Your choices</h2>
+<p>To see, correct, or delete your data, reply to any email from us. We will respond as soon as we can.</p>
+</div>
+
+<div data-l="ko">
+<h1>개인정보 안내</h1>
+<div class="meta">AI-OCEAN · thepersonalityai.com · 최종 수정: 2026년 10월</div>
+
+<h2>테스트</h2>
+<p>테스트 응답은 브라우저 안에서 채점되며, 응답과 점수를 서버에 저장하지 않습니다. 방문과 클릭(예: 어떤 결과 유형이 나왔는지)을 세기 위해 Google Analytics를 사용하며, 이 데이터는 이메일 주소와 연결되지 않습니다.</p>
+
+<h2>이메일 시리즈 (선택)</h2>
+<p>결과 화면에서 이메일을 입력하시면 이메일 주소, 결과 유형 코드, 선택한 직군, 언어, 신청·확인 시각을 저장합니다. 5일 AI 가이드와 내 유형에 맞춘 주간 팁을 보내는 데만 사용합니다.</p>
+<ul>
+  <li>먼저 확인 메일을 보내며, 링크를 누르기 전에는 다른 메일을 보내지 않습니다.</li>
+  <li>모든 메일에 구독 취소 링크가 있습니다. 취소 후에는 다시 메일이 가지 않도록 이메일 주소만 ‘취소’ 표시로 보관합니다.</li>
+  <li>시리즈는 약 10주 후 끝납니다. 이메일 주소를 판매하거나 제3자와 공유하지 않습니다.</li>
+  <li>데이터는 Google 스프레드시트에 저장되고 Google 메일 서비스로 발송되며, Google이 당사를 대신해 처리합니다.</li>
+</ul>
+
+<h2>선택권</h2>
+<p>열람·정정·삭제를 원하시면 받으신 메일 아무 것에나 답장해 주세요. 가능한 한 빨리 답변드립니다.</p>
+</div>
+
+<p><a href="/">← thepersonalityai.com</a></p>
+<script>
+  function setLang(l) { document.body.className = l; document.documentElement.lang = l; }
+  (function () {
+    var l = 'en';
+    try { var q = /[?&]lang=(ko|en)/.exec(location.search); if (q) l = q[1]; else if (localStorage.getItem('ocean_lang') === 'ko') l = 'ko'; } catch (e) {}
+    setLang(l);
+  })();
+</script>
+</body>
+</html>
