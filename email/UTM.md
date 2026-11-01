@@ -13,10 +13,10 @@ https://thepersonalityai.com/?start=1&job=04&utm_source=<source>&utm_medium=<med
 | utm_source | `youtube` `tiktok` `instagram` `linkedin` `email` `direct_outreach` | 어디서 왔나 |
 | utm_medium | `shorts` `reel` `post` `carousel` `comment` `bio` `dm` | 어떤 형식인가 |
 | utm_campaign | `tc04_w1` ~ `tc04_w4` (유형 카드 실험 1~4주차) | 어느 실험·주차인가. 새 실험은 새 이름 |
-| utm_content | `e01_11010` (에피소드 번호 + 유형 코드) | 어느 영상인가. 같은 영상의 다른 위치(설명란/고정댓글)는 `_desc` `_pin` 접미사 |
+| utm_content | `e01_01101` (에피소드 번호 + 유형 코드) | 어느 영상인가. 같은 영상의 다른 위치(설명란/고정댓글)는 `_desc` `_pin` 접미사 |
 
 예: 1주차 첫 영상의 설명란 링크
-`https://thepersonalityai.com/?start=1&job=04&utm_source=youtube&utm_medium=shorts&utm_campaign=tc04_w1&utm_content=e01_11010_desc`
+`https://thepersonalityai.com/?start=1&job=04&utm_source=youtube&utm_medium=shorts&utm_campaign=tc04_w1&utm_content=e01_01101_desc`
 
 ## YouTube Shorts는 링크가 다르다 (중요)
 2023년 기사 기준으로 Shorts 설명란·댓글의 링크는 클릭되지 않고, 대신 **채널 페이지의 Links(최대 14개)** 가 클릭 가능한 경로입니다 ([Lindsey Gamble](https://lindseygamble.com/blog/youtubes-link-changes-what-it-means-for-creators)). 2026년 현재도 같은지는 확인하지 못했으니 YouTube Studio에서 직접 확인하세요.
