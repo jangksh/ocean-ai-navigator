@@ -12,6 +12,9 @@ Big 5(OCEAN) 심리 측정 기반의 성향 분석 웹사이트.
 ├── v2_data.js          # 직업군×유형 480개 상세 문장/AI 도구 (약 4MB, 결과 화면에서 로드)
 ├── i18n_en.js          # 영어 문항·결과 화면 문구·32유형 영어 요약 (영어가 기본 언어)
 ├── i18n_en_job04.js    # 직군 04(금융/재무/회계) 영어 결과 본문 32개 (다른 직군은 영어 본문 없음 → 유형 요약 + 안내 문구 표시)
+├── subscribe_config.js # 이메일 구독 endpoint (비어 있으면 결과 화면 구독 카드 숨김)
+├── email/              # 5일 강의 + 주간 팁 원고(copy.js), 생성물 content.json, 발송기 apps_script/Code.gs, README.md(설정)
+├── privacy/index.html  # 개인정보 안내 (영/한)
 ├── build_type_pages.js # 유형별 정적 페이지 + sitemap.xml 생성기 (node로 실행)
 ├── types/<코드>/index.html  # 생성물: 32개 유형 정적 페이지 (예: /types/11010/)
 ├── robots.txt, sitemap.xml  # 검색엔진용 (sitemap.xml은 생성기가 덮어씀, 33 URL)
@@ -81,6 +84,12 @@ node build_type_pages.js   # types/*/index.html 32개, sitemap.xml(33 URL), inde
 - 기본 언어는 영어. `?lang=ko` 또는 우측 상단 KO/EN 버튼으로 전환하며 선택은 localStorage `ocean_lang`에 저장된다.
 - 한국어 정적 유형 페이지(`/types/…`)의 시작 링크는 `?lang=ko`를 붙여 한국어로 연결된다.
 - 새 직군의 영어 본문은 `window.EN_JOB['<직군>_<코드>']`에 추가한다 (title, mainAI, specialistAIs, v2 구조는 i18n_en_job04.js 참고).
+
+## 이메일 구독 (재방문 장치)
+- 결과 화면 `subscribeCardHTML()` → Google Apps Script 웹앱(`email/apps_script/Code.gs`)으로 POST. 더블 옵트인 후 5일 강의 + 10주 주간 팁 발송.
+- `subscribe_config.js`의 `endpoint`가 비면 카드가 안 보인다. `?subscribe_preview=1`로 미리보기(전송 안 함).
+- 원고 수정: `email/copy.js` → `node email/build_content.js` → `node email/test_engine.js`. `content.json`은 생성물.
+- GA 이벤트: `subscribe_view`, `subscribe_submit`, `subscribe_error` (이메일 주소는 GA로 보내지 않는다). 설정 방법·한도는 `email/README.md`.
 
 ## 개발 시 주의사항
 - `ocean-personas.js`는 ES module 아님 (plain script). `export` 없음.
