@@ -103,6 +103,14 @@ rows[1][8] = 5; rows[1][9] = new Date(Date.now() - 9 * D); const before = sent.l
 post({ email: 'a@example.com', code: '01101', lang: 'ko' }); assert.strictEqual(sent.length, before);   // 취소한 주소는 다시 안 보냄
 console.log('subscribe → confirm → course → weekly → unsubscribe flow OK');
 
+// 4a) 출처(UTM) 기록
+rows = []; sent = [];
+post({ email: 'u@example.com', code: '11010', lang: 'en', utm: 'youtube|shorts|tc04_w1|e01_11010' });
+assert.strictEqual(rows[1][10], 'youtube|shorts|tc04_w1|e01_11010');
+post({ email: 'u2@example.com', code: '11010', lang: 'en', utm: '<script>' });
+assert.strictEqual(rows[2][10], '');
+console.log('utm recorded / unsafe utm dropped OK');
+
 // 4b) 한도 부족 시 신규 신청 보류
 rows = []; sent = [];
 ctx.MailApp.getRemainingDailyQuota = () => 5;

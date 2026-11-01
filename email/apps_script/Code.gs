@@ -27,7 +27,7 @@ var CONFIG = {
   MIN_DAYS_BETWEEN_TIPS: 6.5    // 주간 팁 사이 최소 간격
 };
 
-var COLS = ['created_at', 'email', 'token', 'status', 'code', 'job', 'lang', 'confirmed_at', 'sent_count', 'last_sent_at'];
+var COLS = ['created_at', 'email', 'token', 'status', 'code', 'job', 'lang', 'confirmed_at', 'sent_count', 'last_sent_at', 'utm'];
 var DIMS = ['O', 'C', 'E', 'A', 'N'];
 var HOUR = 3600 * 1000, DAY = 24 * HOUR;
 
@@ -150,7 +150,7 @@ function sheet_() {
   var sh = ss.getSheetByName(CONFIG.SHEET_NAME) || ss.insertSheet(CONFIG.SHEET_NAME);
   if (sh.getLastRow() === 0) {
     // 코드('01101')·토큰이 숫자로 바뀌지 않도록 해당 열을 텍스트 서식으로 고정
-    ['email', 'token', 'code', 'job'].forEach(function (k) { sh.getRange(1, COLS.indexOf(k) + 1, sh.getMaxRows(), 1).setNumberFormat('@'); });
+    ['email', 'token', 'code', 'job', 'utm'].forEach(function (k) { sh.getRange(1, COLS.indexOf(k) + 1, sh.getMaxRows(), 1).setNumberFormat('@'); });
     sh.appendRow(COLS);
   }
   return sh;
@@ -196,6 +196,7 @@ function doPost(e) {
   var code = /^[01]{5}$/.test(p.code || '') ? p.code : null;
   var lang = p.lang === 'ko' ? 'ko' : 'en';
   var job = /^\d{1,2}$/.test(p.job || '') ? String(p.job).padStart(2, '0') : '';
+  var utm = /^[\w.\-|]{0,170}$/.test(p.utm || '') ? String(p.utm || '') : '';          // 출처(source|medium|campaign|content)
   if (!validEmail_(email) || !code) return ok;
   if (MailApp.getRemainingDailyQuota() < CONFIG.RESERVE_QUOTA) { console.warn('daily mail quota low — signup skipped'); return ok; } // 이미 가입한 사람들의 강의 메일을 위해 한도를 남겨 둔다
 
@@ -211,8 +212,8 @@ function doPost(e) {
 
     var token = Utilities.getUuid().replace(/-/g, '');
     var content = getContent_();
-    if (mine) setRow_(sh, mine.row, { created_at: new Date(now), token: token, code: code, job: job, lang: lang });
-    else sh.appendRow([new Date(now), email, token, 'pending', code, job, lang, '', 0, '']);
+    if (mine) setRow_(sh, mine.row, { created_at: new Date(now), token: token, code: code, job: job, lang: lang, utm: utm });
+    else sh.appendRow([new Date(now), email, token, 'pending', code, job, lang, '', 0, '', utm]);
     send_(email, confirmEmail_(content, { code: code, lang: lang }, linksFor_(token)));
   } finally { lock.releaseLock(); }
   return ok;
