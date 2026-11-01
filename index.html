@@ -3017,6 +3017,19 @@ let shuffledQuestions = [];
 //  이메일 구독: subscribe_view → subscribe_submit / subscribe_error
 //  핵심 이벤트(전환) 후보: test_complete, outbound_click, subscribe_submit
 // ═══════════════════════════════════════════════════════
+// UTM 기록: 마지막으로 들어온 UTM(source|medium|campaign|content)을 localStorage 에 남겨 구독 신청에 함께 보낸다.
+// GA4 는 URL 의 utm_* 를 세션 출처로 자동 집계한다. 규칙: email/UTM.md
+const UTM = (function () {
+  const clean = v => String(v || '').toLowerCase().replace(/[^\w.\-]/g, '').slice(0, 40);
+  let cur = '';
+  try {
+    const q = new URLSearchParams(location.search);
+    const fresh = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].map(k => clean(q.get(k)));
+    if (fresh[0]) { cur = fresh.join('|'); localStorage.setItem('ocean_utm', cur); }
+    else cur = localStorage.getItem('ocean_utm') || '';
+  } catch (e) {}
+  return cur;
+})();
 const ENTRY_SOURCE = /[?&]start=1(&|$)/.test(location.search) ? 'type_page' : 'direct';
 function track(name, params) {
   try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {}
@@ -3846,7 +3859,7 @@ async function submitSubscribe(ev) {
   btn.disabled = true;
   try {
     if (!SUB_PREVIEW) {
-      const body = new URLSearchParams({ email, code: code || '', job: String(selectedJob || '').padStart(2, '0'), lang: window.LANG, company: '' });
+      const body = new URLSearchParams({ email, code: code || '', job: String(selectedJob || '').padStart(2, '0'), lang: window.LANG, utm: UTM, company: '' });
       await fetch(window.SUBSCRIBE_CONFIG.endpoint, { method: 'POST', mode: 'no-cors', body });
     }
     track('subscribe_submit', p);
@@ -4401,6 +4414,13 @@ function shareTiktok() {
 init();
 // 유형 페이지(/types/…)의 '테스트 시작' 버튼이 /?start=1 로 들어오면 바로 직업군 선택 화면을 연다
 if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
+// /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
+(function () {
+  try {
+    const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
+    if (j >= 1 && j <= 15 && /[?&]start=1(&|$)/.test(location.search)) selectJob(j);
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

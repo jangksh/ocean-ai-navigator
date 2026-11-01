@@ -89,6 +89,7 @@ node build_type_pages.js   # types/*/index.html 32개, sitemap.xml(33 URL), inde
 - 결과 화면 `subscribeCardHTML()` → Google Apps Script 웹앱(`email/apps_script/Code.gs`)으로 POST. 더블 옵트인 후 5일 강의 + 10주 주간 팁 발송.
 - `subscribe_config.js`의 `endpoint`가 비면 카드가 안 보인다. `?subscribe_preview=1`로 미리보기(전송 안 함).
 - 원고 수정: `email/copy.js` → `node email/build_content.js` → `node email/test_engine.js`. `content.json`은 생성물.
+- 홍보 링크 규칙(UTM, `?start=1&job=04` 딥링크)은 `email/UTM.md`. 마지막 UTM은 localStorage `ocean_utm`에 저장되어 구독 신청(`utm` 열)에 함께 기록된다.
 - GA 이벤트: `subscribe_view`, `subscribe_submit`, `subscribe_error` (이메일 주소는 GA로 보내지 않는다). 설정 방법·한도는 `email/README.md`.
 
 ## 개발 시 주의사항
