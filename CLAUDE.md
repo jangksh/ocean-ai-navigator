@@ -17,7 +17,8 @@ Big 5(OCEAN) 심리 측정 기반의 성향 분석 웹사이트.
 ├── privacy/index.html  # 개인정보 안내 (영/한)
 ├── build_type_pages.js # 유형별 정적 페이지 + sitemap.xml 생성기 (node로 실행)
 ├── types/<코드>/index.html  # 생성물: 32개 유형 정적 페이지 (예: /types/11010/)
-├── robots.txt, sitemap.xml  # 검색엔진용 (sitemap.xml은 생성기가 덮어씀, 33 URL)
+├── blog/               # 손으로 쓴 정적 블로그 (index.html 목록 + 글별 폴더). sitemap 항목은 build_type_pages.js의 BLOG_URLS
+├── robots.txt, sitemap.xml  # 검색엔진용 (sitemap.xml은 생성기가 덮어씀, 35 URL)
 ├── package.json        # 로컬 dev 서버용
 └── CLAUDE.md           # 이 파일
 ```
