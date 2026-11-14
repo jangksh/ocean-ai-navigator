@@ -6,7 +6,7 @@
  *
  * 생성물
  *   types/<코드>/index.html   32개 (예: types/11010/index.html → /types/11010/)
- *   sitemap.xml               홈 + 32개 유형 = 33 URL
+ *   sitemap.xml               홈 + 32개 유형 + EXTRA_URLS (정적 아티클). 아티클 URL은 EXTRA_URLS에 유지할 것.
  *   index.html                <!-- TYPE-LINKS:START --> ~ <!-- TYPE-LINKS:END --> 사이 정적 링크 블록
  *
  * 데이터 출처
@@ -407,11 +407,17 @@ function buildTypePages() {
   CODES.forEach((code) => writeFile(`types/${code}/index.html`, pageFor(code)));
 }
 
+// Static article URLs that must survive sitemap regeneration. Do not drop these.
+const EXTRA_URLS = [
+  { loc: SITE + '/big-five-personality-test-for-careers/', lastmod: '2026-11-14' },
+];
+
 function buildSitemap() {
   const urls = [SITE + '/', ...CODES.map(typeUrl)];
   const body = urls.map((u) => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${TODAY}</lastmod>\n  </url>`).join('\n');
+  const extra = EXTRA_URLS.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod || TODAY}</lastmod>\n  </url>`).join('\n');
   writeFile('sitemap.xml',
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`);
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n${extra}\n</urlset>\n`);
 }
 
 const NAV_START = '<!-- TYPE-LINKS:START (build_type_pages.js가 생성 — 직접 수정하지 마세요) -->';
@@ -447,6 +453,6 @@ function injectTypeLinks() {
 buildTypePages();
 buildSitemap();
 injectTypeLinks();
-console.log(`생성 완료: types/ ${CODES.length}개, sitemap.xml ${CODES.length + 1} URL`);
+console.log(`생성 완료: types/ ${CODES.length}개, sitemap.xml ${CODES.length + 1 + EXTRA_URLS.length} URL`);
 console.log(`직업군 ${JOB_GROUPS.length}개 사용(${JOB_GROUPS.join(',')}), 제외 ${[...EXCLUDED_JOB_GROUPS].join(',')}`);
 console.log(`직업군 섹션 ${STATS.persona + STATS.v2}개: 페르소나 ${STATS.persona}, v2 보완 ${STATS.v2}, 품질 검사로 제외 ${STATS.skipped}`);
