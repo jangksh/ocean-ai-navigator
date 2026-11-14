@@ -331,6 +331,9 @@ function pageFor(code) {
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${SITE}/og-image.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
@@ -347,7 +350,6 @@ function pageFor(code) {
     <p class="eyebrow">OCEAN ${code} · ${esc(en)}</p>
     <h1>${esc(name)}</h1>
     <p class="lead">${esc(m.summary)}</p>
-    ${alias ? `<p class="alias">메인 화면 카드 이름: ‘${esc(alias)}’</p>` : ''}
     <div class="pills">${pills}</div>
     <a class="btn" href="/?start=1&amp;lang=ko">나의 AI DNA 분석 시작 →</a>
   </div>

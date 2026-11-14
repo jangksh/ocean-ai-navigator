@@ -44,7 +44,7 @@ const OCEAN_MASTER_PERSONAS = [
   },
   {
     "code": "11001",
-    "name": "차 가운 두뇌의 고고한 학자",
+    "name": "차가운 두뇌의 고고한 학자",
     "summary": "데이터만 믿는 조용한 팩트 폭격기, 철저한 개인주의"
   },
   {
