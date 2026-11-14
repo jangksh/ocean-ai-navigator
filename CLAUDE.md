@@ -18,8 +18,8 @@ Big 5(OCEAN) 심리 측정 기반의 성향 분석 웹사이트.
 ├── build_type_pages.js # 유형별 정적 페이지 + sitemap.xml 생성기 (node로 실행)
 ├── types/<코드>/index.html  # 생성물: 32개 유형 정적 페이지 (예: /types/11010/)
 ├── blog/               # 손으로 쓴 정적 블로그 (index.html 목록 + 글별 폴더). sitemap 항목은 build_type_pages.js의 BLOG_URLS
-├── big-five-personality-test-for-careers/index.html  # 정적 영어 아티클 (생성기 대상 아님)
-├── robots.txt, sitemap.xml  # 검색엔진용 (sitemap.xml은 생성기가 덮어씀; BLOG_URLS + EXTRA_URLS)
+├── big-five-personality-test-for-careers/index.html  # 옛 URL 리다이렉트(noindex, canonical → /blog/…); GitHub Pages는 서버 리다이렉트 없음
+├── robots.txt, sitemap.xml  # 검색엔진용 (sitemap.xml은 생성기가 덮어씀; BLOG_URLS로 블로그 URL 유지)
 ├── package.json        # 로컬 dev 서버용
 └── CLAUDE.md           # 이 파일
 ```
@@ -73,7 +73,7 @@ npm run dev
 
 ## SEO 정적 페이지 (유형별 URL)
 ```bash
-node build_type_pages.js   # types/*/index.html 32개, sitemap.xml(홈+32유형+BLOG_URLS+EXTRA_URLS), index.html의 정적 링크 블록을 다시 생성
+node build_type_pages.js   # types/*/index.html 32개, sitemap.xml(홈+32유형+BLOG_URLS), index.html의 정적 링크 블록을 다시 생성
 ```
 - `types/`와 `sitemap.xml`은 **생성물**이다. 직접 고치지 말고 생성기(또는 원본 데이터)를 수정한 뒤 다시 실행해 함께 커밋한다.
 - `index.html`의 `<!-- TYPE-LINKS:START -->` ~ `<!-- TYPE-LINKS:END -->` 블록도 생성기가 갱신한다.

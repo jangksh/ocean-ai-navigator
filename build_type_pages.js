@@ -6,7 +6,7 @@
  *
  * 생성물
  *   types/<코드>/index.html   32개 (예: types/11010/index.html → /types/11010/)
- *   sitemap.xml               홈 + 32개 유형 + BLOG_URLS + EXTRA_URLS. 정적 글 URL은 이 목록에 유지할 것.
+ *   sitemap.xml               홈 + 32개 유형 + BLOG_URLS (정적 블로그). 글 URL은 BLOG_URLS에 유지할 것.
  *   index.html                <!-- TYPE-LINKS:START --> ~ <!-- TYPE-LINKS:END --> 사이 정적 링크 블록
  *
  * 데이터 출처
@@ -411,14 +411,11 @@ function buildTypePages() {
 const BLOG_URLS = [
   { loc: SITE + '/blog/', lastmod: '2026-11-14' },
   { loc: SITE + '/blog/mbti-vs-bigfive-ocean/', lastmod: '2026-11-14' },
-];
-// Static article URLs not yet under /blog/ that must survive sitemap regeneration.
-const EXTRA_URLS = [
-  { loc: SITE + '/big-five-personality-test-for-careers/', lastmod: '2026-11-14' },
+  { loc: SITE + '/blog/big-five-personality-test-for-careers/', lastmod: '2026-11-14' },
 ];
 
 function buildSitemap() {
-  const urls = [SITE + '/', ...CODES.map(typeUrl)].map((loc) => ({ loc, lastmod: TODAY })).concat(BLOG_URLS, EXTRA_URLS);
+  const urls = [SITE + '/', ...CODES.map(typeUrl)].map((loc) => ({ loc, lastmod: TODAY })).concat(BLOG_URLS);
   const body = urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n  </url>`).join('\n');
   writeFile('sitemap.xml',
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`);
@@ -457,6 +454,6 @@ function injectTypeLinks() {
 buildTypePages();
 buildSitemap();
 injectTypeLinks();
-console.log(`생성 완료: types/ ${CODES.length}개, sitemap.xml ${CODES.length + 1 + BLOG_URLS.length + EXTRA_URLS.length} URL`);
+console.log(`생성 완료: types/ ${CODES.length}개, sitemap.xml ${CODES.length + 1 + BLOG_URLS.length} URL`);
 console.log(`직업군 ${JOB_GROUPS.length}개 사용(${JOB_GROUPS.join(',')}), 제외 ${[...EXCLUDED_JOB_GROUPS].join(',')}`);
 console.log(`직업군 섹션 ${STATS.persona + STATS.v2}개: 페르소나 ${STATS.persona}, v2 보완 ${STATS.v2}, 품질 검사로 제외 ${STATS.skipped}`);
