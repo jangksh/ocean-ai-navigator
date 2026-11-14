@@ -16,13 +16,21 @@
   } catch (e) {}
   gtag('config', 'G-180ERLEMSE', _ocInternal ? { traffic_type: 'internal' } : {});
 </script>
+<script src="/i18n_router.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI-OCEAN | 나만의 AI 처방전</title>
 <meta name="description" content="Big Five(OCEAN) 성향 분석으로 나에게 딱 맞는 AI 도구를 추천받으세요. 25문항, 3분 완성.">
 <link rel="canonical" href="https://thepersonalityai.com/">
+<!-- HREFLANG:START -->
+<link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/">
+<link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/">
+<!-- HREFLANG:END -->
 <!-- Open Graph -->
 <meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:url" content="https://thepersonalityai.com/">
 <meta property="og:title" content="AI-OCEAN | 나만의 AI 처방전">
 <meta property="og:description" content="Big Five(OCEAN) 성향 분석으로 나에게 딱 맞는 AI 도구를 추천받으세요. 25문항, 3분 완성.">
@@ -2490,11 +2498,11 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   </div>
 </div>
 
-<script src="ocean-personas.js"></script>
-<script src="v2_data.js" onerror="window.OCEAN_V2_DATA={}"></script>
-<script src="i18n_en.js" onerror="window.EN=window.EN||null"></script>
-<script src="i18n_en_job04.js" onerror="window.EN_JOB=window.EN_JOB||{}"></script>
-<script src="subscribe_config.js" onerror="window.SUBSCRIBE_CONFIG=window.SUBSCRIBE_CONFIG||{}"></script>
+<script src="/ocean-personas.js"></script>
+<script src="/v2_data.js" onerror="window.OCEAN_V2_DATA={}"></script>
+<script src="/i18n_en.js" onerror="window.EN=window.EN||null"></script>
+<script src="/i18n_en_job04.js" onerror="window.EN_JOB=window.EN_JOB||{}"></script>
+<script src="/subscribe_config.js" onerror="window.SUBSCRIBE_CONFIG=window.SUBSCRIBE_CONFIG||{}"></script>
 <script>
 if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
 // ═══════════════════════════════════════════════════════
@@ -2754,12 +2762,10 @@ const TOOL_CATEGORIES = [
 //  I18N
 // ═══════════════════════════════════════════════════════
 (function () {
-  var l = 'en';
-  try {
-    var q = new URLSearchParams(location.search).get('lang');
-    if (q === 'ko' || q === 'en') { l = q; localStorage.setItem('ocean_lang', q); }
-    else { var st = localStorage.getItem('ocean_lang'); if (st === 'ko' || st === 'en') l = st; }
-  } catch (e) {}
+  var l = (typeof oceanPathLang === 'function')
+    ? oceanPathLang(location.pathname)
+    : ((location.pathname === '/en' || location.pathname === '/en/' || location.pathname.indexOf('/en/') === 0) ? 'en' : 'ko');
+  try { localStorage.setItem('ocean_lang', l); } catch (e) {}
   window.LANG = l;
 })();
 const L = (ko, en) => (window.LANG === 'en' && en !== undefined ? en : ko);
@@ -2986,6 +2992,7 @@ function applyTypeLinks() {
   nav.querySelectorAll('a[data-code]').forEach(a => {
     if (!a.dataset.ko) a.dataset.ko = a.textContent;
     a.textContent = en ? ((PERSONA_EMOJI[a.dataset.code] || '') + ' ' + (PERSONA_EN_NAME[a.dataset.code] || a.dataset.code)) : a.dataset.ko;
+    a.href = en ? ('/en/types/' + a.dataset.code + '/') : ('/types/' + a.dataset.code + '/');
   });
 }
 
@@ -3000,8 +3007,53 @@ function applyQuizStatic() {
   [1, 2, 3, 4].forEach(i => set('ls' + i, '<span class="loading-step-icon">' + icons[i - 1] + '</span> ' + L(ko[i - 1], u.ls && u.ls[i - 1])));
 }
 
+function saveLangSwitchState() {
+  try {
+    const act = document.querySelector('.screen.active');
+    const screen = act && act.id ? act.id.replace(/^screen-/, '') : 'landing';
+    sessionStorage.setItem('ocean_lang_switch', JSON.stringify({
+      screen: screen,
+      selectedJob: selectedJob,
+      currentQ: currentQ,
+      answers: answers,
+      shuffledQuestions: shuffledQuestions,
+      scores: window._lastScores || null
+    }));
+  } catch (e) {}
+}
+
+function restoreLangSwitchState() {
+  try {
+    const raw = sessionStorage.getItem('ocean_lang_switch');
+    if (!raw) return false;
+    sessionStorage.removeItem('ocean_lang_switch');
+    const s = JSON.parse(raw);
+    if (s.selectedJob != null) selectedJob = s.selectedJob;
+    if (Array.isArray(s.answers)) answers = s.answers;
+    if (typeof s.currentQ === 'number') currentQ = s.currentQ;
+    if (Array.isArray(s.shuffledQuestions)) shuffledQuestions = s.shuffledQuestions;
+    if (s.scores) window._lastScores = s.scores;
+    if (s.screen && s.screen !== 'landing') {
+      showScreen(s.screen);
+      if (s.screen === 'quiz' && shuffledQuestions && shuffledQuestions.length && typeof renderQuestion === 'function') renderQuestion();
+      if (s.screen === 'results' && s.scores && typeof renderResults === 'function') renderResults(s.scores);
+      if (s.screen === 'jobs' && selectedJob && typeof renderJobGrid === 'function') renderJobGrid();
+      return true;
+    }
+  } catch (e) {}
+  return false;
+}
+
 function toggleLang() {
-  setLang(window.LANG === 'ko' ? 'en' : 'ko');
+  const next = window.LANG === 'ko' ? 'en' : 'ko';
+  try { localStorage.setItem('ocean_lang', next); } catch (e) {}
+  saveLangSwitchState();
+  const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(next) : (next === 'en' ? '/en/' : '/');
+  location.href = dest;
+}
+
+function siteHomeUrl() {
+  return window.LANG === 'en' ? 'https://thepersonalityai.com/en/' : 'https://thepersonalityai.com/';
 }
 
 // ═══════════════════════════════════════════════════════
@@ -3085,7 +3137,7 @@ function renderPersonaGrid() {
       return `<div class="pp-digit" style="background:${on ? DIM_CODE_BG[i] : '#F0F2F8'};color:${on ? DIM_CODE_COLORS[i] : '#A0AEC0'}">${['O','C','E','A','N'][i]}</div>`;
     }).join('');
     return `
-      <a class="persona-preview-card" href="/types/${p.code}/">
+      <a class="persona-preview-card" href="${isEn ? '/en/types/' : '/types/'}${p.code}/">
         <div class="pp-emoji">${emoji}</div>
         <div class="pp-code">${digits}</div>
         <div class="pp-name">${isEn ? enName : p.name}</div>
@@ -3824,7 +3876,7 @@ function subEnabled() { return SUB_PREVIEW || !!((window.SUBSCRIBE_CONFIG || {})
 function subDone() { try { return localStorage.getItem('ocean_sub') === '1'; } catch (e) { return false; } }
 function subscribeCardHTML(code, typeName) {
   if (!subEnabled()) return '';
-  const priv = '/privacy/' + (window.LANG === 'ko' ? '?lang=ko' : '');
+  const priv = window.LANG === 'en' ? '/en/privacy/' : '/privacy/';
   const title = L('📬 내 유형의 AI 활용 가이드를 메일로 받아보세요', '📬 Get your AI guide by email');
   const sub = L('5일 동안 하루 한 통씩 짧은 강의, 이후 10주 동안 매주 한 통씩 내 유형에 맞춘 팁을 보내드립니다. 무료이고 언제든 취소할 수 있습니다.',
                 'Five short daily lessons, then one tip a week for 10 weeks, written for your type. Free. Unsubscribe anytime.');
@@ -4297,7 +4349,7 @@ function renderTypeShowcase() {
       return `<div class="tcc-dot" style="background:${on ? DIM_CODE_BG[i] : '#F0F2F8'};color:${on ? DIM_CODE_COLORS[i] : '#A0AEC0'}">${['O','C','E','A','N'][i]}</div>`;
     }).join('');
     return `
-      <a class="type-card-16p" href="/types/${p.code}/">
+      <a class="type-card-16p" href="${isEn ? '/en/types/' : '/types/'}${p.code}/">
         <span class="tc-emoji">${p.emoji}</span>
         <div class="tc-name">${isEn ? p.en : p.name}</div>
         <div class="tc-en">${isEn ? '' : p.en}</div>
@@ -4309,7 +4361,7 @@ function renderTypeShowcase() {
 // ═══════════════════════════════════════════════════════
 //  SNS SHARING
 // ═══════════════════════════════════════════════════════
-var SITE_URL = 'https://thepersonalityai.com/';
+
 
 function _shareText() {
   var d = window._shareData || {};
@@ -4345,13 +4397,13 @@ function showShareToast(msg) {
 }
 
 function shareFacebook() {
-  var url = encodeURIComponent(SITE_URL);
+  var url = encodeURIComponent(siteHomeUrl());
   window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=620,height=520');
 }
 
 function shareTwitterX() {
   var text = encodeURIComponent(_shareText());
-  var url = encodeURIComponent(SITE_URL);
+  var url = encodeURIComponent(siteHomeUrl());
   window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'width=620,height=420');
 }
 
@@ -4359,8 +4411,8 @@ function copyInstagram() {
   var d = window._shareData || {};
   var name = d.name || '', code = d.code || '', scores = d.scores || {};
   var text = window.LANG === 'en'
-    ? '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + SITE_URL + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest'
-    : '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + SITE_URL + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+    ? '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + siteHomeUrl() + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest'
+    : '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + siteHomeUrl() + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
   navigator.clipboard.writeText(text).then(function() {
     showShareToast(L('📸 인스타그램용 텍스트 복사 완료! 앱 열고 새 게시물에 붙여넣으세요.', UI().igCopied));
   }).catch(function() {
@@ -4371,7 +4423,7 @@ function copyInstagram() {
 function shareKakao() {
   var d = window._shareData || {};
   var name = d.name || '';
-  var shareUrl = SITE_URL;
+  var shareUrl = siteHomeUrl();
   var text = _shareText() + '\n\n👉 ' + shareUrl;
   if (navigator.share) {
     navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: shareUrl })
@@ -4394,9 +4446,9 @@ function shareKakao() {
 function shareTiktok() {
   var d = window._shareData || {};
   var name = d.name || '';
-  var text = _shareText() + '\n\n👉 ' + SITE_URL + (window.LANG === 'en' ? '\n\n#TikTok #PersonalityTest' : '\n\n#TikTok #성격테스트');
+  var text = _shareText() + '\n\n👉 ' + siteHomeUrl() + (window.LANG === 'en' ? '\n\n#TikTok #PersonalityTest' : '\n\n#TikTok #성격테스트');
   if (navigator.share) {
-    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: SITE_URL })
+    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: siteHomeUrl() })
       .catch(function() {
         navigator.clipboard.writeText(text).then(function() {
           showShareToast(L('🎵 텍스트 복사 완료! TikTok 앱에서 게시물 작성 후 붙여넣으세요.', UI().tiktokCopied));
@@ -4413,15 +4465,17 @@ function shareTiktok() {
 
 // Start
 init();
-// 유형 페이지(/types/…)의 '테스트 시작' 버튼이 /?start=1 로 들어오면 바로 직업군 선택 화면을 연다
-if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
-// /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
-(function () {
-  try {
-    const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
-    if (j >= 1 && j <= 15 && /[?&]start=1(&|$)/.test(location.search)) selectJob(j);
-  } catch (e) {}
-})();
+if (!restoreLangSwitchState()) {
+  // 유형 페이지의 '테스트 시작' 버튼이 /?start=1 또는 /en/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
+  if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
+  // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
+  (function () {
+    try {
+      const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
+      if (j >= 1 && j <= 15 && /[?&]start=1(&|$)/.test(location.search)) selectJob(j);
+    } catch (e) {}
+  })();
+}
 </script>
 </body>
 </html>

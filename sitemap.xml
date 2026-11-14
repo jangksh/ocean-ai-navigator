@@ -1,140 +1,473 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://thepersonalityai.com/</loc>
     <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11111/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11111/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11110/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11110/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11101/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11101/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11100/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11100/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11011/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11011/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11010/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11010/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11001/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11001/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/11000/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11000/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10111/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10111/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10110/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10110/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10101/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10101/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10100/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10100/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10011/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10011/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10010/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10010/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10001/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10001/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/10000/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10000/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01111/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01111/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01110/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01110/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01101/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01101/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01100/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01100/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01011/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01011/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01010/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01010/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01001/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01001/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/01000/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01000/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00111/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00111/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00110/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00110/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00101/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00101/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00100/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00100/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00011/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00011/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00010/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00010/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00001/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00001/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/types/00000/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00000/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11111/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11111/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11110/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11110/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11101/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11101/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11100/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11100/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11011/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11011/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11010/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11010/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11001/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11001/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/11000/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/11000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/11000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/11000/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10111/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10111/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10110/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10110/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10101/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10101/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10100/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10100/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10011/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10011/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10010/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10010/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10001/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10001/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/10000/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/10000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/10000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/10000/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01111/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01111/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01110/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01110/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01101/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01101/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01100/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01100/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01011/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01011/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01010/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01010/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01001/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01001/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/01000/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/01000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/01000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/01000/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00111/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00111/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00111/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00111/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00110/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00110/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00110/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00110/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00101/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00101/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00101/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00101/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00100/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00100/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00100/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00100/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00011/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00011/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00011/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00011/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00010/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00010/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00010/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00010/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00001/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00001/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00001/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00001/"/>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/types/00000/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/types/00000/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/types/00000/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/types/00000/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/blog/</loc>
     <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/blog/"/>
   </url>
   <url>
     <loc>https://thepersonalityai.com/blog/mbti-vs-bigfive-ocean/</loc>
@@ -143,5 +476,12 @@
   <url>
     <loc>https://thepersonalityai.com/blog/big-five-personality-test-for-careers/</loc>
     <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://thepersonalityai.com/en/blog/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/blog/"/>
   </url>
 </urlset>
