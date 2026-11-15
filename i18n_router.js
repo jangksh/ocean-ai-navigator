@@ -1,6 +1,6 @@
 // Language URL router for AI-OCEAN.
 // Korean pages stay at the current path. English lives under /en/.
-// Spanish lives under /es/ (Phase 1: homepage / quiz only; no /es/types yet).
+// Spanish lives under /es/, including /es/types/{code}/ and /es/privacy/.
 // ?lang=en|ko|es on a mismatched URL client-side redirects to the paired path,
 // preserving every other query param (start, job, UTM, internal) and the hash.
 // Returning visitors with a saved ocean_lang of "en" or "es" who land on "/"
@@ -69,10 +69,9 @@
   function addLangPrefix(rest, toLang) {
     rest = normPath(rest);
     if (toLang === 'ko' || !PREFIX[toLang]) return rest;
-    // Phase 1: Spanish has a homepage (quiz) only. Type, blog and privacy
-    // pages are not generated under /es/ yet — stay on the Spanish home.
+    // There is no Spanish blog yet — send those paths to the Spanish home.
     if (toLang === 'es') {
-      if (rest.indexOf('/types/') === 0 || rest.indexOf('/blog/') === 0 || rest.indexOf('/privacy/') === 0) {
+      if (rest.indexOf('/blog/') === 0) {
         return '/es/';
       }
     }
@@ -117,13 +116,8 @@
     } catch (e) {}
     var current = pathLang(loc.pathname);
     var dest = null;
-    var p = normPath(loc.pathname);
 
-    // Phase 1 has no /es/types/{code}/ pages; send those URLs to the English type page.
-    var esType = p.match(/^\/es\/types\/([01]{5})\/$/);
-    if (esType && langParam !== 'es' && langParam !== 'ko') {
-      dest = withSearch('/en/types/' + esType[1] + '/', loc.search, loc.hash, true);
-    } else if (langParam === 'en' || langParam === 'ko' || langParam === 'es') {
+    if (langParam === 'en' || langParam === 'ko' || langParam === 'es') {
       try {
         var store = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
         if (store && store.setItem) store.setItem('ocean_lang', langParam);

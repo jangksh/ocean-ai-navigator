@@ -2811,50 +2811,50 @@ const PERSONA_AI_REC = {
 };
 
 const TOOL_CATEGORIES = [
-  { name:'창작 & 이미지 생성', en_name:'Creation & Image Generation', icon:'🎨', bg:'var(--dim-O-bg)', color:'var(--dim-O)',
+  { name:'창작 & 이미지 생성', en_name:'Creation & Image Generation', es_name:'Creación e imagen', icon:'🎨', bg:'var(--dim-O-bg)', color:'var(--dim-O)',
     tools:[
-      { icon:'🎨', name:'Midjourney', domain:'midjourney.com', url:'https://www.midjourney.com', desc:'텍스트 프롬프트로 최고 품질 아트워크 생성', en_desc:'Generate stunning artwork from text prompts', tag:'개방성 높음(O↑)', en_tag:'High Openness (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🔥', name:'Adobe Firefly', domain:'firefly.adobe.com', url:'https://firefly.adobe.com', desc:'전문가 수준의 AI 이미지·그래픽 편집', en_desc:'Professional-grade AI image & graphic editing', tag:'디자이너·크리에이터', en_tag:'Designers & Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🖼️', name:'DALL-E 3', domain:'openai.com', url:'https://chat.openai.com', desc:'OpenAI 텍스트→이미지 AI, ChatGPT에 내장', en_desc:"OpenAI's text-to-image AI, built into ChatGPT", tag:'창의형(O↑)', en_tag:'Creative (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🎬', name:'Runway', domain:'runwayml.com', url:'https://runwayml.com', desc:'AI 영상 생성·편집·인페인팅 최강자', en_desc:'AI video generation, editing & inpainting', tag:'영상 크리에이터', en_tag:'Video Creators', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'🎨', name:'Canva AI', domain:'canva.com', url:'https://www.canva.com', desc:'누구나 쉬운 AI 기반 SNS·발표 디자인', en_desc:'Easy AI-powered design for everyone', tag:'마케터·외향형', en_tag:'Marketers & Extroverts', tagColor:'#7048E8', tagBg:'#F3F0FF' },
-      { icon:'⚗️', name:'Stable Diffusion', domain:'stability.ai', url:'https://stability.ai', desc:'오픈소스 이미지 생성 AI, 로컬 실행 가능', en_desc:'Open-source image generation AI, runs locally', tag:'개발자·DIY형', en_tag:'Developers & DIY', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎨', name:'Midjourney', domain:'midjourney.com', url:'https://www.midjourney.com', desc:'텍스트 프롬프트로 최고 품질 아트워크 생성', en_desc:'Generate stunning artwork from text prompts', es_desc:'Genera ilustraciones de gran calidad a partir de un texto', tag:'개방성 높음(O↑)', en_tag:'High Openness (O↑)', es_tag:'Alta Apertura (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🔥', name:'Adobe Firefly', domain:'firefly.adobe.com', url:'https://firefly.adobe.com', desc:'전문가 수준의 AI 이미지·그래픽 편집', en_desc:'Professional-grade AI image & graphic editing', es_desc:'Edición profesional de imagen y gráficos con IA', tag:'디자이너·크리에이터', en_tag:'Designers & Creators', es_tag:'Diseño y creación', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🖼️', name:'DALL-E 3', domain:'openai.com', url:'https://chat.openai.com', desc:'OpenAI 텍스트→이미지 AI, ChatGPT에 내장', en_desc:"OpenAI's text-to-image AI, built into ChatGPT", es_desc:'La IA de texto a imagen de OpenAI, integrada en ChatGPT', tag:'창의형(O↑)', en_tag:'Creative (O↑)', es_tag:'Perfil creativo (O↑)', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎬', name:'Runway', domain:'runwayml.com', url:'https://runwayml.com', desc:'AI 영상 생성·편집·인페인팅 최강자', en_desc:'AI video generation, editing & inpainting', es_desc:'Generación, edición e inpainting de video con IA', tag:'영상 크리에이터', en_tag:'Video Creators', es_tag:'Creación de video', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'🎨', name:'Canva AI', domain:'canva.com', url:'https://www.canva.com', desc:'누구나 쉬운 AI 기반 SNS·발표 디자인', en_desc:'Easy AI-powered design for everyone', es_desc:'Diseño fácil con IA, para todo el mundo', tag:'마케터·외향형', en_tag:'Marketers & Extroverts', es_tag:'Marketing y extraversión', tagColor:'#7048E8', tagBg:'#F3F0FF' },
+      { icon:'⚗️', name:'Stable Diffusion', domain:'stability.ai', url:'https://stability.ai', desc:'오픈소스 이미지 생성 AI, 로컬 실행 가능', en_desc:'Open-source image generation AI, runs locally', es_desc:'IA de imagen de código abierto, que puedes correr en local', tag:'개발자·DIY형', en_tag:'Developers & DIY', es_tag:'Desarrollo y DIY', tagColor:'#7048E8', tagBg:'#F3F0FF' },
     ]},
-  { name:'글쓰기 & 대화 AI', en_name:'Writing & Conversational AI', icon:'✍️', bg:'var(--dim-C-bg)', color:'var(--dim-C)',
+  { name:'글쓰기 & 대화 AI', en_name:'Writing & Conversational AI', es_name:'Escritura e IA conversacional', icon:'✍️', bg:'var(--dim-C-bg)', color:'var(--dim-C)',
     tools:[
-      { icon:'🟣', name:'Claude', domain:'claude.ai', url:'https://claude.ai', desc:'긴 문서 분석·창의적 글쓰기·깊은 추론', en_desc:'Long document analysis, creative writing & deep reasoning', tag:'분석형(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'🤖', name:'ChatGPT', domain:'chat.openai.com', url:'https://chat.openai.com', desc:'다목적 범용 AI 어시스턴트, 최대 생태계', en_desc:'Multi-purpose AI assistant with the largest ecosystem', tag:'모든 유형', en_tag:'All Types', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'🌐', name:'Gemini', domain:'gemini.google.com', url:'https://gemini.google.com', desc:'Google Workspace 완전 연동 멀티모달 AI', en_desc:'Google Workspace-integrated multimodal AI', tag:'실용형(C↑)', en_tag:'Practical (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'📝', name:'Notion AI', domain:'notion.so', url:'https://www.notion.so', desc:'문서 작성·정리·요약·번역 올인원', en_desc:'All-in-one writing, organizing, summarizing & translation', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'✍️', name:'Jasper', domain:'jasper.ai', url:'https://www.jasper.ai', desc:'마케팅 특화 AI 카피라이터', en_desc:'Marketing-specialized AI copywriter', tag:'마케터·광고기획자', en_tag:'Marketers & Ad Planners', tagColor:'#1971C2', tagBg:'#E7F5FF' },
-      { icon:'📋', name:'Copy.ai', domain:'copy.ai', url:'https://www.copy.ai', desc:'빠른 SNS·이메일·광고 카피 자동 생성', en_desc:'Fast SNS, email & ad copy auto-generation', tag:'창업자·마케터', en_tag:'Entrepreneurs & Marketers', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🟣', name:'Claude', domain:'claude.ai', url:'https://claude.ai', desc:'긴 문서 분석·창의적 글쓰기·깊은 추론', en_desc:'Long document analysis, creative writing & deep reasoning', es_desc:'Análisis de documentos largos, escritura creativa y razonamiento profundo', tag:'분석형(O↑C↑)', en_tag:'Analytical (O↑C↑)', es_tag:'Perfil analítico (O↑C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🤖', name:'ChatGPT', domain:'chat.openai.com', url:'https://chat.openai.com', desc:'다목적 범용 AI 어시스턴트, 최대 생태계', en_desc:'Multi-purpose AI assistant with the largest ecosystem', es_desc:'Asistente de IA versátil, con el ecosistema más amplio', tag:'모든 유형', en_tag:'All Types', es_tag:'Todos los tipos', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'🌐', name:'Gemini', domain:'gemini.google.com', url:'https://gemini.google.com', desc:'Google Workspace 완전 연동 멀티모달 AI', en_desc:'Google Workspace-integrated multimodal AI', es_desc:'IA multimodal integrada con Google Workspace', tag:'실용형(C↑)', en_tag:'Practical (C↑)', es_tag:'Perfil práctico (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'📝', name:'Notion AI', domain:'notion.so', url:'https://www.notion.so', desc:'문서 작성·정리·요약·번역 올인원', en_desc:'All-in-one writing, organizing, summarizing & translation', es_desc:'Escritura, organización, resúmenes y traducción, todo en uno', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', es_tag:'Alta Responsabilidad (C↑)', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'✍️', name:'Jasper', domain:'jasper.ai', url:'https://www.jasper.ai', desc:'마케팅 특화 AI 카피라이터', en_desc:'Marketing-specialized AI copywriter', es_desc:'Redactor de IA especializado en marketing', tag:'마케터·광고기획자', en_tag:'Marketers & Ad Planners', es_tag:'Marketing y publicidad', tagColor:'#1971C2', tagBg:'#E7F5FF' },
+      { icon:'📋', name:'Copy.ai', domain:'copy.ai', url:'https://www.copy.ai', desc:'빠른 SNS·이메일·광고 카피 자동 생성', en_desc:'Fast SNS, email & ad copy auto-generation', es_desc:'Generación rápida de copys para redes, correo y anuncios', tag:'창업자·마케터', en_tag:'Entrepreneurs & Marketers', es_tag:'Emprendimiento y marketing', tagColor:'#1971C2', tagBg:'#E7F5FF' },
     ]},
-  { name:'리서치 & 데이터 분석', en_name:'Research & Data Analysis', icon:'🔍', bg:'var(--dim-A-bg)', color:'var(--dim-A)',
+  { name:'리서치 & 데이터 분석', en_name:'Research & Data Analysis', es_name:'Investigación y análisis de datos', icon:'🔍', bg:'var(--dim-A-bg)', color:'var(--dim-A)',
     tools:[
-      { icon:'🔍', name:'Perplexity', domain:'perplexity.ai', url:'https://www.perplexity.ai', desc:'실시간 웹 검색 기반 AI 리서치 엔진', en_desc:'Real-time web search-based AI research engine', tag:'연구자·지식탐구형', en_tag:'Researchers & Knowledge Seekers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'🧮', name:'WolframAlpha', domain:'wolframalpha.com', url:'https://www.wolframalpha.com', desc:'수학·과학·데이터 정밀 계산 엔진', en_desc:'Precise math, science & data computation engine', tag:'분석적(O↑C↑)', en_tag:'Analytical (O↑C↑)', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'📚', name:'Consensus', domain:'consensus.app', url:'https://consensus.app', desc:'논문 기반 과학적 근거 AI 답변', en_desc:'Science-backed answers sourced from research papers', tag:'연구자·의료·법률', en_tag:'Research / Medical / Legal', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'🧪', name:'Elicit', domain:'elicit.com', url:'https://elicit.com', desc:'AI로 학술 논문 분석·요약·비교', en_desc:'AI-powered academic paper analysis & comparison', tag:'대학원생·연구자', en_tag:'Graduate Students & Researchers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'📓', name:'NotebookLM', domain:'notebooklm.google.com', url:'https://notebooklm.google.com', desc:'자료 업로드 후 AI 맞춤 Q&A·팟캐스트 생성', en_desc:'Upload sources, get AI-tailored Q&A & podcast generation', tag:'학습자·지식관리형', en_tag:'Learners & Knowledge Managers', tagColor:'#0CA678', tagBg:'#EBFBEE' },
-      { icon:'🔬', name:'Semantic Scholar', domain:'semanticscholar.org', url:'https://www.semanticscholar.org', desc:'AI 기반 학술 논문 검색·인용 그래프 분석', en_desc:'AI-powered academic search & citation graph analysis', tag:'연구자·박사과정', en_tag:'Researchers & PhD Students', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🔍', name:'Perplexity', domain:'perplexity.ai', url:'https://www.perplexity.ai', desc:'실시간 웹 검색 기반 AI 리서치 엔진', en_desc:'Real-time web search-based AI research engine', es_desc:'Motor de investigación con IA y búsqueda web en tiempo real', tag:'연구자·지식탐구형', en_tag:'Researchers & Knowledge Seekers', es_tag:'Investigación y curiosidad', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🧮', name:'WolframAlpha', domain:'wolframalpha.com', url:'https://www.wolframalpha.com', desc:'수학·과학·데이터 정밀 계산 엔진', en_desc:'Precise math, science & data computation engine', es_desc:'Motor preciso de cálculo para matemáticas, ciencia y datos', tag:'분석적(O↑C↑)', en_tag:'Analytical (O↑C↑)', es_tag:'Perfil analítico (O↑C↑)', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'📚', name:'Consensus', domain:'consensus.app', url:'https://consensus.app', desc:'논문 기반 과학적 근거 AI 답변', en_desc:'Science-backed answers sourced from research papers', es_desc:'Respuestas con respaldo científico, extraídas de papers', tag:'연구자·의료·법률', en_tag:'Research / Medical / Legal', es_tag:'Investigación / salud / legal', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🧪', name:'Elicit', domain:'elicit.com', url:'https://elicit.com', desc:'AI로 학술 논문 분석·요약·비교', en_desc:'AI-powered academic paper analysis & comparison', es_desc:'Análisis y comparación de papers académicos con IA', tag:'대학원생·연구자', en_tag:'Graduate Students & Researchers', es_tag:'Posgrado e investigación', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'📓', name:'NotebookLM', domain:'notebooklm.google.com', url:'https://notebooklm.google.com', desc:'자료 업로드 후 AI 맞춤 Q&A·팟캐스트 생성', en_desc:'Upload sources, get AI-tailored Q&A & podcast generation', es_desc:'Sube tus fuentes y obtén preguntas, respuestas y pódcast a medida', tag:'학습자·지식관리형', en_tag:'Learners & Knowledge Managers', es_tag:'Aprendizaje y gestión del conocimiento', tagColor:'#0CA678', tagBg:'#EBFBEE' },
+      { icon:'🔬', name:'Semantic Scholar', domain:'semanticscholar.org', url:'https://www.semanticscholar.org', desc:'AI 기반 학술 논문 검색·인용 그래프 분석', en_desc:'AI-powered academic search & citation graph analysis', es_desc:'Búsqueda académica con IA y análisis de grafos de citas', tag:'연구자·박사과정', en_tag:'Researchers & PhD Students', es_tag:'Investigación y doctorado', tagColor:'#0CA678', tagBg:'#EBFBEE' },
     ]},
-  { name:'생산성 & 자동화', en_name:'Productivity & Automation', icon:'⚙️', bg:'var(--dim-E-bg)', color:'#E67700',
+  { name:'생산성 & 자동화', en_name:'Productivity & Automation', es_name:'Productividad y automatización', icon:'⚙️', bg:'var(--dim-E-bg)', color:'#E67700',
     tools:[
-      { icon:'⚙️', name:'Zapier', domain:'zapier.com', url:'https://zapier.com', desc:'앱 간 AI 자동화 워크플로우 설계', en_desc:'Design AI-powered automated workflows between apps', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'🔀', name:'Make', domain:'make.com', url:'https://www.make.com', desc:'드래그앤드롭 시각화 자동화 플랫폼', en_desc:'Visual drag-and-drop automation platform', tag:'시스템 구축형', en_tag:'Systems Builders', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'🦦', name:'Otter.ai', domain:'otter.ai', url:'https://otter.ai', desc:'회의 음성 자동 기록·요약·검색', en_desc:'Auto-record, summarize & search meeting audio', tag:'외향형(E↑)', en_tag:'Extroverts (E↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'📊', name:'Gamma', domain:'gamma.app', url:'https://gamma.app', desc:'AI 기반 자동 프레젠테이션·문서 생성', en_desc:'AI-powered automatic presentation & document generation', tag:'발표형(E↑C↑)', en_tag:'Presenters (E↑C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'🗂️', name:'Notion', domain:'notion.so', url:'https://www.notion.so', desc:'AI 올인원 워크스페이스·프로젝트 관리', en_desc:'AI-powered all-in-one workspace & project management', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
-      { icon:'📅', name:'Motion', domain:'usemotion.com', url:'https://www.usemotion.com', desc:'AI가 일정·업무를 자동 최적화 스케줄링', en_desc:'AI automatically optimizes your schedule & tasks', tag:'생산성 극대화형', en_tag:'Productivity Maximizers', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'⚙️', name:'Zapier', domain:'zapier.com', url:'https://zapier.com', desc:'앱 간 AI 자동화 워크플로우 설계', en_desc:'Design AI-powered automated workflows between apps', es_desc:'Diseña flujos automáticos con IA entre tus aplicaciones', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', es_tag:'Alta Responsabilidad (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'🔀', name:'Make', domain:'make.com', url:'https://www.make.com', desc:'드래그앤드롭 시각화 자동화 플랫폼', en_desc:'Visual drag-and-drop automation platform', es_desc:'Plataforma visual de automatización, de arrastrar y soltar', tag:'시스템 구축형', en_tag:'Systems Builders', es_tag:'Construcción de sistemas', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'🦦', name:'Otter.ai', domain:'otter.ai', url:'https://otter.ai', desc:'회의 음성 자동 기록·요약·검색', en_desc:'Auto-record, summarize & search meeting audio', es_desc:'Graba, resume y busca el audio de tus reuniones, en automático', tag:'외향형(E↑)', en_tag:'Extroverts (E↑)', es_tag:'Alta Extraversión (E↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'📊', name:'Gamma', domain:'gamma.app', url:'https://gamma.app', desc:'AI 기반 자동 프레젠테이션·문서 생성', en_desc:'AI-powered automatic presentation & document generation', es_desc:'Generación automática de presentaciones y documentos con IA', tag:'발표형(E↑C↑)', en_tag:'Presenters (E↑C↑)', es_tag:'Presentaciones (E↑C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'🗂️', name:'Notion', domain:'notion.so', url:'https://www.notion.so', desc:'AI 올인원 워크스페이스·프로젝트 관리', en_desc:'AI-powered all-in-one workspace & project management', es_desc:'Espacio de trabajo y gestión de proyectos, todo en uno con IA', tag:'성실형(C↑)', en_tag:'Conscientious (C↑)', es_tag:'Alta Responsabilidad (C↑)', tagColor:'#E67700', tagBg:'#FFF9DB' },
+      { icon:'📅', name:'Motion', domain:'usemotion.com', url:'https://www.usemotion.com', desc:'AI가 일정·업무를 자동 최적화 스케줄링', en_desc:'AI automatically optimizes your schedule & tasks', es_desc:'La IA optimiza tu agenda y tus tareas en automático', tag:'생산성 극대화형', en_tag:'Productivity Maximizers', es_tag:'Máxima productividad', tagColor:'#E67700', tagBg:'#FFF9DB' },
     ]},
-  { name:'감성 & 웰빙 AI', en_name:'Emotional & Wellbeing AI', icon:'💆', bg:'var(--dim-N-bg)', color:'var(--dim-N)',
+  { name:'감성 & 웰빙 AI', en_name:'Emotional & Wellbeing AI', es_name:'IA emocional y de bienestar', icon:'💆', bg:'var(--dim-N-bg)', color:'var(--dim-N)',
     tools:[
-      { icon:'💆', name:'Wysa', domain:'wysa.com', url:'https://www.wysa.com', desc:'AI 기반 심리 상담·마음 챙김 가이드', en_desc:'AI-based mental health support & mindfulness guide', tag:'공감형(A↑) 추천', en_tag:'Empathetic (A↑) Recommended', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🤝', name:'Replika', domain:'replika.ai', url:'https://replika.ai', desc:'감정적 지지·대화를 나누는 AI 친구', en_desc:'AI companion for emotional support and meaningful conversation', tag:'외로움 극복·감성형', en_tag:'Emotional Support Seekers', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🎵', name:'Suno', domain:'suno.ai', url:'https://suno.ai', desc:'텍스트로 완성곡을 만드는 AI 작곡', en_desc:'Create complete songs from text with AI composition', tag:'창의형(O↑)', en_tag:'Creative (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🎶', name:'Udio', domain:'udio.com', url:'https://www.udio.com', desc:'고품질 AI 음악 생성·편곡 플랫폼', en_desc:'High-quality AI music generation & arrangement platform', tag:'음악 창작형(O↑)', en_tag:'Music Creatives (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🌍', name:'DeepL', domain:'deepl.com', url:'https://www.deepl.com', desc:'세계 최고 수준의 AI 번역기', en_desc:'World-class AI translation with unmatched accuracy', tag:'글로벌 업무자', en_tag:'Global Workers', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
-      { icon:'🎙️', name:'ElevenLabs', domain:'elevenlabs.io', url:'https://elevenlabs.io', desc:'AI 음성 복제·더빙·TTS 최강자', en_desc:'AI voice cloning, dubbing & TTS leader', tag:'크리에이터·강사', en_tag:'Creators & Instructors', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'💆', name:'Wysa', domain:'wysa.com', url:'https://www.wysa.com', desc:'AI 기반 심리 상담·마음 챙김 가이드', en_desc:'AI-based mental health support & mindfulness guide', es_desc:'Acompañamiento de salud mental y guía de mindfulness con IA', tag:'공감형(A↑) 추천', en_tag:'Empathetic (A↑) Recommended', es_tag:'Recomendado si hay alta Amabilidad (A↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🤝', name:'Replika', domain:'replika.ai', url:'https://replika.ai', desc:'감정적 지지·대화를 나누는 AI 친구', en_desc:'AI companion for emotional support and meaningful conversation', es_desc:'Compañero de IA para apoyo emocional y conversaciones con sentido', tag:'외로움 극복·감성형', en_tag:'Emotional Support Seekers', es_tag:'Apoyo emocional', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎵', name:'Suno', domain:'suno.ai', url:'https://suno.ai', desc:'텍스트로 완성곡을 만드는 AI 작곡', en_desc:'Create complete songs from text with AI composition', es_desc:'Crea canciones completas a partir de un texto, con composición de IA', tag:'창의형(O↑)', en_tag:'Creative (O↑)', es_tag:'Perfil creativo (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎶', name:'Udio', domain:'udio.com', url:'https://www.udio.com', desc:'고품질 AI 음악 생성·편곡 플랫폼', en_desc:'High-quality AI music generation & arrangement platform', es_desc:'Plataforma de generación y arreglo musical de alta calidad con IA', tag:'음악 창작형(O↑)', en_tag:'Music Creatives (O↑)', es_tag:'Creación musical (O↑)', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🌍', name:'DeepL', domain:'deepl.com', url:'https://www.deepl.com', desc:'세계 최고 수준의 AI 번역기', en_desc:'World-class AI translation with unmatched accuracy', es_desc:'Traducción con IA de primer nivel, con una precisión difícil de igualar', tag:'글로벌 업무자', en_tag:'Global Workers', es_tag:'Trabajo global', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
+      { icon:'🎙️', name:'ElevenLabs', domain:'elevenlabs.io', url:'https://elevenlabs.io', desc:'AI 음성 복제·더빙·TTS 최강자', en_desc:'AI voice cloning, dubbing & TTS leader', es_desc:'Líder en clonación de voz, doblaje y TTS con IA', tag:'크리에이터·강사', en_tag:'Creators & Instructors', es_tag:'Creación y docencia', tagColor:'#C92A2A', tagBg:'#FFF5F5' },
     ]},
 ];
 
@@ -2896,7 +2896,8 @@ function typeDisplayName(code, fallback) {
   return fallback || code;
 }
 function typePagePath(code) {
-  return (window.LANG === 'ko' ? '/types/' : '/en/types/') + code + '/';
+  const prefix = window.LANG === 'es' ? '/es/types/' : window.LANG === 'en' ? '/en/types/' : '/types/';
+  return prefix + code + '/';
 }
 
 const STRINGS = {
@@ -3098,7 +3099,84 @@ const STRINGS = {
     js_sub: 'La misma personalidad recibe distintas recomendaciones de IA según tu trabajo',
     js_start: 'Empezar mi análisis OCEAN →',
     disclaimer: 'Basado en el modelo Big Five (OCEAN) — con referencia al marco abierto IPIP. Este test no es un diagnóstico médico; es una guía de personalidad para ayudarte a usar la IA.',
-    personas_back: '← Inicio',
+    about_back: '← Volver al test',
+    about_hero_label: '📖 Indicadores de confianza basados en la ciencia',
+    about_h2: '¿Qué es<br>Big Five OCEAN?',
+    about_sub: 'Ciencia de la personalidad validada en más de 50 países a lo largo de décadas. Explica con claridad por qué puedes confiar en este test y qué significa cada dimensión.',
+    trust1: 'Artículos con revisión de pares', trust2: 'Países con validación',
+    trust3_num: 'Gratis', trust3: 'IPIP de código abierto<br>de dominio público',
+    trust4_num: 'En uso', trust4: 'RR. HH. empresariales y<br>aplicaciones de psicología clínica',
+    why_trust_h: '¿Por qué confiar en él?',
+    compare_col1: 'Categoría', compare_col2: 'Big Five / OCEAN', compare_col3: 'MBTI',
+    cmp_r1c1: 'Medición', cmp_r1c2: 'Espectro continuo (0–100%)', cmp_r1c3: 'Tipo binario (I o E)',
+    cmp_r2c1: 'Validez científica', cmp_r2c2: 'Miles de estudios con revisión de pares', cmp_r2c3: 'Baja credibilidad científica',
+    cmp_r3c1: 'Universalidad cultural', cmp_r3c2: 'Validación transcultural en más de 50 países', cmp_r3c3: 'Centrado en EE. UU., con sesgo cultural',
+    cmp_r4c1: 'Fiabilidad test-retest', cmp_r4c2: 'Alta &mdash; consistente con el tiempo', cmp_r4c3: 'Baja &mdash; resultados distintos al repetirlo',
+    cmp_r5c1: 'Predicción de la conducta', cmp_r5c2: 'Predice el desempeño laboral y las relaciones', cmp_r5c3: 'Poder predictivo limitado',
+    cmp_r6c1: 'Origen', cmp_r6c2: 'IPIP de dominio público (sin copyright)', cmp_r6c3: 'Copyright comercial de Myers-Briggs',
+    dim5_h: 'Las 5 dimensiones, explicadas',
+    dim5_click: 'Toca cada ítem para ver los detalles y las características de un puntaje alto o bajo.',
+    dim_O_title: 'Apertura a la experiencia', dim_O_sub: 'Qué tan abierta es tu mente a nuevas experiencias, ideas y creatividad',
+    dim_O_hi: 'Alta (70%+)', dim_O_hi_traits: 'Mucha curiosidad<br>Pensamiento creativo<br>Interés por el arte y la filosofía<br>Acepta el cambio<br>Imaginación rica',
+    dim_O_lo: 'Baja (30%-)', dim_O_lo_traits: 'Enfoque pragmático<br>Prefiere métodos comprobados<br>Valora la estabilidad<br>Se centra en hechos concretos<br>Cautela ante el cambio',
+    dim_O_analogy: '<strong>Analogía:</strong> Alguien que se pierde en YouTube hasta las 3 a. m. estudiando cosmología vs. alguien que solo ve los canales de siempre',
+    dim_C_title: 'Responsabilidad', dim_C_sub: 'La tendencia a actuar de forma organizada, responsable y orientada a metas',
+    dim_C_hi: 'Alta (70%+)', dim_C_hi_traits: 'Planificación rigurosa<br>Cumple los plazos<br>Usa planificadores<br>Atención al detalle<br>Orientación a metas',
+    dim_C_lo: 'Baja (30%-)', dim_C_lo_traits: 'Espontaneidad y flexibilidad<br>Se deja llevar por el momento<br>Piensa en el panorama general<br>Se adapta con facilidad<br>Espíritu libre',
+    dim_C_analogy: '<strong>Analogía:</strong> Alguien que siempre lleva cargador de reserva, paraguas y botiquín en la bolsa vs. alguien que los pide prestados cada vez',
+    dim_E_title: 'Extraversión', dim_E_sub: '¿Ganas energía al estar con gente, o al estar a solas?',
+    dim_E_hi: 'Alta (70%+)', dim_E_hi_traits: 'Lidera la energía del grupo<br>Inicia la conversación con desconocidos<br>Se aburre en soledad<br>Disfruta hablar y hacer networking<br>Energía activa',
+    dim_E_lo: 'Baja (introversión)', dim_E_lo_traits: 'Se recarga en soledad<br>Prefiere conversaciones 1:1 profundas<br>Cómodo en grupos pequeños<br>Observación y reflexión<br>Introvertido ≠ antisocial',
+    dim_E_analogy: '<strong>Analogía:</strong> Alguien que propone los brindis y anima la mesa en una cena de trabajo vs. alguien que solo siente que se recarga al llegar a casa',
+    dim_A_title: 'Amabilidad', dim_A_sub: 'Cuánto te importan los demás, cooperas y confías en la gente',
+    dim_A_hi: 'Alta (70%+)', dim_A_hi_traits: 'Mucha empatía<br>Media en los conflictos<br>Le encanta ayudar<br>Dice "está bien" con facilidad<br>Valora la confianza y la cooperación',
+    dim_A_lo: 'Baja (30%-)', dim_A_lo_traits: 'Estilo directo y competitivo<br>Centrado en resultados<br>No teme la crítica<br>Juicio independiente<br>Análisis frío',
+    dim_A_analogy: '<strong>Analogía:</strong> Alguien que dice "sívanse, por favor" aunque quiere el último pedazo vs. alguien que, si está rico, se sirve más con toda confianza',
+    dim_N_title: 'Estabilidad emocional — Neuroticismo (invertido)', dim_N_sub: 'La capacidad de manejar el estrés con constancia, sin volatilidad emocional',
+    dim_N_hi: 'Alta = estable (70%+)', dim_N_hi_traits: 'Calma bajo estrés<br>Poca preocupación por lo menor<br>Pocos cambios de humor<br>Cabeza fría en una crisis<br>Alta resiliencia',
+    dim_N_lo: 'Baja = sensible (30%-)', dim_N_lo_traits: 'Cambios de humor<br>Propenso a la preocupación y la ansiedad<br>Sensible a la crítica<br>Pero reflexivo y<br>muy empático',
+    dim_N_analogy: '<strong>Analogía:</strong> Alguien que se duerme enseguida la noche antes de una presentación vs. alguien que ensaya 1.000 escenarios en la cabeza hasta las 4 a. m.',
+    ipip_h: 'Estructura del test IPIP (25 preguntas)', ipip_total: 'Preguntas en total', ipip_perdim: 'Por dimensión', ipip_likert: 'Escala Likert', ipip_pct: 'Resultados en porcentaje',
+    step1_h: 'Respuesta', step1_p: 'Responde cada pregunta del 1 (Totalmente en desacuerdo) al 5 (Totalmente de acuerdo).',
+    step2_h: 'Puntaje inverso (ítems R)', step2_p: 'Algunas preguntas se puntúan al revés. Por ejemplo: "Tiendo a ser una persona callada (R)" — un 5 se calcula como 1. Así se evita manipular las respuestas a propósito.',
+    step3_h: 'Suma y conversión', step3_p: 'Suma las 5 preguntas de cada dimensión (5–25 puntos) y conviértelas a porcentaje.<br>Fórmula: <strong>(suma − 5) ÷ 20 × 100 = %</strong><br>Ej.: Responsabilidad suma 20 → 75%',
+    step4_h: 'Asignación de persona', step4_p: 'Con los % de las 5 dimensiones se encuentra el tipo de persona más cercano y se recomiendan herramientas de IA.',
+    sample_q_label: 'Preguntas de ejemplo',
+    sample_O_label: 'Apertura (O)', sample_O_q1: 'Disfruto idear cosas nuevas.', sample_O_q2: 'Prefiero lo conocido antes que probar algo nuevo. <span class="sq-r-badge">Invertida</span>',
+    sample_C_label: 'Responsabilidad (C)', sample_C_q1: 'Siempre voy bien preparado.', sample_C_q2: 'A menudo pospongo lo que tengo que hacer. <span class="sq-r-badge">Invertida</span>',
+    sample_E_label: 'Extraversión (E)', sample_E_q1: 'Llevo la atmósfera en las fiestas o reuniones.', sample_E_q2: 'Me siento más a gusto a solas que con mucha gente. <span class="sq-r-badge">Invertida</span>',
+    sample_A_label: 'Amabilidad (A)', sample_A_q1: 'Empatizo de verdad con lo que sienten los demás.', sample_A_q2: 'No dudo en decir cosas que pueden molestar a otros. <span class="sq-r-badge">Invertida</span>',
+    sample_N_label: 'Estabilidad emocional (N)', sample_N_q1: 'Mantengo la calma incluso bajo estrés.', sample_N_q2: 'A veces me siento ansioso o nervioso sin motivo. <span class="sq-r-badge">Invertida</span>',
+    r_badge: 'Invertida',
+    history_h: 'Historia de Big Five OCEAN', history_intro: 'Big Five no es la teoría de un solo investigador, sino el resultado de décadas de convergencia científica.',
+    htl1_body: '<strong>Hipótesis léxica</strong> — Los psicólogos Allport y Odbert analizaron 18.000 palabras en inglés y propusieron que los términos que describen la personalidad convergen.',
+    htl2_body: '<strong>Surge el análisis factorial</strong> — Cattell analizó estadísticamente las palabras que describen la personalidad y derivó 16 factores: la base de Big Five.',
+    htl3_body: '<strong>Convergencia en 5 factores</strong> — Equipos independientes, entre ellos Lewis Goldberg y Costa y McCrae, llegaron a las mismas 5 dimensiones por caminos distintos.',
+    htl4_body: '<strong>Nacen el NEO PI-R y el IPIP</strong> — Se publica el test oficial de Costa y McCrae (NEO PI-R) y las preguntas IPIP abiertas y gratuitas de Goldberg, para investigadores de todo el mundo.',
+    htl5_body: '<strong>Validación global</strong> — La investigación transcultural en más de 50 países confirmó que las 5 dimensiones aparecen de forma consistente, sin importar el idioma o la cultura. Hoy es el estándar en psicología.',
+    ocean_ai_h: 'La era OCEAN × IA — ¿Por qué importa la personalidad?',
+    ocean_ai_intro: 'La explosión de herramientas de IA plantea la pregunta: "¿Qué IA debería usar?" La respuesta <strong>depende de tu personalidad.</strong>',
+    air_O: '<strong>Las personas con alta Apertura</strong> encuentran una sinergia enorme con la IA creativa (Midjourney, Runway). Si tu apertura es baja, te irán mejor las herramientas prácticas y bien puestas a prueba.',
+    air_C: '<strong>Las personas con alta Responsabilidad</strong> combinan bien con la IA de gestión sistemática (Notion AI, Zapier). Si tu responsabilidad es baja, te va mejor una IA al estilo ChatGPT, para ideas espontáneas.',
+    air_E: '<strong>Las personas con alta Extraversión</strong> amplifican sus fortalezas con IA de comunicación y presentaciones (Gamma, Otter.ai). Las personas introvertidas brillan con IA de análisis profundo y escritura (Claude, Perplexity).',
+    air_A: '<strong>Las personas con alta Amabilidad</strong> combinan bien con IA colaborativa y empática. Las personas estratégicas, con baja amabilidad, destacan con IA de análisis basada en datos.',
+    air_N: '<strong>La Estabilidad emocional</strong> también influye en cómo usas la IA. Los tipos estables aprovechan configuraciones complejas con varias herramientas; los tipos sensibles rinden mejor con una IA simple y de feedback inmediato.',
+    about_cta_h: 'Descubre ahora tu perfil OCEAN', about_cta_p: 'En 25 preguntas, unos 5 minutos, recibe tu receta personalizada de herramientas de IA.', about_cta_btn: '🏁 Empezar el test',
+    ipip_pts: '5 pts',
+    personas_back: '← Inicio', personas_label: '🏆 32 tipos OCEAN', personas_h2: '¿Cuál es mi tipo?',
+    personas_sub: '2⁵ = 32 tipos de personalidad únicos a partir de las 5 dimensiones OCEAN. Descubre cuál es el tuyo.',
+    personas_featured_h: 'Los 32 tipos OCEAN',
+    code_guide_h: 'Cómo leer tu código de personalidad',
+    code_guide_p: 'El código de 5 dígitos que aparece en la pantalla de resultados (p. ej. <strong style="color:var(--wave-1)">11010</strong>) muestra <strong>1</strong> si cada dimensión llega al 50% o más, y <strong>0</strong> si queda por debajo.',
+    code_O_hi: 'Apertura<br>alta', code_C_hi: 'Responsabilidad<br>alta', code_E_lo: 'Extraversión<br>baja', code_A_hi: 'Amabilidad<br>alta', code_N_lo: 'Estabilidad<br>baja',
+    code_summary: 'Código <strong style="color:var(--wave-1)">11010</strong> = Abierto · Responsable · Introvertido · Alta amabilidad · Emocionalmente variable<br><span style="color:var(--purple);margin-top:6px;display:block;font-weight:600">"El artesano perfeccionista y callado"</span>',
+    personas_cta_h: '¿Quieres saber tu tipo exacto?', personas_cta_p: 'En 25 preguntas, unos 5 minutos, encuentra tu tipo entre 32 y recibe tu receta de IA personalizada.', personas_cta_btn: '🏁 Empezar el test',
+    tools_back: '← Inicio', tools_label: '🤖 Catálogo de herramientas de IA', tools_h2: 'Encuentra tu IA ideal,<br>antes de hacer el test',
+    tools_sub: 'Herramientas de IA recomendadas a partir de tu test de personalidad, organizadas por categoría. Haz el test para obtener tu combinación óptima.',
+    tools_match_desc: 'Relaciona tu rasgo de personalidad dominante con el motor de IA (LM) ideal y luego elige las 2 herramientas que mejor encajan de un conjunto curado de más de 200 IAs, organizadas en 15 áreas profesionales.',
+    tools_db_total: 'Herramientas de IA en la base', tools_db_cats: 'Áreas profesionales', tools_db_each: 'Herramientas expertas por área',
+    tools_lm_title: 'Guía comparativa de las principales IA de lenguaje', tools_lm_sub: 'Los modelos de lenguaje grandes son la base del trabajo de IA con texto. Compara las 5 IA de lenguaje líderes: sus fortalezas, especialidades y mejores usos.',
+    tools_cta_h: 'Recibe tu combinación personalizada de IA', tools_cta_p: 'A partir de tu test de personalidad, te recomendaremos el set de IA óptimo para tu tipo OCEAN, entre las herramientas de arriba.', tools_cta_btn: '🏁 Empezar el test',
   }
 };
 
@@ -3256,8 +3334,8 @@ function siteHomeUrl() {
 function typePageUrl(code) {
   const c = String(code || '');
   if (!/^[01]{5}$/.test(c)) return siteHomeUrl();
-  // Phase 1: no /es/types pages yet — Spanish shares the English type page.
-  if (window.LANG === 'es' || window.LANG === 'en') return 'https://thepersonalityai.com/en/types/' + c + '/';
+  if (window.LANG === 'es') return 'https://thepersonalityai.com/es/types/' + c + '/';
+  if (window.LANG === 'en') return 'https://thepersonalityai.com/en/types/' + c + '/';
   return 'https://thepersonalityai.com/types/' + c + '/';
 }
 
@@ -3483,6 +3561,7 @@ const LM_AIS = [
     color: '#8B5CF6', tagColor: 'rgba(139,92,246,0.15)',
     tagline: '깊은 사고력·윤리적 판단·장문 분석의 최강자',
     en_tagline: 'Deep reasoning, ethical judgment, and long-document analysis',
+    es_tagline: 'Razonamiento profundo, juicio ético y análisis de documentos largos',
     features: [
       '100K+ 토큰 컨텍스트 윈도우로 긴 문서·코드베이스 전체를 한 번에 분석',
       '복잡한 논리 추론과 다단계 사고(Chain-of-Thought)에서 일관되게 우수한 성능',
@@ -3497,8 +3576,16 @@ const LM_AIS = [
       'Excels at writing assistance, research summaries, code review, business documents',
       'Projects feature maintains long-term context with custom system instructions',
     ],
+    es_features: [
+      'Ventana de contexto de más de 100K tokens: analiza documentos o bases de código enteras de una sola vez',
+      'Rendimiento consistente en razonamiento lógico complejo y en cadenas de pensamiento de varios pasos',
+      'Guías éticas integradas, para respuestas equilibradas y con matices en temas delicados',
+      'Brilla en ayuda para escribir, resúmenes de investigación, revisión de código y documentos de negocio',
+      'La función Projects mantiene un contexto a largo plazo, con instrucciones personalizadas'
+    ],
     best_for: '긴 계약서·논문 분석, 복잡한 코드 리뷰, 전략 보고서 작성, 윤리적 판단이 필요한 상황',
     en_best_for: 'Long contracts/papers, complex code reviews, strategy reports, situations requiring ethical judgment',
+    es_best_for: 'Contratos y papers largos, revisiones de código complejas, informes de estrategia y situaciones que piden un juicio ético',
   },
   {
     icon: '🔵', name: 'ChatGPT', maker: 'OpenAI',
@@ -3506,6 +3593,7 @@ const LM_AIS = [
     color: '#10A37F', tagColor: 'rgba(16,163,127,0.15)',
     tagline: '범용성 1위 · 플러그인 생태계 · 가장 넓은 사용자 기반',
     en_tagline: 'Most versatile — largest plugin ecosystem and user base',
+    es_tagline: 'La más versátil: el mayor ecosistema de plugins y de usuarios',
     features: [
       'GPT-4o 기반으로 텍스트·이미지·음성을 하나의 모델에서 멀티모달 처리',
       'GPTs Store를 통해 수백만 개의 커스텀 GPT를 바로 사용 가능한 최대 생태계',
@@ -3520,8 +3608,16 @@ const LM_AIS = [
       'Broadest language and domain coverage — from casual chat to expert analysis',
       'Most mature API ecosystem, making it the top choice for enterprise integrations',
     ],
+    es_features: [
+      'GPT-4o procesa texto, imagen y voz de forma nativa, en un solo modelo multimodal',
+      'Millones de GPT personalizados en la GPTs Store: el ecosistema de apps de IA más grande del mundo',
+      'Code Interpreter, generación de imágenes con DALL-E y búsqueda web, todo en un mismo paquete',
+      'La cobertura más amplia de idiomas y dominios, de la conversación cotidiana al análisis experto',
+      'El ecosistema de API más maduro, y por eso es la opción predilecta para integraciones empresariales'
+    ],
     best_for: '범용 업무, 이미지 생성·편집, 코드 실행 및 데이터 분석, 다양한 GPT 플러그인 활용',
     en_best_for: 'General-purpose tasks, image creation, code execution & data analysis, plugin integrations',
+    es_best_for: 'Tareas de uso general, creación de imágenes, ejecución de código y análisis de datos, e integraciones con plugins',
   },
   {
     icon: '🌐', name: 'Gemini', maker: 'Google',
@@ -3529,6 +3625,7 @@ const LM_AIS = [
     color: '#4285F4', tagColor: 'rgba(66,133,244,0.15)',
     tagline: 'Google 검색·Drive·Docs 완전 통합 · 실시간 정보 강점',
     en_tagline: 'Deep Google integration — real-time info + Workspace sync',
+    es_tagline: 'Integración profunda con Google: información en tiempo real y sincronización con Workspace',
     features: [
       'Google Search와 실시간 연동되어 최신 뉴스·주가·날씨·스포츠 결과를 즉시 반영',
       'Gmail, Google Docs, Drive, Meet와 원클릭 통합으로 업무 자동화에 강점',
@@ -3543,8 +3640,16 @@ const LM_AIS = [
       'YouTube video summaries, Google Maps integration, expanding all Google services with AI',
       'Google Workspace subscribers get Gemini Advanced features at no extra cost',
     ],
+    es_features: [
+      'Integración en tiempo real con Google Search: noticias, precios, clima y deportes, al momento',
+      'Sincronización de un clic con Gmail, Google Docs, Drive y Meet, para automatizar el flujo de trabajo',
+      'Gemini 1.5 Pro ofrece 1M de tokens de contexto, de los más altos del sector, para documentos muy largos',
+      'Resúmenes de videos de YouTube e integración con Google Maps, ampliando todos los servicios de Google con IA',
+      'Quienes tienen Google Workspace acceden a funciones de Gemini Advanced sin costo extra'
+    ],
     best_for: '실시간 정보 검색, Google Workspace 업무 자동화, 초장문 문서 처리, YouTube 콘텐츠 분석',
     en_best_for: 'Real-time info lookup, Google Workspace automation, ultra-long documents, YouTube analysis',
+    es_best_for: 'Consultas de información en tiempo real, automatización de Google Workspace, documentos muy largos y análisis de YouTube',
   },
   {
     icon: '⚡', name: 'Grok', maker: 'xAI (Elon Musk)',
@@ -3552,6 +3657,7 @@ const LM_AIS = [
     color: '#E7E7E7', tagColor: 'rgba(231,231,231,0.1)',
     tagline: 'X(트위터) 실시간 데이터 · 거침없는 솔직함 · 빠른 응답',
     en_tagline: 'Real-time X/Twitter data · unfiltered honesty · lightning fast',
+    es_tagline: 'Datos de X/Twitter en tiempo real · honestidad directa · respuesta rápida',
     features: [
       'X(구 트위터) 플랫폼과 직접 연동되어 트렌딩 토픽·밈·실시간 대화를 즉시 분석',
       '타 AI 대비 검열이 적어 민감하거나 논쟁적인 주제도 솔직하게 답변하는 경향',
@@ -3566,8 +3672,16 @@ const LM_AIS = [
       'Grok 3 matches GPT-4o on math and science reasoning benchmarks',
       'Bundled with X Premium — cost-effective for social media marketers and journalists',
     ],
+    es_features: [
+      'Integración directa con X (Twitter): analiza tendencias, memes y conversaciones en vivo, al instante',
+      'Menos filtros que otras IA: responde con franqueza en temas delicados o polémicos',
+      'La generación de imágenes Aurora viene integrada, sin cambiar de aplicación',
+      'Grok 3 se mide de tú a tú con GPT-4o en benchmarks de razonamiento matemático y científico',
+      'Va incluido con X Premium: una opción conveniente para marketers de redes y periodistas'
+    ],
     best_for: 'SNS 트렌드 분석, 실시간 이슈 파악, 거침없는 브레인스토밍, X 플랫폼 콘텐츠 전략',
     en_best_for: 'Social media trend analysis, real-time issue tracking, unfiltered brainstorming, X content strategy',
+    es_best_for: 'Análisis de tendencias en redes, seguimiento de temas en tiempo real, lluvia de ideas sin filtros y estrategia de contenido en X',
   },
   {
     icon: '🔍', name: 'Perplexity', maker: 'Perplexity AI',
@@ -3575,6 +3689,7 @@ const LM_AIS = [
     color: '#20B2AA', tagColor: 'rgba(32,178,170,0.15)',
     tagline: 'AI 검색 엔진 · 출처 인용 · 리서치 특화',
     en_tagline: 'AI-powered search engine with citations — research-first design',
+    es_tagline: 'Buscador con IA y citas, pensado primero para investigar',
     features: [
       '모든 답변에 실시간 웹 출처(URL)를 인용해 팩트 검증과 추가 조사가 용이',
       'Google 검색을 대체하는 AI 검색 엔진으로 광고 없이 정확한 정보를 빠르게 제공',
@@ -3589,8 +3704,16 @@ const LM_AIS = [
       'Filter by academic papers, news, product reviews, or custom sources to narrow searches',
       'Voice search on mobile app enables instant research on the go',
     ],
+    es_features: [
+      'Cada respuesta cita fuentes web en tiempo real (URL): fácil de verificar y de profundizar',
+      'Sustituye a Google Search con un motor de IA sin anuncios, que entrega información precisa y rápida',
+      'La función Spaces permite compartir y colaborar en notas de investigación y colecciones de fuentes',
+      'Filtra por papers académicos, noticias, reseñas de productos o fuentes propias para acotar la búsqueda',
+      'La búsqueda por voz en la app móvil permite investigar al instante, aunque estés en movimiento'
+    ],
     best_for: '리서치 및 사실 확인, 최신 기술/시장 동향 파악, 학술 자료 수집, 팀 리서치 협업',
     en_best_for: 'Research & fact-checking, latest tech/market trends, academic sourcing, team research collaboration',
+    es_best_for: 'Investigación y verificación de datos, tendencias de tecnología y de mercado, fuentes académicas y trabajo de investigación en equipo',
   },
 ];
 
@@ -3603,17 +3726,19 @@ function toggleLMCard(card) {
 function renderLMGuide() {
   const el = document.getElementById('lmGuideContent');
   if (!el) return;
-  const isEn = isLoc();
-  const S = Object.assign({}, (STRINGS.en || {}), (STRINGS[window.LANG] || {}));
+  const lang = window.LANG;
+  const isEn = lang === 'en';
+  const isEs = lang === 'es';
+  const S = Object.assign({}, (STRINGS.en || {}), (STRINGS[lang] || {}));
   const title   = S.tools_lm_title || '주요 LM AI 비교 가이드';
   const sub     = S.tools_lm_sub   || '언어 모델 AI(LLM)는 텍스트 기반 작업의 핵심 도구입니다.';
-  const bestLbl = isEn ? 'Best For' : '최적 활용 상황';
+  const bestLbl = isEs ? 'Ideal para' : isEn ? 'Best For' : '최적 활용 상황';
 
   let cardsHtml = '';
   LM_AIS.forEach(function(ai, idx) {
-    const feats   = isEn ? ai.en_features : ai.features;
-    const bestFor = isEn ? ai.en_best_for : ai.best_for;
-    const tagline = isEn ? ai.en_tagline  : ai.tagline;
+    const feats   = isEs ? (ai.es_features || ai.en_features) : isEn ? ai.en_features : ai.features;
+    const bestFor = isEs ? (ai.es_best_for || ai.en_best_for) : isEn ? ai.en_best_for : ai.best_for;
+    const tagline = isEs ? (ai.es_tagline || ai.en_tagline) : isEn ? ai.en_tagline  : ai.tagline;
     const faviconSrc = ai.domain ? 'https://www.google.com/s2/favicons?domain=' + ai.domain + '&sz=64' : '';
 
     let featsHtml = '';
@@ -3675,14 +3800,16 @@ function renderLMGuide() {
 function renderToolsCatalog() {
   const el = document.getElementById('toolsCatalogContent');
   if (!el) return;
-  const isEn = isLoc();
-  const dbNote = isEn ? 'Top 6 picks · 30+ in DB' : '대표 6개 · DB 30개+';
+  const lang = window.LANG;
+  const isEn = lang === 'en';
+  const isEs = lang === 'es';
+  const dbNote = isEs ? '6 destacadas · 30+ en la base' : isEn ? 'Top 6 picks · 30+ in DB' : '대표 6개 · DB 30개+';
   let html = '';
   TOOL_CATEGORIES.forEach(cat => {
     let toolsHtml = '';
     cat.tools.forEach(t => {
-      const desc = isEn ? (t.en_desc || t.desc) : t.desc;
-      const tag  = isEn ? (t.en_tag  || t.tag)  : t.tag;
+      const desc = isEs ? (t.es_desc || t.en_desc || t.desc) : isEn ? (t.en_desc || t.desc) : t.desc;
+      const tag  = isEs ? (t.es_tag  || t.en_tag  || t.tag)  : isEn ? (t.en_tag  || t.tag)  : t.tag;
       const faviconSrc = 'https://www.google.com/s2/favicons?domain=' + t.domain + '&sz=64';
       toolsHtml += '<a class="tool-preview-card" href="' + t.url + '" target="_blank" rel="noopener noreferrer">'
         + '<div class="tp-icon tp-icon-logo">'
@@ -3696,12 +3823,12 @@ function renderToolsCatalog() {
         + '</div>'
         + '</a>';
     });
-    const catName = isEn ? (cat.en_name || cat.name) : cat.name;
+    const catName = isEs ? (cat.es_name || cat.en_name || cat.name) : isEn ? (cat.en_name || cat.name) : cat.name;
     html += '<div class="tools-category about-section">'
       + '<div class="tools-cat-header">'
       +   '<div class="tools-cat-icon" style="background:' + cat.bg + '">' + cat.icon + '</div>'
       +   '<span class="tools-cat-title">' + catName + '</span>'
-      +   '<span class="tools-cat-count">' + cat.tools.length + (isEn ? ' tools' : '개 도구') + '</span>'
+      +   '<span class="tools-cat-count">' + cat.tools.length + (isEs ? ' herramientas' : isEn ? ' tools' : '개 도구') + '</span>'
       +   '<span class="tools-cat-db-note">' + dbNote + '</span>'
       + '</div>'
       + '<div class="tool-preview-grid">' + toolsHtml + '</div>'
@@ -4205,7 +4332,7 @@ function subEnabled() { return SUB_PREVIEW || !!((window.SUBSCRIBE_CONFIG || {})
 function subDone() { try { return localStorage.getItem('ocean_sub') === '1'; } catch (e) { return false; } }
 function subscribeCardHTML(code, typeName) {
   if (!subEnabled()) return '';
-  const priv = window.LANG === 'ko' ? '/privacy/' : '/en/privacy/';
+  const priv = window.LANG === 'ko' ? '/privacy/' : window.LANG === 'es' ? '/es/privacy/' : '/en/privacy/';
   const title = L('📬 내 유형의 AI 활용 가이드를 메일로 받아보세요', '📬 Get your AI guide by email', '📬 Recibe por correo la guía de IA de tu tipo');
   const sub = L('5일 동안 하루 한 통씩 짧은 강의, 이후 10주 동안 매주 한 통씩 내 유형에 맞춘 팁을 보내드립니다. 무료이고 언제든 취소할 수 있습니다.',
                 'Five short daily lessons, then one tip a week for 10 weeks, written for your type. Free. Unsubscribe anytime.',

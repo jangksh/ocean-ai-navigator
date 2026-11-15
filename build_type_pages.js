@@ -8,7 +8,7 @@
  *   types/<코드>/index.html      32개 한국어 (예: types/11010/index.html → /types/11010/)
  *   en/types/<코드>/index.html   32개 영어 (예: en/types/11010/index.html → /en/types/11010/)
  *   en/index.html                영어 홈 (index.html을 변환, data-i18n 영어 SSR)
- *   en/blog/index.html, en/privacy/index.html
+ *   en/blog/index.html, en/privacy/index.html, es/privacy/index.html, es/types/
  *   sitemap.xml                  홈+/en/ + 유형 쌍 + BLOG_URLS + /en/blog/ (xhtml hreflang)
  *   index.html                   TYPE-LINKS 블록 + hreflang 마커
  *
@@ -64,8 +64,11 @@ const ES_NAME = (ES && ES.master)
   : {};
 const EN_JOB = i18nWin.EN_JOB || {};
 if (!EN || !EN.master || !EN.dims) throw new Error('i18n_en.js에서 window.EN을 읽지 못했습니다.');
+if (!ES || !ES.master || !ES.dims) throw new Error('i18n_es.js에서 window.ES를 읽지 못했습니다.');
 const JOB_EN_NAME = Object.fromEntries(JOBS.map((j) => [String(j.id).padStart(2, '0'), j.en_label]));
+const JOB_ES_NAME = Object.fromEntries(JOBS.map((j) => [String(j.id).padStart(2, '0'), j.es_label || j.en_label]));
 const DIM_EN = EN.dims;
+const DIM_ES = (ES && ES.dims) || DIM_EN;
 
 const FEATURED_ALIAS = Object.fromEntries(FEATURED.map((p) => [p.code, p.name]));
 const JOB_NAME = {};
@@ -98,26 +101,30 @@ const digitsOf = (code) => code.split('').map((d) => d === '1');
 const DIM_ORDER = ['O', 'C', 'E', 'A', 'N'];
 const DIM_COLOR = { O: '#7048E8', C: '#1971C2', E: '#E67700', A: '#0CA678', N: '#C92A2A' };
 const DIM_BG = { O: '#F3F0FF', C: '#E7F5FF', E: '#FFF9DB', A: '#EBFBEE', N: '#FFF5F5' };
-const typeUrl = (code, lang) => lang === 'en' ? `${SITE}/en/types/${code}/` : `${SITE}/types/${code}/`;
-const typePath = (code, lang) => lang === 'en' ? `/en/types/${code}/` : `/types/${code}/`;
-const homeUrl = (lang) => lang === 'en' ? `${SITE}/en/` : `${SITE}/`;
-const homePath = (lang) => lang === 'en' ? '/en/' : '/';
-const startPath = (lang) => lang === 'en' ? '/en/?start=1' : '/?start=1';
+const typeUrl = (code, lang) => lang === 'en' ? `${SITE}/en/types/${code}/` : lang === 'es' ? `${SITE}/es/types/${code}/` : `${SITE}/types/${code}/`;
+const typePath = (code, lang) => lang === 'en' ? `/en/types/${code}/` : lang === 'es' ? `/es/types/${code}/` : `/types/${code}/`;
+const homeUrl = (lang) => lang === 'en' ? `${SITE}/en/` : lang === 'es' ? `${SITE}/es/` : `${SITE}/`;
+const homePath = (lang) => lang === 'en' ? '/en/' : lang === 'es' ? '/es/' : '/';
+const startPath = (lang) => lang === 'en' ? '/en/?start=1' : lang === 'es' ? '/es/?start=1' : '/?start=1';
 
-function hreflangTags(koUrl, enUrl) {
-  return [
+function hreflangTags(koUrl, enUrl, esUrl) {
+  const tags = [
     `<link rel="alternate" hreflang="ko" href="${koUrl}">`,
     `<link rel="alternate" hreflang="en" href="${enUrl}">`,
-    `<link rel="alternate" hreflang="x-default" href="${enUrl}">`,
-  ].join('\n');
+  ];
+  if (esUrl) tags.push(`<link rel="alternate" hreflang="es" href="${esUrl}">`);
+  tags.push(`<link rel="alternate" hreflang="x-default" href="${enUrl}">`);
+  return tags.join('\n');
 }
 
-function xhtmlLinks(koUrl, enUrl) {
-  return [
+function xhtmlLinks(koUrl, enUrl, esUrl) {
+  const tags = [
     `    <xhtml:link rel="alternate" hreflang="ko" href="${koUrl}"/>`,
     `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>`,
-    `    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>`,
-  ].join('\n');
+  ];
+  if (esUrl) tags.push(`    <xhtml:link rel="alternate" hreflang="es" href="${esUrl}"/>`);
+  tags.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>`);
+  return tags.join('\n');
 }
 
 function neighbors(code) {
@@ -318,20 +325,70 @@ function jobEntryEn(jj, code) {
   };
 }
 
+
+function jobEntryEs(jj, code) {
+  const ko = jobEntry(jj, code);
+  const label = JOB_ES_NAME[jj] || JOB_EN_NAME[jj] || (ko && ko.label) || jj;
+  const icon = (ko && ko.icon) || JOB_ICON[jj] || '💼';
+  const ej = EN_JOB[jj + '_' + code];
+  const master = (ES && ES.master && ES.master[code]) || {};
+  const toolsFrom = (entry) => {
+    if (!entry) return { main: { name: 'ChatGPT', blurb: '' }, specs: [] };
+    return {
+      main: { name: latinName(entry.main.name), blurb: '' },
+      specs: (entry.specs || []).map((s) => ({ name: latinName(s.name), blurb: '' })),
+    };
+  };
+  if (ej) {
+    const mainName = latinName((ej.mainAI && ej.mainAI.name) || (ko && ko.main && ko.main.name) || 'ChatGPT');
+    const specs = (ej.specialistAIs || []).slice(0, 2).map((s) => ({
+      name: latinName(s.name),
+      blurb: s.reason || '',
+    }));
+    const tools = (ej.v2 && Array.isArray(ej.v2.ai_tools)) ? ej.v2.ai_tools : [];
+    const mainTool = tools.find((t) => t.type === 'main');
+    const specTools = tools.filter((t) => t !== mainTool).slice(0, 2);
+    return {
+      jj, label, icon, source: 'en_job',
+      title: ej.title || '',
+      insight: String(ej.insight || '').trim(),
+      main: { name: mainName, blurb: (ej.mainAI && ej.mainAI.reason) || (mainTool && mainTool.tagline) || '' },
+      specs: specs.length ? specs : specTools.map((s) => ({ name: latinName(s.name), blurb: s.tagline || '' })),
+    };
+  }
+  if (!ko) return null;
+  const tools = toolsFrom(ko);
+  const insight = `${master.insight || master.summary || ''} En ${label}, este tipo suele combinar bien con ${tools.main.name}. Una guía más extensa por área profesional estará disponible más adelante; la página en coreano tiene la guía completa.`.trim();
+  return {
+    jj, label, icon, source: 'es_fallback',
+    title: '',
+    insight,
+    main: tools.main,
+    specs: tools.specs,
+  };
+}
+
 function pageFor(code, lang) {
   const isEn = lang === 'en';
+  const isEs = lang === 'es';
+  const loc = isEn || isEs;
   const m = masterByCode[code];
   const nameKo = m.name;
   const nameEn = EN_NAME[code] || code;
-  const name = isEn ? nameEn : nameKo;
+  const nameEs = (ES_NAME && ES_NAME[code]) || nameEn;
+  const name = isEs ? nameEs : isEn ? nameEn : nameKo;
   const emoji = EMOJI[code] || '✨';
   const pair = AI_REC[code] || 'ChatGPT';
   const on = digitsOf(code);
   const masterEn = EN.master[code] || [nameEn, ''];
-  const summary = isEn ? (masterEn[0] + (masterEn[1] ? ' ' + masterEn[1] : '')) : m.summary;
-  const lead = isEn ? masterEn[0] : m.summary;
-  const dimMeta = isEn
-    ? DIM_EN.map((d, i) => ({
+  const masterEs = (ES && ES.master && ES.master[code]) || { name: nameEs, summary: masterEn[0], insight: masterEn[1] || '' };
+  const summary = isEs
+    ? (masterEs.summary + (masterEs.insight ? ' ' + masterEs.insight : ''))
+    : isEn ? (masterEn[0] + (masterEn[1] ? ' ' + masterEn[1] : '')) : m.summary;
+  const lead = isEs ? masterEs.summary : isEn ? masterEn[0] : m.summary;
+  const dimSource = isEs ? DIM_ES : isEn ? DIM_EN : null;
+  const dimMeta = dimSource
+    ? dimSource.map((d, i) => ({
         key: DIM_ORDER[i],
         icon: DIM_META[i].icon,
         label: d.label,
@@ -341,42 +398,53 @@ function pageFor(code, lang) {
     : DIM_META;
   const highDims = dimMeta.filter((_, i) => on[i]).map((d) => d.label);
   const lowDims = dimMeta.filter((_, i) => !on[i]).map((d) => d.label);
-  const alias = !isEn && FEATURED_ALIAS[code] && FEATURED_ALIAS[code] !== nameKo ? FEATURED_ALIAS[code] : '';
+  const alias = !loc && FEATURED_ALIAS[code] && FEATURED_ALIAS[code] !== nameKo ? FEATURED_ALIAS[code] : '';
 
-  const jobs = isEn
-    ? JOB_GROUPS.map((jj) => jobEntryEn(jj, code)).filter(Boolean)
-    : JOB_GROUPS.map((jj) => jobEntry(jj, code)).filter(Boolean);
-  if (!isEn) {
+  const jobs = isEs
+    ? JOB_GROUPS.map((jj) => jobEntryEs(jj, code)).filter(Boolean)
+    : isEn
+      ? JOB_GROUPS.map((jj) => jobEntryEn(jj, code)).filter(Boolean)
+      : JOB_GROUPS.map((jj) => jobEntry(jj, code)).filter(Boolean);
+  if (lang === 'ko') {
     jobs.forEach((j) => { STATS[j.source] += 1; });
     STATS.skipped += JOB_GROUPS.length - jobs.length;
-  } else {
+  } else if (lang === 'en') {
     jobs.forEach((j) => { STATS[j.source] = (STATS[j.source] || 0) + 1; });
   }
   const mainTally = tally(jobs.map((j) => j.main.name));
   const specTally = tally(jobs.flatMap((j) => j.specs.map((s) => s.name))).slice(0, 3);
-  const mainSummary = isEn
+  const mainSummary = loc
     ? mainTally.slice(0, 3).map(([n, c]) => `${esc(n)} (${c})`).join(', ')
     : mainTally.slice(0, 3).map(([n, c]) => `${esc(n)} ${c}곳`).join(', ');
   const specSummary = specTally.map(([n]) => esc(n)).join(', ');
-  const mainSentence = isEn
+  const mainSentence = isEs
     ? (mainTally.length === 1
-      ? `Across ${jobs.length} job-group guides, the main AI is ${esc(mainTally[0][0])} in every case.`
-      : `Across ${jobs.length} job-group guides, the main AI is most often ${mainSummary}.`)
-    : (mainTally.length === 1
-      ? `직업군별 상세 처방 ${jobs.length}개의 메인 AI는 모두 ${esc(mainTally[0][0])}입니다.`
-      : `직업군별 상세 처방 ${jobs.length}개에서 메인 AI는 ${mainSummary} 순으로 많이 추천됩니다.`);
+      ? `En las ${jobs.length} guías por área profesional, la IA principal es ${esc(mainTally[0][0])} en todos los casos.`
+      : `En las ${jobs.length} guías por área profesional, la IA principal suele ser ${mainSummary}.`)
+    : isEn
+      ? (mainTally.length === 1
+        ? `Across ${jobs.length} job-group guides, the main AI is ${esc(mainTally[0][0])} in every case.`
+        : `Across ${jobs.length} job-group guides, the main AI is most often ${mainSummary}.`)
+      : (mainTally.length === 1
+        ? `직업군별 상세 처방 ${jobs.length}개의 메인 AI는 모두 ${esc(mainTally[0][0])}입니다.`
+        : `직업군별 상세 처방 ${jobs.length}개에서 메인 AI는 ${mainSummary} 순으로 많이 추천됩니다.`);
 
-  const title = isEn
-    ? `${nameEn} | OCEAN type ${code} personality and AI tools — AI-OCEAN`
-    : `${nameKo}(${nameEn}) 유형 | OCEAN ${code} 성향·AI 추천 - AI-OCEAN`;
-  const desc = isEn
-    ? `${stripEnd(lead)} See the AI pairing (${pair}) and job-group notes for OCEAN type ${code} (${nameEn}).`
-    : `${stripEnd(m.summary)}. OCEAN ${code} ${nameEn} 유형에게 어울리는 AI(${pair})와 직업군별 활용법을 확인하세요.`;
+  const title = isEs
+    ? `${nameEs} | Tipo OCEAN ${code}: personalidad y herramientas de IA — AI-OCEAN`
+    : isEn
+      ? `${nameEn} | OCEAN type ${code} personality and AI tools — AI-OCEAN`
+      : `${nameKo}(${nameEn}) 유형 | OCEAN ${code} 성향·AI 추천 - AI-OCEAN`;
+  const desc = isEs
+    ? `${stripEnd(lead)}. Mira la combinación de IA (${pair}) y las notas por área profesional del tipo OCEAN ${code} (${nameEs}).`
+    : isEn
+      ? `${stripEnd(lead)} See the AI pairing (${pair}) and job-group notes for OCEAN type ${code} (${nameEn}).`
+      : `${stripEnd(m.summary)}. OCEAN ${code} ${nameEn} 유형에게 어울리는 AI(${pair})와 직업군별 활용법을 확인하세요.`;
   const url = typeUrl(code, lang);
   const koUrl = typeUrl(code, 'ko');
   const enUrl = typeUrl(code, 'en');
-  const hiWord = isEn ? 'High' : '높음';
-  const loWord = isEn ? 'Low' : '낮음';
+  const esUrl = typeUrl(code, 'es');
+  const hiWord = isEs ? 'Alta' : isEn ? 'High' : '높음';
+  const loWord = isEs ? 'Baja' : isEn ? 'Low' : '낮음';
 
   const pills = dimMeta.map((d, i) =>
     `<span class="pill${on[i] ? '' : ' off'}" style="background:${DIM_BG[d.key]};color:${DIM_COLOR[d.key]}">${d.key} ${on[i] ? hiWord : loWord}</span>`
@@ -386,16 +454,20 @@ function pageFor(code, lang) {
       <div class="dim"><div class="ic">${d.icon}</div><div><b style="color:${DIM_COLOR[d.key]}">${esc(d.label)}</b><span class="st" style="background:${DIM_BG[d.key]};color:${DIM_COLOR[d.key]}">${on[i] ? hiWord : loWord}</span><p>${esc(on[i] ? d.highInsight : d.lowInsight)}</p></div></div>`
   ).join('');
 
-  const structureLine = isEn
-    ? (highDims.length === 5 ? 'All five dimensions score at or above 50%.'
-      : lowDims.length === 5 ? 'All five dimensions score below 50%.'
-      : `High dimensions: ${highDims.join(', ')}. Low dimensions: ${lowDims.join(', ')}.`)
-    : (highDims.length === 5 ? '다섯 차원이 모두 50% 이상인 조합입니다.'
-      : lowDims.length === 5 ? '다섯 차원이 모두 50% 미만인 조합입니다.'
-      : `높은 차원은 ${highDims.join('·')}, 낮은 차원은 ${lowDims.join('·')}입니다.`);
+  const structureLine = isEs
+    ? (highDims.length === 5 ? 'Las cinco dimensiones llegan al 50% o más.'
+      : lowDims.length === 5 ? 'Las cinco dimensiones quedan por debajo del 50%.'
+      : `Dimensiones altas: ${highDims.join(', ')}. Dimensiones bajas: ${lowDims.join(', ')}.`)
+    : isEn
+      ? (highDims.length === 5 ? 'All five dimensions score at or above 50%.'
+        : lowDims.length === 5 ? 'All five dimensions score below 50%.'
+        : `High dimensions: ${highDims.join(', ')}. Low dimensions: ${lowDims.join(', ')}.`)
+      : (highDims.length === 5 ? '다섯 차원이 모두 50% 이상인 조합입니다.'
+        : lowDims.length === 5 ? '다섯 차원이 모두 50% 미만인 조합입니다.'
+        : `높은 차원은 ${highDims.join('·')}, 낮은 차원은 ${lowDims.join('·')}입니다.`);
 
-  const mainLabel = isEn ? 'Main AI' : '메인 AI';
-  const specLabel = isEn ? 'Specialist' : '전문 AI';
+  const mainLabel = isEs ? 'IA principal' : isEn ? 'Main AI' : '메인 AI';
+  const specLabel = isEs ? 'IA especializada' : isEn ? 'Specialist' : '전문 AI';
   const jobCards = jobs.map((j) => `
       <article class="card job">
         <h3>${j.icon} ${esc(j.label)}</h3>
@@ -408,55 +480,81 @@ function pageFor(code, lang) {
   const near = neighbors(code).map(({ code: c, dimIndex }) => {
     const nm = masterByCode[c];
     const st = c[dimIndex] === '1' ? hiWord : loWord;
-    const nearName = isEn ? (EN_NAME[c] || c) : nm.name;
-    const nearSum = isEn ? ((EN.master[c] && EN.master[c][0]) || '') : nm.summary;
-    return `<li><a href="${typePath(c, lang)}">${EMOJI[c] || ''} ${esc(nearName)}</a><span>${esc(dimMeta[dimIndex].label)} ${isEn ? 'only' : '만'} ${st} · ${esc(nearSum)}</span></li>`;
+    const nearName = isEs ? (ES_NAME[c] || EN_NAME[c] || c) : isEn ? (EN_NAME[c] || c) : nm.name;
+    const nearSum = isEs
+      ? ((ES.master[c] && ES.master[c].summary) || '')
+      : isEn ? ((EN.master[c] && EN.master[c][0]) || '') : nm.summary;
+    const dimBit = isEs
+      ? `Solo ${esc(dimMeta[dimIndex].label)}: ${st}`
+      : isEn
+        ? `${esc(dimMeta[dimIndex].label)} only ${st}`
+        : `${esc(dimMeta[dimIndex].label)} 만 ${st}`;
+    return `<li><a href="${typePath(c, lang)}">${EMOJI[c] || ''} ${esc(nearName)}</a><span>${dimBit} · ${esc(nearSum)}</span></li>`;
   }).join('');
 
   const all = CODES.map((c) => {
-    const label = isEn ? (EN_NAME[c] || c) : masterByCode[c].name;
+    const label = isEs ? (ES_NAME[c] || EN_NAME[c] || c) : isEn ? (EN_NAME[c] || c) : masterByCode[c].name;
     return c === code
       ? `<li><span class="cur" aria-current="page">${EMOJI[c] || ''} ${esc(label)}</span></li>`
       : `<li><a href="${typePath(c, lang)}">${EMOJI[c] || ''} ${esc(label)}</a></li>`;
   }).join('');
 
-  const crumbHome = isEn ? 'Home' : '홈';
-  const crumbTypes = isEn ? '32 OCEAN types' : 'OCEAN 32가지 유형';
-  const navHome = isEn ? 'Home' : '홈';
-  const navStart = isEn ? 'Start the test' : '테스트 시작';
-  const switchLabel = isEn ? 'KO' : 'EN';
-  const switchHref = isEn ? typePath(code, 'ko') : typePath(code, 'en');
+  const crumbHome = isEs ? 'Inicio' : isEn ? 'Home' : '홈';
+  const crumbTypes = isEs ? '32 tipos OCEAN' : isEn ? '32 OCEAN types' : 'OCEAN 32가지 유형';
+  const navHome = crumbHome;
+  const navStart = isEs ? 'Empezar el test' : isEn ? 'Start the test' : '테스트 시작';
+  const langSwitch = [
+    { id: 'ko', href: typePath(code, 'ko'), label: 'KO' },
+    { id: 'en', href: typePath(code, 'en'), label: 'EN' },
+    { id: 'es', href: typePath(code, 'es'), label: 'ES' },
+  ].map((i) => i.id === lang
+    ? `<span class="lang-switch" aria-current="page">${i.label}</span>`
+    : `<a class="lang-switch" href="${i.href}" hreflang="${i.id}" lang="${i.id}">${i.label}</a>`
+  ).join('');
   const logoHref = homePath(lang);
   const ctaHref = startPath(lang);
-  const ogLocale = isEn ? 'en_US' : 'ko_KR';
-  const ogAlt = isEn ? 'ko_KR' : 'en_US';
-  const fontLink = isEn
+  const ogLocale = isEs ? 'es_419' : isEn ? 'en_US' : 'ko_KR';
+  const ogAlts = (isEs ? ['en_US', 'ko_KR'] : isEn ? ['ko_KR', 'es_419'] : ['en_US', 'es_419'])
+    .map((c) => `<meta property="og:locale:alternate" content="${c}">`).join('\n');
+  const fontLink = loc
     ? 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap'
     : 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap';
+  const htmlLang = isEs ? 'es' : isEn ? 'en' : 'ko';
 
-  const h2Structure = isEn
-    ? `How the ${esc(String(name).replace(/^The\s+/i, ''))} type is built (${code})`
-    : `${esc(nameKo)} 유형의 성향 구조 (${code})`;
-  const codeExplain = isEn
-    ? `The code lists Openness, Conscientiousness, Extraversion, Agreeableness and Emotional Stability in that order. A score at or above 50% is 1; below 50% is 0. ${esc(structureLine)}`
-    : `코드는 개방성·성실성·외향성·친화성·정서안정성 순서이며, 각 점수가 50% 이상이면 1, 미만이면 0입니다. ${esc(structureLine)}`;
-  const h2Ai = isEn ? `AI pairing for ${esc(name)}` : `${esc(nameKo)}에게 어울리는 AI 조합`;
-  const recLabel = isEn ? 'Default pairing: ' : '기본 추천 조합: ';
-  const specLine = isEn
-    ? `${mainSentence} Specialist tools that appear often include ${specSummary}.`
-    : `${mainSentence} 보조 AI로는 ${specSummary} 등이 자주 등장합니다.`;
-  const h2Jobs = isEn ? `Job-group notes for ${esc(name)}` : `직업군별 ${esc(nameKo)} 가이드`;
-  const ctaH = isEn ? `Is your result ${esc(name)} too?` : `내 결과도 ${esc(nameKo)}일까요?`;
-  const ctaP = isEn
-    ? 'Answer 25 questions and get an AI plan for your job group.'
-    : '25문항에 답하면 내 직업군에 맞춘 AI 처방전을 받을 수 있습니다.';
-  const ctaBtn = isEn ? 'Start the test →' : '테스트 시작하기 →';
-  const heroBtn = isEn ? 'Start my AI DNA analysis →' : '나의 AI DNA 분석 시작 →';
-  const h2Near = isEn ? 'Neighbor types (one dimension flipped)' : '한 차원만 다른 이웃 유형';
-  const h2All = isEn ? 'All 32 OCEAN types' : 'OCEAN 32가지 유형 전체';
-  const footer = isEn
-    ? `This page suggests AI tools from the Big Five (OCEAN) model. It is not a psychological diagnosis. · <a href="${logoHref}">AI-OCEAN home</a>`
-    : `이 페이지는 Big Five(OCEAN) 성향 모델을 바탕으로 AI 도구를 제안하는 참고 자료이며, 심리 진단이 아닙니다. · <a href="${logoHref}">AI-OCEAN 홈</a>`;
+  const bareName = String(name).replace(/^(The|El|La|Los|Las)\s+/i, '');
+  const h2Structure = isEs
+    ? `Cómo se construye el tipo ${esc(bareName)} (${code})`
+    : isEn
+      ? `How the ${esc(String(name).replace(/^The\s+/i, ''))} type is built (${code})`
+      : `${esc(nameKo)} 유형의 성향 구조 (${code})`;
+  const codeExplain = isEs
+    ? `El código enumera Apertura, Responsabilidad, Extraversión, Amabilidad y Estabilidad emocional, en ese orden. Un puntaje de 50% o más es 1; por debajo de 50% es 0. ${esc(structureLine)}`
+    : isEn
+      ? `The code lists Openness, Conscientiousness, Extraversion, Agreeableness and Emotional Stability in that order. A score at or above 50% is 1; below 50% is 0. ${esc(structureLine)}`
+      : `코드는 개방성·성실성·외향성·친화성·정서안정성 순서이며, 각 점수가 50% 이상이면 1, 미만이면 0입니다. ${esc(structureLine)}`;
+  const h2Ai = isEs ? `IA recomendada para ${esc(name)}` : isEn ? `AI pairing for ${esc(name)}` : `${esc(nameKo)}에게 어울리는 AI 조합`;
+  const recLabel = isEs ? 'Combinación sugerida: ' : isEn ? 'Default pairing: ' : '기본 추천 조합: ';
+  const specLine = isEs
+    ? `${mainSentence} Entre las herramientas especializadas que aparecen a menudo están ${specSummary}.`
+    : isEn
+      ? `${mainSentence} Specialist tools that appear often include ${specSummary}.`
+      : `${mainSentence} 보조 AI로는 ${specSummary} 등이 자주 등장합니다.`;
+  const h2Jobs = isEs ? `Notas por área profesional para ${esc(name)}` : isEn ? `Job-group notes for ${esc(name)}` : `직업군별 ${esc(nameKo)} 가이드`;
+  const ctaH = isEs ? `¿Tu resultado también es ${esc(name)}?` : isEn ? `Is your result ${esc(name)} too?` : `내 결과도 ${esc(nameKo)}일까요?`;
+  const ctaP = isEs
+    ? 'Responde 25 preguntas y recibe un plan de IA para tu área profesional.'
+    : isEn
+      ? 'Answer 25 questions and get an AI plan for your job group.'
+      : '25문항에 답하면 내 직업군에 맞춘 AI 처방전을 받을 수 있습니다.';
+  const ctaBtn = isEs ? 'Empezar el test →' : isEn ? 'Start the test →' : '테스트 시작하기 →';
+  const heroBtn = isEs ? 'Empezar mi análisis de ADN de IA →' : isEn ? 'Start my AI DNA analysis →' : '나의 AI DNA 분석 시작 →';
+  const h2Near = isEs ? 'Tipos vecinos (cambia una sola dimensión)' : isEn ? 'Neighbor types (one dimension flipped)' : '한 차원만 다른 이웃 유형';
+  const h2All = isEs ? 'Los 32 tipos OCEAN' : isEn ? 'All 32 OCEAN types' : 'OCEAN 32가지 유형 전체';
+  const footer = isEs
+    ? `Esta página sugiere herramientas de IA a partir del modelo Big Five (OCEAN). No es un diagnóstico psicológico. · <a href="${logoHref}">Inicio AI-OCEAN</a>`
+    : isEn
+      ? `This page suggests AI tools from the Big Five (OCEAN) model. It is not a psychological diagnosis. · <a href="${logoHref}">AI-OCEAN home</a>`
+      : `이 페이지는 Big Five(OCEAN) 성향 모델을 바탕으로 AI 도구를 제안하는 참고 자료이며, 심리 진단이 아닙니다. · <a href="${logoHref}">AI-OCEAN 홈</a>`;
   const aliasLine = alias ? `<p class="alias">메인 화면 카드 이름: ‘${esc(alias)}’</p>` : '';
 
   const ld = {
@@ -469,7 +567,7 @@ function pageFor(code, lang) {
   };
 
   return `<!DOCTYPE html>
-<html lang="${isEn ? 'en' : 'ko'}">
+<html lang="${htmlLang}">
 <head>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
@@ -484,10 +582,10 @@ function pageFor(code, lang) {
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${url}">
-${hreflangTags(koUrl, enUrl)}
+${hreflangTags(koUrl, enUrl, esUrl)}
 <meta property="og:type" content="article">
 <meta property="og:locale" content="${ogLocale}">
-<meta property="og:locale:alternate" content="${ogAlt}">
+${ogAlts}
 <meta property="og:site_name" content="AI-OCEAN">
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${esc(title)}">
@@ -508,13 +606,13 @@ ${hreflangTags(koUrl, enUrl)}
 <style>${CSS}</style>
 </head>
 <body>
-<header class="site-header"><div class="in"><a class="logo" href="${logoHref}">AI-OCEAN</a><nav><a href="${logoHref}">${navHome}</a><a href="${ctaHref}">${navStart}</a><a class="lang-switch" href="${switchHref}" hreflang="${isEn ? 'ko' : 'en'}" lang="${isEn ? 'ko' : 'en'}">${switchLabel}</a></nav></div></header>
+<header class="site-header"><div class="in"><a class="logo" href="${logoHref}">AI-OCEAN</a><nav><a href="${logoHref}">${navHome}</a><a href="${ctaHref}">${navStart}</a>${langSwitch}</nav></div></header>
 <main>
   <nav class="crumbs" aria-label="breadcrumb"><a href="${logoHref}">${crumbHome}</a> › ${crumbTypes} › ${esc(name)}</nav>
 
   <div class="hero">
     <div class="emoji" aria-hidden="true">${emoji}</div>
-    <p class="eyebrow">OCEAN ${code} · ${esc(isEn ? nameKo : nameEn)}</p>
+    <p class="eyebrow">OCEAN ${code} · ${esc(isEs ? nameEn : isEn ? nameKo : nameEn)}</p>
     <h1>${esc(name)}</h1>
     <p class="lead">${esc(lead)}</p>
     <div class="pills">${pills}</div>
@@ -576,6 +674,7 @@ function buildTypePages() {
   CODES.forEach((code) => {
     writeFile(`types/${code}/index.html`, pageFor(code, 'ko'));
     writeFile(`en/types/${code}/index.html`, pageFor(code, 'en'));
+    writeFile(`es/types/${code}/index.html`, pageFor(code, 'es'));
   });
 }
 
@@ -598,8 +697,9 @@ function buildSitemap() {
     { loc: SITE + '/', lastmod: TODAY, home: true },
     { loc: SITE + '/en/', lastmod: TODAY, home: true },
     { loc: SITE + '/es/', lastmod: TODAY, home: true },
-    ...CODES.map((code) => ({ loc: typeUrl(code, 'ko'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en') })),
-    ...CODES.map((code) => ({ loc: typeUrl(code, 'en'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en') })),
+    ...CODES.map((code) => ({ loc: typeUrl(code, 'ko'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
+    ...CODES.map((code) => ({ loc: typeUrl(code, 'en'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
+    ...CODES.map((code) => ({ loc: typeUrl(code, 'es'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
   ];
   const blogEntries = BLOG_URLS.map((u) => {
     if (u.pair) return { loc: u.loc, lastmod: u.lastmod, ko: u.loc, en: u.pair };
@@ -608,7 +708,7 @@ function buildSitemap() {
   });
   const urls = paired.concat(blogEntries);
   const body = urls.map((u) => {
-    const links = u.home ? '\n' + xhtmlHome : (u.ko && u.en ? '\n' + xhtmlLinks(u.ko, u.en) : '');
+    const links = u.home ? '\n' + xhtmlHome : (u.ko && u.en ? '\n' + xhtmlLinks(u.ko, u.en, u.es) : '');
     return `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>${links}\n  </url>`;
   }).join('\n');
   writeFile('sitemap.xml',
@@ -621,8 +721,7 @@ function typeLinksBlock(lang) {
   const isEn = lang === 'en';
   const isEs = lang === 'es';
   const nameOf = (c) => isEs ? (ES_NAME[c] || EN_NAME[c] || c) : isEn ? (EN_NAME[c] || c) : masterByCode[c].name;
-  // Phase 1: Spanish has no type pages, so the list links to the English ones.
-  const hrefLang = lang === 'ko' ? 'ko' : 'en';
+  const hrefLang = lang;
   const items = CODES.map((c) =>
     `      <li><a href="${typePath(c, hrefLang)}" data-code="${c}">${EMOJI[c] || ''} ${esc(nameOf(c))}</a></li>`).join('\n');
   const label = isEs ? 'Los 32 tipos OCEAN' : isEn ? 'All 32 OCEAN types' : 'OCEAN 32가지 유형 전체 보기';
@@ -915,19 +1014,20 @@ footer{max-width:760px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
   writeFile('en/blog/index.html', html);
 }
 
-function buildEnPrivacy() {
+function buildPrivacy() {
   let html = read('privacy/index.html');
   if (!html.includes('i18n_router.js')) {
     html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<script src="/i18n_router.js"></script>');
   }
   html = html.replace(/\n?<link rel="canonical" href="[^"]*">/g, '');
   html = html.replace(/\n?<link rel="alternate" hreflang="[^"]+" href="[^"]*">/g, '');
+  const hl = hreflangTags(SITE + '/privacy/', SITE + '/en/privacy/', SITE + '/es/privacy/');
   html = html.replace(
     /<title>[^<]*<\/title>/,
-    '<title>__TITLE__</title>\n<link rel="canonical" href="__CANON__">\n' + hreflangTags(SITE + '/privacy/', SITE + '/en/privacy/')
+    '<title>__TITLE__</title>\n<link rel="canonical" href="__CANON__">\n' + hl
   );
   html = html.replace(/<div class="lang">[\s\S]*?<\/div>/,
-    '<div class="lang"><a href="/en/privacy/" hreflang="en">EN</a> · <a href="/privacy/" hreflang="ko" lang="ko">KO</a></div>');
+    '<div class="lang"><a href="/en/privacy/" hreflang="en">EN</a> · <a href="/privacy/" hreflang="ko" lang="ko">KO</a> · <a href="/es/privacy/" hreflang="es" lang="es">ES</a></div>');
   html = html.replace(
     /function setLang\(l\) \{ document\.body\.className = l; document\.documentElement\.lang = l; \}[\s\S]*?\}\)\(\);/,
     `function setLang(l) { document.body.className = l; document.documentElement.lang = l; }
@@ -937,19 +1037,24 @@ function buildEnPrivacy() {
   })();`
   );
 
+  const titles = { ko: '개인정보 안내 — AI-OCEAN', en: 'Privacy — AI-OCEAN', es: 'Privacidad — AI-OCEAN' };
+  const canons = { ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' };
+  const homes = { ko: '/', en: '/en/', es: '/es/' };
+
   function variant(lang) {
     let out = html;
-    out = out.replace('__TITLE__', lang === 'en' ? 'Privacy — AI-OCEAN' : '개인정보 안내 — AI-OCEAN');
-    out = out.replace('__CANON__', lang === 'en' ? SITE + '/en/privacy/' : SITE + '/privacy/');
+    out = out.replace('__TITLE__', titles[lang]);
+    out = out.replace('__CANON__', canons[lang]);
     out = out.replace('__LANG__', lang);
     out = out.replace(/<html lang="[^"]*">/, '<html lang="' + lang + '">');
     out = out.replace(/<body class="[^"]*">/, '<body class="' + lang + '">');
     out = out.replace(/<p><a href="[^"]*">← thepersonalityai.com<\/a><\/p>/,
-      '<p><a href="' + (lang === 'en' ? '/en/' : '/') + '">← thepersonalityai.com</a></p>');
+      '<p><a href="' + homes[lang] + '">← thepersonalityai.com</a></p>');
     return out;
   }
   writeFile('privacy/index.html', variant('ko'));
   writeFile('en/privacy/index.html', variant('en'));
+  writeFile('es/privacy/index.html', variant('es'));
 }
 
 function patchKoreanHomeFile() {
@@ -963,10 +1068,10 @@ injectTypeLinks();
 buildEnHome();
 buildEsHome();
 buildEnBlogIndex();
-buildEnPrivacy();
+buildPrivacy();
 buildSitemap();
-const sitemapCount = 3 + CODES.length * 2 + BLOG_URLS.length;
-console.log(`생성 완료: types/ ${CODES.length}개, en/types/ ${CODES.length}개, en/index.html, es/index.html, sitemap.xml ${sitemapCount} URL`);
+const sitemapCount = 3 + CODES.length * 3 + BLOG_URLS.length;
+console.log(`생성 완료: types/ ${CODES.length}개, en/types/ ${CODES.length}개, es/types/ ${CODES.length}개, en/index.html, es/index.html, sitemap.xml ${sitemapCount} URL`);
 console.log(`직업군 ${JOB_GROUPS.length}개 사용(${JOB_GROUPS.join(',')}), 제외 ${[...EXCLUDED_JOB_GROUPS].join(',')}`);
 console.log(`직업군 섹션 ${STATS.persona + STATS.v2}개: 페르소나 ${STATS.persona}, v2 보완 ${STATS.v2}, 품질 검사로 제외 ${STATS.skipped}`);
 console.log(`영어 직업군 섹션: EN_JOB ${STATS.en_job}, 요약 대체 ${STATS.en_fallback}`);
