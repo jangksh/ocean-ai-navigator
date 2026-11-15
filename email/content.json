@@ -20,6 +20,11 @@
     "summary": "세상 모든 게 마음에 안 들지만 머리는 기가 막힘",
     "insight": ""
    },
+   "es": {
+    "name": "El águila solitaria",
+    "summary": "Un genio solitario y crítico: le disgusta casi todo, pero piensa con brillantez.",
+    "insight": "Eres original y directo, y trabajas mejor en soledad. La IA te ayuda a estructurar tus argumentos para que tu idea se escuche, no se descarte."
+   },
    "tools": "Perplexity + Claude"
   },
   "10001": {
@@ -32,6 +37,11 @@
     "name": "조용한 혁명가 (독립 연구원)",
     "summary": "남들이 예 할 때 혼자 아니오를 연구하는 은둔 고수",
     "insight": ""
+   },
+   "es": {
+    "name": "El revolucionario silencioso",
+    "summary": "Un revolucionario callado: dice «no» en soledad mientras los demás dicen «sí».",
+    "insight": "Eres independiente, curioso y sereno, y profundizas más que la mayoría. La IA te ayuda a documentar lo que encuentras para que otros puedan actuar."
    },
    "tools": "Perplexity + Claude"
   },
@@ -46,6 +56,11 @@
     "summary": "아이디어는 많은데 남의 눈치 보느라 말 못 하는 타입",
     "insight": ""
    },
+   "es": {
+    "name": "El soñador",
+    "summary": "Un soñador de corazón tierno, con muchas ideas, que duda antes de hablar.",
+    "insight": "Eres creativo y atento, pero sensible a cómo te ven los demás. La IA te da un lugar seguro para redactar, ensayar y organizarte."
+   },
    "tools": "Claude + Wysa"
   },
   "10011": {
@@ -58,6 +73,11 @@
     "name": "꿈꾸는 방구석 철학자",
     "summary": "상상력은 풍부한데 행동하기까지 로딩 시간이 좀 김",
     "insight": ""
+   },
+   "es": {
+    "name": "El filósofo soñador",
+    "summary": "Un filósofo de sillón, soñador, con un buen rato de carga antes de pasar a la acción.",
+    "insight": "Eres imaginativo, gentil y estable: piensas profundo y actúas despacio. La IA puede convertir tu reflexión en un primer paso que sí puedas dar hoy."
    },
    "tools": "Claude + Wysa"
   },
@@ -72,6 +92,11 @@
     "summary": "기발하고 빠르지만 기분이 날씨보다 더 자주 바뀜",
     "insight": ""
    },
+   "es": {
+    "name": "El inconformista",
+    "summary": "Un maverick impulsivo: rápido y original, con un humor que cambia como el clima.",
+    "insight": "Eres audaz, inventivo y te dejas llevar por la intuición. La IA puede poner en orden los detalles y los plazos mientras tú das el salto."
+   },
    "tools": "ChatGPT + Gamma"
   },
   "10101": {
@@ -84,6 +109,11 @@
     "name": "실행력 갑, 필드의 승부사",
     "summary": "계획보다 몸이 먼저 나가는 저돌적인 비즈니스맨",
     "insight": ""
+   },
+   "es": {
+    "name": "El ejecutor",
+    "summary": "Una persona de acción, hecha en el terreno, que se mueve antes de que el plan esté listo.",
+    "insight": "Eres curioso, sociable e imperturbable, y aprendes haciendo. La IA puede cuidar los detalles y los datos para que tu instinto tenga piso firme."
    },
    "tools": "ChatGPT + Notion AI"
   },
@@ -98,6 +128,11 @@
     "summary": "사람 좋고 아이디어 좋은데 가끔 나사가 하나 빠짐",
     "insight": ""
    },
+   "es": {
+    "name": "El comodín encantador",
+    "summary": "Un líder querido, con algunas piezas sueltas: grandes ideas y un gran don de gentes.",
+    "insight": "Caes bien y generas ideas rápido, pero lo administrativo se escapa. La IA puede dar estructura a tus ideas y mantener honesta tu agenda."
+   },
    "tools": "ChatGPT + Otter.ai"
   },
   "10111": {
@@ -110,6 +145,11 @@
     "name": "낙천적인 아이디어 뱅크",
     "summary": "실행력과 창의성은 최고, 하지만 뒷정리는 AI의 몫",
     "insight": ""
+   },
+   "es": {
+    "name": "El pionero",
+    "summary": "Una máquina de ideas optimista: excelente para empezar; la IA se encarga de cerrar.",
+    "insight": "Eres creativo, enérgico y cálido, y contagias el entusiasmo con facilidad. La IA convierte tus ideas en planes y listas para que sí se terminen."
    },
    "tools": "ChatGPT + Gamma"
   },
@@ -124,6 +164,11 @@
     "summary": "0.1%의 오차도 용납 못 하는 고독한 완벽주의자",
     "insight": ""
    },
+   "es": {
+    "name": "El especialista",
+    "summary": "Un demonio del detalle que no tolera ni un error del 0,1%.",
+    "insight": "Eres preciso, meticuloso y un poco áspero. Construyes un trabajo riguroso en soledad. La IA puede revisarlo y presentarlo a quienes nunca abrirán la hoja de cálculo."
+   },
    "tools": "GitHub Copilot + WolframAlpha"
   },
   "11001": {
@@ -136,6 +181,11 @@
     "name": "차가운 두뇌의 고고한 학자",
     "summary": "데이터만 믿는 조용한 팩트 폭격기, 철저한 개인주의",
     "insight": ""
+   },
+   "es": {
+    "name": "El erudito",
+    "summary": "Confía solo en los datos: un verificador silencioso, con un fuerte sentido de independencia.",
+    "insight": "Eres analítico, minucioso e imperturbable. Encuentras la anomalía entre miles de filas. La IA te ayuda a explicar lo que hallaste para que se convierta en acción."
    },
    "tools": "Perplexity + WolframAlpha"
   },
@@ -150,6 +200,11 @@
     "summary": "감수성 폭발하는 완벽주의자, 하지만 소통은 메신저로만",
     "insight": ""
    },
+   "es": {
+    "name": "El artesano",
+    "summary": "Un perfeccionista sensible e introvertido que prefiere un mensaje a una reunión.",
+    "insight": "Conviertes la imaginación en un trabajo pulido, pero sientes todo con intensidad. La IA puede encargarse de los borradores y lo administrativo para proteger tu oficio."
+   },
    "tools": "Midjourney + Notion AI"
   },
   "11011": {
@@ -162,6 +217,11 @@
     "name": "조용히 세상을 바꾸는 천재",
     "summary": "방구석에서 혼자 만든 코드로 인류를 구원할 타입",
     "insight": ""
+   },
+   "es": {
+    "name": "El genio silencioso",
+    "summary": "Un genio callado que, en soledad, construye algo que puede cambiar el mundo.",
+    "insight": "Eres curioso, disciplinado y sereno, y das lo mejor de ti en una concentración profunda. La IA amplía tu alcance para que tus ideas se vean y se usen."
    },
    "tools": "Claude + Perplexity"
   },
@@ -176,6 +236,11 @@
     "summary": "완벽한 결과물을 내놓으며 주변을 공포에 떨게 함",
     "insight": ""
    },
+   "es": {
+    "name": "El perfeccionista",
+    "summary": "Entrega un trabajo impecable y mantiene a todos en alerta.",
+    "insight": "Tienes estándares altos, mucha energía y un estilo directo. Detectas lo que otros pasan por alto. La IA puede ayudarte a dar una crítica que llegue sin perder su filo."
+   },
    "tools": "Claude + GitHub Copilot"
   },
   "11101": {
@@ -188,6 +253,11 @@
     "name": "냉철한 야망가 CEO",
     "summary": "효율과 결과가 전부, 감정 섞인 보고는 사절인 능력자",
     "insight": ""
+   },
+   "es": {
+    "name": "El estratega",
+    "summary": "La eficiencia y los resultados van primero: nada de informes emocionales, por favor.",
+    "insight": "Eres una persona impulsada, aguda y serena bajo presión, con poca paciencia para lo superfluo. Combina ese filo con una IA que afile el análisis y suavice el tono cuando importa."
    },
    "tools": "ChatGPT + Notion AI"
   },
@@ -202,6 +272,11 @@
     "summary": "능력도 좋고 착한데 누가 한마디 하면 밤새 잠 못 잠",
     "insight": ""
    },
+   "es": {
+    "name": "El dinamizador",
+    "summary": "Talentoso y amable, pero un comentario puede costarte una noche de sueño.",
+    "insight": "Combinas mucha energía, exigencia alta y un calor genuino, y sientes las críticas con profundidad. Usa la IA para vigilar y revisar por ti, y así darte un respiro."
+   },
    "tools": "Claude + Wysa"
   },
   "11111": {
@@ -214,6 +289,11 @@
     "name": "천상계 올라운더 리더",
     "summary": "못하는 게 없어서 AI가 위협을 느끼는 완성형 인간",
     "insight": ""
+   },
+   "es": {
+    "name": "El todoterreno",
+    "summary": "Un todoterreno poco común que hasta pone nerviosa a la IA: el paquete completo.",
+    "insight": "Destacas en todas las dimensiones: curiosidad, disciplina, sociabilidad, amabilidad y estabilidad. Los equipos giran de forma natural a tu alrededor. El riesgo es querer hacerlo todo tú: deja que la IA se encargue de lo repetitivo para que tú sigas liderando."
    },
    "tools": "Claude + Notion AI"
   },
@@ -228,6 +308,11 @@
     "summary": "변화도 싫고 사람도 싫고 그냥 내 마음대로 살래",
     "insight": ""
    },
+   "es": {
+    "name": "El ermitaño",
+    "summary": "Un ermitaño terco: nada de cambios, nada de gente; solo a mi manera.",
+    "insight": "Te gusta la rutina, la privacidad y la independencia. La IA puede trabajar en silencio, en segundo plano, sin pedirte que cambies."
+   },
    "tools": "ChatGPT"
   },
   "00001": {
@@ -240,6 +325,11 @@
     "name": "냉소적인 현실주의자",
     "summary": "세상만사 귀찮지만 자기 실속은 조용히 챙김",
     "insight": ""
+   },
+   "es": {
+    "name": "El realista",
+    "summary": "Un realista cínico, que ve casi todo como una molestia, pero se cuida en silencio.",
+    "insight": "Eres práctico, independiente y poco sentimental, y ves las cosas como son. La IA puede resumir y revisar para que decidas rápido."
    },
    "tools": "ChatGPT + Perplexity"
   },
@@ -254,6 +344,11 @@
     "summary": "조용하고 착한데 세상 살아가기 조금 벅찬 타입",
     "insight": ""
    },
+   "es": {
+    "name": "El alma gentil",
+    "summary": "Un alma callada y amable, para quien el mundo a veces es demasiado.",
+    "insight": "Eres gentil y atento, pero sensible. La IA puede asumir las tareas rutinarias y mantener contigo un tono constante y amable."
+   },
    "tools": "Claude + Wysa"
   },
   "00011": {
@@ -266,6 +361,11 @@
     "name": "평화로운 나무늘보",
     "summary": "세상 편하게 살고 싶은, 갈등 없는 조용한 이웃",
     "insight": ""
+   },
+   "es": {
+    "name": "El pacificador",
+    "summary": "Un perezoso en paz, que quiere una vida sin conflictos.",
+    "insight": "Eres tranquilo, amable y sereno, y cuidas la paz. La IA puede encargarse de la agenda y los recordatorios para que tú no tengas que hacerlo."
    },
    "tools": "Claude + Wysa"
   },
@@ -280,6 +380,11 @@
     "summary": "논리보다 직감! 기분 따라 움직이는데 운도 좋음",
     "insight": ""
    },
+   "es": {
+    "name": "El apostador",
+    "summary": "Un apostador instintivo: el instinto por encima de la lógica y, de algún modo, con suerte.",
+    "insight": "Eres audaz, sociable e independiente, y confías en tu intuición. La IA puede darte una segunda opinión rápida antes de que te comprometas."
+   },
    "tools": "ChatGPT + Gamma"
   },
   "00101": {
@@ -292,6 +397,11 @@
     "name": "저돌적인 결과 지향가",
     "summary": "단순 무식(?)하지만 결과 하나는 확실히 뽑아냄",
     "insight": ""
+   },
+   "es": {
+    "name": "El triunfador",
+    "summary": "Una persona directa, orientada a resultados, que simplemente lo saca adelante.",
+    "insight": "Eres enérgico, estable y claro, y entregas lo que prometes. La IA puede ordenar la lista de pendientes para que nada importante se escape."
    },
    "tools": "ChatGPT + Notion AI"
   },
@@ -306,6 +416,11 @@
     "summary": "능력보다 인맥! 웃음으로 모든 걸 해결하는 인싸",
     "insight": ""
    },
+   "es": {
+    "name": "El alma de la fiesta",
+    "summary": "Un líder que pone a las personas primero y lo resuelve todo con una sonrisa.",
+    "insight": "Eres sociable, amable y relajado, y ganas a través de las relaciones. La IA puede capturar los detalles de cada conversación."
+   },
    "tools": "ChatGPT + Otter.ai"
   },
   "00111": {
@@ -318,6 +433,11 @@
     "name": "긍정 파워 행동파",
     "summary": "복잡한 건 몰라도 일단 움직여서 성과 내는 타입",
     "insight": ""
+   },
+   "es": {
+    "name": "El conector",
+    "summary": "Una persona de acción, positiva, que se mueve primero y logra resultados.",
+    "insight": "Eres cálido y enérgico, y actúas sin esperar la información perfecta. La IA puede encargarse del papeleo y de los seguimientos."
    },
    "tools": "Otter.ai + Gamma"
   },
@@ -332,6 +452,11 @@
     "summary": "내 일은 완벽하게, 남의 일은 관심 없음 (간섭 금지)",
     "insight": ""
    },
+   "es": {
+    "name": "El minimalista",
+    "summary": "Un gestor privado e independiente: mi trabajo es perfecto; el tuyo es tuyo.",
+    "insight": "Eres ordenado, independiente y estable, y haces un excelente trabajo en solitario. La IA puede encargarse de la coordinación que sueles omitir."
+   },
    "tools": "Notion AI + ChatGPT"
   },
   "01001": {
@@ -344,6 +469,11 @@
     "name": "냉정한 관리의 달인",
     "summary": "감정 배제! 오직 매뉴얼과 효율로만 승부하는 로봇",
     "insight": ""
+   },
+   "es": {
+    "name": "El optimizador",
+    "summary": "Un gestor frío y eficiente, que va por el manual y deja la emoción a un lado.",
+    "insight": "Valoras el proceso y la eficiencia. La IA puede automatizar controles e informes para que te concentres en las excepciones y las decisiones."
    },
    "tools": "Notion AI + Perplexity"
   },
@@ -358,6 +488,11 @@
     "summary": "성실함은 1등인데 발표 시키면 심장이 튀어나옴",
     "insight": ""
    },
+   "es": {
+    "name": "La tortuga",
+    "summary": "Diez puntos en constancia… hasta que hay que presentarse frente a otros.",
+    "insight": "Eres cuidadoso, trabajador y sensible. La IA puede ayudarte a preparar y ensayar, para que tu mejor trabajo sí se vea."
+   },
    "tools": "Notion AI + Wysa"
   },
   "01011": {
@@ -370,6 +505,11 @@
     "name": "성실한 조력자 (인간 교과서)",
     "summary": "시키는 일 군말 없이 완벽하게 해내는 최고의 동료",
     "insight": ""
+   },
+   "es": {
+    "name": "El ayudante",
+    "summary": "Un apoyo confiable: hace lo que se pide, de forma impecable y sin quejarse.",
+    "insight": "Eres constante, amable y sereno: el colega favorito de todos. La IA puede llevar el registro de los pedidos para que tu propio trabajo no se atrase."
    },
    "tools": "Notion AI + Claude"
   },
@@ -384,6 +524,11 @@
     "summary": "규정 어기는 꼴 절대 못 보는 공포의 원칙주의자",
     "insight": ""
    },
+   "es": {
+    "name": "El exigente",
+    "summary": "Un guardián estricto de las reglas, que no soporta que se las salten.",
+    "insight": "Eres exigente, ordenado y directo. La IA puede hacer cumplir las reglas de forma automática y dejarte tiempo para acompañar a las personas."
+   },
    "tools": "Notion AI + ChatGPT"
   },
   "01101": {
@@ -396,6 +541,11 @@
     "name": "강력한 카리스마 관리자",
     "summary": "매뉴얼대로 착착! 흐트러짐 없는 카리스마 지배자",
     "insight": ""
+   },
+   "es": {
+    "name": "El ancla",
+    "summary": "Un gestor carismático, perfecto según el manual, que nunca pierde la compostura.",
+    "insight": "Eres disciplinado y estable, y mantienes altos los estándares. La IA puede convertir esas reglas en un sistema, para que tu equipo se sienta menos vigilado."
    },
    "tools": "Notion AI + Beautiful.ai"
   },
@@ -410,6 +560,11 @@
     "summary": "원칙대로 잘하는데 혹시나 잘못될까 봐 늘 노심초사",
     "insight": ""
    },
+   "es": {
+    "name": "El cuidador",
+    "summary": "Hace todo bien y, aun así, se preocupa de que algo salga mal.",
+    "insight": "Eres una persona de principios, atenta y concienzuda, y revisas las cosas dos veces. Deja que la IA vigile y te avise, para que puedas descansar cuando ya no estás de turno."
+   },
    "tools": "Notion AI + Wysa"
   },
   "01111": {
@@ -422,6 +577,11 @@
     "name": "따뜻한 원칙주의 리더",
     "summary": "규정을 지키면서도 모두를 챙기는 우리들의 영웅",
     "insight": ""
+   },
+   "es": {
+    "name": "El guardián",
+    "summary": "Un líder cálido y de principios, que sigue las reglas y cuida de todos.",
+    "insight": "Eres confiable, amable y sereno: la persona en la que todos confían. La IA puede responder las preguntas repetidas y dejarte tiempo para las decisiones que sí piden tu juicio."
    },
    "tools": "Notion AI + ChatGPT"
   }
@@ -1004,6 +1164,297 @@
      "b": "위험에 민감하면 확인이 끝없어질 수 있습니다. 정해진 목록이 끝났음을 알려 줍니다.",
      "p": "[작업]을 보내거나 배포하기 전에 확인할 5개 항목 체크리스트와 멈춤 규칙을 알려줘. 5개가 모두 통과하면 멈출 거야.",
      "a": "같은 체크리스트를 세 건에 쓰고 통과하면 멈추세요."
+    }
+   ]
+  }
+ },
+ "es": {
+  "labels": {
+   "promptHead": "Prompt para copiar y pegar",
+   "actionHead": "La mini acción de esta semana",
+   "weekOf": "Tip {w} de {n}",
+   "dim": {
+    "O": "Apertura",
+    "C": "Responsabilidad",
+    "E": "Extraversión",
+    "A": "Amabilidad",
+    "N": "Estabilidad emocional"
+   },
+   "sign": "— AI-OCEAN",
+   "why": "Recibes este correo porque te suscribiste en thepersonalityai.com después de hacer el test AI-OCEAN.",
+   "unsub": "Cancelar suscripción",
+   "confirmSubject": "Confirma tu guía AI-OCEAN",
+   "confirmBody": "Con un clic, tu guía de IA de 5 días empieza de inmediato. Si no pediste esto, ignora este correo y no se enviará nada.",
+   "confirmBtn": "Sí, envíame la guía",
+   "confirmedTitle": "¡Listo, ya estás dentro!",
+   "confirmedBody": "Tu primera lección va en camino a tu bandeja. Si en unos minutos no la ves, revisa spam o promociones.",
+   "unsubTitle": "Cancelaste la suscripción",
+   "unsubBody": "No te volveremos a escribir. Siempre puedes volver a hacer el test en thepersonalityai.com.",
+   "badLink": "Este enlace no es válido o ya venció."
+  },
+  "course": [
+   {
+    "subject": "Te damos la bienvenida — tu guía inicial de IA para {{name}}",
+    "blocks": [
+     {
+      "p": "Bienvenido. Tu tipo AI-OCEAN es **{{name}}**."
+     },
+     {
+      "p": "{{summary}}"
+     },
+     {
+      "p": "{{insight}}"
+     },
+     {
+      "h": "Tu set inicial de IA"
+     },
+     {
+      "p": "Para tu tipo te sugerimos: **{{tools}}**. Hoy no instales nada: solo prueba una."
+     },
+     {
+      "h": "Prueba esto en 5 minutos"
+     },
+     {
+      "p": "Abre cualquier asistente de IA y pega el prompt de abajo. Te va a entrevistar y luego te va a señalar las tres tareas en las que la IA te ahorraría más tiempo."
+     },
+     {
+      "prompt": "Actúa como mi coach de IA. Mi tipo de personalidad es {{name}} ({{summary}}). Hazme 5 preguntas cortas sobre mi trabajo, una a la vez. Después enumera las 3 tareas en las que la IA me ahorraría más tiempo y dame el primer prompt para probar en cada una."
+     },
+     {
+      "p": "Mañana: cómo hacer que tu IA trabaje como tú trabajas."
+     }
+    ]
+   },
+   {
+    "subject": "Día 2 — configura tu IA para que trabaje como tú",
+    "blocks": [
+     {
+      "p": "La mayoría se vuelve a explicar ante su IA en cada chat. Arréglalo una sola vez."
+     },
+     {
+      "p": "Las instrucciones personalizadas (según la herramienta, “Custom instructions”, “Personalization” o un “Project”) le dan contexto permanente a la IA. Usa este prompt para escribir las tuyas:"
+     },
+     {
+      "prompt": "Escribe instrucciones personalizadas (en menos de 150 palabras) para un asistente de IA que voy a usar todos los días. Sobre mí: tipo de personalidad {{name}} — {{summary}} Mi trabajo: [tu trabajo en una línea]. Cómo me gusta que me respondan: [corto / paso a paso / con ejemplos]. También dile al asistente que me confronte cuando mi tipo suele equivocarse."
+     },
+     {
+      "p": "Pega el resultado en la configuración de tu herramienta. Toma cinco minutos y mejora cada respuesta a partir de ahí."
+     },
+     {
+      "p": "Mañana: convierte una tarea repetida en una plantilla."
+     }
+    ]
+   },
+   {
+    "subject": "Día 3 — convierte una tarea repetida en una plantilla",
+    "blocks": [
+     {
+      "p": "Elige una tarea que haces cada semana: un informe, un correo, la preparación de una reunión, un resumen. No la más difícil: la más repetitiva."
+     },
+     {
+      "prompt": "Entrevístame sobre una tarea que hago cada semana: [nombra la tarea]. Haz una pregunta a la vez hasta entender las entradas, los pasos y cómo se ve un buen resultado. Después escribe (1) una plantilla de prompt reutilizable con [marcadores] y (2) una lista de 4 puntos para revisar tu resultado antes de enviarlo."
+     },
+     {
+      "p": "Guarda la plantilla donde la vayas a encontrar (una nota, un chat fijado, un Project). La próxima semana úsala en lugar de empezar de cero. Ese es todo el hábito."
+     },
+     {
+      "p": "Mañana: en qué suele tropezar tu tipo con la IA."
+     }
+    ]
+   },
+   {
+    "subject": "Día 4 — en qué tropieza tu tipo con la IA",
+    "blocks": [
+     {
+      "p": "Cada rasgo tiene un lado sombra cuando trabajas con IA. Aquí está el tuyo, rasgo por rasgo. Lee tus cinco líneas y quédate con la que más te pique."
+     },
+     {
+      "blind": true
+     },
+     {
+      "p": "La solución: pedirle a la IA que cubra ese punto ciego a propósito."
+     },
+     {
+      "prompt": "Tengo tendencia a [pega la línea que te picó]. Cada vez que te dé una tarea, agrega al final una “revisión del punto ciego” corta: una pregunta o un riesgo relacionado con este hábito que debería considerar antes de actuar."
+     },
+     {
+      "p": "Mañana: tu ritmo semanal."
+     }
+    ]
+   },
+   {
+    "subject": "Día 5 — tu rutina semanal de IA de 20 minutos",
+    "blocks": [
+     {
+      "p": "Los hábitos le ganan a las herramientas. Esta es una rutina semanal que cabe alrededor de un trabajo de tiempo completo:"
+     },
+     {
+      "li": [
+       "Domingo, 10 min: pega las reuniones y fechas límite de la semana y pide las 3 prioridades y un primer paso para cada una.",
+       "A media semana, 5 min: usa tu plantilla del día 3 en una tarea real.",
+       "Viernes, 5 min: pregúntale a la IA: “¿Qué hice bien esta semana y qué debería automatizar después?”"
+      ]
+     },
+     {
+      "p": "A partir de la próxima semana recibirás un correo corto por semana, con un tip escrito para tu tipo, **{{name}}**, durante 10 semanas. Después se detiene."
+     },
+     {
+      "p": "Dos cosas rápidas. Primero, responde este correo y cuéntame qué probaste o en qué te trabaste: leo las respuestas. Segundo, estoy midiendo el interés en comparar tipos dentro de un equipo: si eso te serviría, responde con la palabra “team”."
+     }
+    ]
+   }
+  ],
+  "blind": {
+   "O1": "Alta apertura: persigues la herramienta o la idea nueva y terminas menos. Pídele a la IA que te ayude a elegir y a parar, no a sumar más opciones.",
+   "O0": "Apertura más baja: puede que sigas preguntando como siempre lo has hecho. Pídele a la IA un enfoque poco familiar, una vez por semana.",
+   "C1": "Alta responsabilidad: pules y planificas de más. Pídele a la IA la versión al 80% y envíala.",
+   "C0": "Más flexible con la estructura: las tareas se dispersan. Pídele a la IA que convierta tu desorden en una lista de 3 cada mañana.",
+   "E1": "Alta extraversión: piensas hablando y puedes saltarte la verificación en silencio. Lee la respuesta de la IA una vez, a solas, antes de actuar.",
+   "E0": "Más reservado: puede que te quedes con las respuestas de la IA. Comparte un borrador hecho con IA con un colega cada semana, para una segunda mirada.",
+   "A1": "Alta amabilidad: aceptas con cortesía la primera respuesta de la IA. Pídele que argumente el lado contrario.",
+   "A0": "Amabilidad más baja: aceptas o rechazas las respuestas rápido. Pídele a la IA que suavice el tono y nombre lo que la otra parte necesita.",
+   "N1": "Calma bajo presión: puede que revises de menos. Pídele a la IA que enumere las hipótesis que estás tratando como certezas.",
+   "N0": "Más sensible al riesgo: puede que revises sin parar. Dale a la IA una lista fija de 5 puntos y para cuando la pase."
+  },
+  "tips": {
+   "O1": [
+    {
+     "t": "Usa la IA como sparring de ideas, no como una máquina expendedora",
+     "b": "Con alta apertura, las ideas salen fácil: el cuello de botella es elegir. Deja que la IA haga de inversionista escéptico, para que dejes de acumular y empieces a decidir.",
+     "p": "Estas son 5 ideas que estoy considerando: [lista]. Actúa como un inversionista escéptico. Ordénalas por impacto vs. esfuerzo y dime cuáles 2 debería descartar, y por qué.",
+     "a": "Úsalo en una decisión real y descarta de verdad al menos una idea."
+    },
+    {
+     "t": "Ponle un límite de tiempo a tu exploración",
+     "b": "La curiosidad puede volverse un salto infinito de herramientas. Una ventana fija mantiene el descubrimiento y quita la deriva.",
+     "p": "Tengo 45 minutos para explorar [tema]. Dame un plan de 3 pasos: 15 min para mapear el terreno, 15 min para probar un enfoque, 15 min para decidir. Haz que me ciña a eso.",
+     "a": "Elige una sola herramienta de IA durante 30 días y anota cada vez que quieras cambiar."
+    }
+   ],
+   "O0": [
+    {
+     "t": "Convierte tus métodos comprobados en plantillas reutilizables",
+     "b": "Confías en lo que funciona. La IA es excelente para repetir un método más rápido: no necesitas cambiar cómo trabajas para beneficiarte.",
+     "p": "Así es como hago hoy [tarea], paso a paso: [pasos]. Conviértelo en una plantilla reutilizable con marcadores y enumera 3 lugares en los que la IA podría ahorrar tiempo sin cambiar el método.",
+     "a": "Haz una plantilla de una tarea semanal y cronometra las siguientes dos veces."
+    },
+    {
+     "t": "Deja que la IA desafíe tu valor por defecto, una vez al mes",
+     "b": "El método que siempre funcionó puede dejar de ser el mejor, en silencio. Pide alternativas con el riesgo incluido, para que probar una se sienta seguro.",
+     "p": "Este es mi enfoque habitual para [tarea]: [enfoque]. Dame 3 alternativas usadas en otros campos o empresas, con el riesgo de cada una, y una forma pequeña y de bajo riesgo de probar la mejor.",
+     "a": "Haz un experimento chico de la lista."
+    }
+   ],
+   "C1": [
+    {
+     "t": "Delega la planificación y quédate con el criterio",
+     "b": "Planificas bien; la IA puede armar el borrador de la estructura para que tú uses el tiempo en las decisiones, no en formatear listas.",
+     "p": "Divide [proyecto] en hitos, tareas, responsables y una definición de “terminado” para cada uno. Señala las 3 tareas con más riesgo de atrasarse, y por qué.",
+     "a": "Sustituye un plan que normalmente armarías a mano; después edita, no empieces en blanco."
+    },
+    {
+     "t": "Adopta una regla de “suficientemente bueno”",
+     "b": "La alta responsabilidad puede volverse un pulido sin fin. Un listón claro te dice cuándo parar.",
+     "p": "Revisa este borrador con 3 criterios: claridad, exactitud y ajuste al público. Dime si está al 80% listo para enviarse y enumera solo los cambios que importan: máximo 3.",
+     "a": "Envía una cosa al 80% esta semana."
+    }
+   ],
+   "C0": [
+    {
+     "t": "Usa la IA como estructura externa",
+     "b": "La flexibilidad es una fortaleza hasta que las tareas chicas se acumulan. Que la IA haga el ordenamiento, para que tu energía vaya al trabajo.",
+     "p": "Esta es mi lista de pendientes, un poco revuelta: [pega]. Agrúpala por fecha límite y esfuerzo, elige las 3 de hoy y dale a cada una un primer paso de 25 minutos.",
+     "a": "Hazlo cada mañana durante 5 días."
+    },
+    {
+     "t": "Haz de la IA tu cierre del día",
+     "b": "Un rito de cinco minutos al final evita que los cabos sueltos se pasen al día siguiente, sin convertirte en una persona de planificador.",
+     "p": "Actúa como mi cierre del día. Hazme 3 preguntas: qué terminé, qué avanzó y qué debería soltar. Después arma el borrador de las 3 prioridades de mañana.",
+     "a": "Pon un recordatorio recurrente de 5 minutos al final de tu jornada."
+    }
+   ],
+   "E1": [
+    {
+     "t": "Piensa en voz alta con el modo de voz",
+     "b": "Piensas mejor cuando hablas. El modo de voz te deja hacerlo y, aun así, terminar con notas.",
+     "p": "Voy a hablar sobre [problema] durante 3 minutos. No interrumpas. Después resume mis puntos principales, los huecos y 3 preguntas que debería responder.",
+     "a": "Pruébalo en una caminata o en el trayecto al trabajo."
+    },
+    {
+     "t": "Usa la IA para preparar las conversaciones que te recargan",
+     "b": "La reunión es donde brillas; un poco de preparación la hace más precisa y más corta.",
+     "p": "Me reúno con [persona] sobre [tema]. Dame sus preocupaciones probables, 3 preguntas para hacer y una apertura de dos oraciones.",
+     "a": "Prepara una reunión así y compara cómo salió."
+    }
+   ],
+   "E0": [
+    {
+     "t": "Prepárate con IA para que las reuniones te cuesten menos energía",
+     "b": "Piensas mejor antes de que se llene la sala. Preparar tus puntos hace que hablar sea breve y con calma.",
+     "p": "Esta es la agenda y mis notas: [pega]. Arma mis 3 puntos clave, 2 preguntas y una postura de una línea, para que pueda hablar con concisión.",
+     "a": "Úsalo antes de tu próxima reunión y envía tus puntos por escrito primero."
+    },
+    {
+     "t": "Redacta los mensajes que sigues posponiendo",
+     "b": "Empezar un mensaje es la parte difícil. Un borrador en tu propia voz hace que el primer paso sea chico.",
+     "p": "Escribe un mensaje corto y cálido para [persona] con el fin de [objetivo]. Dame una versión de 2 oraciones y una de 5, en mi voz: aquí hay una muestra de cómo escribo: [pega].",
+     "a": "Envía un mensaje que hayas estado dejando para después."
+    }
+   ],
+   "A1": [
+    {
+     "t": "Entrega un feedback difícil con amabilidad, pero con claridad",
+     "b": "La calidez es tu fortaleza; el riesgo es decirlo tan suave que se pierda el punto. Compara una versión suave y una firme antes de elegir.",
+     "p": "Necesito decirle a [persona] que [problema]. Escribe un mensaje amable pero inequívoco, con una petición concreta y una fecha límite. Muestra una versión más suave y una más firme.",
+     "a": "Envía la versión que normalmente evitarías."
+    },
+    {
+     "t": "Pídele a la IA que argumente en tu contra",
+     "b": "Las personas amables ceden más de lo que creen. Un caso contrario fuerte muestra lo que no habías puesto en la cuenta.",
+     "p": "Esta es la posición que estoy a punto de tomar: [posición]. Argumenta el caso contrario más sólido, como un negociador duro. ¿Qué estoy cediendo que no he valorado?",
+     "a": "Úsalo antes de tu próxima negociación o acuerdo."
+    }
+   ],
+   "A0": [
+    {
+     "t": "Suaviza los bordes antes de enviar",
+     "b": "Lo directo es eficiente, pero puede costar buena voluntad. Mantén tu punto y deja que la IA revise el tono.",
+     "p": "Reescribe este mensaje para que conserve mi punto y mis decisiones, pero sea menos probable que se lea como duro: [pega]. Muestra qué cambiaste y por qué.",
+     "a": "Compara el original y la versión revisada antes de enviar."
+    },
+    {
+     "t": "Usa la IA para ver los incentivos de la otra parte",
+     "b": "Llegas rápido a una conclusión. Ver primero los objetivos de la otra persona a menudo consigue un sí más rápido.",
+     "p": "Describe esta situación desde el punto de vista de [persona]: sus objetivos, sus miedos y lo que necesitaría para decir que sí. Después sugiere la primera oración de mi respuesta.",
+     "a": "Pruébalo en un desacuerdo de esta semana."
+    }
+   ],
+   "N1": [
+    {
+     "t": "Usa tu calma para hacer un pre-mortem",
+     "b": "Te mantienes sereno cuando otros se apuran. Pon eso a trabajar imaginando primero el fracaso.",
+     "p": "Supón que [plan] fracasó dentro de seis meses. Enumera las 7 razones más probables, ordenadas por probabilidad, con una señal temprana de alerta para cada una.",
+     "a": "Hazlo en tu próximo proyecto y pon la señal de alerta principal en tu calendario."
+    },
+    {
+     "t": "Cuidado con revisar de menos",
+     "b": "Mantener la calma puede significar saltarte la segunda mirada. Una auditoría corta de hipótesis toma cinco minutos.",
+     "p": "Revisa [plan o cifras] y enumera las hipótesis que estoy tratando como certezas. Para cada una, ¿qué evidencia demostraría que está equivocada?",
+     "a": "Pon a prueba la hipótesis más riesgosa esta semana."
+    }
+   ],
+   "N0": [
+    {
+     "t": "Convierte la preocupación en una lista de verificación",
+     "b": "Tu atención al riesgo atrapa problemas reales. Separar lo que controlas de lo que no lo mantiene útil. (Es un hábito de trabajo, no una herramienta de salud mental.)",
+     "p": "Me preocupa [situación]. Enumera lo que está bajo mi control y lo que no. Para lo que sí controlas, dame la siguiente acción pequeña.",
+     "a": "Haz esa primera acción pequeña hoy."
+    },
+    {
+     "t": "Arma una rutina de verificación con una regla para parar",
+     "b": "La sensibilidad al riesgo puede hacer que revisar no termine nunca. Una lista fija te dice cuándo ya está.",
+     "p": "Dame una lista de 5 puntos para verificar [trabajo] antes de enviarlo o publicarlo, y una regla para parar: cuando los 5 pasen, me detengo.",
+     "a": "Usa la misma lista en tres trabajos y para cuando la pase."
     }
    ]
   }

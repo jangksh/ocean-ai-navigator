@@ -1,4 +1,4 @@
-// AI-OCEAN 이메일 원고 (5일 미니 강의 + 주간 팁). 영어가 기본, 한국어 병행.
+// AI-OCEAN 이메일 원고 (5일 미니 강의 + 주간 팁). 영어가 기본, 한국어·스페인어 병행.
 // 이 파일이 원고의 원본이다. 수정 후 `node email/build_content.js` 로 content.json 을 다시 만든다.
 //
 // 치환 변수: {{name}} 유형 이름, {{summary}} 한 줄 요약, {{insight}} 공감 리포트, {{tools}} 추천 AI 조합
@@ -267,6 +267,138 @@ module.exports = {
       N0: [
         { t: '걱정을 체크리스트로 바꾸세요', b: '위험에 대한 민감함은 실제 문제를 잡아냅니다. 내가 통제하는 것과 아닌 것을 나누면 유용하게 쓰입니다. (업무 습관 팁이며 정신건강 도구가 아닙니다.)', p: '[상황]이 걱정돼. 내가 통제할 수 있는 것과 없는 것을 나눠 줘. 통제 가능한 부분은 다음에 할 작은 행동을 알려줘.', a: '오늘 첫 작은 행동을 하세요.' },
         { t: '멈춤 규칙이 있는 검증 루틴', b: '위험에 민감하면 확인이 끝없어질 수 있습니다. 정해진 목록이 끝났음을 알려 줍니다.', p: '[작업]을 보내거나 배포하기 전에 확인할 5개 항목 체크리스트와 멈춤 규칙을 알려줘. 5개가 모두 통과하면 멈출 거야.', a: '같은 체크리스트를 세 건에 쓰고 통과하면 멈추세요.' },
+      ],
+    },
+  },
+
+  es: {
+    labels: {
+      promptHead: 'Prompt para copiar y pegar',
+      actionHead: 'La mini acción de esta semana',
+      weekOf: 'Tip {w} de {n}',
+      dim: { O: 'Apertura', C: 'Responsabilidad', E: 'Extraversión', A: 'Amabilidad', N: 'Estabilidad emocional' },
+      sign: '— AI-OCEAN',
+      why: 'Recibes este correo porque te suscribiste en thepersonalityai.com después de hacer el test AI-OCEAN.',
+      unsub: 'Cancelar suscripción',
+      confirmSubject: 'Confirma tu guía AI-OCEAN',
+      confirmBody: 'Con un clic, tu guía de IA de 5 días empieza de inmediato. Si no pediste esto, ignora este correo y no se enviará nada.',
+      confirmBtn: 'Sí, envíame la guía',
+      confirmedTitle: '¡Listo, ya estás dentro!',
+      confirmedBody: 'Tu primera lección va en camino a tu bandeja. Si en unos minutos no la ves, revisa spam o promociones.',
+      unsubTitle: 'Cancelaste la suscripción',
+      unsubBody: 'No te volveremos a escribir. Siempre puedes volver a hacer el test en thepersonalityai.com.',
+      badLink: 'Este enlace no es válido o ya venció.',
+    },
+    course: [
+      {
+        subject: 'Te damos la bienvenida — tu guía inicial de IA para {{name}}',
+        blocks: [
+          { p: 'Bienvenido. Tu tipo AI-OCEAN es **{{name}}**.' },
+          { p: '{{summary}}' },
+          { p: '{{insight}}' },
+          { h: 'Tu set inicial de IA' },
+          { p: 'Para tu tipo te sugerimos: **{{tools}}**. Hoy no instales nada: solo prueba una.' },
+          { h: 'Prueba esto en 5 minutos' },
+          { p: 'Abre cualquier asistente de IA y pega el prompt de abajo. Te va a entrevistar y luego te va a señalar las tres tareas en las que la IA te ahorraría más tiempo.' },
+          { prompt: 'Actúa como mi coach de IA. Mi tipo de personalidad es {{name}} ({{summary}}). Hazme 5 preguntas cortas sobre mi trabajo, una a la vez. Después enumera las 3 tareas en las que la IA me ahorraría más tiempo y dame el primer prompt para probar en cada una.' },
+          { p: 'Mañana: cómo hacer que tu IA trabaje como tú trabajas.' },
+        ],
+      },
+      {
+        subject: 'Día 2 — configura tu IA para que trabaje como tú',
+        blocks: [
+          { p: 'La mayoría se vuelve a explicar ante su IA en cada chat. Arréglalo una sola vez.' },
+          { p: 'Las instrucciones personalizadas (según la herramienta, “Custom instructions”, “Personalization” o un “Project”) le dan contexto permanente a la IA. Usa este prompt para escribir las tuyas:' },
+          { prompt: 'Escribe instrucciones personalizadas (en menos de 150 palabras) para un asistente de IA que voy a usar todos los días. Sobre mí: tipo de personalidad {{name}} — {{summary}} Mi trabajo: [tu trabajo en una línea]. Cómo me gusta que me respondan: [corto / paso a paso / con ejemplos]. También dile al asistente que me confronte cuando mi tipo suele equivocarse.' },
+          { p: 'Pega el resultado en la configuración de tu herramienta. Toma cinco minutos y mejora cada respuesta a partir de ahí.' },
+          { p: 'Mañana: convierte una tarea repetida en una plantilla.' },
+        ],
+      },
+      {
+        subject: 'Día 3 — convierte una tarea repetida en una plantilla',
+        blocks: [
+          { p: 'Elige una tarea que haces cada semana: un informe, un correo, la preparación de una reunión, un resumen. No la más difícil: la más repetitiva.' },
+          { prompt: 'Entrevístame sobre una tarea que hago cada semana: [nombra la tarea]. Haz una pregunta a la vez hasta entender las entradas, los pasos y cómo se ve un buen resultado. Después escribe (1) una plantilla de prompt reutilizable con [marcadores] y (2) una lista de 4 puntos para revisar tu resultado antes de enviarlo.' },
+          { p: 'Guarda la plantilla donde la vayas a encontrar (una nota, un chat fijado, un Project). La próxima semana úsala en lugar de empezar de cero. Ese es todo el hábito.' },
+          { p: 'Mañana: en qué suele tropezar tu tipo con la IA.' },
+        ],
+      },
+      {
+        subject: 'Día 4 — en qué tropieza tu tipo con la IA',
+        blocks: [
+          { p: 'Cada rasgo tiene un lado sombra cuando trabajas con IA. Aquí está el tuyo, rasgo por rasgo. Lee tus cinco líneas y quédate con la que más te pique.' },
+          { blind: true },
+          { p: 'La solución: pedirle a la IA que cubra ese punto ciego a propósito.' },
+          { prompt: 'Tengo tendencia a [pega la línea que te picó]. Cada vez que te dé una tarea, agrega al final una “revisión del punto ciego” corta: una pregunta o un riesgo relacionado con este hábito que debería considerar antes de actuar.' },
+          { p: 'Mañana: tu ritmo semanal.' },
+        ],
+      },
+      {
+        subject: 'Día 5 — tu rutina semanal de IA de 20 minutos',
+        blocks: [
+          { p: 'Los hábitos le ganan a las herramientas. Esta es una rutina semanal que cabe alrededor de un trabajo de tiempo completo:' },
+          { li: [
+            'Domingo, 10 min: pega las reuniones y fechas límite de la semana y pide las 3 prioridades y un primer paso para cada una.',
+            'A media semana, 5 min: usa tu plantilla del día 3 en una tarea real.',
+            'Viernes, 5 min: pregúntale a la IA: “¿Qué hice bien esta semana y qué debería automatizar después?”',
+          ] },
+          { p: 'A partir de la próxima semana recibirás un correo corto por semana, con un tip escrito para tu tipo, **{{name}}**, durante 10 semanas. Después se detiene.' },
+          { p: 'Dos cosas rápidas. Primero, responde este correo y cuéntame qué probaste o en qué te trabaste: leo las respuestas. Segundo, estoy midiendo el interés en comparar tipos dentro de un equipo: si eso te serviría, responde con la palabra “team”.' },
+        ],
+      },
+    ],
+    blind: {
+      O1: 'Alta apertura: persigues la herramienta o la idea nueva y terminas menos. Pídele a la IA que te ayude a elegir y a parar, no a sumar más opciones.',
+      O0: 'Apertura más baja: puede que sigas preguntando como siempre lo has hecho. Pídele a la IA un enfoque poco familiar, una vez por semana.',
+      C1: 'Alta responsabilidad: pules y planificas de más. Pídele a la IA la versión al 80% y envíala.',
+      C0: 'Más flexible con la estructura: las tareas se dispersan. Pídele a la IA que convierta tu desorden en una lista de 3 cada mañana.',
+      E1: 'Alta extraversión: piensas hablando y puedes saltarte la verificación en silencio. Lee la respuesta de la IA una vez, a solas, antes de actuar.',
+      E0: 'Más reservado: puede que te quedes con las respuestas de la IA. Comparte un borrador hecho con IA con un colega cada semana, para una segunda mirada.',
+      A1: 'Alta amabilidad: aceptas con cortesía la primera respuesta de la IA. Pídele que argumente el lado contrario.',
+      A0: 'Amabilidad más baja: aceptas o rechazas las respuestas rápido. Pídele a la IA que suavice el tono y nombre lo que la otra parte necesita.',
+      N1: 'Calma bajo presión: puede que revises de menos. Pídele a la IA que enumere las hipótesis que estás tratando como certezas.',
+      N0: 'Más sensible al riesgo: puede que revises sin parar. Dale a la IA una lista fija de 5 puntos y para cuando la pase.',
+    },
+    tips: {
+      O1: [
+        { t: 'Usa la IA como sparring de ideas, no como una máquina expendedora', b: 'Con alta apertura, las ideas salen fácil: el cuello de botella es elegir. Deja que la IA haga de inversionista escéptico, para que dejes de acumular y empieces a decidir.', p: 'Estas son 5 ideas que estoy considerando: [lista]. Actúa como un inversionista escéptico. Ordénalas por impacto vs. esfuerzo y dime cuáles 2 debería descartar, y por qué.', a: 'Úsalo en una decisión real y descarta de verdad al menos una idea.' },
+        { t: 'Ponle un límite de tiempo a tu exploración', b: 'La curiosidad puede volverse un salto infinito de herramientas. Una ventana fija mantiene el descubrimiento y quita la deriva.', p: 'Tengo 45 minutos para explorar [tema]. Dame un plan de 3 pasos: 15 min para mapear el terreno, 15 min para probar un enfoque, 15 min para decidir. Haz que me ciña a eso.', a: 'Elige una sola herramienta de IA durante 30 días y anota cada vez que quieras cambiar.' },
+      ],
+      O0: [
+        { t: 'Convierte tus métodos comprobados en plantillas reutilizables', b: 'Confías en lo que funciona. La IA es excelente para repetir un método más rápido: no necesitas cambiar cómo trabajas para beneficiarte.', p: 'Así es como hago hoy [tarea], paso a paso: [pasos]. Conviértelo en una plantilla reutilizable con marcadores y enumera 3 lugares en los que la IA podría ahorrar tiempo sin cambiar el método.', a: 'Haz una plantilla de una tarea semanal y cronometra las siguientes dos veces.' },
+        { t: 'Deja que la IA desafíe tu valor por defecto, una vez al mes', b: 'El método que siempre funcionó puede dejar de ser el mejor, en silencio. Pide alternativas con el riesgo incluido, para que probar una se sienta seguro.', p: 'Este es mi enfoque habitual para [tarea]: [enfoque]. Dame 3 alternativas usadas en otros campos o empresas, con el riesgo de cada una, y una forma pequeña y de bajo riesgo de probar la mejor.', a: 'Haz un experimento chico de la lista.' },
+      ],
+      C1: [
+        { t: 'Delega la planificación y quédate con el criterio', b: 'Planificas bien; la IA puede armar el borrador de la estructura para que tú uses el tiempo en las decisiones, no en formatear listas.', p: 'Divide [proyecto] en hitos, tareas, responsables y una definición de “terminado” para cada uno. Señala las 3 tareas con más riesgo de atrasarse, y por qué.', a: 'Sustituye un plan que normalmente armarías a mano; después edita, no empieces en blanco.' },
+        { t: 'Adopta una regla de “suficientemente bueno”', b: 'La alta responsabilidad puede volverse un pulido sin fin. Un listón claro te dice cuándo parar.', p: 'Revisa este borrador con 3 criterios: claridad, exactitud y ajuste al público. Dime si está al 80% listo para enviarse y enumera solo los cambios que importan: máximo 3.', a: 'Envía una cosa al 80% esta semana.' },
+      ],
+      C0: [
+        { t: 'Usa la IA como estructura externa', b: 'La flexibilidad es una fortaleza hasta que las tareas chicas se acumulan. Que la IA haga el ordenamiento, para que tu energía vaya al trabajo.', p: 'Esta es mi lista de pendientes, un poco revuelta: [pega]. Agrúpala por fecha límite y esfuerzo, elige las 3 de hoy y dale a cada una un primer paso de 25 minutos.', a: 'Hazlo cada mañana durante 5 días.' },
+        { t: 'Haz de la IA tu cierre del día', b: 'Un rito de cinco minutos al final evita que los cabos sueltos se pasen al día siguiente, sin convertirte en una persona de planificador.', p: 'Actúa como mi cierre del día. Hazme 3 preguntas: qué terminé, qué avanzó y qué debería soltar. Después arma el borrador de las 3 prioridades de mañana.', a: 'Pon un recordatorio recurrente de 5 minutos al final de tu jornada.' },
+      ],
+      E1: [
+        { t: 'Piensa en voz alta con el modo de voz', b: 'Piensas mejor cuando hablas. El modo de voz te deja hacerlo y, aun así, terminar con notas.', p: 'Voy a hablar sobre [problema] durante 3 minutos. No interrumpas. Después resume mis puntos principales, los huecos y 3 preguntas que debería responder.', a: 'Pruébalo en una caminata o en el trayecto al trabajo.' },
+        { t: 'Usa la IA para preparar las conversaciones que te recargan', b: 'La reunión es donde brillas; un poco de preparación la hace más precisa y más corta.', p: 'Me reúno con [persona] sobre [tema]. Dame sus preocupaciones probables, 3 preguntas para hacer y una apertura de dos oraciones.', a: 'Prepara una reunión así y compara cómo salió.' },
+      ],
+      E0: [
+        { t: 'Prepárate con IA para que las reuniones te cuesten menos energía', b: 'Piensas mejor antes de que se llene la sala. Preparar tus puntos hace que hablar sea breve y con calma.', p: 'Esta es la agenda y mis notas: [pega]. Arma mis 3 puntos clave, 2 preguntas y una postura de una línea, para que pueda hablar con concisión.', a: 'Úsalo antes de tu próxima reunión y envía tus puntos por escrito primero.' },
+        { t: 'Redacta los mensajes que sigues posponiendo', b: 'Empezar un mensaje es la parte difícil. Un borrador en tu propia voz hace que el primer paso sea chico.', p: 'Escribe un mensaje corto y cálido para [persona] con el fin de [objetivo]. Dame una versión de 2 oraciones y una de 5, en mi voz: aquí hay una muestra de cómo escribo: [pega].', a: 'Envía un mensaje que hayas estado dejando para después.' },
+      ],
+      A1: [
+        { t: 'Entrega un feedback difícil con amabilidad, pero con claridad', b: 'La calidez es tu fortaleza; el riesgo es decirlo tan suave que se pierda el punto. Compara una versión suave y una firme antes de elegir.', p: 'Necesito decirle a [persona] que [problema]. Escribe un mensaje amable pero inequívoco, con una petición concreta y una fecha límite. Muestra una versión más suave y una más firme.', a: 'Envía la versión que normalmente evitarías.' },
+        { t: 'Pídele a la IA que argumente en tu contra', b: 'Las personas amables ceden más de lo que creen. Un caso contrario fuerte muestra lo que no habías puesto en la cuenta.', p: 'Esta es la posición que estoy a punto de tomar: [posición]. Argumenta el caso contrario más sólido, como un negociador duro. ¿Qué estoy cediendo que no he valorado?', a: 'Úsalo antes de tu próxima negociación o acuerdo.' },
+      ],
+      A0: [
+        { t: 'Suaviza los bordes antes de enviar', b: 'Lo directo es eficiente, pero puede costar buena voluntad. Mantén tu punto y deja que la IA revise el tono.', p: 'Reescribe este mensaje para que conserve mi punto y mis decisiones, pero sea menos probable que se lea como duro: [pega]. Muestra qué cambiaste y por qué.', a: 'Compara el original y la versión revisada antes de enviar.' },
+        { t: 'Usa la IA para ver los incentivos de la otra parte', b: 'Llegas rápido a una conclusión. Ver primero los objetivos de la otra persona a menudo consigue un sí más rápido.', p: 'Describe esta situación desde el punto de vista de [persona]: sus objetivos, sus miedos y lo que necesitaría para decir que sí. Después sugiere la primera oración de mi respuesta.', a: 'Pruébalo en un desacuerdo de esta semana.' },
+      ],
+      N1: [
+        { t: 'Usa tu calma para hacer un pre-mortem', b: 'Te mantienes sereno cuando otros se apuran. Pon eso a trabajar imaginando primero el fracaso.', p: 'Supón que [plan] fracasó dentro de seis meses. Enumera las 7 razones más probables, ordenadas por probabilidad, con una señal temprana de alerta para cada una.', a: 'Hazlo en tu próximo proyecto y pon la señal de alerta principal en tu calendario.' },
+        { t: 'Cuidado con revisar de menos', b: 'Mantener la calma puede significar saltarte la segunda mirada. Una auditoría corta de hipótesis toma cinco minutos.', p: 'Revisa [plan o cifras] y enumera las hipótesis que estoy tratando como certezas. Para cada una, ¿qué evidencia demostraría que está equivocada?', a: 'Pon a prueba la hipótesis más riesgosa esta semana.' },
+      ],
+      N0: [
+        { t: 'Convierte la preocupación en una lista de verificación', b: 'Tu atención al riesgo atrapa problemas reales. Separar lo que controlas de lo que no lo mantiene útil. (Es un hábito de trabajo, no una herramienta de salud mental.)', p: 'Me preocupa [situación]. Enumera lo que está bajo mi control y lo que no. Para lo que sí controlas, dame la siguiente acción pequeña.', a: 'Haz esa primera acción pequeña hoy.' },
+        { t: 'Arma una rutina de verificación con una regla para parar', b: 'La sensibilidad al riesgo puede hacer que revisar no termine nunca. Una lista fija te dice cuándo ya está.', p: 'Dame una lista de 5 puntos para verificar [trabajo] antes de enviarlo o publicarlo, y una regla para parar: cuando los 5 pasen, me detengo.', a: 'Usa la misma lista en tres trabajos y para cuando la pase.' },
       ],
     },
   },

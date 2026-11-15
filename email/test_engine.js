@@ -48,7 +48,7 @@ assert.strictEqual(ns(15, 99 * D), null);
 const links = { confirm: 'https://x/c', unsub: 'https://x/u' };
 ctx.CONFIG.POSTAL_ADDRESS = 'AI-OCEAN, PO Box 1, Cypress, CA 90630, USA';
 let n = 0; const subjects = new Set();
-for (const lang of ['en', 'ko']) for (let i = 0; i < 32; i++) {
+for (const lang of ['en', 'ko', 'es']) for (let i = 0; i < 32; i++) {
   const code = i.toString(2).padStart(5, '0');
   const steps = [1, 2, 3, 4, 5].map(day => ({ kind: 'course', day })).concat(Array.from({ length: 10 }, (_, k) => ({ kind: 'tip', week: k + 1 })));
   for (const st of steps) {
