@@ -3834,7 +3834,7 @@ function subscribeCardHTML(code, typeName) {
   setTimeout(() => track('subscribe_view', Object.assign({ persona_code: code, preview: SUB_PREVIEW ? 1 : 0 }, jobParams())), 0);
   if (subDone()) {
     return `<div class="sub-card fade-up-d2"><div class="sub-title">${title}</div>
-      <div class="sub-msg ok">${L('✅ 이 기기에서 이미 신청하셨습니다. 메일함(스팸함 포함)에서 확인 링크를 눌러 주세요.', '✅ You already requested the guide on this device. Check your inbox (and spam) for the confirmation link.')}</div>
+      <div class="sub-msg ok">${L('✅ 이 기기에서 이미 신청 완료되었습니다.', '✅ You\'re already subscribed on this device.')}</div>
       <div class="sub-fine"><a href="#" onclick="subReset();return false">${L('다른 이메일로 다시 신청', 'Use a different email')}</a></div></div>`;
   }
   return `<div class="sub-card fade-up-d2" id="subCard">
@@ -3871,7 +3871,7 @@ async function submitSubscribe(ev) {
     f.style.display = 'none';
     msg.classList.add('ok');
     msg.textContent = SUB_PREVIEW ? L('(미리보기) 실제 전송은 하지 않았습니다.', '(Preview) Nothing was sent.')
-      : L('✅ 확인 메일을 보냈습니다. 메일함(스팸·프로모션함 포함)에서 링크를 눌러 시작하세요.', '✅ Confirmation sent. Click the link in your inbox (check spam/promotions too) to start.');
+      : L('✅ 신청 완료! 새 글과 소식을 이메일로 보내드릴게요.', '✅ You\'re subscribed! We\'ll send updates to your inbox.');
   } catch (e) {
     track('subscribe_error', p);
     btn.disabled = false;
