@@ -85,9 +85,9 @@ node build_type_pages.js   # 한/영 유형 페이지, en/index.html, en/blog/, 
 - 테스트 시작 버튼은 한국어 페이지에서 `/?start=1`, 영어 페이지에서 `/en/?start=1`로 연결된다.
 
 ## 언어 (i18n)
-- 한국어는 기존 URL(`/`, `/types/…`), 영어는 `/en/`, `/en/types/…`로 분리한다. 각 쌍에 자기 참조 canonical, 상호 hreflang(`ko`, `en`, `x-default`=한국어)이 있다.
+- 한국어는 기존 URL(`/`, `/types/…`), 영어는 `/en/`, `/en/types/…`로 분리한다. 각 쌍에 자기 참조 canonical, 상호 hreflang(`ko`, `en`, `x-default`=영어 `/en/…`)이 있다.
 - 경로가 언어의 기준이다. `/?lang=en`은 클라이언트가 `/en/`으로 리다이렉트하고, 다른 쿼리(start, job, utm_*)와 hash는 유지한다. `/en/?lang=ko`는 `/`로 보낸다.
-- 홈 SPA의 KO/EN 버튼은 쌍 URL로 이동한다. 퀴즈 중간이면 sessionStorage에 상태를 저장해 복원한다. 선택은 localStorage `ocean_lang`에도 저장되며, `/`를 북마크한 영어 재방문자는 `/en/`으로 보낸다(크롤러는 localStorage가 없어 한국어 홈을 본다).
+- 홈 SPA의 KO/EN 버튼은 쌍 URL로 이동한다. 퀴즈 중간이면 sessionStorage에 상태를 저장해 복원한다. 선택은 localStorage `ocean_lang`에도 저장된다. `/`에 처음 온 방문자는 브라우저 언어가 한국어가 아니면 `/en/`으로 보낸다(언어를 알 수 없어도 영어). 한국어 브라우저·`ocean_lang=ko`는 한국어 홈에 머물고, 알려진 크롤러는 요청한 URL에 남겨 한/영 홈이 모두 크롤되게 한다.
 - 번역이 없는 블로그 글은 가짜 hreflang을 붙이지 않는다. `?lang=`은 `/blog/` 또는 `/en/blog/` 목록으로 보낸다.
 - 새 직군의 영어 본문은 `window.EN_JOB['<직군>_<코드>']`에 추가한다 (title, mainAI, specialistAIs, v2 구조는 i18n_en_job04.js 참고).
 

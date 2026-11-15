@@ -25,7 +25,7 @@
 <!-- HREFLANG:START -->
 <link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/">
 <link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/">
-<link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/">
+<link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/en/">
 <!-- HREFLANG:END -->
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -4309,11 +4309,13 @@ function goHome() {
 }
 
 function copyResult(personaName, code, scores) {
-  const text = `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요!`;
+  const text = window.LANG === 'en'
+    ? `🌊 AI-OCEAN personality result\n\nPersona: ${personaName} (${code})\nOpenness: ${scores.O}% | Conscientiousness: ${scores.C}% | Extraversion: ${scores.E}% | Agreeableness: ${scores.A}% | Stability: ${scores.N}%\n\nGet your own AI prescription: ${siteHomeUrl()}`
+    : `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요! ${siteHomeUrl()}`;
   navigator.clipboard.writeText(text).then(() => {
-    alert('결과가 클립보드에 복사되었습니다! 📋');
+    alert(L('결과가 클립보드에 복사되었습니다! 📋', 'Result copied to clipboard! 📋'));
   }).catch(() => {
-    alert('복사 실패. 직접 선택해서 복사해 주세요.');
+    alert(L('복사 실패. 직접 선택해서 복사해 주세요.', 'Copy failed. Please select and copy it manually.'));
   });
 }
 

@@ -104,7 +104,7 @@ function hreflangTags(koUrl, enUrl) {
   return [
     `<link rel="alternate" hreflang="ko" href="${koUrl}">`,
     `<link rel="alternate" hreflang="en" href="${enUrl}">`,
-    `<link rel="alternate" hreflang="x-default" href="${koUrl}">`,
+    `<link rel="alternate" hreflang="x-default" href="${enUrl}">`,
   ].join('\n');
 }
 
@@ -112,7 +112,7 @@ function xhtmlLinks(koUrl, enUrl) {
   return [
     `    <xhtml:link rel="alternate" hreflang="ko" href="${koUrl}"/>`,
     `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>`,
-    `    <xhtml:link rel="alternate" hreflang="x-default" href="${koUrl}"/>`,
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>`,
   ].join('\n');
 }
 
@@ -640,7 +640,7 @@ const HREFLANG_END = '<!-- HREFLANG:END -->';
 const HOME_HREFLANG = `${HREFLANG_START}
 <link rel="alternate" hreflang="ko" href="${SITE}/">
 <link rel="alternate" hreflang="en" href="${SITE}/en/">
-<link rel="alternate" hreflang="x-default" href="${SITE}/">
+<link rel="alternate" hreflang="x-default" href="${SITE}/en/">
 ${HREFLANG_END}`;
 
 function patchKoreanHome(html) {
@@ -692,7 +692,7 @@ function buildEnHome() {
   const hl = `${HREFLANG_START}
 <link rel="alternate" hreflang="ko" href="${SITE}/">
 <link rel="alternate" hreflang="en" href="${SITE}/en/">
-<link rel="alternate" hreflang="x-default" href="${SITE}/">
+<link rel="alternate" hreflang="x-default" href="${SITE}/en/">
 ${HREFLANG_END}`;
   const hs = html.indexOf(HREFLANG_START);
   const he = html.indexOf(HREFLANG_END);

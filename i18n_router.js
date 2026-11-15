@@ -2,6 +2,9 @@
 // Korean pages stay at the current path. English lives under /en/.
 // ?lang=en|ko on a mismatched URL client-side redirects to the paired path,
 // preserving every other query param (start, job, UTM, internal) and the hash.
+// First-time visitors on "/" whose browser language is not Korean (or cannot
+// be determined) are sent to /en/. Known crawlers are left on the requested
+// URL so each language homepage stays crawlable; hreflang x-default is English.
 (function (root) {
   var SITE = 'https://thepersonalityai.com';
 
@@ -11,6 +14,23 @@
     '/blog/mbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/mbti-vs-bigfive-ocean/' },
     '/blog/big-five-personality-test-for-careers/': { en: '/blog/big-five-personality-test-for-careers/', ko: '/blog/' }
   };
+
+  var CRAWLER_UA = /Googlebot|AdsBot-Google|Mediapartners-Google|Google-InspectionTool|bingbot|BingPreview|Yandex(Bot|Images)?|Baiduspider|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|Bytespider|GPTBot|ClaudeBot|CCBot|anthropic-ai|ChatGPT-User|meta-externalagent/i;
+
+  function isCrawler(ua) {
+    return CRAWLER_UA.test(String(ua || ''));
+  }
+
+  function browserLang(nav) {
+    nav = nav || (typeof navigator !== 'undefined' ? navigator : null);
+    if (!nav) return '';
+    var lang = nav.language || (nav.languages && nav.languages[0]) || '';
+    return String(lang || '');
+  }
+
+  function isKoreanBrowser(nav) {
+    return /^ko(-|$)/i.test(browserLang(nav));
+  }
 
   function normPath(pathname) {
     var p = String(pathname || '/');
@@ -67,7 +87,7 @@
     return withSearch(pairPath(loc.pathname, toLang), loc.search, loc.hash, true);
   }
 
-  function maybeRedirect(loc, storage) {
+  function maybeRedirect(loc, storage, nav) {
     loc = loc || (typeof location !== 'undefined' ? location : null);
     if (!loc) return null;
     var langParam = null;
@@ -85,9 +105,14 @@
         stored = (storage || (typeof localStorage !== 'undefined' ? localStorage : null));
         stored = stored && stored.getItem('ocean_lang');
       } catch (e) { stored = null; }
-      // Returning English users who bookmarked "/" land on /en/. Crawlers have
-      // no localStorage, so the Korean homepage stays the default document.
-      if (stored === 'en') dest = pairUrl('en', loc);
+      if (stored === 'en') {
+        dest = pairUrl('en', loc);
+      } else if (stored !== 'ko') {
+        // No stored preference: default unknown or non-Korean browsers to /en/.
+        // Leave known crawlers on "/" so the Korean homepage stays indexable.
+        var ua = (nav && nav.userAgent) || (typeof navigator !== 'undefined' ? navigator.userAgent : '');
+        if (!isCrawler(ua) && !isKoreanBrowser(nav)) dest = pairUrl('en', loc);
+      }
     }
 
     if (dest) {
@@ -115,6 +140,7 @@
   root.oceanPairUrl = pairUrl;
   root.oceanMaybeRedirect = maybeRedirect;
   root.oceanNormPath = normPath;
+  root.oceanIsCrawler = isCrawler;
   root.OCEAN_SITE = SITE;
 
   if (typeof location !== 'undefined' && root === (typeof window !== 'undefined' ? window : root)) {
