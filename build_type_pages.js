@@ -56,7 +56,7 @@ const DIM_META = extractConst('OCEAN_DIM_META');
 const JOBS = extractConst('JOBS');
 
 const i18nWin = {};
-new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js') + '\n' + read('i18n_es.js') + '\n' + read('i18n_es_job04.js') + '\n' + read('i18n_es_job05.js'))(i18nWin);
+new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js') + '\n' + read('i18n_es.js') + '\n' + read('i18n_es_job04.js') + '\n' + read('i18n_es_job05.js') + '\n' + read('i18n_es_job09.js'))(i18nWin);
 const EN = i18nWin.EN;
 const ES = i18nWin.ES;
 const ES_NAME = (ES && ES.master)
