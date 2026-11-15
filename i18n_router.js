@@ -2,9 +2,11 @@
 // Korean pages stay at the current path. English lives under /en/.
 // ?lang=en|ko on a mismatched URL client-side redirects to the paired path,
 // preserving every other query param (start, job, UTM, internal) and the hash.
-// First-time visitors on "/" whose browser language is not Korean (or cannot
-// be determined) are sent to /en/. Known crawlers are left on the requested
-// URL so each language homepage stays crawlable; hreflang x-default is English.
+// Returning visitors with a saved ocean_lang of "en" who land on "/" are sent
+// to /en/. First-time visitors stay on the requested URL so the homepage
+// language chooser can ask them. ?lang=en|ko is treated as an explicit choice
+// and is saved. Known crawlers are never redirected, so each language
+// homepage stays crawlable; hreflang x-default is English.
 (function (root) {
   var SITE = 'https://thepersonalityai.com';
 
@@ -98,6 +100,10 @@
     var dest = null;
 
     if (langParam === 'en' || langParam === 'ko') {
+      try {
+        var store = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+        if (store && store.setItem) store.setItem('ocean_lang', langParam);
+      } catch (e) {}
       if (langParam !== current) dest = pairUrl(langParam, loc);
     } else if (!langParam && isKoreanHome(loc.pathname)) {
       var stored = null;
@@ -107,12 +113,9 @@
       } catch (e) { stored = null; }
       if (stored === 'en') {
         dest = pairUrl('en', loc);
-      } else if (stored !== 'ko') {
-        // No stored preference: default unknown or non-Korean browsers to /en/.
-        // Leave known crawlers on "/" so the Korean homepage stays indexable.
-        var ua = (nav && nav.userAgent) || (typeof navigator !== 'undefined' ? navigator.userAgent : '');
-        if (!isCrawler(ua) && !isKoreanBrowser(nav)) dest = pairUrl('en', loc);
       }
+      // First-time visitors (no saved preference) stay on "/" so the
+      // language chooser can ask. Crawlers are also left in place.
     }
 
     if (dest) {
@@ -129,10 +132,17 @@
       root.location.replace(dest);
       return true;
     }
-    try {
-      if (root.OCEAN_PATH_LANG) localStorage.setItem('ocean_lang', root.OCEAN_PATH_LANG);
-    } catch (e) {}
+    // Do not write ocean_lang from the URL path. First-time visitors should
+    // not get a saved preference until they choose a language or pass ?lang=.
     return false;
+  }
+
+  function hasLangPreference(storage) {
+    try {
+      var store = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+      var v = store && store.getItem && store.getItem('ocean_lang');
+      return v === 'en' || v === 'ko' || v === 'es';
+    } catch (e) { return false; }
   }
 
   root.oceanPathLang = pathLang;
@@ -141,6 +151,7 @@
   root.oceanMaybeRedirect = maybeRedirect;
   root.oceanNormPath = normPath;
   root.oceanIsCrawler = isCrawler;
+  root.oceanHasLangPreference = hasLangPreference;
   root.OCEAN_SITE = SITE;
 
   if (typeof location !== 'undefined' && root === (typeof window !== 'undefined' ? window : root)) {

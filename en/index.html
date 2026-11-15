@@ -1749,12 +1749,71 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   background: rgba(76,110,245,0.75); border-color: rgba(76,110,245,0.5);
   color: white; transform: translateY(-1px);
 }
+
+/* First-visit language chooser */
+.lang-chooser {
+  position: fixed; inset: 0; z-index: 10050;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px 16px;
+  background: rgba(15, 15, 35, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.lang-chooser[hidden] { display: none !important; }
+.lang-chooser-card {
+  width: 100%; max-width: 400px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 36px 28px 28px;
+  box-shadow: 0 20px 60px rgba(15,15,35,0.25);
+  text-align: center;
+}
+.lang-chooser-brand {
+  font-size: 13px; font-weight: 800; letter-spacing: 0.08em;
+  color: var(--wave-1); margin-bottom: 16px;
+}
+.lang-chooser-card h2 {
+  margin: 0 0 6px; font-size: 22px; letter-spacing: -0.4px;
+  color: var(--text-primary); font-weight: 800;
+}
+.lang-chooser-sub {
+  margin: 0 0 24px; font-size: 15px; color: var(--text-secondary);
+}
+.lang-chooser-actions { display: grid; gap: 10px; }
+.lang-chooser-btn {
+  display: block; width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--card-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 16px; font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.lang-chooser-btn:hover, .lang-chooser-btn:focus-visible {
+  border-color: var(--wave-1);
+  color: var(--wave-1);
+  background: var(--dim-C-bg);
+  box-shadow: 0 0 0 3px rgba(76,110,245,0.12);
+  outline: none;
+}
 </style>
 </head>
 <body>
 
 <!-- Fixed language toggle -->
 <button class="lang-toggle-btn" id="langToggle" onclick="toggleLang()">KO</button>
+
+<div id="langChooser" class="lang-chooser" hidden role="dialog" aria-modal="true" aria-labelledby="langChooserTitle">
+  <div class="lang-chooser-card">
+    <div class="lang-chooser-brand">AI-OCEAN</div>
+    <h2 id="langChooserTitle">Choose your language</h2>
+    <p class="lang-chooser-sub">언어를 선택하세요</p>
+    <div class="lang-chooser-actions" id="langChooserActions"></div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════
      SCREEN 1: LANDING
@@ -2703,7 +2762,6 @@ const TOOL_CATEGORIES = [
   var l = (typeof oceanPathLang === 'function')
     ? oceanPathLang(location.pathname)
     : ((location.pathname === '/en' || location.pathname === '/en/' || location.pathname.indexOf('/en/') === 0) ? 'en' : 'ko');
-  try { localStorage.setItem('ocean_lang', l); } catch (e) {}
   window.LANG = l;
 })();
 const L = (ko, en) => (window.LANG === 'en' && en !== undefined ? en : ko);
@@ -2896,9 +2954,11 @@ const STRINGS = {
   }
 };
 
-function setLang(lang) {
+function setLang(lang, persist) {
   window.LANG = lang;
-  try { localStorage.setItem('ocean_lang', lang); } catch (e) {}
+  if (persist !== false) {
+    try { localStorage.setItem('ocean_lang', lang); } catch (e) {}
+  }
   document.documentElement.lang = lang;
   document.title = lang === 'en' ? 'AI-OCEAN | Your Personality-Based AI Prescription' : 'AI-OCEAN | 나만의 AI 처방전';
   const btn = document.getElementById('langToggle');
@@ -2994,6 +3054,136 @@ function siteHomeUrl() {
   return window.LANG === 'en' ? 'https://thepersonalityai.com/en/' : 'https://thepersonalityai.com/';
 }
 
+function typePageUrl(code) {
+  const c = String(code || '');
+  if (!/^[01]{5}$/.test(c)) return siteHomeUrl();
+  return (window.LANG === 'en'
+    ? 'https://thepersonalityai.com/en/types/'
+    : 'https://thepersonalityai.com/types/') + c + '/';
+}
+
+function shareResultUrl() {
+  const d = window._shareData || {};
+  return typePageUrl(d.code);
+}
+
+// To add Spanish later: append { id: 'es', label: 'Español' } and teach
+// i18n_router.js the /es/ prefix. The chooser renders this list as-is.
+const SITE_LANGS = [
+  { id: 'en', label: 'English' },
+  { id: 'ko', label: '한국어' }
+];
+
+function shouldShowLangChooser() {
+  try {
+    if (typeof oceanIsCrawler === 'function' && oceanIsCrawler(navigator.userAgent)) return false;
+  } catch (e) {}
+  try {
+    const q = new URLSearchParams(location.search).get('lang');
+    if (q === 'en' || q === 'ko' || q === 'es') return false;
+  } catch (e) {}
+  try {
+    if (typeof oceanHasLangPreference === 'function') {
+      if (oceanHasLangPreference()) return false;
+    } else if (localStorage.getItem('ocean_lang')) return false;
+  } catch (e) {}
+  return true;
+}
+
+function hideLangChooser() {
+  const root = document.getElementById('langChooser');
+  if (root) root.hidden = true;
+  document.body.style.overflow = '';
+}
+
+function chooseSiteLang(id) {
+  if (!SITE_LANGS.some(l => l.id === id)) return;
+  try { localStorage.setItem('ocean_lang', id); } catch (e) {}
+  hideLangChooser();
+  const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(id) : (id === 'en' ? '/en/' : '/');
+  const here = location.pathname + location.search + location.hash;
+  if (dest !== here) location.href = dest;
+}
+
+function maybeShowLangChooser() {
+  if (!shouldShowLangChooser()) return;
+  const root = document.getElementById('langChooser');
+  const actions = document.getElementById('langChooserActions');
+  if (!root || !actions) return;
+  actions.innerHTML = SITE_LANGS.map(lang =>
+    `<button type="button" class="lang-chooser-btn" data-lang="${lang.id}" lang="${lang.id}">${lang.label}</button>`
+  ).join('');
+  actions.onclick = function (e) {
+    const btn = e.target.closest('[data-lang]');
+    if (btn) chooseSiteLang(btn.getAttribute('data-lang'));
+  };
+  root.hidden = false;
+  document.body.style.overflow = 'hidden';
+  const first = actions.querySelector('button');
+  if (first) first.focus();
+}
+
+const RESULT_STORAGE_KEY = 'ocean_result';
+
+function persistResult(scores) {
+  try {
+    const code = scoresToCode(scores);
+    if (!/^[01]{5}$/.test(code)) return;
+    localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify({
+      scores: { O: scores.O, C: scores.C, E: scores.E, A: scores.A, N: scores.N },
+      job: selectedJob,
+      code: code,
+      ts: Date.now()
+    }));
+    if (history.replaceState) {
+      history.replaceState(null, '', location.pathname + location.search + '#r=' + code);
+    }
+  } catch (e) {}
+}
+
+function readStoredResult() {
+  try {
+    const s = JSON.parse(localStorage.getItem(RESULT_STORAGE_KEY) || '');
+    if (!s || !s.scores) return null;
+    const dims = ['O', 'C', 'E', 'A', 'N'];
+    if (!dims.every(k => Number.isFinite(+s.scores[k]) && +s.scores[k] >= 0 && +s.scores[k] <= 100)) return null;
+    const scores = { O: +s.scores.O, C: +s.scores.C, E: +s.scores.E, A: +s.scores.A, N: +s.scores.N };
+    const code = scoresToCode(scores);
+    if (!/^[01]{5}$/.test(code)) return null;
+    let job = s.job;
+    if (job != null) {
+      job = parseInt(job, 10);
+      if (!(job >= 1 && job <= 15)) return null;
+    }
+    return { scores, job, code };
+  } catch (e) { return null; }
+}
+
+function resultHashCode() {
+  const m = /^#r=([01]{5})\b/.exec(location.hash || '');
+  return m ? m[1] : null;
+}
+
+function restoreStoredResult() {
+  if (/[?&]start=1(&|$)/.test(location.search)) return false;
+  const stored = readStoredResult();
+  const hashCode = resultHashCode();
+  if (!stored || !hashCode || hashCode !== stored.code) return false;
+  if (stored.job != null) selectedJob = stored.job;
+  window._lastScores = stored.scores;
+  showScreen('results');
+  renderResults(stored.scores);
+  return true;
+}
+
+function clearResultHash() {
+  try {
+    if (/^#r=/.test(location.hash || '') && history.replaceState) {
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  } catch (e) {}
+}
+
 // ═══════════════════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════════════════
@@ -3057,7 +3247,9 @@ document.addEventListener('click', function (e) {
 //  INIT
 // ═══════════════════════════════════════════════════════
 function init() {
-  setLang(window.LANG);
+  var persist = false;
+  try { persist = !!localStorage.getItem('ocean_lang'); } catch (e) {}
+  setLang(window.LANG, persist);
 }
 
 function renderPersonaGrid() {
@@ -3361,6 +3553,7 @@ function showScreen(id) {
 function startQuiz() {
   const _scr = document.getElementById('screen-results');
   track('test_start', Object.assign({ entry: ENTRY_SOURCE, is_retake: !!(_scr && _scr.classList.contains('active')) }, jobParams()));
+  clearResultHash();
   currentQ = 0;
   shuffledQuestions = [...QUESTIONS].sort(() => Math.random() - 0.5);
   answers = new Array(shuffledQuestions.length).fill(null);
@@ -4154,6 +4347,7 @@ function renderResults(scores) {
     drawRadar(scores);
   }, 100);
 
+  persistResult(scores);
   track('result_view', Object.assign({ persona_code: code, main_ai: (mainAI && mainAI.name) || '' }, jobParams()));
 }
 
@@ -4243,13 +4437,14 @@ function goHome() {
   selectedJob = null;
   document.querySelectorAll('.job-btn-16p').forEach(b => b.classList.remove('selected'));
   document.getElementById('btnStart').disabled = true;
+  clearResultHash();
   showScreen('landing');
 }
 
 function copyResult(personaName, code, scores) {
   const text = window.LANG === 'en'
-    ? `🌊 AI-OCEAN personality result\n\nPersona: ${personaName} (${code})\nOpenness: ${scores.O}% | Conscientiousness: ${scores.C}% | Extraversion: ${scores.E}% | Agreeableness: ${scores.A}% | Stability: ${scores.N}%\n\nGet your own AI prescription: ${siteHomeUrl()}`
-    : `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요! ${siteHomeUrl()}`;
+    ? `🌊 AI-OCEAN personality result\n\nPersona: ${personaName} (${code})\nOpenness: ${scores.O}% | Conscientiousness: ${scores.C}% | Extraversion: ${scores.E}% | Agreeableness: ${scores.A}% | Stability: ${scores.N}%\n\nGet your own AI prescription: ${shareResultUrl()}`
+    : `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요! ${shareResultUrl()}`;
   navigator.clipboard.writeText(text).then(() => {
     alert(L('결과가 클립보드에 복사되었습니다! 📋', 'Result copied to clipboard! 📋'));
   }).catch(() => {
@@ -4337,13 +4532,13 @@ function showShareToast(msg) {
 }
 
 function shareFacebook() {
-  var url = encodeURIComponent(siteHomeUrl());
+  var url = encodeURIComponent(shareResultUrl());
   window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=620,height=520');
 }
 
 function shareTwitterX() {
   var text = encodeURIComponent(_shareText());
-  var url = encodeURIComponent(siteHomeUrl());
+  var url = encodeURIComponent(shareResultUrl());
   window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'width=620,height=420');
 }
 
@@ -4351,8 +4546,8 @@ function copyInstagram() {
   var d = window._shareData || {};
   var name = d.name || '', code = d.code || '', scores = d.scores || {};
   var text = window.LANG === 'en'
-    ? '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + siteHomeUrl() + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest'
-    : '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + siteHomeUrl() + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+    ? '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest'
+    : '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
   navigator.clipboard.writeText(text).then(function() {
     showShareToast(L('📸 인스타그램용 텍스트 복사 완료! 앱 열고 새 게시물에 붙여넣으세요.', UI().igCopied));
   }).catch(function() {
@@ -4363,7 +4558,7 @@ function copyInstagram() {
 function shareKakao() {
   var d = window._shareData || {};
   var name = d.name || '';
-  var shareUrl = siteHomeUrl();
+  var shareUrl = shareResultUrl();
   var text = _shareText() + '\n\n👉 ' + shareUrl;
   if (navigator.share) {
     navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: shareUrl })
@@ -4386,9 +4581,9 @@ function shareKakao() {
 function shareTiktok() {
   var d = window._shareData || {};
   var name = d.name || '';
-  var text = _shareText() + '\n\n👉 ' + siteHomeUrl() + (window.LANG === 'en' ? '\n\n#TikTok #PersonalityTest' : '\n\n#TikTok #성격테스트');
+  var text = _shareText() + '\n\n👉 ' + shareResultUrl() + (window.LANG === 'en' ? '\n\n#TikTok #PersonalityTest' : '\n\n#TikTok #성격테스트');
   if (navigator.share) {
-    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: siteHomeUrl() })
+    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: shareResultUrl() })
       .catch(function() {
         navigator.clipboard.writeText(text).then(function() {
           showShareToast(L('🎵 텍스트 복사 완료! TikTok 앱에서 게시물 작성 후 붙여넣으세요.', UI().tiktokCopied));
@@ -4405,7 +4600,8 @@ function shareTiktok() {
 
 // Start
 init();
-if (!restoreLangSwitchState()) {
+maybeShowLangChooser();
+if (!restoreLangSwitchState() && !restoreStoredResult()) {
   // 유형 페이지의 '테스트 시작' 버튼이 /?start=1 또는 /en/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
   if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
   // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
