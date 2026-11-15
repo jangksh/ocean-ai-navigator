@@ -1,0 +1,9 @@
+# Keep email ops source out of the published GitHub Pages site.
+# email/content.json stays published (Apps Script reads it via CONTENT_URL).
+exclude:
+  - email/apps_script
+  - email/README.md
+  - email/UTM.md
+  - email/copy.js
+  - email/build_content.js
+  - email/test_engine.js
