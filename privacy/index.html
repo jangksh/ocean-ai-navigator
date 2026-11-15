@@ -1,9 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
+<script src="/i18n_router.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Privacy — AI-OCEAN</title>
+<title>개인정보 안내 — AI-OCEAN</title>
+<link rel="canonical" href="https://thepersonalityai.com/privacy/">
+<link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/privacy/">
+<link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/privacy/">
+<link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/en/privacy/">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
@@ -18,8 +23,8 @@
   li[data-l] { display: none; } body.en li[data-l=en], body.ko li[data-l=ko] { display: list-item; }
 </style>
 </head>
-<body class="en">
-<div class="lang"><a href="#" onclick="setLang('en');return false">EN</a> · <a href="#" onclick="setLang('ko');return false">KO</a></div>
+<body class="ko">
+<div class="lang"><a href="/en/privacy/" hreflang="en">EN</a> · <a href="/privacy/" hreflang="ko" lang="ko">KO</a></div>
 
 <div data-l="en">
 <h1>Privacy</h1>
@@ -65,8 +70,7 @@
 <script>
   function setLang(l) { document.body.className = l; document.documentElement.lang = l; }
   (function () {
-    var l = 'en';
-    try { var q = /[?&]lang=(ko|en)/.exec(location.search); if (q) l = q[1]; else if (localStorage.getItem('ocean_lang') === 'ko') l = 'ko'; } catch (e) {}
+    var l = (typeof oceanPathLang === 'function' ? oceanPathLang(location.pathname) : 'ko');
     setLang(l);
   })();
 </script>
