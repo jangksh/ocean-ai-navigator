@@ -298,6 +298,10 @@
     z-index: 10;
     margin-bottom: 32px;
   }
+  /* Leave room for the fixed language toggle so 36% is not covered on mobile. */
+  @media (max-width: 920px) {
+    .quiz-header { padding-right: 80px; }
+  }
 
   .progress-info {
     display: flex;

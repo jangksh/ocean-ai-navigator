@@ -431,7 +431,7 @@ function pageFor(code, lang) {
     : 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap';
 
   const h2Structure = isEn
-    ? `How the ${esc(name)} type is built (${code})`
+    ? `How the ${esc(String(name).replace(/^The\s+/i, ''))} type is built (${code})`
     : `${esc(nameKo)} 유형의 성향 구조 (${code})`;
   const codeExplain = isEn
     ? `The code lists Openness, Conscientiousness, Extraversion, Agreeableness and Emotional Stability in that order. A score at or above 50% is 1; below 50% is 0. ${esc(structureLine)}`
