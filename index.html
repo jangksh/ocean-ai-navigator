@@ -39,6 +39,9 @@
 <meta name="twitter:title" content="AI-OCEAN | 나만의 AI 처방전">
 <meta name="twitter:description" content="Big Five(OCEAN) 성향 분석으로 나에게 딱 맞는 AI 도구를 추천받으세요. 25문항, 3분 완성.">
 <meta name="twitter:image" content="https://thepersonalityai.com/og-image.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
   /* ── Google Fonts ── */
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -1819,7 +1822,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
       <li><a href="/types/11100/" data-code="11100">🔥 예민한 독설가 장인</a></li>
       <li><a href="/types/11011/" data-code="11011">🔬 조용히 세상을 바꾸는 천재</a></li>
       <li><a href="/types/11010/" data-code="11010">🎨 섬세한 은둔형 예술가</a></li>
-      <li><a href="/types/11001/" data-code="11001">📚 차 가운 두뇌의 고고한 학자</a></li>
+      <li><a href="/types/11001/" data-code="11001">📚 차가운 두뇌의 고고한 학자</a></li>
       <li><a href="/types/11000/" data-code="11000">⚙️ 까칠한 디테일의 악마</a></li>
       <li><a href="/types/10111/" data-code="10111">💡 낙천적인 아이디어 뱅크</a></li>
       <li><a href="/types/10110/" data-code="10110">🤸 사랑받는 허당 리더</a></li>
@@ -3887,7 +3890,7 @@ function subscribeCardHTML(code, typeName) {
   setTimeout(() => track('subscribe_view', Object.assign({ persona_code: code, preview: SUB_PREVIEW ? 1 : 0 }, jobParams())), 0);
   if (subDone()) {
     return `<div class="sub-card fade-up-d2"><div class="sub-title">${title}</div>
-      <div class="sub-msg ok">${L('✅ 이 기기에서 이미 신청하셨습니다. 메일함(스팸함 포함)에서 확인 링크를 눌러 주세요.', '✅ You already requested the guide on this device. Check your inbox (and spam) for the confirmation link.')}</div>
+      <div class="sub-msg ok">${L('✅ 이 기기에서 이미 신청 완료되었습니다.', '✅ You\'re already subscribed on this device.')}</div>
       <div class="sub-fine"><a href="#" onclick="subReset();return false">${L('다른 이메일로 다시 신청', 'Use a different email')}</a></div></div>`;
   }
   return `<div class="sub-card fade-up-d2" id="subCard">
@@ -3899,7 +3902,7 @@ function subscribeCardHTML(code, typeName) {
       <button type="submit">${L('가이드 받기', 'Send me the guide')}</button>
     </form>
     <div class="sub-msg" id="subMsg" role="status" aria-live="polite"></div>
-    <div class="sub-fine">${L('먼저 확인 메일을 보내드리며, 링크를 눌러야 시작됩니다. 이메일은 이 시리즈 발송에만 사용합니다.', 'We send a confirmation link first — nothing starts until you click it. Your email is used only for this series.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy')}</a></div>
+    <div class="sub-fine">${L('신청하시면 이메일 목록에 추가됩니다. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'Subscribing adds your email to the list. Your email is used only for this series, and you can unsubscribe anytime.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy')}</a></div>
   </div>`;
 }
 function subReset() { try { localStorage.removeItem('ocean_sub'); } catch (e) {} if (window._lastScores) renderResults(window._lastScores); }
@@ -3924,7 +3927,7 @@ async function submitSubscribe(ev) {
     f.style.display = 'none';
     msg.classList.add('ok');
     msg.textContent = SUB_PREVIEW ? L('(미리보기) 실제 전송은 하지 않았습니다.', '(Preview) Nothing was sent.')
-      : L('✅ 확인 메일을 보냈습니다. 메일함(스팸·프로모션함 포함)에서 링크를 눌러 시작하세요.', '✅ Confirmation sent. Click the link in your inbox (check spam/promotions too) to start.');
+      : L('✅ 신청 완료! 새 글과 소식을 이메일로 보내드릴게요.', '✅ You\'re subscribed! We\'ll send updates to your inbox.');
   } catch (e) {
     track('subscribe_error', p);
     btn.disabled = false;

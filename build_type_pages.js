@@ -493,6 +493,9 @@ ${hreflangTags(koUrl, enUrl)}
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${SITE}/og-image.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${fontLink}">
@@ -510,7 +513,6 @@ ${hreflangTags(koUrl, enUrl)}
     <p class="eyebrow">OCEAN ${code} · ${esc(isEn ? nameKo : nameEn)}</p>
     <h1>${esc(name)}</h1>
     <p class="lead">${esc(lead)}</p>
-    ${aliasLine}
     <div class="pills">${pills}</div>
     <a class="btn" href="${ctaHref}">${heroBtn}</a>
   </div>

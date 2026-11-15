@@ -2,5 +2,5 @@
 // 비어 있으면 카드가 보이지 않는다. 설정 방법: email/README.md
 // 확인용 미리보기: 사이트 주소 뒤에 ?subscribe_preview=1 을 붙이면 endpoint 없이도 카드가 보인다(전송은 안 함).
 window.SUBSCRIBE_CONFIG = {
-  endpoint: ''
+  endpoint: 'https://script.google.com/macros/s/AKfycbw-7A4gad-TRcy0cNAeTOQKD2aUn6t-5PyGWA9zP_pWfZAqbil5DZvuakTU4JmP49FDUw/exec'
 };
