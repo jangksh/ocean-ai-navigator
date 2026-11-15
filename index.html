@@ -3846,7 +3846,7 @@ function subscribeCardHTML(code, typeName) {
       <button type="submit">${L('가이드 받기', 'Send me the guide')}</button>
     </form>
     <div class="sub-msg" id="subMsg" role="status" aria-live="polite"></div>
-    <div class="sub-fine">${L('먼저 확인 메일을 보내드리며, 링크를 눌러야 시작됩니다. 이메일은 이 시리즈 발송에만 사용합니다.', 'We send a confirmation link first — nothing starts until you click it. Your email is used only for this series.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy')}</a></div>
+    <div class="sub-fine">${L('신청하시면 이메일 목록에 추가됩니다. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'Subscribing adds your email to the list. Your email is used only for this series, and you can unsubscribe anytime.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy')}</a></div>
   </div>`;
 }
 function subReset() { try { localStorage.removeItem('ocean_sub'); } catch (e) {} if (window._lastScores) renderResults(window._lastScores); }
