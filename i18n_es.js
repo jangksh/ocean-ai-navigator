@@ -27,7 +27,7 @@ window.ES = {
     'Me mantengo en calma incluso en situaciones de estrés.',
     'Me preocupo mucho y me angustio por cosas pequeñas.',
     'Mi humor es estable y me siento emocionalmente firme.',
-    'Cuando me critican, lo doy vueltas durante mucho tiempo.',
+    'Cuando me critican, le doy vueltas durante mucho tiempo.',
     'Puedo tomar decisiones con la cabeza fría bajo presión.'
   ],
   likert: ['Totalmente en desacuerdo', 'En desacuerdo', 'Neutral', 'De acuerdo', 'Totalmente de acuerdo'],
