@@ -56,8 +56,12 @@ const DIM_META = extractConst('OCEAN_DIM_META');
 const JOBS = extractConst('JOBS');
 
 const i18nWin = {};
-new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js'))(i18nWin);
+new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js') + '\n' + read('i18n_es.js'))(i18nWin);
 const EN = i18nWin.EN;
+const ES = i18nWin.ES;
+const ES_NAME = (ES && ES.master)
+  ? Object.fromEntries(Object.entries(ES.master).map(([k, v]) => [k, v.name]))
+  : {};
 const EN_JOB = i18nWin.EN_JOB || {};
 if (!EN || !EN.master || !EN.dims) throw new Error('i18n_en.js에서 window.EN을 읽지 못했습니다.');
 const JOB_EN_NAME = Object.fromEntries(JOBS.map((j) => [String(j.id).padStart(2, '0'), j.en_label]));
@@ -584,9 +588,16 @@ const BLOG_URLS = [
 ];
 
 function buildSitemap() {
+  const xhtmlHome = [
+    `    <xhtml:link rel="alternate" hreflang="ko" href="${SITE}/"/>`,
+    `    <xhtml:link rel="alternate" hreflang="en" href="${SITE}/en/"/>`,
+    `    <xhtml:link rel="alternate" hreflang="es" href="${SITE}/es/"/>`,
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}/en/"/>`,
+  ].join('\n');
   const paired = [
-    { loc: SITE + '/', lastmod: TODAY, ko: SITE + '/', en: SITE + '/en/' },
-    { loc: SITE + '/en/', lastmod: TODAY, ko: SITE + '/', en: SITE + '/en/' },
+    { loc: SITE + '/', lastmod: TODAY, home: true },
+    { loc: SITE + '/en/', lastmod: TODAY, home: true },
+    { loc: SITE + '/es/', lastmod: TODAY, home: true },
     ...CODES.map((code) => ({ loc: typeUrl(code, 'ko'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en') })),
     ...CODES.map((code) => ({ loc: typeUrl(code, 'en'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en') })),
   ];
@@ -597,7 +608,7 @@ function buildSitemap() {
   });
   const urls = paired.concat(blogEntries);
   const body = urls.map((u) => {
-    const links = u.ko && u.en ? '\n' + xhtmlLinks(u.ko, u.en) : '';
+    const links = u.home ? '\n' + xhtmlHome : (u.ko && u.en ? '\n' + xhtmlLinks(u.ko, u.en) : '');
     return `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>${links}\n  </url>`;
   }).join('\n');
   writeFile('sitemap.xml',
@@ -608,12 +619,16 @@ const NAV_START = '<!-- TYPE-LINKS:START (build_type_pages.js가 생성 — 직�
 const NAV_END = '<!-- TYPE-LINKS:END -->';
 function typeLinksBlock(lang) {
   const isEn = lang === 'en';
+  const isEs = lang === 'es';
+  const nameOf = (c) => isEs ? (ES_NAME[c] || EN_NAME[c] || c) : isEn ? (EN_NAME[c] || c) : masterByCode[c].name;
+  // Phase 1: Spanish has no type pages, so the list links to the English ones.
+  const hrefLang = lang === 'ko' ? 'ko' : 'en';
   const items = CODES.map((c) =>
-    `      <li><a href="${typePath(c, lang)}" data-code="${c}">${EMOJI[c] || ''} ${esc(isEn ? (EN_NAME[c] || c) : masterByCode[c].name)}</a></li>`).join('\n');
-  const label = isEn ? 'All 32 OCEAN types' : 'OCEAN 32가지 유형 전체 보기';
-  const title = isEn ? 'All 32 OCEAN types' : 'OCEAN 32가지 유형 전체 보기';
+    `      <li><a href="${typePath(c, hrefLang)}" data-code="${c}">${EMOJI[c] || ''} ${esc(nameOf(c))}</a></li>`).join('\n');
+  const label = isEs ? 'Los 32 tipos OCEAN' : isEn ? 'All 32 OCEAN types' : 'OCEAN 32가지 유형 전체 보기';
+  const title = label;
   return `${NAV_START}
-    <nav class="type-links-section" aria-label="${label}" lang="${isEn ? 'en' : 'ko'}">
+    <nav class="type-links-section" aria-label="${label}" lang="${isEs ? 'es' : isEn ? 'en' : 'ko'}">
       <h2 class="tl-title">${title}</h2>
       <ul class="tl-grid">
 ${items}
@@ -642,6 +657,7 @@ const HREFLANG_END = '<!-- HREFLANG:END -->';
 const HOME_HREFLANG = `${HREFLANG_START}
 <link rel="alternate" hreflang="ko" href="${SITE}/">
 <link rel="alternate" hreflang="en" href="${SITE}/en/">
+<link rel="alternate" hreflang="es" href="${SITE}/es/">
 <link rel="alternate" hreflang="x-default" href="${SITE}/en/">
 ${HREFLANG_END}`;
 
@@ -694,6 +710,7 @@ function buildEnHome() {
   const hl = `${HREFLANG_START}
 <link rel="alternate" hreflang="ko" href="${SITE}/">
 <link rel="alternate" hreflang="en" href="${SITE}/en/">
+<link rel="alternate" hreflang="es" href="${SITE}/es/">
 <link rel="alternate" hreflang="x-default" href="${SITE}/en/">
 ${HREFLANG_END}`;
   const hs = html.indexOf(HREFLANG_START);
@@ -716,8 +733,8 @@ ${HREFLANG_END}`;
   }
 
   html = html.replace(
-    '<button class="lang-toggle-btn" id="langToggle" onclick="toggleLang()">EN</button>',
-    '<button class="lang-toggle-btn" id="langToggle" onclick="toggleLang()">KO</button>'
+    'onclick="toggleLangMenu(event)">KO</button>',
+    'onclick="toggleLangMenu(event)">EN</button>'
   );
   html = html.replace(
     '<a href="/blog/" style="color:var(--text-secondary)">블로그 · Blog</a>',
@@ -739,6 +756,60 @@ ${HREFLANG_END}`;
     html = html.replace(a, b);
   });
   writeFile('en/index.html', html);
+}
+
+function buildEsHome() {
+  let html = read('index.html');
+  const strings = extractStrings(html);
+  const map = Object.assign({}, strings.en || {}, strings.es || {});
+  html = applyDataI18n(html, map);
+  html = html.replace('<html lang="ko">', '<html lang="es">');
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>AI-OCEAN | Tu receta de IA según tu personalidad</title>');
+  const esDesc = 'Encuentra las herramientas de IA que van contigo, según tu personalidad Big Five (OCEAN). 25 preguntas, unos 3 minutos, gratis.';
+  html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(esDesc)}">`);
+  html = html.replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${SITE}/es/">`);
+  const hs = html.indexOf(HREFLANG_START);
+  const he = html.indexOf(HREFLANG_END);
+  if (hs !== -1 && he !== -1) html = html.slice(0, hs) + HOME_HREFLANG + html.slice(he + HREFLANG_END.length);
+
+  html = html.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${SITE}/es/">`);
+  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="AI-OCEAN | Tu receta de IA según tu personalidad">');
+  html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(esDesc)}">`);
+  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="AI-OCEAN | Tu receta de IA según tu personalidad">');
+  html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(esDesc)}">`);
+  html = html.replace(/<meta property="og:locale" content="[^"]*">/, '<meta property="og:locale" content="es_419">');
+  html = html.replace(/<meta property="og:locale:alternate" content="[^"]*">/, '<meta property="og:locale:alternate" content="en_US">');
+
+  const s = html.indexOf('<!-- TYPE-LINKS:START');
+  const e = html.indexOf(NAV_END);
+  if (s !== -1 && e !== -1) {
+    html = html.slice(0, s) + typeLinksBlock('es') + html.slice(e + NAV_END.length);
+  }
+
+  html = html.replace(
+    'onclick="toggleLangMenu(event)">KO</button>',
+    'onclick="toggleLangMenu(event)">ES</button>'
+  );
+  html = html.replace(
+    '<a href="/blog/" style="color:var(--text-secondary)">블로그 · Blog</a>',
+    '<a href="/en/blog/" style="color:var(--text-secondary)">Blog</a>'
+  );
+  const quizEs = [
+    ['id="progressText">질문 1 / 25<', 'id="progressText">Pregunta 1 / 25<'],
+    ['id="btnPrev" onclick="prevQuestion()">← 이전<', 'id="btnPrev" onclick="prevQuestion()">← Atrás<'],
+    ['id="btnNext" onclick="nextQuestion()">다음 →<', 'id="btnNext" onclick="nextQuestion()">Siguiente →<'],
+    ['id="loadTitle">항로 분석 중...<', 'id="loadTitle">Trazando tu rumbo…<'],
+    ['id="loadSub">OCEAN Navigator가 당신의 성향을 탐색합니다<', 'id="loadSub">OCEAN Navigator está explorando tu personalidad<'],
+    ['id="ls1"><span class="loading-step-icon">⚓</span> OCEAN 5차원 측정 중<', 'id="ls1"><span class="loading-step-icon">⚓</span> Midiendo las 5 dimensiones OCEAN<'],
+    ['id="ls2"><span class="loading-step-icon">🗺️</span> 항로 설정 &amp; 페르소나 생성<', 'id="ls2"><span class="loading-step-icon">🗺️</span> Trazando tu rumbo y creando tu persona<'],
+    ['id="ls3"><span class="loading-step-icon">🤖</span> AI 도구 매칭 중<', 'id="ls3"><span class="loading-step-icon">🤖</span> Enlazando herramientas de IA<'],
+    ['id="ls4"><span class="loading-step-icon">⭐</span> 항해 지도 완성 중<', 'id="ls4"><span class="loading-step-icon">⭐</span> Completando tu carta de navegación<'],
+  ];
+  quizEs.forEach(([a, b]) => {
+    if (!html.includes(a)) throw new Error('Spanish home quiz chrome 원문을 찾지 못했습니다: ' + a);
+    html = html.replace(a, b);
+  });
+  writeFile('es/index.html', html);
 }
 
 function buildEnBlogIndex() {
@@ -890,11 +961,12 @@ patchKoreanHomeFile();
 buildTypePages();
 injectTypeLinks();
 buildEnHome();
+buildEsHome();
 buildEnBlogIndex();
 buildEnPrivacy();
 buildSitemap();
-const sitemapCount = 2 + CODES.length * 2 + BLOG_URLS.length;
-console.log(`생성 완료: types/ ${CODES.length}개, en/types/ ${CODES.length}개, en/index.html, sitemap.xml ${sitemapCount} URL`);
+const sitemapCount = 3 + CODES.length * 2 + BLOG_URLS.length;
+console.log(`생성 완료: types/ ${CODES.length}개, en/types/ ${CODES.length}개, en/index.html, es/index.html, sitemap.xml ${sitemapCount} URL`);
 console.log(`직업군 ${JOB_GROUPS.length}개 사용(${JOB_GROUPS.join(',')}), 제외 ${[...EXCLUDED_JOB_GROUPS].join(',')}`);
 console.log(`직업군 섹션 ${STATS.persona + STATS.v2}개: 페르소나 ${STATS.persona}, v2 보완 ${STATS.v2}, 품질 검사로 제외 ${STATS.skipped}`);
 console.log(`영어 직업군 섹션: EN_JOB ${STATS.en_job}, 요약 대체 ${STATS.en_fallback}`);

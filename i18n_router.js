@@ -1,20 +1,22 @@
 // Language URL router for AI-OCEAN.
 // Korean pages stay at the current path. English lives under /en/.
-// ?lang=en|ko on a mismatched URL client-side redirects to the paired path,
+// Spanish lives under /es/ (Phase 1: homepage / quiz only; no /es/types yet).
+// ?lang=en|ko|es on a mismatched URL client-side redirects to the paired path,
 // preserving every other query param (start, job, UTM, internal) and the hash.
-// Returning visitors with a saved ocean_lang of "en" who land on "/" are sent
-// to /en/. First-time visitors stay on the requested URL so the homepage
-// language chooser can ask them. ?lang=en|ko is treated as an explicit choice
-// and is saved. Known crawlers are never redirected, so each language
-// homepage stays crawlable; hreflang x-default is English.
+// Returning visitors with a saved ocean_lang of "en" or "es" who land on "/"
+// are sent to /en/ or /es/. First-time visitors stay on the requested URL so
+// the homepage language chooser can ask them. ?lang=en|ko|es is treated as an
+// explicit choice and is saved. Known crawlers are never redirected, so each
+// language homepage stays crawlable; hreflang x-default is English.
 (function (root) {
   var SITE = 'https://thepersonalityai.com';
+  var PREFIX = { en: '/en', es: '/es' };
 
   // Posts that are not translations of each other: send the visitor to the
   // language index instead of inventing a fake alternate URL.
   var UNPAIRED = {
-    '/blog/mbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/mbti-vs-bigfive-ocean/' },
-    '/blog/big-five-personality-test-for-careers/': { en: '/blog/big-five-personality-test-for-careers/', ko: '/blog/' }
+    '/blog/mbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/mbti-vs-bigfive-ocean/', es: '/es/' },
+    '/blog/big-five-personality-test-for-careers/': { en: '/blog/big-five-personality-test-for-careers/', ko: '/blog/', es: '/es/' }
   };
 
   var CRAWLER_UA = /Googlebot|AdsBot-Google|Mediapartners-Google|Google-InspectionTool|bingbot|BingPreview|Yandex(Bot|Images)?|Baiduspider|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|Bytespider|GPTBot|ClaudeBot|CCBot|anthropic-ai|ChatGPT-User|meta-externalagent/i;
@@ -41,17 +43,40 @@
     if (p.length > 1 && p.charAt(p.length - 1) !== '/') p += '/';
     if (p === '/index.html' || p === '/index.htm') p = '/';
     if (p === '/en/index.html' || p === '/en/index.htm') p = '/en/';
+    if (p === '/es/index.html' || p === '/es/index.htm') p = '/es/';
     return p;
   }
 
   function pathLang(pathname) {
     var p = normPath(pathname);
-    return (p === '/en/' || p.indexOf('/en/') === 0) ? 'en' : 'ko';
+    if (p === '/es/' || p.indexOf('/es/') === 0) return 'es';
+    if (p === '/en/' || p.indexOf('/en/') === 0) return 'en';
+    return 'ko';
   }
 
   function isKoreanHome(pathname) {
-    var p = normPath(pathname);
-    return p === '/';
+    return normPath(pathname) === '/';
+  }
+
+  function stripLangPrefix(p) {
+    p = normPath(p);
+    if (p === '/en/' || p === '/es/') return '/';
+    if (p.indexOf('/en/') === 0) return p.slice(3) || '/';
+    if (p.indexOf('/es/') === 0) return p.slice(3) || '/';
+    return p;
+  }
+
+  function addLangPrefix(rest, toLang) {
+    rest = normPath(rest);
+    if (toLang === 'ko' || !PREFIX[toLang]) return rest;
+    // Phase 1: Spanish has a homepage (quiz) only. Type, blog and privacy
+    // pages are not generated under /es/ yet — stay on the Spanish home.
+    if (toLang === 'es') {
+      if (rest.indexOf('/types/') === 0 || rest.indexOf('/blog/') === 0 || rest.indexOf('/privacy/') === 0) {
+        return '/es/';
+      }
+    }
+    return PREFIX[toLang] + (rest === '/' ? '/' : rest);
   }
 
   function pairPath(pathname, toLang) {
@@ -60,16 +85,10 @@
     if (unpaired && unpaired[toLang]) return unpaired[toLang];
     var current = pathLang(p);
     if (current === toLang) return p;
-    if (toLang === 'en') {
-      if (p === '/') return '/en/';
-      return '/en' + p;
-    }
-    if (p === '/en/') return '/';
-    if (p.indexOf('/en/') === 0) {
-      var rest = p.slice(3);
-      return rest || '/';
-    }
-    return p;
+    var rest = stripLangPrefix(p);
+    var unpairedRest = UNPAIRED[rest];
+    if (unpairedRest && unpairedRest[toLang]) return unpairedRest[toLang];
+    return addLangPrefix(rest, toLang);
   }
 
   function withSearch(path, search, hash, dropLang) {
@@ -98,8 +117,13 @@
     } catch (e) {}
     var current = pathLang(loc.pathname);
     var dest = null;
+    var p = normPath(loc.pathname);
 
-    if (langParam === 'en' || langParam === 'ko') {
+    // Phase 1 has no /es/types/{code}/ pages; send those URLs to the English type page.
+    var esType = p.match(/^\/es\/types\/([01]{5})\/$/);
+    if (esType && langParam !== 'es' && langParam !== 'ko') {
+      dest = withSearch('/en/types/' + esType[1] + '/', loc.search, loc.hash, true);
+    } else if (langParam === 'en' || langParam === 'ko' || langParam === 'es') {
       try {
         var store = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
         if (store && store.setItem) store.setItem('ocean_lang', langParam);
@@ -111,8 +135,8 @@
         stored = (storage || (typeof localStorage !== 'undefined' ? localStorage : null));
         stored = stored && stored.getItem('ocean_lang');
       } catch (e) { stored = null; }
-      if (stored === 'en') {
-        dest = pairUrl('en', loc);
+      if (stored === 'en' || stored === 'es') {
+        dest = pairUrl(stored, loc);
       }
       // First-time visitors (no saved preference) stay on "/" so the
       // language chooser can ask. Crawlers are also left in place.

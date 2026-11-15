@@ -25,6 +25,7 @@
 <!-- HREFLANG:START -->
 <link rel="alternate" hreflang="ko" href="https://thepersonalityai.com/">
 <link rel="alternate" hreflang="en" href="https://thepersonalityai.com/en/">
+<link rel="alternate" hreflang="es" href="https://thepersonalityai.com/es/">
 <link rel="alternate" hreflang="x-default" href="https://thepersonalityai.com/en/">
 <!-- HREFLANG:END -->
 <!-- Open Graph -->
@@ -1736,15 +1737,44 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 }
 
 /* ── Language toggle button ── */
-.lang-toggle-btn {
+.lang-switcher {
   position: fixed; top: 16px; right: 16px; z-index: 9999;
+}
+.lang-toggle-btn {
+  position: static;
   background: rgba(15,15,35,0.6); backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1.5px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.88);
   border-radius: 20px; padding: 5px 15px;
   font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
   cursor: pointer; transition: all 0.2s;
+  font-family: inherit;
 }
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  min-width: 168px;
+  background: #fff;
+  border: 1.5px solid rgba(15,15,35,0.12);
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 12px 32px rgba(15,15,35,0.18);
+}
+.lang-menu[hidden] { display: none !important; }
+.lang-menu-item {
+  display: block; width: 100%;
+  background: transparent; border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 14px; font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+}
+.lang-menu-item:hover, .lang-menu-item:focus-visible {
+  background: var(--dim-C-bg); color: var(--wave-1); outline: none;
+}
+.lang-menu-item.is-active { color: var(--wave-1); background: var(--dim-C-bg); }
 .lang-toggle-btn:hover {
   background: rgba(76,110,245,0.75); border-color: rgba(76,110,245,0.5);
   color: white; transform: translateY(-1px);
@@ -1804,13 +1834,16 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 <body>
 
 <!-- Fixed language toggle -->
-<button class="lang-toggle-btn" id="langToggle" onclick="toggleLang()">KO</button>
+<div class="lang-switcher" id="langSwitcher">
+  <button type="button" class="lang-toggle-btn" id="langToggle" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" onclick="toggleLangMenu(event)">EN</button>
+  <div class="lang-menu" id="langMenu" hidden role="menu"></div>
+</div>
 
 <div id="langChooser" class="lang-chooser" hidden role="dialog" aria-modal="true" aria-labelledby="langChooserTitle">
   <div class="lang-chooser-card">
     <div class="lang-chooser-brand">AI-OCEAN</div>
     <h2 id="langChooserTitle">Choose your language</h2>
-    <p class="lang-chooser-sub">언어를 선택하세요</p>
+    <p class="lang-chooser-sub">언어를 선택하세요 · Elige tu idioma</p>
     <div class="lang-chooser-actions" id="langChooserActions"></div>
   </div>
 </div>
@@ -2499,6 +2532,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 <script src="/v2_data.js" onerror="window.OCEAN_V2_DATA={}"></script>
 <script src="/i18n_en.js" onerror="window.EN=window.EN||null"></script>
 <script src="/i18n_en_job04.js" onerror="window.EN_JOB=window.EN_JOB||{}"></script>
+<script src="/i18n_es.js" onerror="window.ES=window.ES||null"></script>
 <script src="/subscribe_config.js" onerror="window.SUBSCRIBE_CONFIG=window.SUBSCRIBE_CONFIG||{}"></script>
 <script>
 if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
@@ -2507,21 +2541,21 @@ if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
 // ═══════════════════════════════════════════════════════
 
 const JOBS = [
-  { id: 1,  icon: '📚', label: '학생 (초/중/고)',    en_label: 'Student (K-12)',              short: '학생' },
-  { id: 2,  icon: '🎓', label: '대학(원)생/취준생',  en_label: 'University / Job-seeker',     short: '대학/취준' },
-  { id: 3,  icon: '👩‍🏫', label: '교육/강연/코칭',   en_label: 'Education / Coaching',        short: '교육자' },
-  { id: 4,  icon: '💰', label: '금융/회계/법률',     en_label: 'Finance / Accounting / Legal', short: '금융·법률' },
-  { id: 5,  icon: '🏢', label: '경영지원/기획/HR',   en_label: 'Business / Planning / HR',    short: '경영지원' },
-  { id: 6,  icon: '💻', label: 'IT 개발/데이터/AI',  en_label: 'IT / Data / AI',              short: 'IT·개발' },
-  { id: 7,  icon: '⚙️', label: '제조/엔지니어링',   en_label: 'Manufacturing / Engineering',  short: '제조·엔지니어' },
-  { id: 8,  icon: '🚚', label: '물류/운송/유통',     en_label: 'Logistics / Distribution',    short: '물류·유통' },
-  { id: 9,  icon: '🤝', label: '영업/고객관리',      en_label: 'Sales / Customer Success',    short: '영업·CS' },
-  { id: 10, icon: '📣', label: '마케팅/광고',        en_label: 'Marketing / Advertising',     short: '마케팅' },
-  { id: 11, icon: '🎨', label: '디자인/예술/미디어', en_label: 'Design / Arts / Media',       short: '디자인·예술' },
-  { id: 12, icon: '🏥', label: '보건/의료/스포츠',   en_label: 'Healthcare / Sports',         short: '의료·건강' },
-  { id: 13, icon: '🏛️', label: '공공/행정/치안',    en_label: 'Public Sector / Administration', short: '공공·행정' },
-  { id: 14, icon: '🚀', label: '1인 창업/프리랜서',  en_label: 'Entrepreneur / Freelancer',   short: '창업·프리랜서' },
-  { id: 15, icon: '🏠', label: '가정주부/은퇴자',    en_label: 'Homemaker / Retiree',         short: '가정·은퇴' },
+  { id: 1,  icon: '📚', label: '학생 (초/중/고)',    en_label: 'Student (K-12)',              es_label: 'Estudiante (primaria a secundaria)', short: '학생' },
+  { id: 2,  icon: '🎓', label: '대학(원)생/취준생',  en_label: 'University / Job-seeker',     es_label: 'Universidad / En búsqueda de empleo', short: '대학/취준' },
+  { id: 3,  icon: '👩‍🏫', label: '교육/강연/코칭',   en_label: 'Education / Coaching',        es_label: 'Educación / Coaching', short: '교육자' },
+  { id: 4,  icon: '💰', label: '금융/회계/법률',     en_label: 'Finance / Accounting / Legal', es_label: 'Finanzas / Contabilidad / Legal', short: '금융·법률' },
+  { id: 5,  icon: '🏢', label: '경영지원/기획/HR',   en_label: 'Business / Planning / HR',    es_label: 'Administración / Planeación / RR. HH.', short: '경영지원' },
+  { id: 6,  icon: '💻', label: 'IT 개발/데이터/AI',  en_label: 'IT / Data / AI',              es_label: 'TI / Datos / IA', short: 'IT·개발' },
+  { id: 7,  icon: '⚙️', label: '제조/엔지니어링',   en_label: 'Manufacturing / Engineering',  es_label: 'Manufactura / Ingeniería', short: '제조·엔지니어' },
+  { id: 8,  icon: '🚚', label: '물류/운송/유통',     en_label: 'Logistics / Distribution',    es_label: 'Logística / Distribución', short: '물류·유통' },
+  { id: 9,  icon: '🤝', label: '영업/고객관리',      en_label: 'Sales / Customer Success',    es_label: 'Ventas / Atención al cliente', short: '영업·CS' },
+  { id: 10, icon: '📣', label: '마케팅/광고',        en_label: 'Marketing / Advertising',     es_label: 'Marketing / Publicidad', short: '마케팅' },
+  { id: 11, icon: '🎨', label: '디자인/예술/미디어', en_label: 'Design / Arts / Media',       es_label: 'Diseño / Artes / Medios', short: '디자인·예술' },
+  { id: 12, icon: '🏥', label: '보건/의료/스포츠',   en_label: 'Healthcare / Sports',         es_label: 'Salud / Deporte', short: '의료·건강' },
+  { id: 13, icon: '🏛️', label: '공공/행정/치안',    en_label: 'Public Sector / Administration', es_label: 'Sector público / Administración', short: '공공·행정' },
+  { id: 14, icon: '🚀', label: '1인 창업/프리랜서',  en_label: 'Entrepreneur / Freelancer',   es_label: 'Emprendimiento / Freelance', short: '창업·프리랜서' },
+  { id: 15, icon: '🏠', label: '가정주부/은퇴자',    en_label: 'Homemaker / Retiree',         es_label: 'Hogar / Jubilación', short: '가정·은퇴' },
 ];
 
 // 25 IPIP-based questions (5 per dimension, reversed marked)
@@ -2761,11 +2795,40 @@ const TOOL_CATEGORIES = [
 (function () {
   var l = (typeof oceanPathLang === 'function')
     ? oceanPathLang(location.pathname)
-    : ((location.pathname === '/en' || location.pathname === '/en/' || location.pathname.indexOf('/en/') === 0) ? 'en' : 'ko');
+    : ((location.pathname === '/es' || location.pathname === '/es/' || location.pathname.indexOf('/es/') === 0) ? 'es'
+      : (location.pathname === '/en' || location.pathname === '/en/' || location.pathname.indexOf('/en/') === 0) ? 'en' : 'ko');
   window.LANG = l;
 })();
-const L = (ko, en) => (window.LANG === 'en' && en !== undefined ? en : ko);
-const UI = () => (window.EN && window.EN.ui) || {};
+function i18nPack() {
+  if (window.LANG === 'es') return window.ES || window.EN || null;
+  if (window.LANG === 'en') return window.EN || null;
+  return null;
+}
+const L = (ko, en, es) => {
+  if (window.LANG === 'es') {
+    if (es !== undefined) return es;
+    if (en !== undefined) return en;
+    return ko;
+  }
+  if (window.LANG === 'en' && en !== undefined) return en;
+  return ko;
+};
+const UI = () => (i18nPack() && i18nPack().ui) || {};
+function isLoc() { return window.LANG === 'en' || window.LANG === 'es'; }
+function jobLabel(j) {
+  if (!j) return '';
+  if (window.LANG === 'es') return j.es_label || j.en_label || j.label;
+  if (window.LANG === 'en') return j.en_label || j.label;
+  return j.label;
+}
+function typeDisplayName(code, fallback) {
+  if (window.LANG === 'es' && window.ES && ES.master && ES.master[code] && ES.master[code].name) return ES.master[code].name;
+  if (window.LANG === 'en') return (typeof PERSONA_EN_NAME !== 'undefined' && PERSONA_EN_NAME[code]) || fallback || code;
+  return fallback || code;
+}
+function typePagePath(code) {
+  return (window.LANG === 'ko' ? '/types/' : '/en/types/') + code + '/';
+}
 
 const STRINGS = {
   ko: {
@@ -2951,6 +3014,22 @@ const STRINGS = {
     tools_db_total: 'AI Tools in DB', tools_db_cats: 'Job Groups', tools_db_each: 'Expert Tools per Job Group',
     tools_lm_title: 'Major LM AI Comparison Guide', tools_lm_sub: 'Large Language Models are the backbone of text-based AI work. Compare the 5 leading LM AIs — their strengths, specializations, and best use cases.',
     tools_cta_h: 'Get Your Personalized AI Combination', tools_cta_p: 'Based on your personality test results, we\'ll recommend the optimal AI set for your OCEAN type from the tools above.', tools_cta_btn: '🏁 Start Test',
+  },
+  es: {
+    nav_about: '¿Qué es OCEAN?', nav_personas: 'Tipos de persona', nav_tools: 'Herramientas de IA',
+    hero_badge: '🌊 Análisis de personalidad AI × OCEAN · basado en Big Five',
+    hero_title: 'Recibe la IA que va con<br><span class="hl">tu personalidad</span>',
+    hero_sub: 'Un test de 25 preguntas basado en la psicología Big Five (OCEAN)<br>para encontrar tu aliado de IA y claves para tu carrera.',
+    hero_cta1: 'Empezar mi análisis de ADN de IA →', hero_about_btn: '¿Qué es OCEAN?',
+    stat_questions: 'Preguntas', stat_jobs: 'Áreas profesionales', stat_types: 'Tipos de personalidad', stat_tools: 'Herramientas de IA',
+    ts_label: '32 tipos OCEAN', ts_title: '¿Cuál es mi tipo?',
+    ts_sub: 'De la combinación de 5 dimensiones nacen 32 tipos de personalidad distintos',
+    ts_btn: 'Explorar todos los tipos',
+    js_step: 'PASO 1', js_title: 'Primero elige tu área profesional',
+    js_sub: 'La misma personalidad recibe distintas recomendaciones de IA según tu trabajo',
+    js_start: 'Empezar mi análisis OCEAN →',
+    disclaimer: 'Basado en el modelo Big Five (OCEAN) — con referencia al marco abierto IPIP. Este test no es un diagnóstico médico; es una guía de personalidad para ayudarte a usar la IA.',
+    personas_back: '← Inicio',
   }
 };
 
@@ -2960,10 +3039,17 @@ function setLang(lang, persist) {
     try { localStorage.setItem('ocean_lang', lang); } catch (e) {}
   }
   document.documentElement.lang = lang;
-  document.title = lang === 'en' ? 'AI-OCEAN | Your Personality-Based AI Prescription' : 'AI-OCEAN | 나만의 AI 처방전';
+  document.title = lang === 'es'
+    ? 'AI-OCEAN | Tu receta de IA según tu personalidad'
+    : lang === 'en'
+      ? 'AI-OCEAN | Your Personality-Based AI Prescription'
+      : 'AI-OCEAN | 나만의 AI 처방전';
   const btn = document.getElementById('langToggle');
-  if (btn) btn.textContent = lang === 'ko' ? 'EN' : 'KO';
-  const S = STRINGS[lang];
+  if (btn) {
+    const cur = (typeof SITE_LANGS !== 'undefined' ? SITE_LANGS : []).find(l => l.id === lang);
+    btn.textContent = (cur && cur.short) || lang.toUpperCase();
+  }
+  const S = Object.assign({}, (STRINGS.en || {}), (STRINGS[lang] || {}));
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
     if (S[key] !== undefined) el.innerHTML = S[key];
@@ -2983,14 +3069,19 @@ function setLang(lang, persist) {
 function applyTypeLinks() {
   const nav = document.querySelector('.type-links-section');
   if (!nav) return;
-  const en = window.LANG === 'en';
+  const lang = window.LANG;
   const t = nav.querySelector('.tl-title');
-  if (t) { if (!t.dataset.ko) t.dataset.ko = t.textContent; t.textContent = en ? 'All 32 OCEAN types' : t.dataset.ko; }
-  nav.setAttribute('lang', en ? 'en' : 'ko');
+  if (t) {
+    if (!t.dataset.ko) t.dataset.ko = t.textContent;
+    t.textContent = lang === 'es' ? 'Los 32 tipos OCEAN' : lang === 'en' ? 'All 32 OCEAN types' : t.dataset.ko;
+  }
+  nav.setAttribute('lang', lang === 'ko' ? 'ko' : lang === 'es' ? 'es' : 'en');
   nav.querySelectorAll('a[data-code]').forEach(a => {
     if (!a.dataset.ko) a.dataset.ko = a.textContent;
-    a.textContent = en ? ((PERSONA_EMOJI[a.dataset.code] || '') + ' ' + (PERSONA_EN_NAME[a.dataset.code] || a.dataset.code)) : a.dataset.ko;
-    a.href = en ? ('/en/types/' + a.dataset.code + '/') : ('/types/' + a.dataset.code + '/');
+    a.textContent = lang === 'ko'
+      ? a.dataset.ko
+      : ((PERSONA_EMOJI[a.dataset.code] || '') + ' ' + typeDisplayName(a.dataset.code, a.dataset.code));
+    a.href = typePagePath(a.dataset.code);
   });
 }
 
@@ -3042,24 +3133,63 @@ function restoreLangSwitchState() {
   return false;
 }
 
-function toggleLang() {
-  const next = window.LANG === 'ko' ? 'en' : 'ko';
-  try { localStorage.setItem('ocean_lang', next); } catch (e) {}
-  saveLangSwitchState();
-  const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(next) : (next === 'en' ? '/en/' : '/');
-  location.href = dest;
+function langHomeFallback(id) {
+  return id === 'es' ? '/es/' : id === 'en' ? '/en/' : '/';
 }
 
+function closeLangMenu() {
+  const menu = document.getElementById('langMenu');
+  const btn = document.getElementById('langToggle');
+  if (menu) menu.hidden = true;
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+function toggleLangMenu(ev) {
+  if (ev) ev.stopPropagation();
+  const menu = document.getElementById('langMenu');
+  const btn = document.getElementById('langToggle');
+  if (!menu || !btn) return;
+  if (!menu.hidden) { closeLangMenu(); return; }
+  menu.innerHTML = SITE_LANGS.map(l =>
+    `<button type="button" role="menuitem" class="lang-menu-item${l.id === window.LANG ? ' is-active' : ''}" data-lang="${l.id}" lang="${l.id}">${l.label}</button>`
+  ).join('');
+  menu.hidden = false;
+  btn.setAttribute('aria-expanded', 'true');
+  menu.onclick = function (e) {
+    const item = e.target.closest('[data-lang]');
+    if (!item) return;
+    const id = item.getAttribute('data-lang');
+    closeLangMenu();
+    if (id === window.LANG) return;
+    try { localStorage.setItem('ocean_lang', id); } catch (err) {}
+    saveLangSwitchState();
+    const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(id) : langHomeFallback(id);
+    location.href = dest;
+  };
+}
+
+function toggleLang() { toggleLangMenu(); }
+
+document.addEventListener('click', function (e) {
+  const sw = document.getElementById('langSwitcher');
+  if (sw && !sw.contains(e.target)) closeLangMenu();
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeLangMenu();
+});
+
 function siteHomeUrl() {
-  return window.LANG === 'en' ? 'https://thepersonalityai.com/en/' : 'https://thepersonalityai.com/';
+  if (window.LANG === 'es') return 'https://thepersonalityai.com/es/';
+  if (window.LANG === 'en') return 'https://thepersonalityai.com/en/';
+  return 'https://thepersonalityai.com/';
 }
 
 function typePageUrl(code) {
   const c = String(code || '');
   if (!/^[01]{5}$/.test(c)) return siteHomeUrl();
-  return (window.LANG === 'en'
-    ? 'https://thepersonalityai.com/en/types/'
-    : 'https://thepersonalityai.com/types/') + c + '/';
+  // Phase 1: no /es/types pages yet — Spanish shares the English type page.
+  if (window.LANG === 'es' || window.LANG === 'en') return 'https://thepersonalityai.com/en/types/' + c + '/';
+  return 'https://thepersonalityai.com/types/' + c + '/';
 }
 
 function shareResultUrl() {
@@ -3067,11 +3197,10 @@ function shareResultUrl() {
   return typePageUrl(d.code);
 }
 
-// To add Spanish later: append { id: 'es', label: 'Español' } and teach
-// i18n_router.js the /es/ prefix. The chooser renders this list as-is.
 const SITE_LANGS = [
-  { id: 'en', label: 'English' },
-  { id: 'ko', label: '한국어' }
+  { id: 'en', label: 'English', short: 'EN' },
+  { id: 'ko', label: '한국어', short: 'KO' },
+  { id: 'es', label: 'Español', short: 'ES' }
 ];
 
 function shouldShowLangChooser() {
@@ -3100,7 +3229,7 @@ function chooseSiteLang(id) {
   if (!SITE_LANGS.some(l => l.id === id)) return;
   try { localStorage.setItem('ocean_lang', id); } catch (e) {}
   hideLangChooser();
-  const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(id) : (id === 'en' ? '/en/' : '/');
+  const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(id) : langHomeFallback(id);
   const here = location.pathname + location.search + location.hash;
   if (dest !== here) location.href = dest;
 }
@@ -3255,11 +3384,11 @@ function init() {
 function renderPersonaGrid() {
   const grid = document.getElementById('personaPreviewGrid');
   if (!grid) return;
-  const isEn = window.LANG === 'en';
+  const loc = isLoc();
   const personas = (typeof OCEAN_MASTER_PERSONAS !== 'undefined') ? OCEAN_MASTER_PERSONAS : FEATURED_PERSONAS;
   grid.innerHTML = personas.map(p => {
     const emoji = PERSONA_EMOJI[p.code] || '✨';
-    const enName = PERSONA_EN_NAME[p.code] || p.code;
+    const enName = typeDisplayName(p.code, PERSONA_EN_NAME[p.code] || p.code);
     const aiRec = PERSONA_AI_REC[p.code] || 'ChatGPT';
     const desc = p.summary || p.desc || '';
     const digits = p.code.split('').map((d, i) => {
@@ -3267,13 +3396,13 @@ function renderPersonaGrid() {
       return `<div class="pp-digit" style="background:${on ? DIM_CODE_BG[i] : '#F0F2F8'};color:${on ? DIM_CODE_COLORS[i] : '#A0AEC0'}">${['O','C','E','A','N'][i]}</div>`;
     }).join('');
     return `
-      <a class="persona-preview-card" href="${isEn ? '/en/types/' : '/types/'}${p.code}/">
+      <a class="persona-preview-card" href="${typePagePath(p.code)}">
         <div class="pp-emoji">${emoji}</div>
         <div class="pp-code">${digits}</div>
-        <div class="pp-name">${isEn ? enName : p.name}</div>
-        <div class="pp-en">${isEn ? '' : enName}</div>
-        <div class="pp-desc">${isEn && window.EN && EN.master[p.code] ? EN.master[p.code][0] : desc}</div>
-        <div class="pp-ai">${isEn ? 'Recommended AI → ' : '추천 AI → '}${aiRec}</div>
+        <div class="pp-name">${loc ? enName : p.name}</div>
+        <div class="pp-en">${loc ? '' : enName}</div>
+        <div class="pp-desc">${loc && window.LANG === 'es' && window.ES && ES.master[p.code] ? ES.master[p.code].summary : (loc && window.EN && EN.master[p.code] ? EN.master[p.code][0] : desc)}</div>
+        <div class="pp-ai">${window.LANG === 'es' ? 'IA recomendada → ' : loc ? 'Recommended AI → ' : '추천 AI → '}${aiRec}</div>
       </a>`;
   }).join('');
 }
@@ -3405,8 +3534,8 @@ function toggleLMCard(card) {
 function renderLMGuide() {
   const el = document.getElementById('lmGuideContent');
   if (!el) return;
-  const isEn = window.LANG === 'en';
-  const S = STRINGS[window.LANG];
+  const isEn = isLoc();
+  const S = Object.assign({}, (STRINGS.en || {}), (STRINGS[window.LANG] || {}));
   const title   = S.tools_lm_title || '주요 LM AI 비교 가이드';
   const sub     = S.tools_lm_sub   || '언어 모델 AI(LLM)는 텍스트 기반 작업의 핵심 도구입니다.';
   const bestLbl = isEn ? 'Best For' : '최적 활용 상황';
@@ -3477,7 +3606,7 @@ function renderLMGuide() {
 function renderToolsCatalog() {
   const el = document.getElementById('toolsCatalogContent');
   if (!el) return;
-  const isEn = window.LANG === 'en';
+  const isEn = isLoc();
   const dbNote = isEn ? 'Top 6 picks · 30+ in DB' : '대표 6개 · DB 30개+';
   let html = '';
   TOOL_CATEGORIES.forEach(cat => {
@@ -3523,11 +3652,10 @@ function renderToolsCatalog() {
 
 function renderJobGrid() {
   const grid = document.getElementById('jobGrid');
-  const isEn = window.LANG === 'en';
   grid.innerHTML = JOBS.map(j => `
     <button class="job-btn-16p" onclick="selectJob(${j.id})">
       <span class="job-icon">${j.icon}</span>
-      ${isEn ? (j.en_label || j.label) : j.label}
+      ${jobLabel(j)}
     </button>
   `).join('');
 }
@@ -3566,7 +3694,8 @@ function renderQuestion() {
   const total = shuffledQuestions.length;
   const pct = Math.round((currentQ / total) * 100);
 
-  document.getElementById('progressText').textContent = window.LANG === 'en' ? UI().qOf(currentQ + 1, total) : `질문 ${currentQ + 1} / ${total}`;
+  const u = UI();
+  document.getElementById('progressText').textContent = u.qOf ? u.qOf(currentQ + 1, total) : `질문 ${currentQ + 1} / ${total}`;
   document.getElementById('progressPct').textContent = `${pct}%`;
   document.getElementById('progressFill').style.width = pct + '%';
 
@@ -3574,13 +3703,13 @@ function renderQuestion() {
   area.innerHTML = `
     <div class="q-card fade-up">
       <div class="q-number">Q${currentQ + 1}</div>
-      <div class="q-text">${L(q.text, window.EN && EN.questions[q.i])}</div>
+      <div class="q-text">${L(q.text, window.EN && EN.questions[q.i], window.ES && ES.questions[q.i])}</div>
       <div class="likert-scale">
         ${LIKERT.map(opt => `
           <div class="likert-option ${answers[currentQ] === opt.value ? 'selected' : ''}"
                onclick="selectAnswer(${opt.value})">
             <div class="likert-dot"></div>
-            <span class="likert-label">${L(opt.label, window.EN && EN.likert[opt.value - 1])}</span>
+            <span class="likert-label">${L(opt.label, window.EN && EN.likert[opt.value - 1], window.ES && ES.likert[opt.value - 1])}</span>
           </div>
         `).join('')}
       </div>
@@ -4007,26 +4136,27 @@ function subEnabled() { return SUB_PREVIEW || !!((window.SUBSCRIBE_CONFIG || {})
 function subDone() { try { return localStorage.getItem('ocean_sub') === '1'; } catch (e) { return false; } }
 function subscribeCardHTML(code, typeName) {
   if (!subEnabled()) return '';
-  const priv = window.LANG === 'en' ? '/en/privacy/' : '/privacy/';
-  const title = L('📬 내 유형의 AI 활용 가이드를 메일로 받아보세요', '📬 Get your AI guide by email');
+  const priv = window.LANG === 'ko' ? '/privacy/' : '/en/privacy/';
+  const title = L('📬 내 유형의 AI 활용 가이드를 메일로 받아보세요', '📬 Get your AI guide by email', '📬 Recibe por correo la guía de IA de tu tipo');
   const sub = L('5일 동안 하루 한 통씩 짧은 강의, 이후 10주 동안 매주 한 통씩 내 유형에 맞춘 팁을 보내드립니다. 무료이고 언제든 취소할 수 있습니다.',
-                'Five short daily lessons, then one tip a week for 10 weeks, written for your type. Free. Unsubscribe anytime.');
+                'Five short daily lessons, then one tip a week for 10 weeks, written for your type. Free. Unsubscribe anytime.',
+                'Cinco lecciones diarias cortas y, después, un consejo a la semana durante 10 semanas, escrito para tu tipo. Es gratis y puedes cancelar cuando quieras.');
   setTimeout(() => track('subscribe_view', Object.assign({ persona_code: code, preview: SUB_PREVIEW ? 1 : 0 }, jobParams())), 0);
   if (subDone()) {
     return `<div class="sub-card fade-up-d2"><div class="sub-title">${title}</div>
-      <div class="sub-msg ok">${L('✅ 이 기기에서 이미 신청 완료되었습니다.', '✅ You\'re already subscribed on this device.')}</div>
-      <div class="sub-fine"><a href="#" onclick="subReset();return false">${L('다른 이메일로 다시 신청', 'Use a different email')}</a></div></div>`;
+      <div class="sub-msg ok">${L('✅ 이 기기에서 이미 신청 완료되었습니다.', '✅ You\'re already subscribed on this device.', '✅ En este dispositivo ya estás suscrito.')}</div>
+      <div class="sub-fine"><a href="#" onclick="subReset();return false">${L('다른 이메일로 다시 신청', 'Use a different email', 'Usar otro correo')}</a></div></div>`;
   }
   return `<div class="sub-card fade-up-d2" id="subCard">
     <div class="sub-title">${title}</div>
     <div class="sub-sub">${sub}</div>
     <form class="sub-form" onsubmit="submitSubscribe(event)" novalidate>
-      <input type="email" name="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="${L('이메일 주소', 'you@email.com')}" aria-label="${L('이메일 주소', 'Email address')}">
+      <input type="email" name="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="${L('이메일 주소', 'you@email.com', 'tu@email.com')}" aria-label="${L('이메일 주소', 'Email address', 'Correo electrónico')}">
       <div class="sub-hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
-      <button type="submit">${L('가이드 받기', 'Send me the guide')}</button>
+      <button type="submit">${L('가이드 받기', 'Send me the guide', 'Quiero la guía')}</button>
     </form>
     <div class="sub-msg" id="subMsg" role="status" aria-live="polite"></div>
-    <div class="sub-fine">${L('신청하시면 이메일 목록에 추가됩니다. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'Subscribing adds your email to the list. Your email is used only for this series, and you can unsubscribe anytime.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy')}</a></div>
+    <div class="sub-fine">${L('신청하시면 이메일 목록에 추가됩니다. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'Subscribing adds your email to the list. Your email is used only for this series, and you can unsubscribe anytime.', 'Al suscribirte, tu correo se agrega a la lista. Lo usamos solo para esta serie y puedes cancelar cuando quieras.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy', 'Privacidad')}</a></div>
   </div>`;
 }
 function subReset() { try { localStorage.removeItem('ocean_sub'); } catch (e) {} if (window._lastScores) renderResults(window._lastScores); }
@@ -4036,7 +4166,7 @@ async function submitSubscribe(ev) {
   const email = (f.email.value || '').trim();
   const bad = !/^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']{2,}$/.test(email);
   msg.className = 'sub-msg';
-  if (bad) { msg.classList.add('err'); msg.textContent = L('이메일 주소를 확인해 주세요.', 'Please check your email address.'); return; }
+  if (bad) { msg.classList.add('err'); msg.textContent = L('이메일 주소를 확인해 주세요.', 'Please check your email address.', 'Revisa tu correo electrónico.'); return; }
   if (f.company && f.company.value) return; // 허니팟
   const code = window._shareData && window._shareData.code;
   const p = Object.assign({ persona_code: code, preview: SUB_PREVIEW ? 1 : 0 }, jobParams());
@@ -4050,49 +4180,54 @@ async function submitSubscribe(ev) {
     try { localStorage.setItem('ocean_sub', '1'); } catch (e) {}
     f.style.display = 'none';
     msg.classList.add('ok');
-    msg.textContent = SUB_PREVIEW ? L('(미리보기) 실제 전송은 하지 않았습니다.', '(Preview) Nothing was sent.')
-      : L('✅ 신청 완료! 새 글과 소식을 이메일로 보내드릴게요.', '✅ You\'re subscribed! We\'ll send updates to your inbox.');
+    msg.textContent = SUB_PREVIEW ? L('(미리보기) 실제 전송은 하지 않았습니다.', '(Preview) Nothing was sent.', '(Vista previa) No se envió nada.')
+      : L('✅ 신청 완료! 새 글과 소식을 이메일로 보내드릴게요.', '✅ You\'re subscribed! We\'ll send updates to your inbox.', '✅ ¡Listo, estás suscrito! Te enviaremos novedades a tu correo.');
   } catch (e) {
     track('subscribe_error', p);
     btn.disabled = false;
     msg.classList.add('err');
-    msg.textContent = L('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.', 'Something went wrong. Please try again in a moment.');
+    msg.textContent = L('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.', 'Something went wrong. Please try again in a moment.', 'Algo salió mal. Inténtalo de nuevo en un momento.');
   }
 }
 
 function renderResults(scores) {
   window._lastScores = scores;
   const code = scoresToCode(scores);
-  const enMode = window.LANG === 'en' && !!window.EN;
+  const pack = i18nPack();
+  const locMode = isLoc() && !!pack;
   const U = UI();
   const job = JOBS.find(j => j.id === selectedJob);
 
   // 32-persona master lookup
   const master = (() => {
     const m = getMasterPersona(code) || { code, name: '나만의 특별한 유형', summary: '세상에 하나뿐인 독창적인 성향의 소유자' };
-    if (!enMode) return m;
-    const e = EN.master[code];
+    if (!locMode) return m;
+    if (window.LANG === 'es' && window.ES && ES.master && ES.master[code]) {
+      const e = ES.master[code];
+      return { code, name: e.name || U.unique, summary: e.summary || U.uniqueSub, insight: e.insight || '' };
+    }
+    const e = window.EN && EN.master && EN.master[code];
     return { code, name: PERSONA_EN_NAME[code] || U.unique, summary: e ? e[0] : U.uniqueSub, insight: e ? e[1] : '' };
   })();
   const emoji = PERSONA_EMOJI[code] || '✨';
 
   // Job-specific persona
   const _jobKey = String(selectedJob).padStart(2, '0') + '_' + code;
-  const enJob = enMode && window.EN_JOB ? (EN_JOB[_jobKey] || null) : null;
-  const jobPersona = enMode ? (enJob ? { title: enJob.title, insight: enJob.insight, mainAI: enJob.mainAI, specialistAIs: enJob.specialistAIs } : null) : lookupJobPersona(code, selectedJob);
+  const locJob = locMode && window.EN_JOB ? (EN_JOB[_jobKey] || null) : null;
+  const jobPersona = locMode ? (locJob ? { title: locJob.title, insight: locJob.insight, mainAI: locJob.mainAI, specialistAIs: locJob.specialistAIs } : null) : lookupJobPersona(code, selectedJob);
 
   // v2 enriched data lookup
   const v2Key = String(selectedJob).padStart(2, '0') + '_' + code;
-  const v2 = enMode ? (enJob && enJob.v2 ? enJob.v2 : null) : (OCEAN_V2_DATA[v2Key] || null);
-  const enNoJob = enMode && !enJob;
+  const v2 = locMode ? (locJob && locJob.v2 ? locJob.v2 : null) : (OCEAN_V2_DATA[v2Key] || null);
+  const enNoJob = locMode && !locJob;
 
   const insightText = v2
     ? v2.insight_v2
-    : (jobPersona ? jobPersona.insight : (enMode ? (master.insight || master.summary) : `${job?.icon} ${job?.label} 분야에서 활동하시는 <strong>'${master.name}'</strong> 유형이군요! ${master.summary}`));
+    : (jobPersona ? jobPersona.insight : (locMode ? (master.insight || master.summary) : `${job?.icon} ${job?.label} 분야에서 활동하시는 <strong>'${master.name}'</strong> 유형이군요! ${master.summary}`));
 
   const personaTitle = jobPersona?.title || null;
   const _rec = (PERSONA_AI_REC[code] || 'ChatGPT').split(' + ');
-  const mainAI = jobPersona?.mainAI || (enMode ? { name: _rec[0], reason: U.generalAI } : { name: 'ChatGPT', reason: '다양한 업무에 활용 가능한 범용 AI 파트너입니다.' });
+  const mainAI = jobPersona?.mainAI || (locMode ? { name: _rec[0], reason: U.generalAI } : { name: 'ChatGPT', reason: '다양한 업무에 활용 가능한 범용 AI 파트너입니다.' });
   const specialistAIs = jobPersona?.specialistAIs || (enNoJob && _rec[1] ? [{ name: _rec[1], reason: U.companion }] : []);
 
   const barColors = { O: '#7048E8', C: '#1971C2', E: '#E67700', A: '#0CA678', N: '#C92A2A' };
@@ -4115,8 +4250,8 @@ function renderResults(scores) {
   const oceanProfileRows = OCEAN_DIM_META.map((dim, i) => {
     const isHigh = code[i] === '1';
     const pct = scores[dim.key];
-    const insight = enMode ? (isHigh ? EN.dims[i].hi : EN.dims[i].lo) : (isHigh ? dim.highInsight : dim.lowInsight);
-    const badge = enMode ? (isHigh ? U.strengthBadge : U.growBadge) : (isHigh ? '강점' : '보완');
+    const insight = locMode ? (isHigh ? pack.dims[i].hi : pack.dims[i].lo) : (isHigh ? dim.highInsight : dim.lowInsight);
+    const badge = locMode ? (isHigh ? U.strengthBadge : U.growBadge) : (isHigh ? '강점' : '보완');
     const badgeBg = isHigh ? barColors[dim.key] + '18' : '#F1F3F5';
     const badgeColor = isHigh ? barColors[dim.key] : '#888';
     return `
@@ -4124,7 +4259,7 @@ function renderResults(scores) {
         <div class="op-dim-icon">${dim.icon}</div>
         <div style="flex:1;min-width:0">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span class="op-dim-label" style="color:${barColors[dim.key]}">${enMode ? EN.dims[i].label : dim.label}</span>
+            <span class="op-dim-label" style="color:${barColors[dim.key]}">${locMode ? pack.dims[i].label : dim.label}</span>
             <span class="op-insight-badge" style="background:${badgeBg};color:${badgeColor}">${badge}</span>
             <div class="op-dim-bar-wrap" style="flex:1">
               <div class="op-dim-bar-fill" style="width:0%;background:${barColors[dim.key]}" data-pct="${pct}"></div>
@@ -4173,7 +4308,7 @@ function renderResults(scores) {
       return `
         <div class="v2-ai-card ${idx === 0 ? 'open' : ''}">
           <div class="v2-ai-header" onclick="toggleV2AI(this.parentElement)">
-            <span class="v2-engine-badge" style="background:${badgeBg};color:${badgeColor}">${isMain ? 'MAIN ENGINE' : (enMode ? (t.type === 'main' ? 'MAIN ENGINE' : U.specialist) : (t.type || '전문 AI'))}</span>
+            <span class="v2-engine-badge" style="background:${badgeBg};color:${badgeColor}">${isMain ? 'MAIN ENGINE' : (locMode ? (t.type === 'main' ? 'MAIN ENGINE' : U.specialist) : (t.type || '전문 AI'))}</span>
             <div class="v2-ai-name">${makeAILink(t.name)}</div>
             <div class="v2-ai-tagline">${t.tagline || ''}</div>
             ${hasAccordion ? '<div class="v2-expand-icon">▾</div>' : ''}
@@ -4228,7 +4363,7 @@ function renderResults(scores) {
 
   // ── Job-specific extra AI tools (with links) ──
   const usedTools = new Set([mainAI.name, ...specialistAIs.map(a => a.name)].map(n => n.toLowerCase()));
-  const jobExtraTools = (JOB_AI_TOOLS[selectedJob] || []).map((t, i) => ({ name: t.name, use: enMode && EN.jobToolUse[selectedJob] ? EN.jobToolUse[selectedJob][i] : t.use })).filter(t => !usedTools.has(t.name.toLowerCase())).slice(0, 4);
+  const jobExtraTools = (JOB_AI_TOOLS[selectedJob] || []).map((t, i) => ({ name: t.name, use: locMode && window.EN && EN.jobToolUse[selectedJob] ? EN.jobToolUse[selectedJob][i] : t.use })).filter(t => !usedTools.has(t.name.toLowerCase())).slice(0, 4);
   const jobExtraCards = jobExtraTools.map(t => `
     <div class="job-ai-extra-card">
       <div class="jaec-name">${makeAILink(t.name)}</div>
@@ -4251,7 +4386,7 @@ function renderResults(scores) {
       </div>
       <div class="rb-content">
         <div class="rb-job-pill" style="background:${bannerBg};color:${bannerColor};border:1px solid ${bannerColor}33">
-          🌊 ${L('AI-OCEAN 분석 완료', U.done)} &nbsp;·&nbsp; ${job?.icon} ${L(job?.label, job?.en_label)}
+          🌊 ${L('AI-OCEAN 분석 완료', U.done)} &nbsp;·&nbsp; ${job?.icon} ${jobLabel(job)}
         </div>
         <div class="rb-name" style="color:${bannerColor}">${master.name}</div>
         ${personaTitle ? `<div class="rb-persona-title" style="color:${bannerColor}">"${personaTitle}"</div>` : ''}
@@ -4322,7 +4457,7 @@ function renderResults(scores) {
     <!-- Job AI Extra Tools -->
     ${jobExtraCards ? `
     <div class="job-ai-extra-section fade-up-d3">
-      <div class="section-title" style="margin-bottom:4px">🏆 ${enMode ? U.extraTitle(job?.en_label) : `${job?.label} 직군 추천 AI 도구`}</div>
+      <div class="section-title" style="margin-bottom:4px">🏆 ${locMode ? U.extraTitle(jobLabel(job)) : `${job?.label} 직군 추천 AI 도구`}</div>
       <div style="font-size:16px;color:var(--text-secondary);margin-bottom:0">${L('당신의 직업군에서 가장 효과적인 AI 도구들입니다', U.extraSub)}</div>
       <div class="job-ai-extra-grid">${jobExtraCards}</div>
     </div>` : ''}
@@ -4360,9 +4495,10 @@ function drawRadar(scores) {
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
   const cx = W / 2, cy = H / 2;
-  const R = Math.min(W, H) / 2 - (window.LANG === 'en' ? 62 : 40);
+  const R = Math.min(W, H) / 2 - (isLoc() ? 62 : 40);
   const dims = ['O', 'C', 'E', 'A', 'N'];
-  const labels = window.LANG === 'en' && window.EN ? EN.dimShort : ['개방성', '성실성', '외향성', '친화성', '안정성'];
+  const pack = i18nPack();
+  const labels = pack && pack.dimShort ? pack.dimShort : ['개방성', '성실성', '외향성', '친화성', '안정성'];
   const colors = ['#7048E8', '#1971C2', '#E67700', '#0CA678', '#C92A2A'];
   const n = dims.length;
 
@@ -4442,9 +4578,11 @@ function goHome() {
 }
 
 function copyResult(personaName, code, scores) {
-  const text = window.LANG === 'en'
-    ? `🌊 AI-OCEAN personality result\n\nPersona: ${personaName} (${code})\nOpenness: ${scores.O}% | Conscientiousness: ${scores.C}% | Extraversion: ${scores.E}% | Agreeableness: ${scores.A}% | Stability: ${scores.N}%\n\nGet your own AI prescription: ${shareResultUrl()}`
-    : `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요! ${shareResultUrl()}`;
+  const text = window.LANG === 'ko'
+    ? `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요! ${shareResultUrl()}`
+    : window.LANG === 'es'
+    ? `🌊 Resultado de personalidad AI-OCEAN\n\nPersona: ${personaName} (${code})\nApertura: ${scores.O}% | Responsabilidad: ${scores.C}% | Extraversión: ${scores.E}% | Amabilidad: ${scores.A}% | Estabilidad: ${scores.N}%\n\nObtén tu propia receta de IA: ${shareResultUrl()}`
+    : `🌊 AI-OCEAN personality result\n\nPersona: ${personaName} (${code})\nOpenness: ${scores.O}% | Conscientiousness: ${scores.C}% | Extraversion: ${scores.E}% | Agreeableness: ${scores.A}% | Stability: ${scores.N}%\n\nGet your own AI prescription: ${shareResultUrl()}`;
   navigator.clipboard.writeText(text).then(() => {
     alert(L('결과가 클립보드에 복사되었습니다! 📋', 'Result copied to clipboard! 📋'));
   }).catch(() => {
@@ -4477,17 +4615,17 @@ function scrollToJobSection() {
 function renderTypeShowcase() {
   const grid = document.getElementById('typeShowcaseGrid');
   if (!grid) return;
-  const isEn = window.LANG === 'en';
+  const loc = isLoc();
   grid.innerHTML = FEATURED_PERSONAS.map(p => {
     const digits = p.code.split('').map((d, i) => {
       const on = d === '1';
       return `<div class="tcc-dot" style="background:${on ? DIM_CODE_BG[i] : '#F0F2F8'};color:${on ? DIM_CODE_COLORS[i] : '#A0AEC0'}">${['O','C','E','A','N'][i]}</div>`;
     }).join('');
     return `
-      <a class="type-card-16p" href="${isEn ? '/en/types/' : '/types/'}${p.code}/">
+      <a class="type-card-16p" href="${typePagePath(p.code)}">
         <span class="tc-emoji">${p.emoji}</span>
-        <div class="tc-name">${isEn ? p.en : p.name}</div>
-        <div class="tc-en">${isEn ? '' : p.en}</div>
+        <div class="tc-name">${typeDisplayName(p.code, p.name)}</div>
+        <div class="tc-en">${loc ? '' : p.en}</div>
         <div class="tc-code-mini">${digits}</div>
       </a>`;
   }).join('');
@@ -4501,11 +4639,12 @@ function renderTypeShowcase() {
 function _shareText() {
   var d = window._shareData || {};
   var name = d.name || '', code = d.code || '', scores = d.scores || {};
-  if (window.LANG === 'en') {
-    return '🌊 AI-OCEAN personality result!\n\n✨ "' + name + '" (' + code + ')\n'
-      + '🔮 Openness ' + (scores.O||0) + '% | 📐 Conscientiousness ' + (scores.C||0) + '%\n'
-      + '⚡ Extraversion ' + (scores.E||0) + '% | 💚 Agreeableness ' + (scores.A||0) + '% | 🌊 Stability ' + (scores.N||0) + '%\n\n'
-      + '#AIPersonality #OCEANTest #BigFive #MyAIPrescription';
+  if (window.LANG !== 'ko') {
+    var U = UI();
+    return (U.shareHead || '🌊 AI-OCEAN personality result!') + '\n\n✨ "' + name + '" (' + code + ')\n'
+      + '🔮 ' + (U.openness || 'Openness') + ' ' + (scores.O||0) + '% | 📐 ' + (U.conscientiousness || 'Conscientiousness') + ' ' + (scores.C||0) + '%\n'
+      + '⚡ ' + (U.extraversion || 'Extraversion') + ' ' + (scores.E||0) + '% | 💚 ' + (U.agreeableness || 'Agreeableness') + ' ' + (scores.A||0) + '% | 🌊 ' + (U.stability || 'Stability') + ' ' + (scores.N||0) + '%\n\n'
+      + (U.tags || '#AIPersonality #OCEANTest #BigFive #MyAIPrescription');
   }
   return '🌊 AI-OCEAN 성향 분석 결과!\n\n✨ "' + name + '" 유형 (' + code + ')\n'
     + '🔮 개방성 ' + (scores.O||0) + '% | 📐 성실성 ' + (scores.C||0) + '%\n'
@@ -4545,9 +4684,14 @@ function shareTwitterX() {
 function copyInstagram() {
   var d = window._shareData || {};
   var name = d.name || '', code = d.code || '', scores = d.scores || {};
-  var text = window.LANG === 'en'
-    ? '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest'
-    : '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+  var text;
+  if (window.LANG === 'ko') {
+    text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+  } else if (window.LANG === 'es') {
+    text = '🌊 Resultado de personalidad AI-OCEAN\n\n✨ "' + name + '" (' + code + ')\n\n📊 Mis puntajes OCEAN\n🔮 Apertura: ' + (scores.O||0) + '%\n📐 Responsabilidad: ' + (scores.C||0) + '%\n⚡ Extraversión: ' + (scores.E||0) + '%\n💚 Amabilidad: ' + (scores.A||0) + '%\n🌊 Estabilidad: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#PersonalidadIA #TestOCEAN #BigFive #TestDePersonalidad';
+  } else {
+    text = '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest';
+  }
   navigator.clipboard.writeText(text).then(function() {
     showShareToast(L('📸 인스타그램용 텍스트 복사 완료! 앱 열고 새 게시물에 붙여넣으세요.', UI().igCopied));
   }).catch(function() {
@@ -4561,7 +4705,7 @@ function shareKakao() {
   var shareUrl = shareResultUrl();
   var text = _shareText() + '\n\n👉 ' + shareUrl;
   if (navigator.share) {
-    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: shareUrl })
+    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ', 'Resultado de personalidad AI-OCEAN — ') + name, text: text, url: shareUrl })
       .catch(function() {
         navigator.clipboard.writeText(text).then(function() {
           showShareToast(L('🔗 링크 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.', UI().linkCopied));
@@ -4581,9 +4725,9 @@ function shareKakao() {
 function shareTiktok() {
   var d = window._shareData || {};
   var name = d.name || '';
-  var text = _shareText() + '\n\n👉 ' + shareResultUrl() + (window.LANG === 'en' ? '\n\n#TikTok #PersonalityTest' : '\n\n#TikTok #성격테스트');
+  var text = _shareText() + '\n\n👉 ' + shareResultUrl() + (window.LANG === 'ko' ? '\n\n#TikTok #성격테스트' : window.LANG === 'es' ? '\n\n#TikTok #TestDePersonalidad' : '\n\n#TikTok #PersonalityTest');
   if (navigator.share) {
-    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ') + name, text: text, url: shareResultUrl() })
+    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ', 'Resultado de personalidad AI-OCEAN — ') + name, text: text, url: shareResultUrl() })
       .catch(function() {
         navigator.clipboard.writeText(text).then(function() {
           showShareToast(L('🎵 텍스트 복사 완료! TikTok 앱에서 게시물 작성 후 붙여넣으세요.', UI().tiktokCopied));
@@ -4602,7 +4746,7 @@ function shareTiktok() {
 init();
 maybeShowLangChooser();
 if (!restoreLangSwitchState() && !restoreStoredResult()) {
-  // 유형 페이지의 '테스트 시작' 버튼이 /?start=1 또는 /en/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
+  // 유형 페이지의 '테스트 시작' 버튼이 /?start=1, /en/?start=1 또는 /es/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
   if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
   // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
   (function () {
