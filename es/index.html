@@ -2533,6 +2533,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 <script src="/i18n_en.js" onerror="window.EN=window.EN||null"></script>
 <script src="/i18n_en_job04.js" onerror="window.EN_JOB=window.EN_JOB||{}"></script>
 <script src="/i18n_es.js" onerror="window.ES=window.ES||null"></script>
+<script src="/i18n_es_job04.js" onerror="window.ES_JOB=window.ES_JOB||{}"></script>
 <script src="/subscribe_config.js" onerror="window.SUBSCRIBE_CONFIG=window.SUBSCRIBE_CONFIG||{}"></script>
 <script>
 if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
@@ -4340,7 +4341,9 @@ function renderResults(scores) {
 
   // Job-specific persona
   const _jobKey = String(selectedJob).padStart(2, '0') + '_' + code;
-  const locJob = locMode && window.EN_JOB ? (EN_JOB[_jobKey] || null) : null;
+  const locJob = locMode
+    ? ((window.LANG === 'es' && window.ES_JOB && ES_JOB[_jobKey]) || (window.EN_JOB && EN_JOB[_jobKey]) || null)
+    : null;
   const jobPersona = locMode ? (locJob ? { title: locJob.title, insight: locJob.insight, mainAI: locJob.mainAI, specialistAIs: locJob.specialistAIs } : null) : lookupJobPersona(code, selectedJob);
 
   // v2 enriched data lookup

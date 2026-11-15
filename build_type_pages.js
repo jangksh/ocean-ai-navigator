@@ -56,13 +56,14 @@ const DIM_META = extractConst('OCEAN_DIM_META');
 const JOBS = extractConst('JOBS');
 
 const i18nWin = {};
-new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js') + '\n' + read('i18n_es.js'))(i18nWin);
+new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js') + '\n' + read('i18n_es.js') + '\n' + read('i18n_es_job04.js'))(i18nWin);
 const EN = i18nWin.EN;
 const ES = i18nWin.ES;
 const ES_NAME = (ES && ES.master)
   ? Object.fromEntries(Object.entries(ES.master).map(([k, v]) => [k, v.name]))
   : {};
 const EN_JOB = i18nWin.EN_JOB || {};
+const ES_JOB = i18nWin.ES_JOB || {};
 if (!EN || !EN.master || !EN.dims) throw new Error('i18n_en.js에서 window.EN을 읽지 못했습니다.');
 if (!ES || !ES.master || !ES.dims) throw new Error('i18n_es.js에서 window.ES를 읽지 못했습니다.');
 const JOB_EN_NAME = Object.fromEntries(JOBS.map((j) => [String(j.id).padStart(2, '0'), j.en_label]));
@@ -330,7 +331,8 @@ function jobEntryEs(jj, code) {
   const ko = jobEntry(jj, code);
   const label = JOB_ES_NAME[jj] || JOB_EN_NAME[jj] || (ko && ko.label) || jj;
   const icon = (ko && ko.icon) || JOB_ICON[jj] || '💼';
-  const ej = EN_JOB[jj + '_' + code];
+  const ej = ES_JOB[jj + '_' + code] || EN_JOB[jj + '_' + code];
+  const fromEs = !!ES_JOB[jj + '_' + code];
   const master = (ES && ES.master && ES.master[code]) || {};
   const toolsFrom = (entry) => {
     if (!entry) return { main: { name: 'ChatGPT', blurb: '' }, specs: [] };
@@ -349,7 +351,7 @@ function jobEntryEs(jj, code) {
     const mainTool = tools.find((t) => t.type === 'main');
     const specTools = tools.filter((t) => t !== mainTool).slice(0, 2);
     return {
-      jj, label, icon, source: 'en_job',
+      jj, label, icon, source: fromEs ? 'es_job' : 'en_job',
       title: ej.title || '',
       insight: String(ej.insight || '').trim(),
       main: { name: mainName, blurb: (ej.mainAI && ej.mainAI.reason) || (mainTool && mainTool.tagline) || '' },
