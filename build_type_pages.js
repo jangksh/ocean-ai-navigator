@@ -7,6 +7,7 @@
  * 생성물
  *   types/<코드>/index.html      32개 한국어 (예: types/11010/index.html → /types/11010/)
  *   en/types/<코드>/index.html   32개 영어 (예: en/types/11010/index.html → /en/types/11010/)
+ *   og/types/<코드>.png (.en.png, .es.png)  유형별 1200×630 OG 이미지 (scripts/generate_og_images.py)
  *   en/index.html                영어 홈 (index.html을 변환, data-i18n 영어 SSR)
  *   en/blog/index.html, en/privacy/index.html, es/privacy/index.html, es/types/
  *   sitemap.xml                  홈+/en/ + 유형 쌍 + BLOG_URLS + /en/blog/ (xhtml hreflang)
@@ -439,8 +440,29 @@ function pageFor(code, lang) {
   const desc = isEs
     ? `${stripEnd(lead)}. Mira la combinación de IA (${pair}) y las notas por área profesional del tipo OCEAN ${code} (${nameEs}).`
     : isEn
-      ? `${stripEnd(lead)} See the AI pairing (${pair}) and job-group notes for OCEAN type ${code} (${nameEn}).`
+      ? `${stripEnd(lead)}. See the AI pairing (${pair}) and job-group notes for OCEAN type ${code} (${nameEn}).`
       : `${stripEnd(m.summary)}. OCEAN ${code} ${nameEn} 유형에게 어울리는 AI(${pair})와 직업군별 활용법을 확인하세요.`;
+  // Facebook/Twitter preview (keep <title> SEO-oriented; og:title is written for the share card)
+  const ogTitle = isEs
+    ? `${emoji} Soy «${nameEs}» | Mi resultado AI-OCEAN`
+    : isEn
+      ? `${emoji} I'm ${nameEn} | My AI-OCEAN result`
+      : `${emoji} 나는 ‘${nameKo}’ 유형이에요 | AI-OCEAN`;
+  const ogDesc = isEs
+    ? `${stripEnd(lead)}. Haz el test gratuito (25 preguntas, unos 3 minutos) y descubre tu tipo y la IA que mejor te va.`
+    : isEn
+      ? `${stripEnd(lead)}. Take the free 25-question test (about 3 minutes) to find your type and the AI that fits you.`
+      : `${stripEnd(m.summary)}. 무료 25문항, 약 3분이면 내 유형과 어울리는 AI를 알 수 있어요.`;
+  const ogImage = isEs
+    ? `${SITE}/og/types/${code}.es.png`
+    : isEn
+      ? `${SITE}/og/types/${code}.en.png`
+      : `${SITE}/og/types/${code}.png`;
+  const ogAlt = isEs
+    ? `Resultado AI-OCEAN: ${nameEs} (OCEAN ${code})`
+    : isEn
+      ? `AI-OCEAN result: ${nameEn} (OCEAN ${code})`
+      : `AI-OCEAN 결과: ${nameKo} (OCEAN ${code})`;
   const url = typeUrl(code, lang);
   const koUrl = typeUrl(code, 'ko');
   const enUrl = typeUrl(code, 'en');
@@ -590,13 +612,16 @@ ${hreflangTags(koUrl, enUrl, esUrl)}
 ${ogAlts}
 <meta property="og:site_name" content="AI-OCEAN">
 <meta property="og:url" content="${url}">
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(desc)}">
-<meta property="og:image" content="${SITE}/og-image.png">
+<meta property="og:title" content="${esc(ogTitle)}">
+<meta property="og:description" content="${esc(ogDesc)}">
+<meta property="og:image" content="${ogImage}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(ogAlt)}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(desc)}">
-<meta name="twitter:image" content="${SITE}/og-image.png">
+<meta name="twitter:title" content="${esc(ogTitle)}">
+<meta name="twitter:description" content="${esc(ogDesc)}">
+<meta name="twitter:image" content="${ogImage}">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -823,6 +848,7 @@ ${HREFLANG_END}`;
   html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(enDesc)}">`);
   html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="AI-OCEAN | Your Personality-Based AI Prescription">');
   html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(enDesc)}">`);
+  html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="AI-OCEAN — Get AI tools matched to your Big Five personality.">');
   html = html.replace(/<meta property="og:locale" content="[^"]*">/, '<meta property="og:locale" content="en_US">');
   html = html.replace(/<meta property="og:locale:alternate" content="[^"]*">/, '<meta property="og:locale:alternate" content="ko_KR">');
 
@@ -878,6 +904,7 @@ function buildEsHome() {
   html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(esDesc)}">`);
   html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="AI-OCEAN | Tu receta de IA según tu personalidad">');
   html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(esDesc)}">`);
+  html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="AI-OCEAN — Encuentra las herramientas de IA que van con tu personalidad.">');
   html = html.replace(/<meta property="og:locale" content="[^"]*">/, '<meta property="og:locale" content="es_419">');
   html = html.replace(/<meta property="og:locale:alternate" content="[^"]*">/, '<meta property="og:locale:alternate" content="en_US">');
 
@@ -941,6 +968,9 @@ ${hreflangTags(SITE + '/blog/', SITE + '/en/blog/')}
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:image" content="${SITE}/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(title)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">

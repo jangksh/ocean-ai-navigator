@@ -36,6 +36,10 @@
 <meta property="og:title" content="AI-OCEAN | Tu receta de IA según tu personalidad">
 <meta property="og:description" content="Encuentra las herramientas de IA que van contigo, según tu personalidad Big Five (OCEAN). 25 preguntas, unos 3 minutos, gratis.">
 <meta property="og:image" content="https://thepersonalityai.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI-OCEAN — Encuentra las herramientas de IA que van con tu personalidad.">
+<meta property="og:site_name" content="AI-OCEAN">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI-OCEAN | Tu receta de IA según tu personalidad">
 <meta name="twitter:description" content="Encuentra las herramientas de IA que van contigo, según tu personalidad Big Five (OCEAN). 25 preguntas, unos 3 minutos, gratis.">
@@ -3273,9 +3277,11 @@ function typePageUrl(code) {
   return 'https://thepersonalityai.com/types/' + c + '/';
 }
 
-function shareResultUrl() {
+function shareResultUrl(source) {
   const d = window._shareData || {};
-  return typePageUrl(d.code);
+  const base = typePageUrl(d.code);
+  const src = String(source || 'social').toLowerCase().replace(/[^\w.\-]/g, '').slice(0, 40) || 'social';
+  return base + '?utm_source=' + encodeURIComponent(src) + '&utm_medium=social&utm_campaign=result_share';
 }
 
 const SITE_LANGS = [
@@ -4711,10 +4717,10 @@ function goHome() {
 
 function copyResult(personaName, code, scores) {
   const text = window.LANG === 'ko'
-    ? `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요! ${shareResultUrl()}`
+    ? `🌊 AI-OCEAN 성향 분석 결과\n\n페르소나: ${personaName} (${code})\n개방성: ${scores.O}% | 성실성: ${scores.C}% | 외향성: ${scores.E}% | 친화성: ${scores.A}% | 안정성: ${scores.N}%\n\n나만의 AI 처방전을 받아보세요! ${shareResultUrl('copy')}`
     : window.LANG === 'es'
-    ? `🌊 Resultado de personalidad AI-OCEAN\n\nPersona: ${personaName} (${code})\nApertura: ${scores.O}% | Responsabilidad: ${scores.C}% | Extraversión: ${scores.E}% | Amabilidad: ${scores.A}% | Estabilidad: ${scores.N}%\n\nObtén tu propia receta de IA: ${shareResultUrl()}`
-    : `🌊 AI-OCEAN personality result\n\nPersona: ${personaName} (${code})\nOpenness: ${scores.O}% | Conscientiousness: ${scores.C}% | Extraversion: ${scores.E}% | Agreeableness: ${scores.A}% | Stability: ${scores.N}%\n\nGet your own AI prescription: ${shareResultUrl()}`;
+    ? `🌊 Resultado de personalidad AI-OCEAN\n\nPersona: ${personaName} (${code})\nApertura: ${scores.O}% | Responsabilidad: ${scores.C}% | Extraversión: ${scores.E}% | Amabilidad: ${scores.A}% | Estabilidad: ${scores.N}%\n\nObtén tu propia receta de IA: ${shareResultUrl('copy')}`
+    : `🌊 AI-OCEAN personality result\n\nPersona: ${personaName} (${code})\nOpenness: ${scores.O}% | Conscientiousness: ${scores.C}% | Extraversion: ${scores.E}% | Agreeableness: ${scores.A}% | Stability: ${scores.N}%\n\nGet your own AI prescription: ${shareResultUrl('copy')}`;
   navigator.clipboard.writeText(text).then(() => {
     alert(L('결과가 클립보드에 복사되었습니다! 📋', 'Result copied to clipboard! 📋'));
   }).catch(() => {
@@ -4771,16 +4777,23 @@ function renderTypeShowcase() {
 function _shareText() {
   var d = window._shareData || {};
   var name = d.name || '', code = d.code || '', scores = d.scores || {};
+  if (window.LANG === 'es') {
+    var U = UI();
+    return 'Acabo de hacer el test AI-OCEAN y soy "' + name + '" (' + code + ').\n'
+      + 'Apertura ' + (scores.O||0) + '% · Responsabilidad ' + (scores.C||0) + '% · Extraversión ' + (scores.E||0) + '% · Amabilidad ' + (scores.A||0) + '% · Estabilidad ' + (scores.N||0) + '%\n'
+      + '¿Y tú? 25 preguntas, unos 3 minutos, y te dice tu tipo y la IA que mejor te va.\n\n'
+      + (U.tags || '#PersonalidadIA #TestOCEAN #BigFive');
+  }
   if (window.LANG !== 'ko') {
     var U = UI();
-    return (U.shareHead || '🌊 AI-OCEAN personality result!') + '\n\n✨ "' + name + '" (' + code + ')\n'
-      + '🔮 ' + (U.openness || 'Openness') + ' ' + (scores.O||0) + '% | 📐 ' + (U.conscientiousness || 'Conscientiousness') + ' ' + (scores.C||0) + '%\n'
-      + '⚡ ' + (U.extraversion || 'Extraversion') + ' ' + (scores.E||0) + '% | 💚 ' + (U.agreeableness || 'Agreeableness') + ' ' + (scores.A||0) + '% | 🌊 ' + (U.stability || 'Stability') + ' ' + (scores.N||0) + '%\n\n'
+    return 'I just took the AI-OCEAN test and got "' + name + '" (' + code + ').\n'
+      + 'Openness ' + (scores.O||0) + '% · Conscientiousness ' + (scores.C||0) + '% · Extraversion ' + (scores.E||0) + '% · Agreeableness ' + (scores.A||0) + '% · Stability ' + (scores.N||0) + '%\n'
+      + 'Your turn? 25 questions, about 3 minutes, and you get your type plus the AI that fits you.\n\n'
       + (U.tags || '#AIPersonality #OCEANTest #BigFive #MyAIPrescription');
   }
-  return '🌊 AI-OCEAN 성향 분석 결과!\n\n✨ "' + name + '" 유형 (' + code + ')\n'
-    + '🔮 개방성 ' + (scores.O||0) + '% | 📐 성실성 ' + (scores.C||0) + '%\n'
-    + '⚡ 외향성 ' + (scores.E||0) + '% | 💚 친화성 ' + (scores.A||0) + '% | 🌊 안정성 ' + (scores.N||0) + '%\n\n'
+  return '방금 AI-OCEAN 테스트 해봤는데, 나는 "' + name + '" 유형이래요. (' + code + ')\n'
+    + '개방성 ' + (scores.O||0) + '% · 성실성 ' + (scores.C||0) + '% · 외향성 ' + (scores.E||0) + '% · 친화성 ' + (scores.A||0) + '% · 안정성 ' + (scores.N||0) + '%\n'
+    + '너도 해볼래? 25문항, 3분이면 내 유형이랑 맞는 AI가 나와요.\n\n'
     + '#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전';
 }
 
@@ -4803,13 +4816,13 @@ function showShareToast(msg) {
 }
 
 function shareFacebook() {
-  var url = encodeURIComponent(shareResultUrl());
+  var url = encodeURIComponent(shareResultUrl('facebook'));
   window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=620,height=520');
 }
 
 function shareTwitterX() {
   var text = encodeURIComponent(_shareText());
-  var url = encodeURIComponent(shareResultUrl());
+  var url = encodeURIComponent(shareResultUrl('twitter'));
   window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'width=620,height=420');
 }
 
@@ -4818,11 +4831,11 @@ function copyInstagram() {
   var name = d.name || '', code = d.code || '', scores = d.scores || {};
   var text;
   if (window.LANG === 'ko') {
-    text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
+    text = '🌊 AI-OCEAN 성향 분석 결과\n\n✨ "' + name + '" (' + code + ')\n\n📊 나의 OCEAN 지수\n🔮 개방성: ' + (scores.O||0) + '%\n📐 성실성: ' + (scores.C||0) + '%\n⚡ 외향성: ' + (scores.E||0) + '%\n💚 친화성: ' + (scores.A||0) + '%\n🌊 안정성: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl('instagram') + '\n\n#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전 #성격테스트';
   } else if (window.LANG === 'es') {
-    text = '🌊 Resultado de personalidad AI-OCEAN\n\n✨ "' + name + '" (' + code + ')\n\n📊 Mis puntajes OCEAN\n🔮 Apertura: ' + (scores.O||0) + '%\n📐 Responsabilidad: ' + (scores.C||0) + '%\n⚡ Extraversión: ' + (scores.E||0) + '%\n💚 Amabilidad: ' + (scores.A||0) + '%\n🌊 Estabilidad: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#PersonalidadIA #TestOCEAN #BigFive #TestDePersonalidad';
+    text = '🌊 Resultado de personalidad AI-OCEAN\n\n✨ "' + name + '" (' + code + ')\n\n📊 Mis puntajes OCEAN\n🔮 Apertura: ' + (scores.O||0) + '%\n📐 Responsabilidad: ' + (scores.C||0) + '%\n⚡ Extraversión: ' + (scores.E||0) + '%\n💚 Amabilidad: ' + (scores.A||0) + '%\n🌊 Estabilidad: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl('instagram') + '\n\n#PersonalidadIA #TestOCEAN #BigFive #TestDePersonalidad';
   } else {
-    text = '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl() + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest';
+    text = '🌊 AI-OCEAN personality result\n\n✨ "' + name + '" (' + code + ')\n\n📊 My OCEAN scores\n🔮 Openness: ' + (scores.O||0) + '%\n📐 Conscientiousness: ' + (scores.C||0) + '%\n⚡ Extraversion: ' + (scores.E||0) + '%\n💚 Agreeableness: ' + (scores.A||0) + '%\n🌊 Stability: ' + (scores.N||0) + '%\n\n🔗 ' + shareResultUrl('instagram') + '\n\n#AIPersonality #OCEANTest #BigFive #PersonalityTest';
   }
   navigator.clipboard.writeText(text).then(function() {
     showShareToast(L('📸 인스타그램용 텍스트 복사 완료! 앱 열고 새 게시물에 붙여넣으세요.', UI().igCopied));
@@ -4834,7 +4847,7 @@ function copyInstagram() {
 function shareKakao() {
   var d = window._shareData || {};
   var name = d.name || '';
-  var shareUrl = shareResultUrl();
+  var shareUrl = shareResultUrl('kakao');
   var text = _shareText() + '\n\n👉 ' + shareUrl;
   if (navigator.share) {
     navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ', 'Resultado de personalidad AI-OCEAN — ') + name, text: text, url: shareUrl })
@@ -4857,9 +4870,9 @@ function shareKakao() {
 function shareTiktok() {
   var d = window._shareData || {};
   var name = d.name || '';
-  var text = _shareText() + '\n\n👉 ' + shareResultUrl() + (window.LANG === 'ko' ? '\n\n#TikTok #성격테스트' : window.LANG === 'es' ? '\n\n#TikTok #TestDePersonalidad' : '\n\n#TikTok #PersonalityTest');
+  var text = _shareText() + '\n\n👉 ' + shareResultUrl('tiktok') + (window.LANG === 'ko' ? '\n\n#TikTok #성격테스트' : window.LANG === 'es' ? '\n\n#TikTok #TestDePersonalidad' : '\n\n#TikTok #PersonalityTest');
   if (navigator.share) {
-    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ', 'Resultado de personalidad AI-OCEAN — ') + name, text: text, url: shareResultUrl() })
+    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ', 'Resultado de personalidad AI-OCEAN — ') + name, text: text, url: shareResultUrl('tiktok') })
       .catch(function() {
         navigator.clipboard.writeText(text).then(function() {
           showShareToast(L('🎵 텍스트 복사 완료! TikTok 앱에서 게시물 작성 후 붙여넣으세요.', UI().tiktokCopied));

@@ -16,7 +16,9 @@ Big 5(OCEAN) 심리 측정 기반의 성향 분석 웹사이트.
 ├── subscribe_config.js # 이메일 구독 endpoint (비어 있으면 결과 화면 구독 카드 숨김)
 ├── email/              # 5일 강의 + 주간 팁 원고(copy.js), 생성물 content.json, 발송기 apps_script/Code.gs, README.md(설정)
 ├── privacy/index.html  # 개인정보 안내 (한국어 URL). 영어는 en/privacy/
-├── build_type_pages.js # 한/영 유형 페이지 + /en/ 홈 + sitemap.xml 생성기 (node로 실행)
+├── build_type_pages.js # 한/영/스 유형 페이지 + /en/ /es/ 홈 + sitemap.xml 생성기 (node로 실행)
+├── scripts/            # OG 이미지 생성 (generate_og_images.py, export_og_meta.js)
+├── og/types/           # 유형별 1200×630 공유 이미지 (ko/en/es)
 ├── types/<코드>/index.html     # 생성물: 32개 한국어 유형 페이지 (예: /types/11010/)
 ├── en/index.html, en/types/, en/blog/, en/privacy/  # 생성물: 영어 인덱스 URL
 ├── blog/               # 손으로 쓴 정적 블로그 (index.html 목록 + 글별 폴더). sitemap 항목은 build_type_pages.js의 BLOG_URLS
@@ -75,7 +77,8 @@ npm run dev
 
 ## SEO 정적 페이지 (유형별 URL)
 ```bash
-node build_type_pages.js   # 한/영 유형 페이지, en/index.html, en/blog/, sitemap.xml(xhtml hreflang), index.html 링크·hreflang
+node build_type_pages.js   # 한/영/스 유형 페이지, en/es 홈, en/blog/, sitemap.xml(xhtml hreflang), index.html 링크·hreflang
+python3 scripts/generate_og_images.py  # og/types/ 1200×630 공유 이미지 (유형·언어별). 이름/이모지가 바뀌면 다시 실행
 ```
 - `types/`, `en/types/`, `en/index.html`, `en/blog/index.html`, `en/privacy/`, `sitemap.xml`은 **생성물**이다. 직접 고치지 말고 생성기(또는 원본 데이터)를 수정한 뒤 다시 실행해 함께 커밋한다.
 - `index.html`의 `<!-- TYPE-LINKS:START -->` ~ `<!-- TYPE-LINKS:END -->`와 `<!-- HREFLANG:START -->` 블록도 생성기가 갱신한다.
