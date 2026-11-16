@@ -1,4 +1,6 @@
 User-agent: *
+Allow: /email/content.json
+Disallow: /email/
 Allow: /
 
 Sitemap: https://thepersonalityai.com/sitemap.xml

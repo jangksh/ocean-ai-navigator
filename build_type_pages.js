@@ -57,7 +57,7 @@ const DIM_META = extractConst('OCEAN_DIM_META');
 const JOBS = extractConst('JOBS');
 
 const i18nWin = {};
-new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js') + '\n' + read('i18n_es.js') + '\n' + read('i18n_es_job04.js') + '\n' + read('i18n_es_job05.js') + '\n' + read('i18n_es_job09.js'))(i18nWin);
+new Function('window', read('i18n_en.js') + '\n' + read('i18n_en_job04.js') + '\n' + read('i18n_es.js') + '\n' + read('i18n_es_job04.js') + '\n' + read('i18n_es_job05.js') + '\n' + read('i18n_es_job09.js') + '\n' + read('i18n_es_job10.js') + '\n' + read('i18n_es_job02.js'))(i18nWin);
 const EN = i18nWin.EN;
 const ES = i18nWin.ES;
 const ES_NAME = (ES && ES.master)
@@ -707,9 +707,10 @@ function buildTypePages() {
 
 // 손으로 쓴 정적 블로그 글 (/blog/). 생성기가 만들지 않으므로 글을 고치면 여기 lastmod도 함께 바꾼다.
 const BLOG_URLS = [
-  { loc: SITE + '/blog/', lastmod: '2026-11-14', pair: SITE + '/en/blog/' },
-  { loc: SITE + '/blog/mbti-vs-bigfive-ocean/', lastmod: '2026-11-14' },
-  { loc: SITE + '/blog/big-five-personality-test-for-careers/', lastmod: '2026-11-14' },
+  { loc: SITE + '/blog/', lastmod: '2026-11-16', pair: SITE + '/en/blog/' },
+  { loc: SITE + '/blog/mbti-vs-bigfive-ocean/', lastmod: '2026-11-16' },
+  { loc: SITE + '/blog/free-personality-test-career-bigfive/', lastmod: '2026-11-16' },
+  { loc: SITE + '/blog/big-five-personality-test-for-careers/', lastmod: '2026-11-15' },
   { loc: SITE + '/en/blog/', lastmod: TODAY, pairKo: SITE + '/blog/' },
 ];
 
@@ -1031,6 +1032,12 @@ footer{max-width:760px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <h2 style="margin:6px 0 8px"><a href="/blog/mbti-vs-bigfive-ocean/" style="text-decoration:none">MBTI가 또 바뀌었다고요? 그건 당신 문제가 아니라 검사 설계예요</a></h2>
       <p style="margin:0 0 10px">A Korean guide to why MBTI results flip, how the Big Five spectrum differs, and how to take the free 25-question test.</p>
       <a href="/blog/mbti-vs-bigfive-ocean/">한국어로 읽기 →</a>
+    </article>
+    <article class="card" style="margin-top:14px">
+      <p class="meta"><time datetime="2026-11-16">2026년 11월 16일</time> · Also in Korean</p>
+      <h2 style="margin:6px 0 8px"><a href="/blog/free-personality-test-career-bigfive/" style="text-decoration:none">무료 성격 검사, 무엇을 고를까: 빅파이브로 3분 안에 직업까지 연결하는 법</a></h2>
+      <p style="margin:0 0 10px">A Korean guide to choosing a free personality test and turning Big Five (OCEAN) results into career decisions.</p>
+      <a href="/blog/free-personality-test-career-bigfive/">한국어로 읽기 →</a>
     </article>
   </section>
   <div class="cta">
