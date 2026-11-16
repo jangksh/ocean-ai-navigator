@@ -370,6 +370,12 @@ function jobEntryEs(jj, code) {
   };
 }
 
+
+function contactMailto(lang) {
+  const label = lang === 'en' ? 'Contact' : lang === 'es' ? 'Contacto' : '문의';
+  return `${label}: <a href="mailto:oceanainavigator@gmail.com">oceanainavigator@gmail.com</a>`;
+}
+
 function pageFor(code, lang) {
   const isEn = lang === 'en';
   const isEs = lang === 'es';
@@ -553,10 +559,10 @@ function pageFor(code, lang) {
   const h2Near = isEs ? 'Tipos vecinos (cambia una sola dimensión)' : isEn ? 'Neighbor types (one dimension flipped)' : '한 차원만 다른 이웃 유형';
   const h2All = isEs ? 'Los 32 tipos OCEAN' : isEn ? 'All 32 OCEAN types' : 'OCEAN 32가지 유형 전체';
   const footer = isEs
-    ? `Esta página sugiere herramientas de IA a partir del modelo Big Five (OCEAN). No es un diagnóstico psicológico. · <a href="${logoHref}">Inicio AI-OCEAN</a>`
+    ? `Esta página sugiere herramientas de IA a partir del modelo Big Five (OCEAN). No es un diagnóstico psicológico. · <a href="${logoHref}">Inicio AI-OCEAN</a> · ${contactMailto('es')}`
     : isEn
-      ? `This page suggests AI tools from the Big Five (OCEAN) model. It is not a psychological diagnosis. · <a href="${logoHref}">AI-OCEAN home</a>`
-      : `이 페이지는 Big Five(OCEAN) 성향 모델을 바탕으로 AI 도구를 제안하는 참고 자료이며, 심리 진단이 아닙니다. · <a href="${logoHref}">AI-OCEAN 홈</a>`;
+      ? `This page suggests AI tools from the Big Five (OCEAN) model. It is not a psychological diagnosis. · <a href="${logoHref}">AI-OCEAN home</a> · ${contactMailto('en')}`
+      : `이 페이지는 Big Five(OCEAN) 성향 모델을 바탕으로 AI 도구를 제안하는 참고 자료이며, 심리 진단이 아닙니다. · <a href="${logoHref}">AI-OCEAN 홈</a> · ${contactMailto('ko')}`;
   const aliasLine = alias ? `<p class="alias">메인 화면 카드 이름: ‘${esc(alias)}’</p>` : '';
 
   const ld = {
@@ -1016,7 +1022,7 @@ footer{max-width:760px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
     <a class="btn" href="/en/?start=1&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=en-blog-index&amp;utm_content=blog_index">Start the test →</a>
   </div>
 </main>
-<footer>This is a reference based on the Big Five (OCEAN) model, not a psychological diagnosis. MBTI is a trademark of its owners; AI-OCEAN is not affiliated with the official Myers-Briggs Type Indicator. · <a href="/en/">AI-OCEAN home</a> · <a href="/en/blog/">Blog</a> · <a href="/en/privacy/">Privacy</a></footer>
+<footer>This is a reference based on the Big Five (OCEAN) model, not a psychological diagnosis. MBTI is a trademark of its owners; AI-OCEAN is not affiliated with the official Myers-Briggs Type Indicator. · <a href="/en/">AI-OCEAN home</a> · <a href="/en/blog/">Blog</a> · <a href="/en/privacy/">Privacy</a> · ${contactMailto('en')}</footer>
 </body>
 </html>
 `;

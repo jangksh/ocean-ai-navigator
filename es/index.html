@@ -1497,6 +1497,11 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 .sub-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .sub-fine { font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5; }
 .sub-fine a { color: inherit; text-decoration: underline; }
+.site-footer { max-width: 880px; margin: 0 auto; padding: 16px 20px 32px; font-size: 13px; color: var(--text-secondary); text-align: center; }
+.site-footer a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.result-contact { text-align: center; margin: 14px 0 4px; font-size: 12px; color: var(--text-secondary); }
+.result-contact a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
 .sub-msg { font-size: 14px; line-height: 1.6; margin-top: 10px; }
 .sub-msg.ok { color: #1B7F4B; font-weight: 600; }
 .sub-msg.err { color: #C92A2A; }
@@ -2528,6 +2533,8 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   </div>
 </div>
 
+<footer id="site-footer" class="site-footer"><span data-i18n="footer_contact">Contacto</span>: <a href="mailto:oceanainavigator@gmail.com">oceanainavigator@gmail.com</a></footer>
+
 <script src="/ocean-personas.js"></script>
 <script src="/v2_data.js" onerror="window.OCEAN_V2_DATA={}"></script>
 <script src="/i18n_en.js" onerror="window.EN=window.EN||null"></script>
@@ -2850,6 +2857,7 @@ const STRINGS = {
     js_step: 'STEP 1', js_title: '먼저 내 직업군을 선택해 주세요',
     js_sub: '직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다',
     js_start: '나의 OCEAN 분석 시작 →',
+    footer_contact: '문의',
     disclaimer: 'Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작. 본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다.',
     about_back: '← 테스트로 돌아가기',
     about_hero_label: '📖 심리학 기반 신뢰 지표',
@@ -2942,6 +2950,7 @@ const STRINGS = {
     js_step: 'STEP 1', js_title: 'Select your job group first',
     js_sub: 'The same personality gets different AI recommendations based on your job',
     js_start: 'Start My OCEAN Analysis →',
+    footer_contact: 'Contact',
     disclaimer: 'Based on the Big Five (OCEAN) model — referencing the IPIP open framework, with questions independently created in Korean. This test is not a medical diagnosis and is for reference only.',
     about_back: '← Back to Test',
     about_hero_label: '📖 Science-Based Trust Indicators',
@@ -3034,6 +3043,7 @@ const STRINGS = {
     js_step: 'PASO 1', js_title: 'Primero elige tu área profesional',
     js_sub: 'La misma personalidad recibe distintas recomendaciones de IA según tu trabajo',
     js_start: 'Empezar mi análisis OCEAN →',
+    footer_contact: 'Contacto',
     disclaimer: 'Basado en el modelo Big Five (OCEAN) — con referencia al marco abierto IPIP. Este test no es un diagnóstico médico; es una guía de personalidad para ayudarte a usar la IA.',
     about_back: '← Volver al test',
     about_hero_label: '📖 Indicadores de confianza basados en la ciencia',
@@ -4575,6 +4585,8 @@ function renderResults(scores) {
         </button>
       </div>
     </div>
+
+    <div class="result-contact">${L('문의', 'Contact', 'Contacto')}: <a href="mailto:oceanainavigator@gmail.com">oceanainavigator@gmail.com</a></div>
 
     <!-- AI Prescription (v2 or v1 fallback) -->
     ${prescriptionHTML}
