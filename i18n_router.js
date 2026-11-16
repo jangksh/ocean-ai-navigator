@@ -16,7 +16,8 @@
   // language index instead of inventing a fake alternate URL.
   var UNPAIRED = {
     '/blog/mbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/mbti-vs-bigfive-ocean/', es: '/es/' },
-    '/blog/big-five-personality-test-for-careers/': { en: '/blog/big-five-personality-test-for-careers/', ko: '/blog/', es: '/es/' }
+    '/blog/free-personality-test-career-bigfive/': { en: '/en/blog/', ko: '/blog/free-personality-test-career-bigfive/', es: '/es/' },
+    '/blog/big-five-personality-test-for-careers/': { en: '/en/blog/big-five-personality-test-for-careers/', ko: '/blog/', es: '/es/' }
   };
 
   var CRAWLER_UA = /Googlebot|AdsBot-Google|Mediapartners-Google|Google-InspectionTool|bingbot|BingPreview|Yandex(Bot|Images)?|Baiduspider|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|Bytespider|GPTBot|ClaudeBot|CCBot|anthropic-ai|ChatGPT-User|meta-externalagent/i;

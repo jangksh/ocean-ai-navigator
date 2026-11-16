@@ -713,12 +713,37 @@ function buildTypePages() {
   });
 }
 
-// 손으로 쓴 정적 블로그 글 (/blog/). 생성기가 만들지 않으므로 글을 고치면 여기 lastmod도 함께 바꾼다.
+// 손으로 쓴 정적 블로그 글. lang으로 목록을 나눈다: /blog/는 ko만, /en/blog/는 en만.
+// 글 본문은 생성기가 만들지 않으므로 글을 고치면 여기 lastmod도 함께 바꾼다.
+// 옛 URL /blog/big-five-personality-test-for-careers/ 는 리다이렉트 스텁이므로 sitemap에 넣지 않는다.
+const BLOG_POSTS = [
+  {
+    lang: 'ko',
+    path: '/blog/free-personality-test-career-bigfive/',
+    lastmod: '2026-11-16',
+    datePublished: '2026-11-16',
+  },
+  {
+    lang: 'ko',
+    path: '/blog/mbti-vs-bigfive-ocean/',
+    lastmod: '2026-11-16',
+    datePublished: '2026-11-14',
+  },
+  {
+    lang: 'en',
+    path: '/en/blog/big-five-personality-test-for-careers/',
+    lastmod: '2026-11-15',
+    datePublished: '2026-11-14',
+    dateLabel: 'November 14, 2026',
+    kicker: 'Career guide',
+    title: 'Big Five Personality Test for Careers: How to Read OCEAN Scores at Work',
+    excerpt: 'A free Big Five (OCEAN) personality test can inform career decisions if you read the five scores as work patterns, not as a job title. Learn how to use yours.',
+  },
+];
+
 const BLOG_URLS = [
-  { loc: SITE + '/blog/', lastmod: '2026-11-16', pair: SITE + '/en/blog/' },
-  { loc: SITE + '/blog/mbti-vs-bigfive-ocean/', lastmod: '2026-11-16' },
-  { loc: SITE + '/blog/free-personality-test-career-bigfive/', lastmod: '2026-11-16' },
-  { loc: SITE + '/blog/big-five-personality-test-for-careers/', lastmod: '2026-11-15' },
+  { loc: SITE + '/blog/', lastmod: TODAY, pair: SITE + '/en/blog/' },
+  ...BLOG_POSTS.map((p) => ({ loc: SITE + p.path, lastmod: p.lastmod })),
   { loc: SITE + '/en/blog/', lastmod: TODAY, pairKo: SITE + '/blog/' },
 ];
 
@@ -952,6 +977,16 @@ function buildEsHome() {
 function buildEnBlogIndex() {
   const title = 'AI-OCEAN Blog | Big Five (OCEAN) personality and AI guides';
   const desc = 'Guides on the Big Five (OCEAN) personality model, careers, and choosing AI tools that fit your type.';
+  const posts = BLOG_POSTS
+    .filter((p) => p.lang === 'en')
+    .slice()
+    .sort((a, b) => String(b.datePublished).localeCompare(String(a.datePublished)));
+  const cards = posts.map((p, i) => `    <article class="card"${i ? ' style="margin-top:14px"' : ''}>
+      <p class="meta"><time datetime="${p.datePublished}">${esc(p.dateLabel)}</time> · ${esc(p.kicker)}</p>
+      <h2 style="margin:6px 0 8px"><a href="${p.path}" style="text-decoration:none">${esc(p.title)}</a></h2>
+      <p style="margin:0 0 10px">${esc(p.excerpt)}</p>
+      <a href="${p.path}">Read the article →</a>
+    </article>`).join('\n');
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -995,6 +1030,13 @@ ${hreflangTags(SITE + '/blog/', SITE + '/en/blog/')}
     url: SITE + '/en/blog/',
     inLanguage: 'en',
     publisher: { '@type': 'Organization', name: 'AI-OCEAN', url: SITE + '/' },
+    blogPost: posts.map((p) => ({
+      '@type': 'BlogPosting',
+      headline: p.title,
+      url: SITE + p.path,
+      datePublished: p.datePublished,
+      inLanguage: 'en',
+    })),
   })}</script>
 <style>
 :root{--bg:#F7F8FC;--card:#fff;--line:#E9ECF3;--text:#1A1B2E;--sub:#6C757D;--brand:#4C6EF5;--brand2:#3451D1;--shadow:0 1px 4px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
@@ -1029,24 +1071,7 @@ footer{max-width:760px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
     <p class="meta">Big Five (OCEAN) personality, careers, and AI tools that fit your type.</p>
   </header>
   <section style="margin-top:28px">
-    <article class="card">
-      <p class="meta"><time datetime="2026-11-14">November 14, 2026</time> · Career guide</p>
-      <h2 style="margin:6px 0 8px"><a href="/blog/big-five-personality-test-for-careers/" style="text-decoration:none">Big Five Personality Test for Careers: How to Read OCEAN Scores at Work</a></h2>
-      <p style="margin:0 0 10px">A free Big Five (OCEAN) personality test can inform career decisions if you read the five scores as work patterns, not as a job title. Learn how to use yours.</p>
-      <a href="/blog/big-five-personality-test-for-careers/">Read the article →</a>
-    </article>
-    <article class="card" style="margin-top:14px">
-      <p class="meta"><time datetime="2026-11-14">2026년 11월 14일</time> · Also in Korean</p>
-      <h2 style="margin:6px 0 8px"><a href="/blog/mbti-vs-bigfive-ocean/" style="text-decoration:none">MBTI가 또 바뀌었다고요? 그건 당신 문제가 아니라 검사 설계예요</a></h2>
-      <p style="margin:0 0 10px">A Korean guide to why MBTI results flip, how the Big Five spectrum differs, and how to take the free 25-question test.</p>
-      <a href="/blog/mbti-vs-bigfive-ocean/">한국어로 읽기 →</a>
-    </article>
-    <article class="card" style="margin-top:14px">
-      <p class="meta"><time datetime="2026-11-16">2026년 11월 16일</time> · Also in Korean</p>
-      <h2 style="margin:6px 0 8px"><a href="/blog/free-personality-test-career-bigfive/" style="text-decoration:none">무료 성격 검사, 무엇을 고를까: 빅파이브로 3분 안에 직업까지 연결하는 법</a></h2>
-      <p style="margin:0 0 10px">A Korean guide to choosing a free personality test and turning Big Five (OCEAN) results into career decisions.</p>
-      <a href="/blog/free-personality-test-career-bigfive/">한국어로 읽기 →</a>
-    </article>
+${cards}
   </section>
   <div class="cta">
     <h2 style="margin-bottom:6px">Curious about your OCEAN type?</h2>

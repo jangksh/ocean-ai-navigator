@@ -20,9 +20,10 @@ Big 5(OCEAN) 심리 측정 기반의 성향 분석 웹사이트.
 ├── scripts/            # OG 이미지 생성 (generate_og_images.py, export_og_meta.js)
 ├── og/types/           # 유형별 1200×630 공유 이미지 (ko/en/es)
 ├── types/<코드>/index.html     # 생성물: 32개 한국어 유형 페이지 (예: /types/11010/)
-├── en/index.html, en/types/, en/blog/, en/privacy/  # 생성물: 영어 인덱스 URL
-├── blog/               # 손으로 쓴 정적 블로그 (index.html 목록 + 글별 폴더). sitemap 항목은 build_type_pages.js의 BLOG_URLS
-├── big-five-personality-test-for-careers/index.html  # 옛 URL 리다이렉트(noindex, canonical → /blog/…); GitHub Pages는 서버 리다이렉트 없음
+├── en/index.html, en/types/, en/blog/, en/privacy/  # 생성물: 영어 인덱스 URL. 영어 블로그 글은 en/blog/<slug>/
+├── blog/               # 손으로 쓴 정적 한국어 블로그 (index.html은 한국어 글만). sitemap 항목은 build_type_pages.js의 BLOG_POSTS/BLOG_URLS
+├── blog/big-five-personality-test-for-careers/  # 이전 /blog/ 영어 글 경로 리다이렉트(noindex, canonical → /en/blog/…)
+├── big-five-personality-test-for-careers/index.html  # 더 옛 URL 리다이렉트(noindex, canonical → /en/blog/…); GitHub Pages는 서버 리다이렉트 없음
 ├── robots.txt, sitemap.xml  # 검색엔진용 (sitemap.xml은 생성기가 덮어씀; BLOG_URLS로 블로그 URL 유지)
 ├── package.json        # 로컬 dev 서버용
 └── CLAUDE.md           # 이 파일
@@ -91,7 +92,7 @@ python3 scripts/generate_og_images.py  # og/types/ 1200×630 공유 이미지 (�
 - 한국어는 기존 URL(`/`, `/types/…`), 영어는 `/en/`, `/en/types/…`로 분리한다. 각 쌍에 자기 참조 canonical, 상호 hreflang(`ko`, `en`, `x-default`=영어 `/en/…`)이 있다.
 - 경로가 언어의 기준이다. `/?lang=en`은 클라이언트가 `/en/`으로 리다이렉트하고, 다른 쿼리(start, job, utm_*)와 hash는 유지한다. `/en/?lang=ko`는 `/`로 보낸다.
 - 홈 SPA의 KO/EN 버튼은 쌍 URL로 이동한다. 퀴즈 중간이면 sessionStorage에 상태를 저장해 복원한다. 선택은 localStorage `ocean_lang`에도 저장된다. `/`에 처음 온 방문자는 브라우저 언어가 한국어가 아니면 `/en/`으로 보낸다(언어를 알 수 없어도 영어). 한국어 브라우저·`ocean_lang=ko`는 한국어 홈에 머물고, 알려진 크롤러는 요청한 URL에 남겨 한/영 홈이 모두 크롤되게 한다.
-- 번역이 없는 블로그 글은 가짜 hreflang을 붙이지 않는다. `?lang=`은 `/blog/` 또는 `/en/blog/` 목록으로 보낸다.
+- 번역이 없는 블로그 글은 가짜 hreflang을 붙이지 않는다. `?lang=`은 `/blog/` 또는 `/en/blog/` 목록으로 보낸다. `/blog/` 목록은 한국어 글만, `/en/blog/` 목록은 영어 글만 보여 준다(`BLOG_POSTS.lang`). 영어 `/en/blog/index.html`은 생성기다.
 - 새 직군의 영어 본문은 `window.EN_JOB['<직군>_<코드>']`에 추가한다 (title, mainAI, specialistAIs, v2 구조는 i18n_en_job04.js 참고).
 
 ## 이메일 구독 (재방문 장치)
