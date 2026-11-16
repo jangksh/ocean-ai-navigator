@@ -200,14 +200,15 @@ def draw_card(meta: dict, lang: str) -> Image.Image:
     od.ellipse((980, 420, 1320, 760), fill=BRAND + (18,))
     img.alpha_composite(orb)
 
-    # Main card
-    card = (48, 40, 1152, 560)
+    # Main card (bottom sits just above the canvas edge so the footer has room
+    # beneath the dimension chips)
+    card = (48, 36, 1152, 598)
     rounded_paste(img, WHITE, card, radius=36, shadow=True)
     draw = ImageDraw.Draw(img)
 
     # Top accent bar inside the card
-    draw.rounded_rectangle((48, 40, 1152, 52), radius=8, fill=accent)
-    draw.rectangle((48, 46, 1152, 52), fill=accent)
+    draw.rounded_rectangle((48, 36, 1152, 48), radius=8, fill=accent)
+    draw.rectangle((48, 42, 1152, 48), fill=accent)
 
     # Wordmark
     f_word = font(FONT_BLACK, 28)
@@ -267,12 +268,12 @@ def draw_card(meta: dict, lang: str) -> Image.Image:
     label_w = draw.textlength(copy["ai"], font=f_ai_l)
     draw.text((text_left + label_w + 14, y - 4), meta["pair"], font=f_ai, fill=TEXT)
 
-    # Dimension pills
-    pill_y = 430
+    # Dimension pills — keep a clear gap above the footer (footer starts at y=530)
+    pill_y = 424
     gap = 12
     available = 1152 - 80 - 80
     pill_w = (available - gap * 4) / 5
-    pill_h = 78
+    pill_h = 74
     f_letter = font(FONT_BLACK, 22)
     f_state = font(FONT_BOLD, 14)
     for i, key in enumerate(DIM_KEYS):
@@ -287,21 +288,21 @@ def draw_card(meta: dict, lang: str) -> Image.Image:
         lw = draw.textlength(letter, font=f_letter)
         sw = draw.textlength(state, font=f_state)
         draw.text((x0 + (pill_w - lw) / 2, pill_y + 12), letter, font=f_letter, fill=fg)
-        draw.text((x0 + (pill_w - sw) / 2, pill_y + 42), state, font=f_state, fill=fg)
+        draw.text((x0 + (pill_w - sw) / 2, pill_y + 40), state, font=f_state, fill=fg)
 
-    # Footer bar
-    footer_box = (48, 560, 1152, 590)
-    # redraw bottom of card as navy footer with matching radius at the bottom only
+    # Footer bar — sits under the chips (chips end at pill_y+pill_h = 498)
+    footer_top, footer_bot = 530, 598
     footer_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     fd = ImageDraw.Draw(footer_layer)
-    fd.rounded_rectangle((48, 500, 1152, 560), radius=36, fill=NAVY)
-    fd.rectangle((48, 500, 1152, 530), fill=NAVY)
+    fd.rounded_rectangle((48, footer_top - 36, 1152, footer_bot), radius=36, fill=NAVY)
+    fd.rectangle((48, footer_top - 36, 1152, footer_top + 20), fill=NAVY)
     img.alpha_composite(footer_layer)
     draw = ImageDraw.Draw(img)
     f_foot = font(FONT_MED, 18)
     foot = copy["footer"]
     fw = draw.textlength(foot, font=f_foot)
-    draw.text(((W - fw) / 2, 516), foot, font=f_foot, fill=(220, 224, 235))
+    foot_y = footer_top + (footer_bot - footer_top - 18) / 2 - 2
+    draw.text(((W - fw) / 2, foot_y), foot, font=f_foot, fill=(220, 224, 235))
 
     return img.convert("RGB")
 
