@@ -48,9 +48,9 @@
 body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Inter',-apple-system,'Segoe UI',sans-serif;line-height:1.75;word-break:keep-all}
 a{color:var(--brand2)}
 .site-header{background:#fff;border-bottom:1px solid var(--line)}
-.site-header .in{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.site-header .in{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px}
 .logo{font-weight:900;font-size:20px;letter-spacing:-.5px;color:var(--brand);text-decoration:none}
-.site-header nav a{margin-left:18px;font-size:14px;font-weight:600;color:var(--sub);text-decoration:none}
+.site-header nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end}.site-header nav a{margin-left:18px;font-size:14px;font-weight:600;color:var(--sub);text-decoration:none}
 .lang-switch{display:inline-block;margin-left:16px;font-size:12px;font-weight:800;letter-spacing:.4px;color:var(--brand);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
 main{max-width:880px;margin:0 auto;padding:20px 20px 64px}
 .crumbs{font-size:13px;color:var(--sub);margin:4px 0 20px}.crumbs a{color:var(--sub)}
@@ -89,11 +89,11 @@ h3{font-size:18px;margin:0 0 4px}
 .all a,.all .cur{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .all a:hover{border-color:var(--brand)}.all .cur{background:#EEF1FF;border-color:var(--brand);color:var(--brand2)}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
-@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}}
+@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}}
 </style>
 </head>
 <body>
-<header class="site-header"><div class="in"><a class="logo" href="/es/">AI-OCEAN</a><nav><a href="/es/">Inicio</a><a href="/es/?start=1">Empezar el test</a><a class="lang-switch" href="/types/11001/" hreflang="ko" lang="ko">KO</a><a class="lang-switch" href="/en/types/11001/" hreflang="en" lang="en">EN</a><span class="lang-switch" aria-current="page">ES</span></nav></div></header>
+<header class="site-header"><div class="in"><a class="logo" href="/es/">AI-OCEAN</a><nav><a href="/es/">Inicio</a><a href="/en/blog/">Blog</a><a href="/es/?start=1">Empezar el test</a><a class="lang-switch" href="/types/11001/" hreflang="ko" lang="ko">KO</a><a class="lang-switch" href="/en/types/11001/" hreflang="en" lang="en">EN</a><span class="lang-switch" aria-current="page">ES</span></nav></div></header>
 <main>
   <nav class="crumbs" aria-label="breadcrumb"><a href="/es/">Inicio</a> › 32 tipos OCEAN › El erudito</nav>
 
