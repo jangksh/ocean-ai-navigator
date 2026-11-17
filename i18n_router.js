@@ -15,6 +15,7 @@
   // Posts that are not translations of each other: send the visitor to the
   // language index instead of inventing a fake alternate URL.
   var UNPAIRED = {
+    '/blog/sbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/sbti-vs-bigfive-ocean/', es: '/es/' },
     '/blog/mbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/mbti-vs-bigfive-ocean/', es: '/es/' },
     '/blog/free-personality-test-career-bigfive/': { en: '/en/blog/', ko: '/blog/free-personality-test-career-bigfive/', es: '/es/' },
     '/blog/big-five-personality-test-for-careers/': { en: '/en/blog/big-five-personality-test-for-careers/', ko: '/blog/', es: '/es/' }
