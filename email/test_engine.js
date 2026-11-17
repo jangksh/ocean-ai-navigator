@@ -35,7 +35,7 @@ const H = 3600e3, D = 24 * H;
 
 // 1) 스케줄 규칙
 const ns = (n, gapMs) => ctx.nextStep_(n, 0, gapMs, 10);
-assert.deepStrictEqual(ns(0, 99 * D), { kind: 'course', day: 1 }); // 확인됐지만 1일차 보류(주소 없음) → 주소 생기면 1일차
+assert.deepStrictEqual(JSON.parse(JSON.stringify(ns(0, 99 * D))), { kind: 'course', day: 1 }); // 확인됐지만 1일차 보류(주소 없음) → 주소 생기면 1일차
 assert.deepStrictEqual(JSON.parse(JSON.stringify(ns(1, 21 * H))), { kind: 'course', day: 2 });
 assert.strictEqual(ns(1, 10 * H), null);
 assert.deepStrictEqual(JSON.parse(JSON.stringify(ns(4, 21 * H))), { kind: 'course', day: 5 });
@@ -119,10 +119,17 @@ assert.strictEqual(rows.length, 0); assert.strictEqual(sent.length, 0);
 ctx.MailApp.getRemainingDailyQuota = () => 100;
 console.log('low-quota signup hold OK');
 
-// 5) 주소 미설정 시 발송 거부
+// 5) 주소 미설정: 확인 메일만 발송, 강의·팁은 보류, 주소 설정 후 1일차부터 재개
 ctx.CONFIG.POSTAL_ADDRESS = ''; rows = []; sent = [];
-assert.throws(() => post({ email: 'z@example.com', code: '00000', lang: 'en' }), /POSTAL_ADDRESS/);
-console.log('refuses to send without postal address OK');
+post({ email: 'z@example.com', code: '00000', lang: 'en' });
+assert.strictEqual(sent.length, 1); assert.strictEqual(rows[1][3], 'pending');           // 확인 메일은 나감
+run('doGet({parameter:{a:"confirm",t:"' + rows[1][2] + '"}})');
+assert.strictEqual(rows[1][3], 'active'); assert.strictEqual(rows[1][8], 0); assert.strictEqual(sent.length, 1); // 1일차 보류
+run('sendDue()'); assert.strictEqual(sent.length, 1);                                     // 주소 없으면 sendDue 건너뜀
+assert.throws(() => run('send_("z@example.com", {subject:"s",text:"t",html:"h"})'), /POSTAL_ADDRESS/); // 상업 메일은 거부
+ctx.CONFIG.POSTAL_ADDRESS = 'AI-OCEAN, PO Box 1, Cypress, CA 90630, USA';
+run('sendDue()'); assert.strictEqual(sent.length, 2); assert.strictEqual(rows[1][8], 1);  // 주소 설정 후 1일차
+console.log('no postal address: confirm only, course held, resumes at day 1 OK');
 
 if (process.argv.includes('--sample')) {
   ctx.CONFIG.POSTAL_ADDRESS = '[postal address]';
