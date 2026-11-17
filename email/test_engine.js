@@ -35,7 +35,7 @@ const H = 3600e3, D = 24 * H;
 
 // 1) 스케줄 규칙
 const ns = (n, gapMs) => ctx.nextStep_(n, 0, gapMs, 10);
-assert.strictEqual(ns(0, 99 * D), null);
+assert.deepStrictEqual(ns(0, 99 * D), { kind: 'course', day: 1 }); // 확인됐지만 1일차 보류(주소 없음) → 주소 생기면 1일차
 assert.deepStrictEqual(JSON.parse(JSON.stringify(ns(1, 21 * H))), { kind: 'course', day: 2 });
 assert.strictEqual(ns(1, 10 * H), null);
 assert.deepStrictEqual(JSON.parse(JSON.stringify(ns(4, 21 * H))), { kind: 'course', day: 5 });
