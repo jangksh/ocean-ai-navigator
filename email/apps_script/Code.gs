@@ -17,7 +17,7 @@ var CONFIG = {
   CONTENT_URL: 'https://thepersonalityai.com/email/content.json',
   FROM_NAME: 'AI-OCEAN',
   REPLY_TO: '',                 // 비우면 스크립트 소유자 Gmail 로 답장이 온다
-  POSTAL_ADDRESS: '',           // 필수(CAN-SPAM). 예: 'AI-OCEAN, PO Box 000, Cypress, CA 90630, USA' — 비어 있으면 발송을 거부한다
+  POSTAL_ADDRESS: '',           // 필수(CAN-SPAM). 예: 'AI-OCEAN, PO Box 000, Cypress, CA 90630, USA' — 비어 있으면 확인(트랜잭션) 메일만 나가고 강의·팁 메일은 보류된다
   SHEET_NAME: 'subscribers',
   PENDING_PER_DAY_CAP: 60,      // 하루에 새로 받는 확인 메일 상한 (남용 방지)
   RESERVE_QUOTA: 20,            // 일일 메일 한도가 이 값 미만이면 신규 신청을 받지 않는다(기존 구독자 발송 우선)
@@ -48,7 +48,7 @@ function fill_(str, vars) {
 /** 보낸 개수와 마지막 발송 시각으로 다음에 보낼 메일을 정한다. 아직이거나 끝났으면 null. */
 function nextStep_(sentCount, lastSentMs, nowMs, weeks) {
   var gap = nowMs - lastSentMs;
-  if (sentCount < 1) return null;                                      // 아직 확인 전
+  if (sentCount < 1) return { kind: 'course', day: 1 };               // 확인은 됐지만 주소가 없어 1일차가 보류됐던 경우
   if (sentCount < 5) return gap >= CONFIG.MIN_HOURS_BETWEEN_COURSE * HOUR ? { kind: 'course', day: sentCount + 1 } : null;
   var week = sentCount - 4;                                            // 5통 후 → 팁 1주차
   if (week > weeks) return null;                                       // 끝
@@ -176,8 +176,9 @@ function getContent_() {
 function baseUrl_() { return ScriptApp.getService().getUrl(); }
 function linksFor_(token) { var b = baseUrl_(); return { confirm: b + '?a=confirm&t=' + token, unsub: b + '?a=unsub&t=' + token }; }
 
-function send_(to, mail) {
-  if (!CONFIG.POSTAL_ADDRESS) throw new Error('Set CONFIG.POSTAL_ADDRESS before sending (CAN-SPAM requires a physical address).');
+// transactional=true: 가입 확인 메일처럼 광고가 아닌 메일. 주소 없이도 보낸다(CAN-SPAM은 상업 메일에만 주소를 요구).
+function send_(to, mail, transactional) {
+  if (!CONFIG.POSTAL_ADDRESS && !transactional) throw new Error('Set CONFIG.POSTAL_ADDRESS before sending (CAN-SPAM requires a physical address).');
   var opts = { name: CONFIG.FROM_NAME, htmlBody: mail.html };
   if (CONFIG.REPLY_TO) opts.replyTo = CONFIG.REPLY_TO;
   MailApp.sendEmail(to, mail.subject, mail.text, opts);
@@ -214,7 +215,7 @@ function doPost(e) {
     var content = getContent_();
     if (mine) setRow_(sh, mine.row, { created_at: new Date(now), token: token, code: code, job: job, lang: lang, utm: utm });
     else sh.appendRow([new Date(now), email, token, 'pending', code, job, lang, '', 0, '', utm]);
-    send_(email, confirmEmail_(content, { code: code, lang: lang }, linksFor_(token)));
+    send_(email, confirmEmail_(content, { code: code, lang: lang }, linksFor_(token)), true);
   } finally { lock.releaseLock(); }
   return ok;
 }
@@ -237,6 +238,10 @@ function doGet(e) {
     if (r.status === 'pending') {
       if (Date.now() - new Date(r.created_at).getTime() > CONFIG.PENDING_EXPIRE_DAYS * DAY) return page_(c.labels.badLink, '');
       var now = Date.now();
+      if (!CONFIG.POSTAL_ADDRESS) {                                      // 주소 설정 전: 확인만 기록하고 1일차는 주소가 생기면 sendDue 가 보낸다
+        setRow_(sh, r.row, { status: 'active', confirmed_at: new Date(now), sent_count: 0 });
+        return page_(c.labels.confirmedTitle, c.labels.confirmedBody);
+      }
       // 발송이 먼저: 한도 초과 등으로 실패하면 상태를 바꾸지 않아 링크를 다시 누를 수 있다
       send_(r.email, buildEmail_(content, { kind: 'course', day: 1 }, { code: String(r.code).padStart(5, '0'), lang: lang }, linksFor_(t)));
       setRow_(sh, r.row, { status: 'active', confirmed_at: new Date(now), sent_count: 1, last_sent_at: new Date(now) });
@@ -247,6 +252,7 @@ function doGet(e) {
 
 /** 매일 한 번 실행되는 발송기 (setupTrigger 가 등록) */
 function sendDue() {
+  if (!CONFIG.POSTAL_ADDRESS) { console.warn('sendDue skipped: CONFIG.POSTAL_ADDRESS is empty'); return; }
   var content = getContent_(), sh = sheet_(), now = Date.now(), sent = 0, left = MailApp.getRemainingDailyQuota();
   rows_(sh).forEach(function (r) {
     if (r.status !== 'active' || left <= 0) return;
