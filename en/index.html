@@ -1440,7 +1440,9 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 /* ── Job Section ── */
 .job-section-new { background: white; padding: 72px 20px 80px; text-align: center; }
 #screen-jobs { background: var(--ocean-deep); }
-.job-screen-inner { padding: 40px 20px 80px; max-width: 720px; margin: 0 auto; text-align: center; }
+.job-screen-inner { padding: 104px 20px 80px; max-width: 720px; margin: 0 auto; text-align: center; }
+html[lang="ko"] #screen-jobs .ts-label,
+html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform: none; }
 .js-title { font-size: clamp(24px,3.5vw,34px); font-weight: 800; color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.5px; line-height: 1.25; }
 .js-sub { font-size: 17px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.65; font-weight: 400; }
 .job-grid-16p {
@@ -1932,7 +1934,7 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
         <h1 class="hero-title-new" data-i18n="hero_title">Get AI matched to<br><span class="hl">your personality</span></h1>
         <p class="hero-sub-new" data-i18n="hero_sub">25-question personality test based on Big 5 Psychology (OCEAN)<br>to find your perfect AI partner and career insights.</p>
         <div class="hero-cta-row">
-          <button class="btn-hero-start" id="btnStartHero" data-cta-position="hero" onclick="showScreen('jobs')" data-i18n="hero_cta1">Start free test · 3 min</button>
+          <button class="btn-hero-start" id="btnStartHero" data-cta-position="hero" onclick="startQuiz()" data-i18n="hero_cta1">Start free test · 3 min</button>
           <button class="btn-hero-about" onclick="showScreen('about')" data-i18n="hero_about_btn">About OCEAN</button>
         </div>
         <div class="hero-stats-mini">
@@ -2015,15 +2017,15 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
   <nav class="landing-header">
     <span class="landing-logo">AI-OCEAN</span>
     <div class="landing-nav">
-      <span class="landing-nav-link" onclick="showScreen('landing')" data-i18n="personas_back">← Home</span>
+      <span class="landing-nav-link" onclick="backFromJobs()" data-i18n="personas_back">← Home</span>
     </div>
   </nav>
   <div class="job-screen-inner">
-    <div class="ts-label">STEP 1 / 2</div>
-    <div class="js-title" data-i18n="js_title">Select your job group first</div>
+    <div class="ts-label" data-i18n="js_step">Last step</div>
+    <div class="js-title" data-i18n="js_title">Choose your field to see your results</div>
     <div class="js-sub" data-i18n="js_sub">The same personality gets different AI recommendations based on your job</div>
     <div class="job-grid-16p" id="jobGrid"></div>
-    <button class="btn-hero-start" id="btnStart" data-cta-position="jobs_start" disabled onclick="startQuiz()" style="margin-top:8px" data-i18n="js_start">Start My OCEAN Analysis →</button>
+    <button class="btn-hero-start" id="btnStart" data-cta-position="jobs_start" disabled onclick="confirmJobAndContinue()" style="margin-top:8px" data-i18n="js_start">See my results →</button>
     <p class="disclaimer" style="margin-top:16px" data-i18n="disclaimer">Based on the Big Five (OCEAN) model — referencing the IPIP open framework, with questions independently created in Korean. This test is not a medical diagnosis and is for reference only.</p>
   </div>
 </div>
@@ -2394,7 +2396,7 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
     <div class="about-cta">
       <h3 data-i18n="about_cta_h">Discover Your OCEAN Profile Now</h3>
       <p data-i18n="about_cta_p">In 25 questions, about 5 minutes, get your personalized AI tool prescription.</p>
-      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="about_cta_btn">🏁 Start Test</button>
+      <button class="btn-primary" data-cta-position="about" onclick="startQuiz()" style="font-size:16px;padding:16px 40px;" data-i18n="about_cta_btn">🏁 Start Test</button>
     </div>
 
   </div><!-- /container -->
@@ -2510,7 +2512,7 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
     <div class="about-cta" style="margin-bottom:40px;">
       <h3 data-i18n="personas_cta_h">Want to find your exact type?</h3>
       <p data-i18n="personas_cta_p">In 25 questions, about 5 minutes, find your type among 32 and get your personalized AI prescription.</p>
-      <button class="btn-primary" data-cta-position="personas" onclick="showScreen('jobs')" style="font-size:16px;padding:16px 40px;" data-i18n="personas_cta_btn">🏁 Start Test</button>
+      <button class="btn-primary" data-cta-position="personas" onclick="startQuiz()" style="font-size:16px;padding:16px 40px;" data-i18n="personas_cta_btn">🏁 Start Test</button>
     </div>
 
     <!-- 성향 코드 읽는 법 -->
@@ -2587,7 +2589,7 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
     <div class="about-cta">
       <h3 data-i18n="tools_cta_h">Get Your Personalized AI Combination</h3>
       <p data-i18n="tools_cta_p">Based on your personality test results, we'll recommend the optimal AI set for your OCEAN type from the tools above.</p>
-      <button class="btn-primary" data-cta-position="tools" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="tools_cta_btn">🏁 Start Test</button>
+      <button class="btn-primary" data-cta-position="tools" onclick="startQuiz()" style="font-size:16px;padding:16px 40px;" data-i18n="tools_cta_btn">🏁 Start Test</button>
     </div>
   </div>
 </div>
@@ -2972,9 +2974,9 @@ const STRINGS = {
     ts_label: 'OCEAN 32가지 유형', ts_title: '나는 어떤 유형일까?',
     ts_sub: '5가지 차원의 조합으로 완전히 다른 32가지 성향 유형이 만들어집니다',
     ts_btn: '모든 유형 탐색하기',
-    js_step: 'STEP 1', js_title: '먼저 내 직업군을 선택해 주세요',
+    js_step: '마지막 단계', js_title: '결과를 보기 전에 직업군을 선택해 주세요',
     js_sub: '직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다',
-    js_start: '나의 OCEAN 분석 시작 →',
+    js_start: '결과 보기 →',
     footer_contact: '문의',
     disclaimer: 'Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작. 본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다.',
     about_back: '← 테스트로 돌아가기',
@@ -3065,9 +3067,9 @@ const STRINGS = {
     ts_label: '32 OCEAN Types', ts_title: 'Which type am I?',
     ts_sub: '32 unique personality types emerge from combinations of 5 dimensions',
     ts_btn: 'Explore All Types',
-    js_step: 'STEP 1', js_title: 'Select your job group first',
+    js_step: 'Last step', js_title: 'Choose your field to see your results',
     js_sub: 'The same personality gets different AI recommendations based on your job',
-    js_start: 'Start My OCEAN Analysis →',
+    js_start: 'See my results →',
     footer_contact: 'Contact',
     disclaimer: 'Based on the Big Five (OCEAN) model — referencing the IPIP open framework, with questions independently created in Korean. This test is not a medical diagnosis and is for reference only.',
     about_back: '← Back to Test',
@@ -3158,9 +3160,9 @@ const STRINGS = {
     ts_label: '32 tipos OCEAN', ts_title: '¿Cuál es mi tipo?',
     ts_sub: 'De la combinación de 5 dimensiones nacen 32 tipos de personalidad distintos',
     ts_btn: 'Explorar todos los tipos',
-    js_step: 'PASO 1', js_title: 'Primero elige tu área profesional',
+    js_step: 'Último paso', js_title: 'Elige tu área profesional para ver tus resultados',
     js_sub: 'La misma personalidad recibe distintas recomendaciones de IA según tu trabajo',
-    js_start: 'Empezar mi análisis OCEAN →',
+    js_start: 'Ver mis resultados →',
     footer_contact: 'Contacto',
     disclaimer: 'Basado en el modelo Big Five (OCEAN) — con referencia al marco abierto IPIP. Este test no es un diagnóstico médico; es una guía de personalidad para ayudarte a usar la IA.',
     about_back: '← Volver al test',
@@ -4029,12 +4031,56 @@ function showScreen(id) {
   if (id === 'personas') {
     ensurePersonas().then(() => { if (typeof renderPersonaGrid === 'function') renderPersonaGrid(); });
   }
+  if (id === 'jobs') {
+    if (typeof renderJobGrid === 'function') renderJobGrid();
+    if (selectedJob) {
+      document.querySelectorAll('.job-btn-16p').forEach((btn, i) => {
+        btn.classList.toggle('selected', JOBS[i].id === selectedJob);
+      });
+      const startBtn = document.getElementById('btnStart');
+      if (startBtn) startBtn.disabled = false;
+    }
+    const back = document.querySelector('#screen-jobs .landing-nav-link');
+    if (back) {
+      back.textContent = quizIsComplete()
+        ? L('← 이전 문항', '← Previous question', '← Pregunta anterior')
+        : L('← 처음으로', '← Home', '← Inicio');
+    }
+  }
   if (id === 'jobs' || id === 'quiz' || id === 'loading' || id === 'results') prefetchResultData();
 }
 
 // ═══════════════════════════════════════════════════════
 //  QUIZ
 // ═══════════════════════════════════════════════════════
+function quizIsComplete() {
+  return Array.isArray(shuffledQuestions) && shuffledQuestions.length
+    && Array.isArray(answers) && answers.length === shuffledQuestions.length
+    && answers.every(function (a) { return a != null; });
+}
+
+function backFromJobs() {
+  if (quizIsComplete()) {
+    showScreen('quiz');
+    if (typeof renderQuestion === 'function') renderQuestion();
+    return;
+  }
+  showScreen('landing');
+}
+
+function promptJobThenResults() {
+  showScreen('jobs');
+}
+
+function confirmJobAndContinue() {
+  if (!selectedJob) return;
+  if (quizIsComplete()) {
+    calculateResults();
+    return;
+  }
+  startQuiz();
+}
+
 function startQuiz() {
   const _scr = document.getElementById('screen-results');
   track('test_start', Object.assign({ entry: ENTRY_SOURCE, is_retake: !!(_scr && _scr.classList.contains('active')) }, jobParams()));
@@ -4102,7 +4148,7 @@ function nextQuestion() {
     if (currentQ % 5 === 0) track('quiz_progress', Object.assign({ answered: currentQ }, jobParams()));
     renderQuestion();
   } else {
-    calculateResults();
+    promptJobThenResults();
   }
 }
 
@@ -5124,13 +5170,15 @@ function shareTiktok() {
   maybeShowLangHint();
   if (await restoreLangSwitchState()) { hideLangHint(); return; }
   if (await restoreStoredResult()) { hideLangHint(); return; }
-  // 유형 페이지의 '테스트 시작' 버튼이 /?start=1, /en/?start=1 또는 /es/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
-  if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
-  // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
-  try {
-    const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
-    if (j >= 1 && j <= 15 && /[?&]start=1(&|$)/.test(location.search)) selectJob(j);
-  } catch (e) {}
+  // 유형 페이지의 '테스트 시작' 버튼이 /?start=1, /en/?start=1 또는 /es/?start=1 로 들어오면 바로 1번 문항을 연다.
+  // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작한다 (홍보 링크용). 결과는 문항이 끝난 뒤 확정한다.
+  if (/[?&]start=1(&|$)/.test(location.search)) {
+    try {
+      const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
+      if (j >= 1 && j <= 15) selectJob(j);
+    } catch (e) {}
+    startQuiz();
+  }
 })();
 </script>
 </body>
