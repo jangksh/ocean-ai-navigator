@@ -4322,7 +4322,7 @@ function subscribeCardHTML(code, typeName) {
       <button type="submit">${L('가이드 받기', 'Send me the guide', 'Quiero la guía')}</button>
     </form>
     <div class="sub-msg" id="subMsg" role="status" aria-live="polite"></div>
-    <div class="sub-fine">${L('신청하시면 이메일 목록에 추가됩니다. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'Subscribing adds your email to the list. Your email is used only for this series, and you can unsubscribe anytime.', 'Al suscribirte, tu correo se agrega a la lista. Lo usamos solo para esta serie y puedes cancelar cuando quieras.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy', 'Privacidad')}</a></div>
+    <div class="sub-fine">${L('신청하시면 확인 메일을 보내드립니다. 받은편지함이나 스팸함에서 메일을 연 뒤 링크를 눌러 구독을 완료해 주세요. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'We\'ll email you a confirmation. Open it from your inbox or spam folder and click the link to confirm. Your email is used only for this series, and you can unsubscribe anytime.', 'Te enviaremos un correo de confirmación. Ábrelo en tu bandeja o en spam y haz clic en el enlace para confirmar. Lo usamos solo para esta serie y puedes cancelar cuando quieras.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy', 'Privacidad')}</a></div>
   </div>`;
 }
 function subReset() { try { localStorage.removeItem('ocean_sub'); } catch (e) {} if (window._lastScores) renderResults(window._lastScores); }
@@ -4347,7 +4347,7 @@ async function submitSubscribe(ev) {
     f.style.display = 'none';
     msg.classList.add('ok');
     msg.textContent = SUB_PREVIEW ? L('(미리보기) 실제 전송은 하지 않았습니다.', '(Preview) Nothing was sent.', '(Vista previa) No se envió nada.')
-      : L('✅ 신청 완료! 새 글과 소식을 이메일로 보내드릴게요.', '✅ You\'re subscribed! We\'ll send updates to your inbox.', '✅ ¡Listo, estás suscrito! Te enviaremos novedades a tu correo.');
+      : L('✅ 신청 완료! 확인 메일을 보내드렸어요. 받은편지함(스팸함 포함)을 확인한 뒤, 링크를 눌러 구독을 완료해 주세요.', '✅ You\'re subscribed! We sent a confirmation email. Check your inbox (and spam) and click the link to confirm.', '✅ ¡Listo, estás suscrito! Te enviamos un correo de confirmación. Revisa tu bandeja (y el spam) y haz clic en el enlace para confirmar.');
   } catch (e) {
     track('subscribe_error', p);
     btn.disabled = false;
