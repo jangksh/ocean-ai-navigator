@@ -470,16 +470,18 @@ function pageFor(code, lang) {
         ? `직업군별 상세 처방 ${jobs.length}개의 메인 AI는 모두 ${esc(mainTally[0][0])}입니다.`
         : `직업군별 상세 처방 ${jobs.length}개에서 메인 AI는 ${mainSummary} 순으로 많이 추천됩니다.`);
 
+  // SERP snippet: type hook + free 25-question / ~3 min test (CTR fix).
+  // Title ~60 chars; KO meta ~80; EN/ES meta ~155. og:title stays a share card.
   const title = isEs
-    ? `${nameEs} | Tipo OCEAN ${code}: personalidad y herramientas de IA — AI-OCEAN`
+    ? `${nameEs} | Test gratuito de 25 preguntas`
     : isEn
-      ? `${nameEn} | OCEAN type ${code} personality and AI tools — AI-OCEAN`
-      : `${nameKo}(${nameEn}) 유형 | OCEAN ${code} 성향·AI 추천 - AI-OCEAN`;
+      ? `${nameEn} | Free 25-question test - AI-OCEAN`
+      : `${nameKo} 유형 | 무료 25문항 3분 테스트 - AI-OCEAN`;
   const desc = isEs
-    ? `${stripEnd(lead)}. Mira la combinación de IA (${pair}) y las notas por área profesional del tipo OCEAN ${code} (${nameEs}).`
+    ? `${stripEnd(lead)}. Haz el test gratuito de 25 preguntas (unos 3 minutos).`
     : isEn
-      ? `${stripEnd(lead)}. See the AI pairing (${pair}) and job-group notes for OCEAN type ${code} (${nameEn}).`
-      : `${stripEnd(m.summary)}. OCEAN ${code} ${nameEn} 유형에게 어울리는 AI(${pair})와 직업군별 활용법을 확인하세요.`;
+      ? `${stripEnd(lead)}. Take the free 25-question test — about 3 minutes.`
+      : `${stripEnd(m.summary)}. 무료 25문항, 약 3분이면 내 유형과 어울리는 AI를 알 수 있어요.`;
   // Facebook/Twitter preview (keep <title> SEO-oriented; og:title is written for the share card)
   const ogTitle = isEs
     ? `${emoji} Soy «${nameEs}» | Mi resultado AI-OCEAN`
