@@ -767,7 +767,7 @@ const BLOG_POSTS = [
   {
     lang: 'ko',
     path: '/blog/free-personality-test-career-bigfive/',
-    lastmod: '2026-11-17',
+    lastmod: '2026-11-18',
     datePublished: '2026-11-16',
   },
   {
@@ -778,8 +778,18 @@ const BLOG_POSTS = [
   },
   {
     lang: 'en',
+    path: '/en/blog/interpret-big-five-scores/',
+    lastmod: '2026-11-18',
+    datePublished: '2026-11-18',
+    dateLabel: 'November 18, 2026',
+    kicker: 'Guide',
+    title: 'How to Interpret Your Big Five Scores (Without Turning Them Into a Label)',
+    excerpt: 'Your Big Five result is five percentages, not a verdict. Learn how to read OCEAN scores, treat the middle range honestly, and use a type code without turning it into a label.',
+  },
+  {
+    lang: 'en',
     path: '/en/blog/big-five-personality-test-for-careers/',
-    lastmod: '2026-11-17',
+    lastmod: '2026-11-18',
     datePublished: '2026-11-14',
     dateLabel: 'November 14, 2026',
     kicker: 'Career guide',

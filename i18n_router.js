@@ -18,6 +18,7 @@
     '/blog/sbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/sbti-vs-bigfive-ocean/', es: '/es/' },
     '/blog/mbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/mbti-vs-bigfive-ocean/', es: '/es/' },
     '/blog/free-personality-test-career-bigfive/': { en: '/en/blog/', ko: '/blog/free-personality-test-career-bigfive/', es: '/es/' },
+    '/en/blog/interpret-big-five-scores/': { en: '/en/blog/interpret-big-five-scores/', ko: '/blog/', es: '/es/' },
     '/blog/big-five-personality-test-for-careers/': { en: '/en/blog/big-five-personality-test-for-careers/', ko: '/blog/', es: '/es/' }
   };
 
