@@ -10,7 +10,7 @@
  *   og/types/<코드>.png (.en.png, .es.png)  유형별 1200×630 OG 이미지 (scripts/generate_og_images.py)
  *   en/index.html                영어 홈 (index.html을 변환, data-i18n 영어 SSR)
  *   en/blog/index.html, en/privacy/index.html, es/privacy/index.html, es/types/
- *   sitemap.xml                  홈+/en/ + 유형 쌍 + BLOG_URLS + /en/blog/ (xhtml hreflang)
+ *   sitemap.xml                  홈+/en/+/es/ + 유형 쌍 + BLOG_URLS + /privacy/ 3어 (xhtml hreflang)
  *   index.html                   TYPE-LINKS 블록 + hreflang 마커
  *
  * 데이터 출처
@@ -824,7 +824,13 @@ function buildSitemap() {
     if (u.pairKo) return { loc: u.loc, lastmod: u.lastmod, ko: u.pairKo, en: u.loc };
     return { loc: u.loc, lastmod: u.lastmod };
   });
-  const urls = paired.concat(blogEntries);
+  // Append after existing URLs so order and hreflang of current entries stay the same.
+  const privacyEntries = [
+    { loc: SITE + '/privacy/', lastmod: TODAY, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
+    { loc: SITE + '/en/privacy/', lastmod: TODAY, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
+    { loc: SITE + '/es/privacy/', lastmod: TODAY, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
+  ];
+  const urls = paired.concat(blogEntries).concat(privacyEntries);
   const body = urls.map((u) => {
     const links = u.home ? '\n' + xhtmlHome : (u.ko && u.en ? '\n' + xhtmlLinks(u.ko, u.en, u.es) : '');
     return `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>${links}\n  </url>`;
@@ -1199,7 +1205,7 @@ buildEsHome();
 buildEnBlogIndex();
 buildPrivacy();
 buildSitemap();
-const sitemapCount = 3 + CODES.length * 3 + BLOG_URLS.length;
+const sitemapCount = 3 + CODES.length * 3 + BLOG_URLS.length + 3;
 console.log(`생성 완료: types/ ${CODES.length}개, en/types/ ${CODES.length}개, es/types/ ${CODES.length}개, en/index.html, es/index.html, sitemap.xml ${sitemapCount} URL`);
 console.log(`직업군 ${JOB_GROUPS.length}개 사용(${JOB_GROUPS.join(',')}), 제외 ${[...EXCLUDED_JOB_GROUPS].join(',')}`);
 console.log(`직업군 섹션 ${STATS.persona + STATS.v2}개: 페르소나 ${STATS.persona}, v2 보완 ${STATS.v2}, 품질 검사로 제외 ${STATS.skipped}`);
