@@ -4,10 +4,12 @@
 // ?lang=en|ko|es on a mismatched URL client-side redirects to the paired path,
 // preserving every other query param (start, job, UTM, internal) and the hash.
 // Returning visitors with a saved ocean_lang of "en" or "es" who land on "/"
-// are sent to /en/ or /es/. First-time visitors stay on the requested URL so
-// the homepage language chooser can ask them. ?lang=en|ko|es is treated as an
-// explicit choice and is saved. Known crawlers are never redirected, so each
-// language homepage stays crawlable; hreflang x-default is English.
+// are sent to /en/ or /es/. First-time visitors stay on the requested URL —
+// language follows the path (/, /en/, /es/), with a small dismissible hint
+// if the browser language is a different site language. ?lang=en|ko|es is
+// treated as an explicit choice and is saved. Known crawlers are never
+// redirected, so each language homepage stays crawlable; hreflang x-default
+// is English.
 (function (root) {
   var SITE = 'https://thepersonalityai.com';
   var PREFIX = { en: '/en', es: '/es' };
@@ -135,8 +137,9 @@
       if (stored === 'en' || stored === 'es') {
         dest = pairUrl(stored, loc);
       }
-      // First-time visitors (no saved preference) stay on "/" so the
-      // language chooser can ask. Crawlers are also left in place.
+      // First-time visitors (no saved preference) stay on the requested
+      // path. Language follows the URL; a small hint may offer a switch.
+      // Crawlers are also left in place.
     }
 
     if (dest) {
@@ -154,7 +157,8 @@
       return true;
     }
     // Do not write ocean_lang from the URL path. First-time visitors should
-    // not get a saved preference until they choose a language or pass ?lang=.
+    // not get a saved preference until they choose a language (switcher,
+    // hint, or ?lang=).
     return false;
   }
 
@@ -166,12 +170,21 @@
     } catch (e) { return false; }
   }
 
+  function siteLangFromBrowser(nav) {
+    var lang = browserLang(nav).toLowerCase();
+    if (/^ko(-|$)/.test(lang)) return 'ko';
+    if (/^es(-|$)/.test(lang)) return 'es';
+    if (/^en(-|$)/.test(lang)) return 'en';
+    return '';
+  }
+
   root.oceanPathLang = pathLang;
   root.oceanPairPath = pairPath;
   root.oceanPairUrl = pairUrl;
   root.oceanMaybeRedirect = maybeRedirect;
   root.oceanNormPath = normPath;
   root.oceanIsCrawler = isCrawler;
+  root.oceanBrowserSiteLang = siteLangFromBrowser;
   root.oceanHasLangPreference = hasLangPreference;
   root.OCEAN_SITE = SITE;
 
