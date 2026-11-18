@@ -1893,7 +1893,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
         <h1 class="hero-title-new" data-i18n="hero_title">Get AI matched to<br><span class="hl">your personality</span></h1>
         <p class="hero-sub-new" data-i18n="hero_sub">25-question personality test based on Big 5 Psychology (OCEAN)<br>to find your perfect AI partner and career insights.</p>
         <div class="hero-cta-row">
-          <button class="btn-hero-start" id="btnStartHero" onclick="showScreen('jobs')" data-i18n="hero_cta1">Start free test · 3 min</button>
+          <button class="btn-hero-start" id="btnStartHero" data-cta-position="hero" onclick="showScreen('jobs')" data-i18n="hero_cta1">Start free test · 3 min</button>
           <button class="btn-hero-about" onclick="showScreen('about')" data-i18n="hero_about_btn">About OCEAN</button>
         </div>
         <div class="hero-stats-mini">
@@ -1984,7 +1984,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
     <div class="js-title" data-i18n="js_title">Select your job group first</div>
     <div class="js-sub" data-i18n="js_sub">The same personality gets different AI recommendations based on your job</div>
     <div class="job-grid-16p" id="jobGrid"></div>
-    <button class="btn-hero-start" id="btnStart" disabled onclick="startQuiz()" style="margin-top:8px" data-i18n="js_start">Start My OCEAN Analysis →</button>
+    <button class="btn-hero-start" id="btnStart" data-cta-position="jobs_start" disabled onclick="startQuiz()" style="margin-top:8px" data-i18n="js_start">Start My OCEAN Analysis →</button>
     <p class="disclaimer" style="margin-top:16px" data-i18n="disclaimer">Based on the Big Five (OCEAN) model — referencing the IPIP open framework, with questions independently created in Korean. This test is not a medical diagnosis and is for reference only.</p>
   </div>
 </div>
@@ -2471,7 +2471,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
     <div class="about-cta" style="margin-bottom:40px;">
       <h3 data-i18n="personas_cta_h">Want to find your exact type?</h3>
       <p data-i18n="personas_cta_p">In 25 questions, about 5 minutes, find your type among 32 and get your personalized AI prescription.</p>
-      <button class="btn-primary" onclick="showScreen('jobs')" style="font-size:16px;padding:16px 40px;" data-i18n="personas_cta_btn">🏁 Start Test</button>
+      <button class="btn-primary" data-cta-position="personas" onclick="showScreen('jobs')" style="font-size:16px;padding:16px 40px;" data-i18n="personas_cta_btn">🏁 Start Test</button>
     </div>
 
     <!-- 성향 코드 읽는 법 -->
@@ -2548,26 +2548,85 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
     <div class="about-cta">
       <h3 data-i18n="tools_cta_h">Get Your Personalized AI Combination</h3>
       <p data-i18n="tools_cta_p">Based on your personality test results, we'll recommend the optimal AI set for your OCEAN type from the tools above.</p>
-      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="tools_cta_btn">🏁 Start Test</button>
+      <button class="btn-primary" data-cta-position="tools" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="tools_cta_btn">🏁 Start Test</button>
     </div>
   </div>
 </div>
 
 <footer id="site-footer" class="site-footer"><span data-i18n="footer_contact">Contact</span>: <a href="mailto:oceanainavigator@gmail.com">oceanainavigator@gmail.com</a></footer>
 
-<script src="/ocean-personas.js"></script>
-<script src="/v2_data.js" onerror="window.OCEAN_V2_DATA={}"></script>
-<script src="/i18n_en.js" onerror="window.EN=window.EN||null"></script>
-<script src="/i18n_en_job04.js" onerror="window.EN_JOB=window.EN_JOB||{}"></script>
-<script src="/i18n_es.js" onerror="window.ES=window.ES||null"></script>
-<script src="/i18n_es_job04.js" onerror="window.ES_JOB=window.ES_JOB||{}"></script>
-<script src="/i18n_es_job05.js" onerror="window.ES_JOB=window.ES_JOB||{}"></script>
-<script src="/i18n_es_job09.js" onerror="window.ES_JOB=window.ES_JOB||{}"></script>
-<script src="/i18n_es_job10.js" onerror="window.ES_JOB=window.ES_JOB||{}"></script>
-<script src="/i18n_es_job02.js" onerror="window.ES_JOB=window.ES_JOB||{}"></script>
-<script src="/subscribe_config.js" onerror="window.SUBSCRIBE_CONFIG=window.SUBSCRIBE_CONFIG||{}"></script>
 <script>
 if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
+window.EN_JOB = window.EN_JOB || {};
+window.ES_JOB = window.ES_JOB || {};
+window.SUBSCRIBE_CONFIG = window.SUBSCRIBE_CONFIG || {};
+
+// Lazy-load language packs and result data only when that step needs them.
+const _scriptLoads = Object.create(null);
+function loadScript(src) {
+  if (_scriptLoads[src]) return _scriptLoads[src];
+  _scriptLoads[src] = new Promise((resolve) => {
+    const found = document.querySelector('script[src="' + src + '"]');
+    if (found) {
+      if (found.getAttribute('data-loaded') === '1') { resolve(); return; }
+      found.addEventListener('load', () => resolve());
+      found.addEventListener('error', () => resolve());
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.onload = () => {
+      s.setAttribute('data-loaded', '1');
+      try { if (typeof OCEAN_V2_DATA !== 'undefined') window.OCEAN_V2_DATA = OCEAN_V2_DATA; } catch (e) {}
+      resolve();
+    };
+    s.onerror = () => resolve();
+    document.head.appendChild(s);
+  });
+  return _scriptLoads[src];
+}
+const LANG_PACK_SRC = { en: '/i18n_en.js', es: '/i18n_es.js' };
+const JOB_PACK_SRC = {
+  en: { '04': '/i18n_en_job04.js' },
+  es: { '02': '/i18n_es_job02.js', '04': '/i18n_es_job04.js', '05': '/i18n_es_job05.js', '09': '/i18n_es_job09.js', '10': '/i18n_es_job10.js' }
+};
+function ensureLangPack(lang) {
+  const src = LANG_PACK_SRC[lang];
+  return src ? loadScript(src) : Promise.resolve();
+}
+function ensurePersonas() {
+  return loadScript('/ocean-personas.js');
+}
+function jobPackSrc(lang, jobId) {
+  if (jobId == null) return null;
+  return (JOB_PACK_SRC[lang] || {})[String(jobId).padStart(2, '0')] || null;
+}
+function ensureResultData(jobId, lang) {
+  lang = lang || window.LANG;
+  const jobs = [];
+  if (lang === 'ko') {
+    jobs.push(ensurePersonas());
+    jobs.push(loadScript('/v2_data.js'));
+  } else {
+    jobs.push(ensureLangPack(lang));
+    const pack = jobPackSrc(lang, jobId);
+    if (pack) jobs.push(loadScript(pack));
+    else {
+      const fallback = jobPackSrc('en', jobId);
+      if (lang === 'es' && fallback) jobs.push(loadScript(fallback));
+    }
+  }
+  if (!window.SUBSCRIBE_CONFIG || !window.SUBSCRIBE_CONFIG.endpoint) {
+    jobs.push(loadScript('/subscribe_config.js'));
+  }
+  const ready = Promise.all(jobs);
+  return Promise.race([ready, new Promise((resolve) => setTimeout(resolve, 20000))]);
+}
+function prefetchResultData() {
+  ensureResultData(selectedJob, window.LANG);
+}
+
 // ═══════════════════════════════════════════════════════
 //  DATA
 // ═══════════════════════════════════════════════════════
@@ -3178,7 +3237,9 @@ function setLang(lang, persist) {
   applyTypeLinks();
   const act = document.querySelector('.screen.active');
   if (act && act.id === 'screen-quiz' && typeof shuffledQuestions !== 'undefined' && shuffledQuestions.length) renderQuestion();
-  if (act && act.id === 'screen-results' && window._lastScores) renderResults(window._lastScores);
+  if (act && act.id === 'screen-results' && window._lastScores) {
+    ensureResultData(selectedJob, window.LANG).then(() => renderResults(window._lastScores));
+  }
 }
 
 function applyTypeLinks() {
@@ -3226,7 +3287,7 @@ function saveLangSwitchState() {
   } catch (e) {}
 }
 
-function restoreLangSwitchState() {
+async function restoreLangSwitchState() {
   try {
     const raw = sessionStorage.getItem('ocean_lang_switch');
     if (!raw) return false;
@@ -3238,9 +3299,15 @@ function restoreLangSwitchState() {
     if (Array.isArray(s.shuffledQuestions)) shuffledQuestions = s.shuffledQuestions;
     if (s.scores) window._lastScores = s.scores;
     if (s.screen && s.screen !== 'landing') {
+      if (s.screen === 'results' && s.scores && typeof renderResults === 'function') {
+        return ensureResultData(selectedJob, window.LANG).then(() => {
+          showScreen('results');
+          renderResults(s.scores);
+          return true;
+        });
+      }
       showScreen(s.screen);
       if (s.screen === 'quiz' && shuffledQuestions && shuffledQuestions.length && typeof renderQuestion === 'function') renderQuestion();
-      if (s.screen === 'results' && s.scores && typeof renderResults === 'function') renderResults(s.scores);
       if (s.screen === 'jobs' && selectedJob && typeof renderJobGrid === 'function') renderJobGrid();
       return true;
     }
@@ -3410,13 +3477,14 @@ function resultHashCode() {
   return m ? m[1] : null;
 }
 
-function restoreStoredResult() {
+async function restoreStoredResult() {
   if (/[?&]start=1(&|$)/.test(location.search)) return false;
   const stored = readStoredResult();
   const hashCode = resultHashCode();
   if (!stored || !hashCode || hashCode !== stored.code) return false;
   if (stored.job != null) selectedJob = stored.job;
   window._lastScores = stored.scores;
+  await ensureResultData(selectedJob, window.LANG);
   showScreen('results');
   renderResults(stored.scores);
   return true;
@@ -3484,8 +3552,13 @@ document.addEventListener('click', function (e) {
   }
   const sb = t.closest('.sns-btn');
   if (sb) {
-    const m = (sb.className.match(/sns-(?!btn)\w+/) || [''])[0].replace('sns-', '');
-    track('share_click', { method: m });
+    const raw = (sb.className.match(/sns-(?!btn)\w+/) || [''])[0].replace('sns-', '');
+    const SHARE_METHOD = { fb: 'facebook', x: 'x', ig: 'instagram', kakao: 'kakao', tiktok: 'tiktok' };
+    track('share_click', { method: SHARE_METHOD[raw] || raw || 'unknown' });
+  }
+  const cta = t.closest('[data-cta-position]');
+  if (cta) {
+    track('cta_click', { cta_position: cta.getAttribute('data-cta-position') });
   }
 }, true);
 
@@ -3839,6 +3912,10 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
   window.scrollTo(0, 0);
+  if (id === 'personas') {
+    ensurePersonas().then(() => { if (typeof renderPersonaGrid === 'function') renderPersonaGrid(); });
+  }
+  if (id === 'jobs' || id === 'quiz' || id === 'loading' || id === 'results') prefetchResultData();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -3964,10 +4041,17 @@ function calculateResults() {
     }, 600 * (i + 1));
   });
 
+  const dataReady = ensureResultData(selectedJob, window.LANG);
   setTimeout(() => {
     const scores = computeScores();
-    renderResults(scores);
-    showScreen('results');
+    Promise.resolve(dataReady).then(() => {
+      renderResults(scores);
+      showScreen('results');
+    }).catch((err) => {
+      console.error('result data load failed', err);
+      renderResults(scores);
+      showScreen('results');
+    });
   }, 3200);
 }
 
@@ -4366,7 +4450,7 @@ function renderResults(scores) {
 
   // 32-persona master lookup
   const master = (() => {
-    const m = getMasterPersona(code) || { code, name: '나만의 특별한 유형', summary: '세상에 하나뿐인 독창적인 성향의 소유자' };
+    const m = (typeof getMasterPersona === 'function' && getMasterPersona(code)) || { code, name: '나만의 특별한 유형', summary: '세상에 하나뿐인 독창적인 성향의 소유자' };
     if (!locMode) return m;
     if (window.LANG === 'es' && window.ES && ES.master && ES.master[code]) {
       const e = ES.master[code];
@@ -4638,7 +4722,7 @@ function renderResults(scores) {
     <!-- Retake -->
     <div class="retake-section">
       <button class="btn-retake" onclick="goHome()">🏠 ${L('처음으로', U.home)}</button>
-      <button class="btn-retake btn-primary" onclick="startQuiz()" style="padding:14px 32px;font-size:15px">🔄 ${L('다시 테스트하기', U.retake)}</button>
+      <button class="btn-retake btn-primary" data-cta-position="result_retake" onclick="startQuiz()" style="padding:14px 32px;font-size:15px">🔄 ${L('다시 테스트하기', U.retake)}</button>
     </div>
 
     <p class="disclaimer" style="text-align:center;padding-bottom:40px">${L('본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작.', U.disclaimer)}</p>
@@ -4919,20 +5003,21 @@ function shareTiktok() {
   }
 }
 
-// Start
-init();
-maybeShowLangChooser();
-if (!restoreLangSwitchState() && !restoreStoredResult()) {
+// Start — language pack first, then heavier result data only if this visit needs it.
+(async function boot() {
+  await ensureLangPack(window.LANG);
+  init();
+  maybeShowLangChooser();
+  if (await restoreLangSwitchState()) return;
+  if (await restoreStoredResult()) return;
   // 유형 페이지의 '테스트 시작' 버튼이 /?start=1, /en/?start=1 또는 /es/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
   if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
   // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
-  (function () {
-    try {
-      const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
-      if (j >= 1 && j <= 15 && /[?&]start=1(&|$)/.test(location.search)) selectJob(j);
-    } catch (e) {}
-  })();
-}
+  try {
+    const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
+    if (j >= 1 && j <= 15 && /[?&]start=1(&|$)/.test(location.search)) selectJob(j);
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

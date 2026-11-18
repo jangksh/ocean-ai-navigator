@@ -676,6 +676,7 @@ ${ogAlts}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${fontLink}">
 <script src="/i18n_router.js"></script>
+<script src="/cta_track.js" defer></script>
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 <style>${CSS}</style>
 </head>
@@ -888,7 +889,7 @@ ${HREFLANG_END}`;
 
 function patchKoreanHome(html) {
   if (!html.includes('src="/i18n_router.js"')) {
-    html = html.replace('<meta charset="UTF-8">', '<script src="/i18n_router.js"></script>\n<meta charset="UTF-8">');
+    html = html.replace('<meta charset="UTF-8">', '<script src="/i18n_router.js"></script>\n<script src="/cta_track.js" defer></script>\n<meta charset="UTF-8">');
   }
   if (!html.includes('property="og:locale"')) {
     html = html.replace(
@@ -1088,6 +1089,7 @@ ${hreflangTags(SITE + '/blog/', SITE + '/en/blog/')}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
 <script src="/i18n_router.js"></script>
+<script src="/cta_track.js" defer></script>
 <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Blog',
@@ -1154,7 +1156,7 @@ ${cards}
 function buildPrivacy() {
   let html = read('privacy/index.html');
   if (!html.includes('i18n_router.js')) {
-    html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<script src="/i18n_router.js"></script>');
+    html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<script src="/i18n_router.js"></script>\n<script src="/cta_track.js" defer></script>');
   }
   html = html.replace(/\n?<link rel="canonical" href="[^"]*">/g, '');
   html = html.replace(/\n?<link rel="alternate" hreflang="[^"]+" href="[^"]*">/g, '');
