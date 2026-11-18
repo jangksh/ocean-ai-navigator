@@ -1804,7 +1804,40 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   color: white; transform: translateY(-1px);
 }
 
-/* First-visit language chooser */
+/* Dismissible language mismatch hint (no full-screen popup).
+   The landing header and language toggle are position:fixed, so when the
+   hint is open we shift them down with --lang-hint-h. */
+.lang-hint {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10060;
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 8px 16px;
+  background: #F1F3FF;
+  border-bottom: 1px solid rgba(76,110,245,0.18);
+  color: var(--text-primary);
+  font-size: 14px; line-height: 1.45;
+}
+.lang-hint[hidden] { display: none !important; }
+.lang-hint-text { margin: 0; }
+.lang-hint-switch {
+  border: none; border-radius: 999px;
+  padding: 6px 12px;
+  background: var(--wave-1, #4C6EF5); color: #fff;
+  font-size: 13px; font-weight: 800;
+  cursor: pointer; font-family: inherit;
+}
+.lang-hint-switch:hover { filter: brightness(0.95); }
+.lang-hint-dismiss {
+  border: none; background: transparent;
+  color: var(--text-secondary);
+  font-size: 18px; line-height: 1; cursor: pointer;
+  padding: 4px 8px; font-family: inherit;
+}
+body.lang-hint-open .landing-header { top: var(--lang-hint-h, 40px) !important; }
+body.lang-hint-open .lang-switcher { top: calc(var(--lang-hint-h, 40px) + 16px) !important; }
+body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
+
+/* First-visit language chooser (kept in DOM, never shown: path decides language) */
 .lang-chooser {
   position: fixed; inset: 0; z-index: 10050;
   display: flex; align-items: center; justify-content: center;
@@ -1861,6 +1894,12 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 <div class="lang-switcher" id="langSwitcher">
   <button type="button" class="lang-toggle-btn" id="langToggle" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" onclick="toggleLangMenu(event)">EN</button>
   <div class="lang-menu" id="langMenu" hidden role="menu"></div>
+</div>
+
+<div id="langHint" class="lang-hint" hidden role="region">
+  <span class="lang-hint-text" id="langHintText"></span>
+  <button type="button" class="lang-hint-switch" id="langHintSwitch"></button>
+  <button type="button" class="lang-hint-dismiss" id="langHintDismiss" aria-label="Dismiss">&times;</button>
 </div>
 
 <div id="langChooser" class="lang-chooser" hidden role="dialog" aria-modal="true" aria-labelledby="langChooserTitle">
@@ -3388,19 +3427,94 @@ const SITE_LANGS = [
 ];
 
 function shouldShowLangChooser() {
+  // Path (/ , /en/, /es/) decides the language. The full-screen chooser is not used.
+  return false;
+}
+
+const LANG_HINT_KEY = 'ocean_lang_hint_dismissed';
+function browserSiteLang() {
+  if (typeof oceanBrowserSiteLang === 'function') return oceanBrowserSiteLang() || '';
   try {
-    if (typeof oceanIsCrawler === 'function' && oceanIsCrawler(navigator.userAgent)) return false;
+    const lang = String((navigator.language || (navigator.languages && navigator.languages[0]) || '')).toLowerCase();
+    if (/^ko(-|$)/.test(lang)) return 'ko';
+    if (/^es(-|$)/.test(lang)) return 'es';
+    if (/^en(-|$)/.test(lang)) return 'en';
   } catch (e) {}
+  return '';
+}
+function readHintDismissed() {
+  try {
+    const raw = localStorage.getItem(LANG_HINT_KEY);
+    if (!raw) return {};
+    const o = JSON.parse(raw);
+    return (o && typeof o === 'object') ? o : {};
+  } catch (e) { return {}; }
+}
+function markHintDismissed(pathLang) {
+  try {
+    const o = readHintDismissed();
+    o[pathLang] = 1;
+    localStorage.setItem(LANG_HINT_KEY, JSON.stringify(o));
+  } catch (e) {}
+}
+function langHintCopy(pathLang, offerLang) {
+  const pageName = { ko: 'Korean', en: 'English', es: 'Spanish' };
+  const pageNameEs = { ko: 'coreano', en: 'inglés', es: 'español' };
+  if (offerLang === 'ko') {
+    const where = pathLang === 'en' ? '영어' : pathLang === 'es' ? '스페인어' : '한국어';
+    return { text: '이 페이지는 ' + where + '로 되어 있어요. 한국어로 볼까요?', btn: '한국어로 보기' };
+  }
+  if (offerLang === 'es') {
+    return { text: 'Esta página está en ' + (pageNameEs[pathLang] || pathLang) + '. ¿La ves en español?', btn: 'Seguir en español' };
+  }
+  return { text: 'This page is in ' + (pageName[pathLang] || pathLang) + '. Continue in English?', btn: 'Continue in English' };
+}
+function hideLangHint() {
+  const root = document.getElementById('langHint');
+  if (root) root.hidden = true;
+  document.body.classList.remove('lang-hint-open');
+  document.body.style.removeProperty('--lang-hint-h');
+}
+function maybeShowLangHint() {
+  const root = document.getElementById('langHint');
+  if (!root) return;
+  try {
+    if (typeof oceanIsCrawler === 'function' && oceanIsCrawler(navigator.userAgent)) return;
+  } catch (e) {}
+  const pathLang = (typeof oceanPathLang === 'function') ? oceanPathLang(location.pathname) : (window.LANG || 'ko');
+  const offer = browserSiteLang();
+  if (!offer || offer === pathLang) return;
   try {
     const q = new URLSearchParams(location.search).get('lang');
-    if (q === 'en' || q === 'ko' || q === 'es') return false;
+    if (q === 'en' || q === 'ko' || q === 'es') return;
   } catch (e) {}
-  try {
-    if (typeof oceanHasLangPreference === 'function') {
-      if (oceanHasLangPreference()) return false;
-    } else if (localStorage.getItem('ocean_lang')) return false;
-  } catch (e) {}
-  return true;
+  if (readHintDismissed()[pathLang]) return;
+  const copy = langHintCopy(pathLang, offer);
+  const text = document.getElementById('langHintText');
+  const sw = document.getElementById('langHintSwitch');
+  const dismiss = document.getElementById('langHintDismiss');
+  if (text) text.textContent = copy.text;
+  if (sw) {
+    sw.textContent = copy.btn;
+    sw.onclick = function () {
+      try { localStorage.setItem('ocean_lang', offer); } catch (e) {}
+      markHintDismissed(pathLang);
+      const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(offer) : langHomeFallback(offer);
+      location.href = dest;
+    };
+  }
+  if (dismiss) {
+    dismiss.onclick = function () {
+      markHintDismissed(pathLang);
+      hideLangHint();
+    };
+  }
+  root.hidden = false;
+  document.body.classList.add('lang-hint-open');
+  requestAnimationFrame(function () {
+    const h = root.getBoundingClientRect().height;
+    document.body.style.setProperty('--lang-hint-h', Math.ceil(h) + 'px');
+  });
 }
 
 function hideLangChooser() {
@@ -5007,9 +5121,9 @@ function shareTiktok() {
 (async function boot() {
   await ensureLangPack(window.LANG);
   init();
-  maybeShowLangChooser();
-  if (await restoreLangSwitchState()) return;
-  if (await restoreStoredResult()) return;
+  maybeShowLangHint();
+  if (await restoreLangSwitchState()) { hideLangHint(); return; }
+  if (await restoreStoredResult()) { hideLangHint(); return; }
   // 유형 페이지의 '테스트 시작' 버튼이 /?start=1, /en/?start=1 또는 /es/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
   if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
   // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
