@@ -82,6 +82,10 @@ h3{font-size:18px;margin:0 0 4px}
 .job .ai strong{display:inline-block;min-width:56px;color:var(--sub);font-size:12px;letter-spacing:.3px}
 .cta{margin-top:40px;background:linear-gradient(135deg,#EEF1FF,#F3F0FF);border:1px solid var(--line);border-radius:22px;padding:30px 24px;text-align:center}
 .cta p{margin:0 0 16px;color:var(--sub)}
+.cta-slot{margin-top:20px}
+.cta-top{background:linear-gradient(135deg,#EEF1FF,#F3F0FF);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;gap:12px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cta-top p{margin:0;font-weight:700;font-size:15.5px;line-height:1.45;color:var(--text);flex:1 1 200px}
+.cta-top .btn{padding:12px 20px;font-size:15px;white-space:nowrap}
 .near{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .near li{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px}
 .near a{font-weight:800;text-decoration:none}.near span{display:block;font-size:14px;color:var(--sub)}
@@ -89,11 +93,11 @@ h3{font-size:18px;margin:0 0 4px}
 .all a,.all .cur{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .all a:hover{border-color:var(--brand)}.all .cur{background:#EEF1FF;border-color:var(--brand);color:var(--brand2)}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
-@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}}
+@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}.cta-top{padding:14px;text-align:center;justify-content:center}.cta-top p{flex-basis:100%}.cta-top .btn{width:100%;text-align:center;white-space:normal}}
 </style>
 </head>
 <body>
-<header class="site-header"><div class="in"><a class="logo" href="/en/">AI-OCEAN</a><nav><a href="/en/">Home</a><a href="/en/blog/">Blog</a><a href="/en/?start=1">Start the test</a><a class="lang-switch" href="/types/10010/" hreflang="ko" lang="ko">KO</a><span class="lang-switch" aria-current="page">EN</span><a class="lang-switch" href="/es/types/10010/" hreflang="es" lang="es">ES</a></nav></div></header>
+<header class="site-header"><div class="in"><a class="logo" href="/en/">AI-OCEAN</a><nav><a href="/en/">Home</a><a href="/en/blog/">Blog</a><a href="/en/?start=1&amp;utm_source=type&amp;utm_medium=page&amp;utm_content=header">Start the test</a><a class="lang-switch" href="/types/10010/" hreflang="ko" lang="ko">KO</a><span class="lang-switch" aria-current="page">EN</span><a class="lang-switch" href="/es/types/10010/" hreflang="es" lang="es">ES</a></nav></div></header>
 <main>
   <nav class="crumbs" aria-label="breadcrumb"><a href="/en/">Home</a> › 32 OCEAN types › The Dreamer</nav>
 
@@ -103,7 +107,14 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
     <h1>The Dreamer</h1>
     <p class="lead">A soft-hearted dreamer with many ideas who hesitates to speak up.</p>
     <div class="pills"><span class="pill" style="background:#F3F0FF;color:#7048E8">O High</span><span class="pill off" style="background:#E7F5FF;color:#1971C2">C Low</span><span class="pill off" style="background:#FFF9DB;color:#E67700">E Low</span><span class="pill" style="background:#EBFBEE;color:#0CA678">A High</span><span class="pill off" style="background:#FFF5F5;color:#C92A2A">N Low</span></div>
-    <a class="btn" href="/en/?start=1">Start my AI DNA analysis →</a>
+    <a class="btn" href="/en/?start=1&amp;utm_source=type&amp;utm_medium=page&amp;utm_content=hero">Start my AI DNA analysis →</a>
+  </div>
+
+  <div class="cta-slot">
+    <aside class="cta-top" data-cta-position="top" data-page-type="type">
+    <p>Is this your type? Find out with the free 25-question test (~3&nbsp;min)</p>
+    <a class="btn" href="/en/?start=1&amp;utm_source=type&amp;utm_medium=page&amp;utm_content=top">Start the test →</a>
+  </aside>
   </div>
 
   <section>
@@ -238,8 +249,8 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
 
   <div class="cta">
     <h2 style="margin-bottom:6px">Is your result The Dreamer too?</h2>
-    <p>Answer 25 questions and get an AI plan for your job group.</p>
-    <a class="btn" href="/en/?start=1">Start the test →</a>
+    <p>Answer 25 questions (about 3 minutes, free) and get an AI plan for your job group.</p>
+    <a class="btn" href="/en/?start=1&amp;utm_source=type&amp;utm_medium=page&amp;utm_content=bottom">Start the test →</a>
   </div>
 
   <section>

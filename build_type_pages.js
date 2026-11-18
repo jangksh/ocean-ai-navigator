@@ -109,6 +109,34 @@ const homeUrl = (lang) => lang === 'en' ? `${SITE}/en/` : lang === 'es' ? `${SIT
 const homePath = (lang) => lang === 'en' ? '/en/' : lang === 'es' ? '/es/' : '/';
 const startPath = (lang) => lang === 'en' ? '/en/?start=1' : lang === 'es' ? '/es/?start=1' : '/?start=1';
 
+function startHref(lang, utm = {}) {
+  const parts = Object.entries(utm)
+    .filter(([, v]) => v)
+    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`);
+  return parts.length ? `${startPath(lang)}&amp;${parts.join('&amp;')}` : startPath(lang);
+}
+
+function typeStartHref(lang, content) {
+  return startHref(lang, { utm_source: 'type', utm_medium: 'page', utm_content: content });
+}
+
+function startCtaBox(lang, pageType, href) {
+  const copy = pageType === 'type'
+    ? (lang === 'es'
+      ? '¿También eres este tipo? Compruébalo con el test gratuito de 25 preguntas (unos&nbsp;3&nbsp;min)'
+      : lang === 'en'
+        ? 'Is this your type? Find out with the free 25-question test (~3&nbsp;min)'
+        : '나도 이 유형일까? 25문항 무료 테스트로 확인 (약&nbsp;3분)')
+    : (lang === 'en'
+      ? 'Take the free Big Five test · 25 questions · ~3&nbsp;min'
+      : '내 빅파이브 성향 바로 확인하기 · 25문항 · 약&nbsp;3분 · 무료');
+  const btn = lang === 'es' ? 'Empezar el test →' : lang === 'en' ? 'Start the test →' : '테스트 시작하기 →';
+  return `<aside class="cta-top" data-cta-position="top" data-page-type="${pageType}">
+    <p>${copy}</p>
+    <a class="btn" href="${href}">${btn}</a>
+  </aside>`;
+}
+
 function hreflangTags(koUrl, enUrl, esUrl) {
   const tags = [
     `<link rel="alternate" hreflang="ko" href="${koUrl}">`,
@@ -270,6 +298,10 @@ h3{font-size:18px;margin:0 0 4px}
 .job .ai strong{display:inline-block;min-width:56px;color:var(--sub);font-size:12px;letter-spacing:.3px}
 .cta{margin-top:40px;background:linear-gradient(135deg,#EEF1FF,#F3F0FF);border:1px solid var(--line);border-radius:22px;padding:30px 24px;text-align:center}
 .cta p{margin:0 0 16px;color:var(--sub)}
+.cta-slot{margin-top:20px}
+.cta-top{background:linear-gradient(135deg,#EEF1FF,#F3F0FF);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;gap:12px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cta-top p{margin:0;font-weight:700;font-size:15.5px;line-height:1.45;color:var(--text);flex:1 1 200px}
+.cta-top .btn{padding:12px 20px;font-size:15px;white-space:nowrap}
 .near{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .near li{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px}
 .near a{font-weight:800;text-decoration:none}.near span{display:block;font-size:14px;color:var(--sub)}
@@ -277,7 +309,7 @@ h3{font-size:18px;margin:0 0 4px}
 .all a,.all .cur{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .all a:hover{border-color:var(--brand)}.all .cur{background:#EEF1FF;border-color:var(--brand);color:var(--brand2)}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
-@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}}
+@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}.cta-top{padding:14px;text-align:center;justify-content:center}.cta-top p{flex-basis:100%}.cta-top .btn{width:100%;text-align:center;white-space:normal}}
 `;
 
 function latinName(s) {
@@ -545,6 +577,11 @@ function pageFor(code, lang) {
   ).join('');
   const logoHref = homePath(lang);
   const ctaHref = startPath(lang);
+  const hrefHeader = typeStartHref(lang, 'header');
+  const hrefHero = typeStartHref(lang, 'hero');
+  const hrefTop = typeStartHref(lang, 'top');
+  const hrefBottom = typeStartHref(lang, 'bottom');
+  const topCta = startCtaBox(lang, 'type', hrefTop);
   const ogLocale = isEs ? 'es_419' : isEn ? 'en_US' : 'ko_KR';
   const ogAlts = (isEs ? ['en_US', 'ko_KR'] : isEn ? ['ko_KR', 'es_419'] : ['en_US', 'es_419'])
     .map((c) => `<meta property="og:locale:alternate" content="${c}">`).join('\n');
@@ -574,10 +611,10 @@ function pageFor(code, lang) {
   const h2Jobs = isEs ? `Notas por área profesional para ${esc(name)}` : isEn ? `Job-group notes for ${esc(name)}` : `직업군별 ${esc(nameKo)} 가이드`;
   const ctaH = isEs ? `¿Tu resultado también es ${esc(name)}?` : isEn ? `Is your result ${esc(name)} too?` : `내 결과도 ${esc(nameKo)}일까요?`;
   const ctaP = isEs
-    ? 'Responde 25 preguntas y recibe un plan de IA para tu área profesional.'
+    ? 'Son 25 preguntas, unos 3 minutos y es gratis. Recibe un plan de IA para tu área profesional.'
     : isEn
-      ? 'Answer 25 questions and get an AI plan for your job group.'
-      : '25문항에 답하면 내 직업군에 맞춘 AI 처방전을 받을 수 있습니다.';
+      ? 'Answer 25 questions (about 3 minutes, free) and get an AI plan for your job group.'
+      : '25문항 · 약&nbsp;3분 · 무료. 내 직업군에 맞춘 AI 처방전을 받을 수 있습니다.';
   const ctaBtn = isEs ? 'Empezar el test →' : isEn ? 'Start the test →' : '테스트 시작하기 →';
   const heroBtn = isEs ? 'Empezar mi análisis de ADN de IA →' : isEn ? 'Start my AI DNA analysis →' : '나의 AI DNA 분석 시작 →';
   const h2Near = isEs ? 'Tipos vecinos (cambia una sola dimensión)' : isEn ? 'Neighbor types (one dimension flipped)' : '한 차원만 다른 이웃 유형';
@@ -641,7 +678,7 @@ ${ogAlts}
 <style>${CSS}</style>
 </head>
 <body>
-<header class="site-header"><div class="in"><a class="logo" href="${logoHref}">AI-OCEAN</a><nav><a href="${logoHref}">${navHome}</a><a href="${blogHref}">${blogLabel}</a><a href="${ctaHref}">${navStart}</a>${langSwitch}</nav></div></header>
+<header class="site-header"><div class="in"><a class="logo" href="${logoHref}">AI-OCEAN</a><nav><a href="${logoHref}">${navHome}</a><a href="${blogHref}">${blogLabel}</a><a href="${hrefHeader}">${navStart}</a>${langSwitch}</nav></div></header>
 <main>
   <nav class="crumbs" aria-label="breadcrumb"><a href="${logoHref}">${crumbHome}</a> › ${crumbTypes} › ${esc(name)}</nav>
 
@@ -651,7 +688,11 @@ ${ogAlts}
     <h1>${esc(name)}</h1>
     <p class="lead">${esc(lead)}</p>
     <div class="pills">${pills}</div>
-    <a class="btn" href="${ctaHref}">${heroBtn}</a>
+    <a class="btn" href="${hrefHero}">${heroBtn}</a>
+  </div>
+
+  <div class="cta-slot">
+    ${topCta}
   </div>
 
   <section>
@@ -678,7 +719,7 @@ ${ogAlts}
   <div class="cta">
     <h2 style="margin-bottom:6px">${ctaH}</h2>
     <p>${ctaP}</p>
-    <a class="btn" href="${ctaHref}">${ctaBtn}</a>
+    <a class="btn" href="${hrefBottom}">${ctaBtn}</a>
   </div>
 
   <section>
@@ -726,7 +767,7 @@ const BLOG_POSTS = [
   {
     lang: 'ko',
     path: '/blog/free-personality-test-career-bigfive/',
-    lastmod: '2026-11-16',
+    lastmod: '2026-11-17',
     datePublished: '2026-11-16',
   },
   {

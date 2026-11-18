@@ -41,8 +41,9 @@
 body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Inter',-apple-system,'Segoe UI',sans-serif;line-height:1.75}
 a{color:var(--brand2)}
 .site-header{background:#fff;border-bottom:1px solid var(--line)}
-.site-header .in{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.site-header .in{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px}
 .logo{font-weight:900;font-size:20px;letter-spacing:-.5px;color:var(--brand);text-decoration:none}
+.site-header nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end}
 .site-header nav a{margin-left:18px;font-size:14px;font-weight:600;color:var(--sub);text-decoration:none}
 .lang-switch{display:inline-block;margin-left:16px;font-size:12px;font-weight:800;color:var(--brand);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
 main{max-width:880px;margin:0 auto;padding:20px 20px 64px}
@@ -64,8 +65,12 @@ h1{margin:0 0 12px;font-size:clamp(28px,5vw,40px);line-height:1.25;letter-spacin
 .faq-list{display:grid;gap:12px}
 .cta{margin-top:40px;background:linear-gradient(135deg,#EEF1FF,#F3F0FF);border:1px solid var(--line);border-radius:22px;padding:30px 24px;text-align:center}
 .cta p{margin:0 0 16px;color:var(--sub)}
+.cta-slot{margin:20px 0 0}
+.cta-top{background:linear-gradient(135deg,#EEF1FF,#F3F0FF);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;gap:12px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cta-top p{margin:0;font-weight:700;font-size:15.5px;line-height:1.45;color:var(--text);flex:1 1 200px}
+.cta-top .btn{padding:12px 20px;font-size:15px;white-space:nowrap}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
-@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}}
+@media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}.cta-top{padding:14px;text-align:center;justify-content:center}.cta-top p{flex-basis:100%}.cta-top .btn{width:100%;text-align:center;white-space:normal}}
 </style>
 </head>
 <body>
@@ -78,13 +83,20 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
     <h1>Big Five Personality Test for Careers: How to Read OCEAN Scores at Work</h1>
     <p class="lead">A personality test for careers is only useful if you know what the scores can tell you — and what they cannot.</p>
     <p class="meta">Published November 14, 2026 · About a 7-minute read</p>
-    <a class="btn" href="/en/?start=1">Take the free 25-item test →</a>
+    <a class="btn" href="/en/?start=1&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=big-five-careers&amp;utm_content=hero">Take the free 25-item test →</a>
   </div>
 
   <section>
     <p>The <a href="/en/">Big Five (OCEAN) test on AI-OCEAN</a> is a free 25-item questionnaire, designed to take about three minutes. It profiles you on Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism (emotional variability), then maps that profile to work contexts.</p>
     <p>This is not a trait encyclopedia, and it is not a comparison with MBTI. For a fuller Korean-language look at why type labels shift, see <a href="/blog/mbti-vs-bigfive-ocean/">MBTI vs the Big Five (OCEAN)</a>. This page is a guide to <em>using</em> a Big Five result when you choose a role or a way of working.</p>
   </section>
+
+  <div class="cta-slot">
+    <aside class="cta-top" data-cta-position="top" data-page-type="blog">
+      <p>Take the free Big Five test · 25 questions · ~3&nbsp;min</p>
+      <a class="btn" href="/en/?start=1&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=big-five-careers&amp;utm_content=top">Start the test →</a>
+    </aside>
+  </div>
 
   <section>
     <h2>Why career tests and personality tests answer different questions</h2>
@@ -142,8 +154,8 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
 
   <div class="cta">
     <h2 style="margin-bottom:6px">Ready to see your OCEAN profile?</h2>
-    <p>Take the free 25-item test, then read the type page that matches your code.</p>
-    <a class="btn" href="/en/?start=1">Take the free 25-item OCEAN test →</a>
+    <p>Take the free 25-question test — about 3 minutes — then read the type page that matches your code.</p>
+    <a class="btn" href="/en/?start=1&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=big-five-careers&amp;utm_content=end">Take the free 25-question OCEAN test →</a>
   </div>
 
   <section>
