@@ -110,10 +110,13 @@ const homePath = (lang) => lang === 'en' ? '/en/' : lang === 'es' ? '/es/' : '/'
 const startPath = (lang) => lang === 'en' ? '/en/?start=1' : lang === 'es' ? '/es/?start=1' : '/?start=1';
 
 function startHref(lang, utm = {}) {
-  const parts = Object.entries(utm)
+  // ?lang=ko|en|es is an explicit language choice: i18n_router.js saves it to
+  // ocean_lang, and the home language chooser (shouldShowLangChooser) stays hidden.
+  // The URL path alone does not suppress the popup for first-time visitors.
+  const parts = [['lang', lang], ...Object.entries(utm)]
     .filter(([, v]) => v)
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`);
-  return parts.length ? `${startPath(lang)}&amp;${parts.join('&amp;')}` : startPath(lang);
+  return `${startPath(lang)}&amp;${parts.join('&amp;')}`;
 }
 
 function typeStartHref(lang, content) {
@@ -135,6 +138,67 @@ function startCtaBox(lang, pageType, href) {
     <p>${copy}</p>
     <a class="btn" href="${href}">${btn}</a>
   </aside>`;
+}
+
+// Add lang= to /?start=1, /en/?start=1 and /es/?start=1 hrefs that lack it.
+// Language follows the destination path, not the page the link sits on
+// (a Korean post may point at /en/?start=1).
+function startLangFromHref(href) {
+  const raw = String(href).replace(/&amp;/g, '&');
+  if (raw === '/es/' || raw.startsWith('/es/?') || raw.startsWith('/es/')) return 'es';
+  if (raw === '/en/' || raw.startsWith('/en/?') || raw.startsWith('/en/')) return 'en';
+  return 'ko';
+}
+
+function ensureStartLang(html) {
+  return html.replace(/href="([^"]*start=1[^"]*)"/g, (all, href) => {
+    const raw = href.replace(/&amp;/g, '&');
+    if (/(?:^|[?&])lang=/.test(raw)) return all;
+    const lang = startLangFromHref(href);
+    return `href="${href.replace(/start=1/, `start=1&amp;lang=${lang}`)}"`;
+  });
+}
+
+// Unpaired posts get a self-referencing hreflang only. x-default is added when
+// an English URL exists (the site-wide default) — on English-only posts that is
+// the post itself. Do not invent a pair with a different article or the index.
+function blogPostHreflangTags(post) {
+  const url = SITE + post.path;
+  if (post.pairPath) {
+    const pairUrl = SITE + post.pairPath;
+    const koUrl = post.lang === 'ko' ? url : pairUrl;
+    const enUrl = post.lang === 'en' ? url : pairUrl;
+    return hreflangTags(koUrl, enUrl);
+  }
+  const tags = [`<link rel="alternate" hreflang="${post.lang}" href="${url}">`];
+  if (post.lang === 'en') tags.push(`<link rel="alternate" hreflang="x-default" href="${url}">`);
+  return tags.join('\n');
+}
+
+function upsertHeadHreflang(html, tags) {
+  const current = [...html.matchAll(/<link rel="alternate" hreflang="[^"]+" href="[^"]*">/g)]
+    .map((m) => m[0])
+    .join('\n');
+  if (current === tags) return html;
+  html = html.replace(/\n?<link rel="alternate" hreflang="[^"]+" href="[^"]*">/g, '');
+  if (!/<link rel="canonical" href="[^"]*">/.test(html)) {
+    throw new Error('canonical 태그가 없어 hreflang을 넣을 수 없습니다.');
+  }
+  return html.replace(/(<link rel="canonical" href="[^"]*">)/, `$1\n${tags}`);
+}
+
+function patchBlogPages() {
+  const indexes = [
+    { file: 'blog/index.html', tags: hreflangTags(SITE + '/blog/', SITE + '/en/blog/') },
+    { file: 'en/blog/index.html', tags: hreflangTags(SITE + '/blog/', SITE + '/en/blog/') },
+  ];
+  indexes.forEach(({ file, tags }) => {
+    writeFile(file, ensureStartLang(upsertHeadHreflang(read(file), tags)));
+  });
+  BLOG_POSTS.forEach((p) => {
+    const file = p.path.replace(/^\//, '') + 'index.html';
+    writeFile(file, ensureStartLang(upsertHeadHreflang(read(file), blogPostHreflangTags(p))));
+  });
 }
 
 function hreflangTags(koUrl, enUrl, esUrl) {
@@ -1129,7 +1193,7 @@ footer{max-width:760px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
 </style>
 </head>
 <body>
-<header class="site-header"><div class="in"><a class="logo" href="/en/">AI-OCEAN</a><nav><a href="/en/blog/">Blog</a><a href="/en/?start=1&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=en-blog-index&amp;utm_content=header">Start the test</a><a class="lang-switch" href="/blog/" hreflang="ko" lang="ko">KO</a></nav></div></header>
+<header class="site-header"><div class="in"><a class="logo" href="/en/">AI-OCEAN</a><nav><a href="/en/blog/">Blog</a><a href="/en/?start=1&amp;lang=en&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=en-blog-index&amp;utm_content=header">Start the test</a><a class="lang-switch" href="/blog/" hreflang="ko" lang="ko">KO</a></nav></div></header>
 <main>
   <nav class="crumbs" aria-label="breadcrumb"><a href="/en/">Home</a> › Blog</nav>
   <header class="hero">
@@ -1143,7 +1207,7 @@ ${cards}
   <div class="cta">
     <h2 style="margin-bottom:6px">Curious about your OCEAN type?</h2>
     <p>Answer 25 questions and get an AI plan for your job group.</p>
-    <a class="btn" href="/en/?start=1&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=en-blog-index&amp;utm_content=blog_index">Start the test →</a>
+    <a class="btn" href="/en/?start=1&amp;lang=en&amp;utm_source=blog&amp;utm_medium=article&amp;utm_campaign=en-blog-index&amp;utm_content=blog_index">Start the test →</a>
   </div>
 </main>
 <footer>This is a reference based on the Big Five (OCEAN) model, not a psychological diagnosis. MBTI is a trademark of its owners; AI-OCEAN is not affiliated with the official Myers-Briggs Type Indicator. · <a href="/en/">AI-OCEAN home</a> · <a href="/en/blog/">Blog</a> · <a href="/en/privacy/">Privacy</a> · ${contactMailto('en')}</footer>
@@ -1208,6 +1272,7 @@ buildEnHome();
 buildEsHome();
 buildEnBlogIndex();
 buildPrivacy();
+patchBlogPages();
 buildSitemap();
 const sitemapCount = 3 + CODES.length * 3 + BLOG_URLS.length + 3;
 console.log(`생성 완료: types/ ${CODES.length}개, en/types/ ${CODES.length}개, es/types/ ${CODES.length}개, en/index.html, es/index.html, sitemap.xml ${sitemapCount} URL`);
