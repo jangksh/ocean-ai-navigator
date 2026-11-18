@@ -283,3 +283,10 @@ function previewToMe() {
     [1, 2, 6].forEach(function (w) { send_(me, (function (m) { m.subject = '[PREVIEW ' + x[1] + ' ' + x[0] + '] ' + m.subject; return m; })(buildEmail_(content, { kind: 'tip', week: w }, rec, links))); });
   });
 }
+
+/** 권한 승인용: 메일을 보내지 않고 메일·시트·외부 요청 권한만 요청한다. 새 계정에 배포할 때 한 번 실행. */
+function authorizeScopes() {
+  Logger.log(MailApp.getRemainingDailyQuota());
+  Logger.log(SpreadsheetApp.getActiveSpreadsheet().getName());
+  Logger.log(UrlFetchApp.fetch(CONFIG.CONTENT_URL, { muteHttpExceptions: true }).getResponseCode());
+}
