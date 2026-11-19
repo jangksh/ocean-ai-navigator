@@ -45,6 +45,29 @@ function fill_(str, vars) {
   return String(str).replace(/\{\{(\w+)\}\}/g, function (_, k) { return vars[k] == null ? '' : vars[k]; });
 }
 
+/** ko / es 만 그대로 두고 나머지는 en. */
+function langOf_(lang) {
+  return lang === 'ko' || lang === 'es' ? lang : 'en';
+}
+
+function pick_(v, fallback) { return (v == null || v === '') ? fallback : v; }
+
+/** 해당 언어 묶음. 없거나 빠진 라벨은 영어를 써서 깨지지 않게 한다. */
+function pack_(content, lang) {
+  var en = content.en, raw = content[langOf_(lang)] || en;
+  if (raw === en) return en;
+  var labels = {}, k;
+  for (k in en.labels) if (k !== 'dim' && Object.prototype.hasOwnProperty.call(en.labels, k)) labels[k] = pick_(raw.labels && raw.labels[k], en.labels[k]);
+  labels.dim = {};
+  DIMS.forEach(function (d) { labels.dim[d] = pick_(raw.labels && raw.labels.dim && raw.labels.dim[d], en.labels.dim[d]); });
+  return {
+    labels: labels,
+    course: raw.course && raw.course.length ? raw.course : en.course,
+    tips: raw.tips || en.tips,
+    blind: raw.blind || en.blind
+  };
+}
+
 /** 보낸 개수와 마지막 발송 시각으로 다음에 보낼 메일을 정한다. 아직이거나 끝났으면 null. */
 function nextStep_(sentCount, lastSentMs, nowMs, weeks) {
   var gap = nowMs - lastSentMs;
@@ -59,12 +82,19 @@ function tipFor_(content, lang, code, week) {
   var dim = DIMS[(week - 1) % 5];
   var round = Math.floor((week - 1) / 5);
   var bit = code.charAt(DIMS.indexOf(dim));
-  return content[lang].tips[dim + bit][round];
+  var c = pack_(content, lang);
+  var tip = c.tips && c.tips[dim + bit] && c.tips[dim + bit][round];
+  return tip || content.en.tips[dim + bit][round];
 }
 
 function typeVars_(content, lang, code) {
-  var t = content.types[code], l = t[lang];
-  return { name: l.name, summary: l.summary, insight: l.insight, tools: t.tools };
+  var t = content.types[code], l = t[langOf_(lang)] || t.en, e = t.en;
+  return {
+    name: pick_(l && l.name, e.name),
+    summary: pick_(l && l.summary, e.summary),
+    insight: (l && l.insight != null) ? l.insight : e.insight,
+    tools: t.tools
+  };
 }
 
 function blocksToHtml_(blocks, vars, c, code) {
@@ -108,10 +138,10 @@ function wrapEmail_(bodyHtml, bodyText, c, links) {
 
 /** step = {kind:'course', day} | {kind:'tip', week}. rec = {code, lang}. */
 function buildEmail_(content, step, rec, links) {
-  var lang = content[rec.lang] ? rec.lang : 'en', c = content[lang], code = rec.code;
+  var lang = langOf_(rec.lang), c = pack_(content, lang), code = rec.code;
   var vars = typeVars_(content, lang, code), subject, parts;
   if (step.kind === 'course') {
-    var day = c.course[step.day - 1];
+    var day = (c.course && c.course[step.day - 1]) || content.en.course[step.day - 1];
     subject = fill_(day.subject, vars);
     parts = blocksToHtml_(day.blocks, vars, c, code);
   } else {
@@ -134,7 +164,7 @@ function buildEmail_(content, step, rec, links) {
 }
 
 function confirmEmail_(content, rec, links) {
-  var lang = content[rec.lang] ? rec.lang : 'en', c = content[lang];
+  var c = pack_(content, rec.lang);
   var bodyHtml = '<p style="margin:0 0 18px;line-height:1.65">' + esc_(c.labels.confirmBody) + '</p>' +
     '<p style="margin:0 0 8px"><a href="' + links.confirm + '" style="display:inline-block;padding:12px 22px;background:#2b7fff;color:#fff;text-decoration:none;border-radius:8px;font-weight:700">' + esc_(c.labels.confirmBtn) + '</a></p>';
   var w = wrapEmail_(bodyHtml, c.labels.confirmBody + '\n\n' + links.confirm, c, links);
@@ -195,7 +225,7 @@ function doPost(e) {
   if (p.company) return ok;                                            // 허니팟: 봇은 조용히 무시
   var email = String(p.email || '').trim().toLowerCase();
   var code = /^[01]{5}$/.test(p.code || '') ? p.code : null;
-  var lang = p.lang === 'ko' ? 'ko' : 'en';
+  var lang = langOf_(p.lang);
   var job = /^\d{1,2}$/.test(p.job || '') ? String(p.job).padStart(2, '0') : '';
   var utm = /^[\w.\-|]{0,170}$/.test(p.utm || '') ? String(p.utm || '') : '';          // 출처(source|medium|campaign|content)
   if (!validEmail_(email) || !code) return ok;
@@ -229,7 +259,7 @@ function doGet(e) {
   try {
     var sh = sheet_(), r = rows_(sh).filter(function (x) { return x.token === t; })[0];
     if (!r) return page_('AI-OCEAN', content.en.labels.badLink + ' / ' + content.ko.labels.badLink);
-    var lang = r.lang === 'ko' ? 'ko' : 'en', c = content[lang];
+    var lang = langOf_(r.lang), c = pack_(content, lang);
     if (a === 'unsub') {
       if (r.status !== 'unsub') setRow_(sh, r.row, { status: 'unsub' });
       return page_(c.labels.unsubTitle, c.labels.unsubBody);
@@ -258,7 +288,7 @@ function sendDue() {
     if (r.status !== 'active' || left <= 0) return;
     var step = nextStep_(Number(r.sent_count) || 0, new Date(r.last_sent_at).getTime(), now, content.weeks);
     if (!step) return;
-    var code = String(r.code).padStart(5, '0'), lang = r.lang === 'ko' ? 'ko' : 'en';
+    var code = String(r.code).padStart(5, '0'), lang = langOf_(r.lang);
     try {
       send_(r.email, buildEmail_(content, step, { code: code, lang: lang }, linksFor_(r.token)));
       setRow_(sh, r.row, { sent_count: (Number(r.sent_count) || 0) + 1, last_sent_at: new Date(now) });

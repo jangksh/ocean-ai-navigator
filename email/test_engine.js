@@ -131,6 +131,37 @@ ctx.CONFIG.POSTAL_ADDRESS = 'AI-OCEAN, PO Box 1, Cypress, CA 90630, USA';
 run('sendDue()'); assert.strictEqual(sent.length, 2); assert.strictEqual(rows[1][8], 1);  // 주소 설정 후 1일차
 console.log('no postal address: confirm only, course held, resumes at day 1 OK');
 
+// 6) 스페인어 유지, 알 수 없는 언어는 en, 빠진 문구는 en으로 대체
+ctx.CONFIG.POSTAL_ADDRESS = '';
+rows = []; sent = [];
+post({ email: 'es@example.com', code: '01101', lang: 'es' });
+assert.strictEqual(rows[1][6], 'es');
+assert.strictEqual(sent[0].subject, content.es.labels.confirmSubject);
+assert.ok(sent[0].html.includes(content.es.labels.confirmBtn));
+const tokenEs = rows[1][2];
+const pageEs = run('doGet({parameter:{a:"confirm",t:"' + tokenEs + '"}})');
+assert.strictEqual(rows[1][3], 'active');
+assert.ok(pageEs.html.includes(content.es.labels.confirmedTitle));
+const pageUnsub = run('doGet({parameter:{a:"unsub",t:"' + tokenEs + '"}})');
+assert.ok(pageUnsub.html.includes(content.es.labels.unsubTitle));
+post({ email: 'fr@example.com', code: '01101', lang: 'fr' });
+assert.strictEqual(rows[2][6], 'en');
+assert.strictEqual(sent[1].subject, content.en.labels.confirmSubject);
+ctx.CONFIG.POSTAL_ADDRESS = 'AI-OCEAN, PO Box 1, Cypress, CA 90630, USA';
+rows = []; sent = [];
+post({ email: 'es2@example.com', code: '11010', lang: 'es' });
+run('doGet({parameter:{a:"confirm",t:"' + rows[1][2] + '"}})');
+assert.strictEqual(rows[1][8], 1);
+assert.ok(sent[1].subject.includes('bienvenida'), 'day-1 mail should stay in Spanish: ' + sent[1].subject);
+const origSub = content.es.labels.confirmSubject;
+delete content.es.labels.confirmSubject;
+rows = []; sent = [];
+post({ email: 'fb@example.com', code: '00000', lang: 'es' });
+assert.strictEqual(rows[1][6], 'es');
+assert.strictEqual(sent[0].subject, content.en.labels.confirmSubject);
+content.es.labels.confirmSubject = origSub;
+console.log('Spanish lang kept, unknown lang → en, missing label → en OK');
+
 if (process.argv.includes('--sample')) {
   ctx.CONFIG.POSTAL_ADDRESS = '[postal address]';
   for (const [st, r] of [[{ kind: 'course', day: 1 }, { code: '11010', lang: 'en' }], [{ kind: 'tip', week: 3 }, { code: '11010', lang: 'en' }], [{ kind: 'course', day: 4 }, { code: '01101', lang: 'ko' }]]) {
