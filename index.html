@@ -1520,6 +1520,34 @@ html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform:
 .sub-fine a { color: inherit; text-decoration: underline; }
 .site-footer { max-width: 880px; margin: 0 auto; padding: 16px 20px 32px; font-size: 13px; color: var(--text-secondary); text-align: center; }
 .site-footer a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.site-footer .social-follow a { text-decoration: none; }
+
+.site-footer-inner { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.social-follow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.social-follow-label { font-size: 12px; color: var(--text-secondary); }
+.social-follow a {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  color: var(--text-secondary); text-decoration: none;
+  border: 1px solid var(--card-border); background: #fff;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.social-follow a:hover, .social-follow a:focus-visible {
+  color: var(--text-primary); border-color: var(--text-secondary); outline: none;
+}
+.social-follow a svg { width: 18px; height: 18px; display: block; }
+.hero-social-proof {
+  display: none;
+  margin: -24px 0 28px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.hero-social-proof.is-visible { display: block; }
+@media (max-width: 480px) {
+  .hero-social-proof { margin: -4px 0 16px; text-align: center; }
+}
+
 .result-contact { text-align: center; margin: 14px 0 4px; font-size: 12px; color: var(--text-secondary); }
 .result-contact a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 
@@ -1941,7 +1969,8 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
           <button class="btn-hero-start" id="btnStartHero" data-cta-position="hero" onclick="startQuiz()" data-i18n="hero_cta1">무료 테스트 시작 · 3분</button>
           <button class="btn-hero-about" onclick="showScreen('about')" data-i18n="hero_about_btn">OCEAN이란?</button>
         </div>
-        <div class="hero-stats-mini">
+        <p id="socialProof" class="hero-social-proof" hidden></p>
+                <div class="hero-stats-mini">
           <div class="hsm-item"><div class="hsm-num">25</div><div class="hsm-label" data-i18n="stat_questions">테스트 문항</div></div>
           <div class="hsm-item"><div class="hsm-num">15</div><div class="hsm-label" data-i18n="stat_jobs">직업군</div></div>
           <div class="hsm-item"><div class="hsm-num">32</div><div class="hsm-label" data-i18n="stat_types">성향 유형</div></div>
@@ -2663,7 +2692,18 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
   </div>
 </div>
 
-<footer id="site-footer" class="site-footer"><span data-i18n="footer_contact">문의</span>: <a href="mailto:oceanainavigator@gmail.com">oceanainavigator@gmail.com</a></footer>
+<footer id="site-footer" class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="social-follow" aria-labelledby="footerFollowLabel">
+      <span id="footerFollowLabel" class="social-follow-label" data-i18n="footer_follow">팔로우</span>
+      <a href="https://www.facebook.com/profile.php?id=61596286486734" target="_blank" rel="noopener" aria-label="Facebook" data-social-platform="facebook" data-social-position="footer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12.07C22 6.48 17.52 2 11.93 2S1.86 6.48 1.86 12.07c0 5.02 3.66 9.18 8.44 9.93v-7.02H7.9v-2.91h2.4V9.84c0-2.38 1.42-3.69 3.6-3.69 1.04 0 2.13.18 2.13.18v2.35h-1.2c-1.18 0-1.55.73-1.55 1.48v1.78h2.64l-.42 2.91h-2.22V22c4.78-.75 8.44-4.91 8.44-9.93z"/></svg></a>
+      <a href="https://www.instagram.com/oceanainavigator/" target="_blank" rel="noopener" aria-label="Instagram" data-social-platform="instagram" data-social-position="footer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm10 2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-5 3.2A3.8 3.8 0 1 1 8.2 12 3.8 3.8 0 0 1 12 8.2zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2zM17.25 6.5a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg></a>
+      <a href="https://www.tiktok.com/@oceanainavigator" target="_blank" rel="noopener" aria-label="TikTok" data-social-platform="tiktok" data-social-position="footer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.01 1.95 2.89 2.89 0 0 1 2.13-4.74c.28 0 .54.04.79.1v3.5a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 1 0 6.34 6.34V8.73a8.18 8.18 0 0 0 4.76 1.51V6.77a4.84 4.84 0 0 1-1-.08z"/></svg></a>
+      <a href="https://www.youtube.com/@OceanAiNavigator" target="_blank" rel="noopener" aria-label="YouTube" data-social-platform="youtube" data-social-position="footer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 12.2s0-3.3-.4-4.8c-.2-1.1-1.1-2-2.2-2.2C18.6 4.8 12 4.8 12 4.8s-6.6 0-8.4.4c-1.1.2-2 1.1-2.2 2.2C1 8.9 1 12.2 1 12.2s0 3.3.4 4.8c.2 1.1 1.1 2 2.2 2.2 1.8.5 8.4.5 8.4.5s6.6 0 8.4-.5c1.1-.2 2-1.1 2.2-2.2.4-1.5.4-4.8.4-4.8zM9.8 15.5V8.9l6.4 3.3-6.4 3.3z"/></svg></a>
+    </nav>
+    <div class="site-footer-contact"><span data-i18n="footer_contact">문의</span>: <a href="mailto:oceanainavigator@gmail.com">oceanainavigator@gmail.com</a></div>
+  </div>
+</footer>
 
 <script>
 if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
@@ -3046,7 +3086,8 @@ const STRINGS = {
     js_step: '마지막 단계', js_title: '결과를 보기 전에 직업군을 선택해 주세요',
     js_sub: '직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다',
     js_start: '결과 보기 →',
-    footer_contact: '문의',
+    footer_follow: '팔로우', footer_contact: '문의',
+    proof_taken: '{n}명이 테스트를 완료했어요',
     disclaimer: 'Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작. 본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다.',
     about_back: '← 테스트로 돌아가기',
     about_hero_label: '📖 심리학 기반 신뢰 지표',
@@ -3139,7 +3180,8 @@ const STRINGS = {
     js_step: 'Last step', js_title: 'Choose your field to see your results',
     js_sub: 'The same personality gets different AI recommendations based on your job',
     js_start: 'See my results →',
-    footer_contact: 'Contact',
+    footer_follow: 'Follow us', footer_contact: 'Contact',
+    proof_taken: '{n} people have taken the test',
     disclaimer: 'Based on the Big Five (OCEAN) model — referencing the IPIP open framework, with questions independently created in Korean. This test is not a medical diagnosis and is for reference only.',
     about_back: '← Back to Test',
     about_hero_label: '📖 Science-Based Trust Indicators',
@@ -3232,7 +3274,8 @@ const STRINGS = {
     js_step: 'Último paso', js_title: 'Elige tu área profesional para ver tus resultados',
     js_sub: 'La misma personalidad recibe distintas recomendaciones de IA según tu trabajo',
     js_start: 'Ver mis resultados →',
-    footer_contact: 'Contacto',
+    footer_follow: 'Síguenos', footer_contact: 'Contacto',
+    proof_taken: '{n} personas han completado el test',
     disclaimer: 'Basado en el modelo Big Five (OCEAN) — con referencia al marco abierto IPIP. Este test no es un diagnóstico médico; es una guía de personalidad para ayudarte a usar la IA.',
     about_back: '← Volver al test',
     about_hero_label: '📖 Indicadores de confianza basados en la ciencia',
@@ -3350,6 +3393,7 @@ function setLang(lang, persist) {
   if (act && act.id === 'screen-results' && window._lastScores) {
     ensureResultData(selectedJob, window.LANG).then(() => renderResults(window._lastScores));
   }
+  if (typeof applySocialProof === 'function') applySocialProof();
 }
 
 function applyTypeLinks() {
@@ -3723,16 +3767,24 @@ document.addEventListener('click', function (e) {
   if (!t || !t.closest) return;
   const a = t.closest('a[href]');
   if (a) {
-    let host = '';
-    try { host = new URL(a.href, location.href).hostname; } catch (_) {}
-    if (host && host !== location.hostname) {
-      const scr = a.closest('.screen');
-      const p = Object.assign({
-        tool_name: ((a.querySelector('.tp-name') || a).textContent || '').replace(/[↗\s]+/g, ' ').trim().slice(0, 60) || host,
-        link_domain: host,
-        placement: scr ? scr.id.replace('screen-', '') : 'other'
-      }, jobParams());
-      track('outbound_click', p);
+    const soc = a.closest('[data-social-platform]');
+    if (soc) {
+      track('social_click', {
+        platform: soc.getAttribute('data-social-platform') || 'unknown',
+        position: soc.getAttribute('data-social-position') || 'footer'
+      });
+    } else {
+      let host = '';
+      try { host = new URL(a.href, location.href).hostname; } catch (_) {}
+      if (host && host !== location.hostname) {
+        const scr = a.closest('.screen');
+        const p = Object.assign({
+          tool_name: ((a.querySelector('.tp-name') || a).textContent || '').replace(/[↗\s]+/g, ' ').trim().slice(0, 60) || host,
+          link_domain: host,
+          placement: scr ? scr.id.replace('screen-', '') : 'other'
+        }, jobParams());
+        track('outbound_click', p);
+      }
     }
   }
   const sb = t.closest('.sns-btn');
@@ -3754,6 +3806,44 @@ function init() {
   var persist = false;
   try { persist = !!localStorage.getItem('ocean_lang'); } catch (e) {}
   setLang(window.LANG, persist);
+  loadSocialProof();
+}
+
+var _socialProofStats = null;
+function formatProofCount(n) {
+  try {
+    var loc = window.LANG === 'ko' ? 'ko-KR' : window.LANG === 'es' ? 'es' : 'en-US';
+    return Number(n).toLocaleString(loc) + '+';
+  } catch (e) {
+    return n + '+';
+  }
+}
+function applySocialProof() {
+  var el = document.getElementById('socialProof');
+  if (!el || !_socialProofStats) return;
+  var d = _socialProofStats;
+  var n = Number(d.display_n || 0);
+  if (!d.display || n < (Number(d.threshold) || 300)) {
+    el.hidden = true;
+    el.classList.remove('is-visible');
+    el.textContent = '';
+    return;
+  }
+  var dict = (typeof STRINGS !== 'undefined' && STRINGS[window.LANG]) || (STRINGS && STRINGS.en) || {};
+  var tpl = dict.proof_taken || '{n} people have taken the test';
+  el.textContent = tpl.replace('{n}', formatProofCount(n));
+  el.hidden = false;
+  el.classList.add('is-visible');
+}
+function loadSocialProof() {
+  fetch('/data/stats.json', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d) return;
+      _socialProofStats = d;
+      applySocialProof();
+    })
+    .catch(function () {});
 }
 
 function renderPersonaGrid() {
