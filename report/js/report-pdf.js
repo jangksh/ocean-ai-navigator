@@ -102,6 +102,11 @@
   function createFlow(doc, model) {
     let y = MT;
     let onCover = true;
+    let sectionNo = 0;
+    function nextNum() {
+      sectionNo += 1;
+      return String(sectionNo).padStart(2, '0');
+    }
 
     function contentTop() {
       return onCover ? MT : (MT + HEADER_H);
@@ -454,7 +459,7 @@
     newPage();
 
     // 2. One-page summary
-    sectionKicker('01', '한눈에 보는 요약');
+    sectionKicker(nextNum(), '한눈에 보는 요약');
     writeLines(model.sourceNote, 9, 'normal', MUTED, CONTENT_W, 1.5);
     gap(5);
 
@@ -481,7 +486,7 @@
 
     // 3. Dimension scores
     newPage();
-    sectionKicker('02', 'OCEAN 점수 해석');
+    sectionKicker(nextNum(), 'OCEAN 점수 해석');
     writeLines('다섯 차원의 점수(%)와, 50점을 기준으로 한 높음/낮음 해석입니다. 해석 문장은 결과 화면과 같습니다.', 9, 'normal', MUTED, CONTENT_W, 1.5);
     gap(6);
 
@@ -497,7 +502,8 @@
 
       setFont(doc, 'bold', 12);
       setColor(doc, NAVY);
-      doc.text(dim.label, ML + 10, y + 4.2);
+      const dimTitle = dim.key === 'N' ? dim.label + '  (Emotional Stability)' : dim.label;
+      doc.text(dimTitle, ML + 10, y + 4.2);
       setFont(doc, 'bold', 9);
       setColor(doc, dim.color);
       doc.text(dim.levelLabel + '  ·  ' + dim.pct + '%', PAGE_W - MR, y + 4.2, { align: 'right' });
@@ -510,8 +516,12 @@
 
     // 4. Job-specific insight
     newPage();
-    sectionKicker('03', '직군 맞춤 인사이트');
-    writeLines(model.job.label + ' 분야를 기준으로 정리한 해석입니다. 결과 화면의 성향 공감 리포트 전문입니다.', 9, 'normal', MUTED, CONTENT_W, 1.5);
+    sectionKicker(nextNum(), '직군 맞춤 인사이트');
+    if (model.usedJobCopy) {
+      writeLines(model.job.label + ' 분야를 기준으로 정리한 해석입니다. 결과 화면의 성향 공감 리포트 전문입니다.', 9, 'normal', MUTED, CONTENT_W, 1.5);
+    } else {
+      writeLines('이 직업군은 직군 맞춤 문장이 사이트 선택지와 아직 맞지 않아, 유형 일반 해석으로 수록했습니다. 점수와 다섯 차원 해석은 검사 결과 그대로입니다.', 9, 'normal', MUTED, CONTENT_W, 1.5);
+    }
     gap(6);
     if (model.insight) {
       const paras = paragraphs(model.insight);
@@ -535,14 +545,12 @@
     }
 
     // 5. Full trait / AI survival strategy
+    if (model.tools.length) {
     newPage();
-    sectionKicker('04', 'AI 맞춤형 생존 전략');
+    sectionKicker(nextNum(), 'AI 맞춤형 생존 전략');
     writeLines('추천 도구별 일상 활용 가이드, 아침 루틴, 이 성향을 위한 파워 활용을 모두 수록했습니다. 결과 화면에서는 일부만 먼저 보여 주는 내용을 여기서는 펼쳐 둡니다.', 9, 'normal', MUTED, CONTENT_W, 1.5);
     gap(6);
 
-    if (!model.tools.length) {
-      writeLines('이 조합에 대한 도구별 상세 문장이 아직 없습니다.', 10, 'normal', MUTED);
-    }
     model.tools.forEach((tool, idx) => {
       const isMain = tool.type === '메인' || /^main/i.test(tool.type);
       const badge = isMain ? 'MAIN' : (tool.type || '전문 AI');
@@ -582,20 +590,19 @@
         gap(2);
       }
     });
+    }
 
     // 6. Synergy
-    maybeNewPage(90);
-    sectionKicker('05', 'AI × 성향 시너지 전략');
     if (model.synergy) {
+    maybeNewPage(90);
+    sectionKicker(nextNum(), 'AI × 성향 시너지 전략');
       writeParas(model.synergy, 10.5, 'normal', NAVY, 3);
-    } else {
-      writeLines('이 조합에 대한 시너지 전략 문장이 아직 없습니다.', 10, 'normal', MUTED);
     }
 
     // 7. Daily routine
-    newPage();
-    sectionKicker('06', 'AI와 함께하는 나의 하루');
     if (model.dailyRoutine) {
+    newPage();
+    sectionKicker(nextNum(), 'AI와 함께하는 나의 하루');
       const chunks = model.dailyRoutine.split(/(?<=^|[.\s])(?=(?:오전|오후|점심)?\s*\d{1,2}:\d{2}(?!\d))|(?<=^|[.\s])(?=(?:오전|오후)\s*\d{1,2}시)/).map((x) => x.trim()).filter(Boolean);
       if (chunks.length >= 3) {
         chunks.forEach((item) => {
@@ -618,18 +625,14 @@
       } else {
         writeParas(model.dailyRoutine, 10.5, 'normal', NAVY, 3);
       }
-    } else {
-      writeLines('이 조합에 대한 하루 루틴 문장이 아직 없습니다.', 10, 'normal', MUTED);
     }
 
     // 8. Prompts appendix
+    if (model.prompts.length) {
     newPage();
-    sectionKicker('07', '프롬프트 모음 부록');
+    sectionKicker(nextNum(), '프롬프트 모음 부록');
     writeLines('결과 화면에 흩어져 있던 추천 프롬프트를 한곳에 모았습니다. 도구에 그대로 붙여 넣어 활용해 보세요.', 9, 'normal', MUTED, CONTENT_W, 1.5);
     gap(6);
-    if (!model.prompts.length) {
-      writeLines('이 조합에 수록된 추천 프롬프트가 없습니다.', 10, 'normal', MUTED);
-    }
     model.prompts.forEach((p, idx) => {
       ensure(20);
       setFont(doc, 'bold', 11);
@@ -654,10 +657,11 @@
       y = boxTop + boxH + 4;
       if (idx < model.prompts.length - 1) gap(3);
     });
+    }
 
     // 9. Disclaimer
-    gap(10);
-    sectionKicker('08', '면책 안내');
+    maybeNewPage(140);
+    sectionKicker(nextNum(), '면책 안내');
     writeParas(model.disclaimer, 9.5, 'normal', MUTED, 2.5);
     gap(6);
     writeLines('문의  oceanainavigator@gmail.com', 9, 'normal', MUTED);

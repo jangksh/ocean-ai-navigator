@@ -163,9 +163,12 @@
   function syncHint() {
     const m = ReportData.masterPersona(codeSel.value);
     const job = ReportData.findJob(jobSel.value);
-    const v2 = job ? ReportData.v2Record(job.id, codeSel.value) : null;
-    $('typeHint').textContent = (m && m.summary ? m.summary + '  ' : '') +
-      (v2 ? '이 조합의 직군 맞춤 문장이 있습니다.' : '이 조합의 직군 맞춤 문장을 찾지 못했습니다.');
+    const generic = job && ReportData.usesGenericTypeCopy(job.id);
+    const v2 = (!generic && job) ? ReportData.v2Record(job.id, codeSel.value) : null;
+    const note = generic
+      ? '이 직업군은 직군 맞춤 문장이 선택지와 아직 맞지 않아, 유형 일반 해석으로 만듭니다.'
+      : (v2 ? '이 조합의 직군 맞춤 문장이 있습니다.' : '이 조합의 직군 맞춤 문장을 찾지 못했습니다.');
+    $('typeHint').textContent = (m && m.summary ? m.summary + '  ' : '') + note;
   }
 
   function applyDefaults() {
@@ -221,11 +224,11 @@
       if (!scores) scores = ReportData.defaultScoresForCode(code);
       const ts = source && source.ts ? source.ts : ($('testDate').value ? $('testDate').value + 'T12:00:00' : Date.now());
       const model = ReportData.buildModel({ scores: scores, job: jobId, code: code, ts: ts });
-      if (!model.hasV2) setStatus('직군 맞춤 문장이 없어 기본 유형 정보만 담깁니다.', 'err');
       const fontSet = await fonts();
       const doc = await ReportPDF.generate(model, { fonts: fontSet });
       ReportPDF.download(doc, ReportData.suggestedFilename(model));
-      if (model.hasV2) setStatus('PDF를 내려받았습니다.', 'ok');
+      if (!model.usedJobCopy) setStatus('유형 일반 해석으로 PDF를 만들었습니다.', 'ok');
+      else setStatus('PDF를 내려받았습니다.', 'ok');
     } catch (err) {
       console.error(err);
       setStatus((err && err.message) || 'PDF를 만들지 못했습니다.', 'err');

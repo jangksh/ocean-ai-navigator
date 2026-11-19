@@ -123,6 +123,122 @@
       .trim();
   }
 
+  // Site quiz JOBS IDs 6 and 14 do not match v2/persona job copy
+  // (those records are 건설·채굴 and 설치·정비). Use generic type copy instead.
+  const JOB_IDS_WITHOUT_JOB_COPY = [6, 14];
+
+  function usesGenericTypeCopy(jobId) {
+    return JOB_IDS_WITHOUT_JOB_COPY.indexOf(parseInt(jobId, 10)) !== -1;
+  }
+
+  function neuroticismPct(scores) {
+    return Math.max(0, Math.min(100, 100 - scores.N));
+  }
+
+  function splitSentences(text) {
+    return String(text || '').split(/(?<=다\.|요\.|까\?|죠\.|니다\.|니까\.)\s+|(?<=[.!?])\s+/).filter(function (s) { return s && s.trim(); });
+  }
+
+  function contradictsN(clause, scores) {
+    const s = String(clause || '');
+    if (!s) return false;
+    const highNeuro = /높(?:은|아|고)?\s*신경(?:성|증)|신경(?:성|증)이\s*높|신경(?:성|증)이\s*높아/.test(s);
+    const lowNeuro = /낮(?:은|아|고)?\s*신경(?:성|증)|신경(?:성|증)이\s*낮/.test(s);
+    const highStab = /높(?:은|아|고)?\s*정서(?:적\s*)?안정|정서(?:적\s*)?안정성이\s*높|감정(?:적)?\s*기복이\s*적(?:어|고|다)?|흔들리지\s*않는\s*안정/.test(s);
+    const lowStab = /낮(?:은|아|고)?\s*정서(?:적\s*)?안정|정서(?:적\s*)?안정성이\s*낮/.test(s);
+    if (scores.N >= 50) return highNeuro || lowStab;
+    return lowNeuro || highStab;
+  }
+
+  function dropContradictoryN(text, scores) {
+    const sentences = splitSentences(text);
+    const kept = [];
+    sentences.forEach(function (sentence) {
+      if (!/신경(?:성|증)|정서(?:적\s*)?안정/.test(sentence)) {
+        kept.push(sentence);
+        return;
+      }
+      if (!contradictsN(sentence, scores)) {
+        kept.push(sentence);
+        return;
+      }
+      const parts = sentence.split(/(?<=고,)\s+|(?<=이며,)\s+|(?<=지만,)\s+|(?<=고)\s+(?=신경)|(?<=고)\s+(?=정서)/);
+      const ok = parts.filter(function (p) { return p.trim() && !contradictsN(p, scores); });
+      if (!ok.length) return;
+      let joined = ok.join(' ').replace(/[,\s]+$/g, '');
+      joined = joined.replace(/하고$/,'합니다').replace(/이며$/,'입니다');
+      if (joined && !/[.!?]$/.test(joined)) joined += '.';
+      kept.push(joined);
+    });
+    return kept.join(' ').replace(/\s{2,}/g, ' ').trim();
+  }
+
+  function replaceOneNumber(chunk, fromNum, toNum) {
+    return chunk.replace(String(fromNum) + '%', String(toNum) + '%').replace(String(fromNum) + ' %', String(toNum) + '%');
+  }
+
+  function replaceV2Percents(text, scores) {
+    if (!text) return text;
+    const neuro = neuroticismPct(scores);
+    const dimVal = {
+      '개방성': scores.O,
+      '성실성': scores.C,
+      '외향성': scores.E,
+      '친화성': scores.A,
+      '정서안정성': scores.N,
+      '정서 안정성': scores.N,
+      '정서적 안정성': scores.N
+    };
+    const letterVal = { O: scores.O, C: scores.C, E: scores.E, A: scores.A, N: scores.N };
+
+    // 신경성/신경증 percentages are neuroticism = 100 - stability.
+    text = text.replace(/신경(?:성|증)(?:이\s*)?(?:높(?:아|은)|낮(?:아|은))?\s*\(?\s*(?:N\s*[=:]?\s*)?(\d{1,3})\s*%\s*\)?/g, function (m, num) {
+      return replaceOneNumber(m, num, neuro);
+    });
+
+    text = text.replace(/정서(?:적\s*)?안정성(?:이\s*)?(?:높(?:아|은)|낮(?:아|은))?\s*\(?\s*(?:N\s*[=:]?\s*)?(\d{1,3})\s*%\s*\)?/g, function (m, num) {
+      return replaceOneNumber(m, num, scores.N);
+    });
+
+    text = text.replace(/(개방성|성실성|외향성|친화성)(?:이\s*)?(?:높(?:아|은)|낮(?:아|은))?(?:\s*\(\s*[OCEA]\s*[=:]?\s*|\s*\(\s*|\s+)(\d{1,3})\s*%/g, function (m, label, num) {
+      return replaceOneNumber(m, num, dimVal[label]);
+    });
+
+    // O(개방성98%) / C(성실성95%)
+    text = text.replace(/([OCEA])\((개방성|성실성|외향성|친화성)(\d{1,3})\s*%\)/g, function (m, letter, label, num) {
+      return letter + '(' + label + dimVal[label] + '%)';
+    });
+
+    // (C:96%) C=96% (C 20%) (C20%) C:96%  — N uses stability unless 신경 is nearby
+    text = text.replace(/(\()?\b([OCEAN])\s*[=:]?\s*(\d{1,3})\s*%(\))?/g, function (m, open, letter, num, close, offset, src) {
+      const start = Math.max(0, offset - 18);
+      const window = src.slice(start, offset + m.length);
+      let val = letterVal[letter];
+      if (letter === 'N' && /신경(?:성|증)/.test(window) && !/안정/.test(window)) val = neuro;
+      return replaceOneNumber(m, num, val);
+    });
+
+    return text;
+  }
+
+  function sanitizeV2Text(text, scores) {
+    const cleaned = cleanText(text);
+    if (!cleaned) return '';
+    const filtered = dropContradictoryN(cleaned, scores);
+    return replaceV2Percents(filtered, scores);
+  }
+
+  function sanitizeList(items, scores) {
+    return (items || []).map(function (s) { return sanitizeV2Text(s, scores); }).filter(Boolean);
+  }
+
+  function genericInsight(job, master) {
+    const name = master && master.name ? master.name : '이 유형';
+    const summary = master && master.summary ? master.summary : '';
+    return job.label + ' 분야에서 활동하시는 \'' + name + '\' 유형입니다.' + (summary ? ' ' + summary : '');
+  }
+
+
   function formatKoDate(d) {
     const dt = (d instanceof Date) ? d : new Date(d);
     if (isNaN(dt.getTime())) return '';
@@ -170,19 +286,22 @@
       // Trust explicit scores; code is derived.
     }
     const master = masterPersona(code);
-    const v2 = v2Record(job.id, code);
+    const usedJobCopy = !usesGenericTypeCopy(job.id);
+    const v2 = usedJobCopy ? v2Record(job.id, code) : null;
     const tools = (v2 && Array.isArray(v2.ai_tools) ? v2.ai_tools : []).map((t) => ({
       type: t.type || '',
       name: cleanText(t.name),
-      tagline: cleanText(t.tagline),
-      daily_guide: cleanText(t.daily_guide),
-      morning_tip: cleanText(t.morning_tip),
-      power_use: cleanText(t.power_use),
-      prompt_example: cleanText(t.prompt_example)
+      tagline: sanitizeV2Text(t.tagline, scores),
+      daily_guide: sanitizeV2Text(t.daily_guide, scores),
+      morning_tip: sanitizeV2Text(t.morning_tip, scores),
+      power_use: sanitizeV2Text(t.power_use, scores),
+      prompt_example: sanitizeV2Text(t.prompt_example, scores)
     }));
-    const strengths = ((v2 && v2.strengths) || []).map(cleanText).filter(Boolean);
-    const growthPoints = ((v2 && v2.growth_points) || []).map(cleanText).filter(Boolean);
-    const insightText = cleanText(v2 && v2.insight_v2);
+    const strengths = sanitizeList((v2 && v2.strengths) || [], scores);
+    const growthPoints = sanitizeList((v2 && v2.growth_points) || [], scores);
+    const insightText = v2
+      ? sanitizeV2Text(v2.insight_v2, scores)
+      : genericInsight(job, master);
     const colleagueNotes = insightText
       ? insightText.split(/(?<=다\.)\s+/).map((s) => s.trim()).filter(Boolean).slice(0, 2)
       : [];
@@ -214,12 +333,13 @@
       colleagueNotes: colleagueNotes,
       dimensions: dimensions,
       tools: tools,
-      synergy: cleanText(v2 && v2.synergy_strategy),
-      dailyRoutine: cleanText(v2 && v2.daily_routine),
+      synergy: sanitizeV2Text(v2 && v2.synergy_strategy, scores),
+      dailyRoutine: sanitizeV2Text(v2 && v2.daily_routine, scores),
       prompts: tools.filter((t) => t.prompt_example).map((t) => ({ name: t.name, text: t.prompt_example })),
       disclaimer: DISCLAIMER,
       sourceNote: SOURCE_NOTE,
-      hasV2: !!v2
+      hasV2: !!v2,
+      usedJobCopy: usedJobCopy
     };
   }
 
@@ -243,6 +363,10 @@
     readStoredResult: readStoredResult,
     resultHashCode: resultHashCode,
     buildModel: buildModel,
-    suggestedFilename: suggestedFilename
+    suggestedFilename: suggestedFilename,
+    JOB_IDS_WITHOUT_JOB_COPY: JOB_IDS_WITHOUT_JOB_COPY,
+    usesGenericTypeCopy: usesGenericTypeCopy,
+    sanitizeV2Text: sanitizeV2Text,
+    neuroticismPct: neuroticismPct
   };
 })(typeof window !== 'undefined' ? window : globalThis);
