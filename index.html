@@ -1440,7 +1440,9 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
 /* ── Job Section ── */
 .job-section-new { background: white; padding: 72px 20px 80px; text-align: center; }
 #screen-jobs { background: var(--ocean-deep); }
-.job-screen-inner { padding: 40px 20px 80px; max-width: 720px; margin: 0 auto; text-align: center; }
+.job-screen-inner { padding: 104px 20px 80px; max-width: 720px; margin: 0 auto; text-align: center; }
+html[lang="ko"] #screen-jobs .ts-label,
+html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform: none; }
 .js-title { font-size: clamp(24px,3.5vw,34px); font-weight: 800; color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.5px; line-height: 1.25; }
 .js-sub { font-size: 17px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.65; font-weight: 400; }
 .job-grid-16p {
@@ -1804,7 +1806,40 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   color: white; transform: translateY(-1px);
 }
 
-/* First-visit language chooser */
+/* Dismissible language mismatch hint (no full-screen popup).
+   The landing header and language toggle are position:fixed, so when the
+   hint is open we shift them down with --lang-hint-h. */
+.lang-hint {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10060;
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 8px 16px;
+  background: #F1F3FF;
+  border-bottom: 1px solid rgba(76,110,245,0.18);
+  color: var(--text-primary);
+  font-size: 14px; line-height: 1.45;
+}
+.lang-hint[hidden] { display: none !important; }
+.lang-hint-text { margin: 0; }
+.lang-hint-switch {
+  border: none; border-radius: 999px;
+  padding: 6px 12px;
+  background: var(--wave-1, #4C6EF5); color: #fff;
+  font-size: 13px; font-weight: 800;
+  cursor: pointer; font-family: inherit;
+}
+.lang-hint-switch:hover { filter: brightness(0.95); }
+.lang-hint-dismiss {
+  border: none; background: transparent;
+  color: var(--text-secondary);
+  font-size: 18px; line-height: 1; cursor: pointer;
+  padding: 4px 8px; font-family: inherit;
+}
+body.lang-hint-open .landing-header { top: var(--lang-hint-h, 40px) !important; }
+body.lang-hint-open .lang-switcher { top: calc(var(--lang-hint-h, 40px) + 16px) !important; }
+body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
+
+/* First-visit language chooser (kept in DOM, never shown: path decides language) */
 .lang-chooser {
   position: fixed; inset: 0; z-index: 10050;
   display: flex; align-items: center; justify-content: center;
@@ -1863,6 +1898,12 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   <div class="lang-menu" id="langMenu" hidden role="menu"></div>
 </div>
 
+<div id="langHint" class="lang-hint" hidden role="region">
+  <span class="lang-hint-text" id="langHintText"></span>
+  <button type="button" class="lang-hint-switch" id="langHintSwitch"></button>
+  <button type="button" class="lang-hint-dismiss" id="langHintDismiss" aria-label="Dismiss">&times;</button>
+</div>
+
 <div id="langChooser" class="lang-chooser" hidden role="dialog" aria-modal="true" aria-labelledby="langChooserTitle">
   <div class="lang-chooser-card">
     <div class="lang-chooser-brand">AI-OCEAN</div>
@@ -1897,7 +1938,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
           Big 5 심리학(OCEAN) 기반의 25문항 성향 테스트로<br>당신에게 꼭 맞는 AI 파트너와 커리어 인사이트를 찾아드립니다.
         </p>
         <div class="hero-cta-row">
-          <button class="btn-hero-start" id="btnStartHero" data-cta-position="hero" onclick="showScreen('jobs')" data-i18n="hero_cta1">무료 테스트 시작 · 3분</button>
+          <button class="btn-hero-start" id="btnStartHero" data-cta-position="hero" onclick="startQuiz()" data-i18n="hero_cta1">무료 테스트 시작 · 3분</button>
           <button class="btn-hero-about" onclick="showScreen('about')" data-i18n="hero_about_btn">OCEAN이란?</button>
         </div>
         <div class="hero-stats-mini">
@@ -1980,16 +2021,16 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
   <nav class="landing-header">
     <span class="landing-logo">AI-OCEAN</span>
     <div class="landing-nav">
-      <span class="landing-nav-link" onclick="showScreen('landing')" data-i18n="personas_back">← 처음으로</span>
+      <span class="landing-nav-link" onclick="backFromJobs()" data-i18n="personas_back">← 처음으로</span>
     </div>
   </nav>
   <div class="job-screen-inner">
-    <div class="ts-label">STEP 1 / 2</div>
-    <div class="js-title" data-i18n="js_title">먼저 내 직업군을 선택해 주세요</div>
+    <div class="ts-label" data-i18n="js_step">마지막 단계</div>
+    <div class="js-title" data-i18n="js_title">결과를 보기 전에 직업군을 선택해 주세요</div>
     <div class="js-sub" data-i18n="js_sub">직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다</div>
     <div class="job-grid-16p" id="jobGrid"></div>
-    <button class="btn-hero-start" id="btnStart" data-cta-position="jobs_start" disabled onclick="startQuiz()" style="margin-top:8px" data-i18n="js_start">
-      나의 OCEAN 분석 시작 →
+    <button class="btn-hero-start" id="btnStart" data-cta-position="jobs_start" disabled onclick="confirmJobAndContinue()" style="margin-top:8px" data-i18n="js_start">
+      결과 보기 →
     </button>
     <p class="disclaimer" style="margin-top:16px" data-i18n="disclaimer">본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작.</p>
   </div>
@@ -2417,7 +2458,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
     <div class="about-cta">
       <h3 data-i18n="about_cta_h">지금 나의 OCEAN 성향을 확인해 보세요</h3>
       <p data-i18n="about_cta_p">25문항, 약 5분이면 당신에게 맞는 AI 도구 처방전을 받을 수 있습니다.</p>
-      <button class="btn-primary" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="about_cta_btn">
+      <button class="btn-primary" data-cta-position="about" onclick="startQuiz()" style="font-size:16px;padding:16px 40px;" data-i18n="about_cta_btn">
         &#127988; 테스트 시작하기
       </button>
     </div>
@@ -2535,7 +2576,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
     <div class="about-cta" style="margin-bottom:40px;">
       <h3 data-i18n="personas_cta_h">내 정확한 유형이 궁금하다면</h3>
       <p data-i18n="personas_cta_p">25문항, 약 5분이면 32가지 중 나의 유형과 맞춤 AI 처방전을 받을 수 있습니다.</p>
-      <button class="btn-primary" data-cta-position="personas" onclick="showScreen('jobs')" style="font-size:16px;padding:16px 40px;" data-i18n="personas_cta_btn">&#127988; 테스트 시작하기</button>
+      <button class="btn-primary" data-cta-position="personas" onclick="startQuiz()" style="font-size:16px;padding:16px 40px;" data-i18n="personas_cta_btn">&#127988; 테스트 시작하기</button>
     </div>
 
     <!-- 성향 코드 읽는 법 -->
@@ -2617,7 +2658,7 @@ a.persona-preview-card { display: block; text-decoration: none; color: inherit; 
     <div class="about-cta">
       <h3 data-i18n="tools_cta_h">나에게 맞는 AI 조합을 처방받으세요</h3>
       <p data-i18n="tools_cta_p">성향 테스트 결과에 따라 위 도구 중 당신의 OCEAN 유형에 최적화된 AI 세트를 추천해드립니다.</p>
-      <button class="btn-primary" data-cta-position="tools" onclick="showScreen('landing')" style="font-size:16px;padding:16px 40px;" data-i18n="tools_cta_btn">&#127988; 테스트 시작하기</button>
+      <button class="btn-primary" data-cta-position="tools" onclick="startQuiz()" style="font-size:16px;padding:16px 40px;" data-i18n="tools_cta_btn">&#127988; 테스트 시작하기</button>
     </div>
   </div>
 </div>
@@ -3002,9 +3043,9 @@ const STRINGS = {
     ts_label: 'OCEAN 32가지 유형', ts_title: '나는 어떤 유형일까?',
     ts_sub: '5가지 차원의 조합으로 완전히 다른 32가지 성향 유형이 만들어집니다',
     ts_btn: '모든 유형 탐색하기',
-    js_step: 'STEP 1', js_title: '먼저 내 직업군을 선택해 주세요',
+    js_step: '마지막 단계', js_title: '결과를 보기 전에 직업군을 선택해 주세요',
     js_sub: '직업군에 따라 같은 성향도 다른 AI 처방전이 나옵니다',
-    js_start: '나의 OCEAN 분석 시작 →',
+    js_start: '결과 보기 →',
     footer_contact: '문의',
     disclaimer: 'Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작. 본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다.',
     about_back: '← 테스트로 돌아가기',
@@ -3095,9 +3136,9 @@ const STRINGS = {
     ts_label: '32 OCEAN Types', ts_title: 'Which type am I?',
     ts_sub: '32 unique personality types emerge from combinations of 5 dimensions',
     ts_btn: 'Explore All Types',
-    js_step: 'STEP 1', js_title: 'Select your job group first',
+    js_step: 'Last step', js_title: 'Choose your field to see your results',
     js_sub: 'The same personality gets different AI recommendations based on your job',
-    js_start: 'Start My OCEAN Analysis →',
+    js_start: 'See my results →',
     footer_contact: 'Contact',
     disclaimer: 'Based on the Big Five (OCEAN) model — referencing the IPIP open framework, with questions independently created in Korean. This test is not a medical diagnosis and is for reference only.',
     about_back: '← Back to Test',
@@ -3188,9 +3229,9 @@ const STRINGS = {
     ts_label: '32 tipos OCEAN', ts_title: '¿Cuál es mi tipo?',
     ts_sub: 'De la combinación de 5 dimensiones nacen 32 tipos de personalidad distintos',
     ts_btn: 'Explorar todos los tipos',
-    js_step: 'PASO 1', js_title: 'Primero elige tu área profesional',
+    js_step: 'Último paso', js_title: 'Elige tu área profesional para ver tus resultados',
     js_sub: 'La misma personalidad recibe distintas recomendaciones de IA según tu trabajo',
-    js_start: 'Empezar mi análisis OCEAN →',
+    js_start: 'Ver mis resultados →',
     footer_contact: 'Contacto',
     disclaimer: 'Basado en el modelo Big Five (OCEAN) — con referencia al marco abierto IPIP. Este test no es un diagnóstico médico; es una guía de personalidad para ayudarte a usar la IA.',
     about_back: '← Volver al test',
@@ -3457,19 +3498,94 @@ const SITE_LANGS = [
 ];
 
 function shouldShowLangChooser() {
+  // Path (/ , /en/, /es/) decides the language. The full-screen chooser is not used.
+  return false;
+}
+
+const LANG_HINT_KEY = 'ocean_lang_hint_dismissed';
+function browserSiteLang() {
+  if (typeof oceanBrowserSiteLang === 'function') return oceanBrowserSiteLang() || '';
   try {
-    if (typeof oceanIsCrawler === 'function' && oceanIsCrawler(navigator.userAgent)) return false;
+    const lang = String((navigator.language || (navigator.languages && navigator.languages[0]) || '')).toLowerCase();
+    if (/^ko(-|$)/.test(lang)) return 'ko';
+    if (/^es(-|$)/.test(lang)) return 'es';
+    if (/^en(-|$)/.test(lang)) return 'en';
   } catch (e) {}
+  return '';
+}
+function readHintDismissed() {
+  try {
+    const raw = localStorage.getItem(LANG_HINT_KEY);
+    if (!raw) return {};
+    const o = JSON.parse(raw);
+    return (o && typeof o === 'object') ? o : {};
+  } catch (e) { return {}; }
+}
+function markHintDismissed(pathLang) {
+  try {
+    const o = readHintDismissed();
+    o[pathLang] = 1;
+    localStorage.setItem(LANG_HINT_KEY, JSON.stringify(o));
+  } catch (e) {}
+}
+function langHintCopy(pathLang, offerLang) {
+  const pageName = { ko: 'Korean', en: 'English', es: 'Spanish' };
+  const pageNameEs = { ko: 'coreano', en: 'inglés', es: 'español' };
+  if (offerLang === 'ko') {
+    const where = pathLang === 'en' ? '영어' : pathLang === 'es' ? '스페인어' : '한국어';
+    return { text: '이 페이지는 ' + where + '로 되어 있어요. 한국어로 볼까요?', btn: '한국어로 보기' };
+  }
+  if (offerLang === 'es') {
+    return { text: 'Esta página está en ' + (pageNameEs[pathLang] || pathLang) + '. ¿La ves en español?', btn: 'Seguir en español' };
+  }
+  return { text: 'This page is in ' + (pageName[pathLang] || pathLang) + '. Continue in English?', btn: 'Continue in English' };
+}
+function hideLangHint() {
+  const root = document.getElementById('langHint');
+  if (root) root.hidden = true;
+  document.body.classList.remove('lang-hint-open');
+  document.body.style.removeProperty('--lang-hint-h');
+}
+function maybeShowLangHint() {
+  const root = document.getElementById('langHint');
+  if (!root) return;
+  try {
+    if (typeof oceanIsCrawler === 'function' && oceanIsCrawler(navigator.userAgent)) return;
+  } catch (e) {}
+  const pathLang = (typeof oceanPathLang === 'function') ? oceanPathLang(location.pathname) : (window.LANG || 'ko');
+  const offer = browserSiteLang();
+  if (!offer || offer === pathLang) return;
   try {
     const q = new URLSearchParams(location.search).get('lang');
-    if (q === 'en' || q === 'ko' || q === 'es') return false;
+    if (q === 'en' || q === 'ko' || q === 'es') return;
   } catch (e) {}
-  try {
-    if (typeof oceanHasLangPreference === 'function') {
-      if (oceanHasLangPreference()) return false;
-    } else if (localStorage.getItem('ocean_lang')) return false;
-  } catch (e) {}
-  return true;
+  if (readHintDismissed()[pathLang]) return;
+  const copy = langHintCopy(pathLang, offer);
+  const text = document.getElementById('langHintText');
+  const sw = document.getElementById('langHintSwitch');
+  const dismiss = document.getElementById('langHintDismiss');
+  if (text) text.textContent = copy.text;
+  if (sw) {
+    sw.textContent = copy.btn;
+    sw.onclick = function () {
+      try { localStorage.setItem('ocean_lang', offer); } catch (e) {}
+      markHintDismissed(pathLang);
+      const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(offer) : langHomeFallback(offer);
+      location.href = dest;
+    };
+  }
+  if (dismiss) {
+    dismiss.onclick = function () {
+      markHintDismissed(pathLang);
+      hideLangHint();
+    };
+  }
+  root.hidden = false;
+  document.body.classList.add('lang-hint-open');
+  requestAnimationFrame(function () {
+    const h = root.getBoundingClientRect().height;
+    document.body.style.setProperty('--lang-hint-h', Math.ceil(h) + 'px');
+  });
 }
 
 function hideLangChooser() {
@@ -3984,12 +4100,56 @@ function showScreen(id) {
   if (id === 'personas') {
     ensurePersonas().then(() => { if (typeof renderPersonaGrid === 'function') renderPersonaGrid(); });
   }
+  if (id === 'jobs') {
+    if (typeof renderJobGrid === 'function') renderJobGrid();
+    if (selectedJob) {
+      document.querySelectorAll('.job-btn-16p').forEach((btn, i) => {
+        btn.classList.toggle('selected', JOBS[i].id === selectedJob);
+      });
+      const startBtn = document.getElementById('btnStart');
+      if (startBtn) startBtn.disabled = false;
+    }
+    const back = document.querySelector('#screen-jobs .landing-nav-link');
+    if (back) {
+      back.textContent = quizIsComplete()
+        ? L('← 이전 문항', '← Previous question', '← Pregunta anterior')
+        : L('← 처음으로', '← Home', '← Inicio');
+    }
+  }
   if (id === 'jobs' || id === 'quiz' || id === 'loading' || id === 'results') prefetchResultData();
 }
 
 // ═══════════════════════════════════════════════════════
 //  QUIZ
 // ═══════════════════════════════════════════════════════
+function quizIsComplete() {
+  return Array.isArray(shuffledQuestions) && shuffledQuestions.length
+    && Array.isArray(answers) && answers.length === shuffledQuestions.length
+    && answers.every(function (a) { return a != null; });
+}
+
+function backFromJobs() {
+  if (quizIsComplete()) {
+    showScreen('quiz');
+    if (typeof renderQuestion === 'function') renderQuestion();
+    return;
+  }
+  showScreen('landing');
+}
+
+function promptJobThenResults() {
+  showScreen('jobs');
+}
+
+function confirmJobAndContinue() {
+  if (!selectedJob) return;
+  if (quizIsComplete()) {
+    calculateResults();
+    return;
+  }
+  startQuiz();
+}
+
 function startQuiz() {
   const _scr = document.getElementById('screen-results');
   track('test_start', Object.assign({ entry: ENTRY_SOURCE, is_retake: !!(_scr && _scr.classList.contains('active')) }, jobParams()));
@@ -4057,7 +4217,7 @@ function nextQuestion() {
     if (currentQ % 5 === 0) track('quiz_progress', Object.assign({ answered: currentQ }, jobParams()));
     renderQuestion();
   } else {
-    calculateResults();
+    promptJobThenResults();
   }
 }
 
@@ -5076,16 +5236,18 @@ function shareTiktok() {
 (async function boot() {
   await ensureLangPack(window.LANG);
   init();
-  maybeShowLangChooser();
-  if (await restoreLangSwitchState()) return;
-  if (await restoreStoredResult()) return;
-  // 유형 페이지의 '테스트 시작' 버튼이 /?start=1, /en/?start=1 또는 /es/?start=1 로 들어오면 바로 직업군 선택 화면을 연다
-  if (/[?&]start=1(&|$)/.test(location.search)) { showScreen('jobs'); }
-  // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작 화면을 연다 (홍보 링크용, 재무·회계는 04)
-  try {
-    const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
-    if (j >= 1 && j <= 15 && /[?&]start=1(&|$)/.test(location.search)) selectJob(j);
-  } catch (e) {}
+  maybeShowLangHint();
+  if (await restoreLangSwitchState()) { hideLangHint(); return; }
+  if (await restoreStoredResult()) { hideLangHint(); return; }
+  // 유형 페이지의 '테스트 시작' 버튼이 /?start=1, /en/?start=1 또는 /es/?start=1 로 들어오면 바로 1번 문항을 연다.
+  // /?start=1&job=04 : 직업군을 미리 선택한 채로 시작한다 (홍보 링크용). 결과는 문항이 끝난 뒤 확정한다.
+  if (/[?&]start=1(&|$)/.test(location.search)) {
+    try {
+      const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
+      if (j >= 1 && j <= 15) selectJob(j);
+    } catch (e) {}
+    startQuiz();
+  }
 })();
 </script>
 </body>
