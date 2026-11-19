@@ -1,4 +1,4 @@
-# Keep email ops source out of the published GitHub Pages site.
+# Keep email ops source and internal planning/agent docs out of the published GitHub Pages site.
 # email/content.json stays published (Apps Script reads it via CONTENT_URL).
 exclude:
   - email/apps_script
@@ -7,3 +7,7 @@ exclude:
   - email/copy.js
   - email/build_content.js
   - email/test_engine.js
+  - CLAUDE.md
+  - "Master Plan.md"
+  - "직업군 32종 페르소나 v2.md"
+  - "결과지 DB.txt"
