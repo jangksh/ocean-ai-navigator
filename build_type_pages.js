@@ -721,7 +721,7 @@ ${hreflangTags(koUrl, enUrl, esUrl)}
 <meta property="og:type" content="article">
 <meta property="og:locale" content="${ogLocale}">
 ${ogAlts}
-<meta property="og:site_name" content="AI-OCEAN">
+<meta property="og:site_name" content="OCEAN AI Navigator">
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${esc(ogTitle)}">
 <meta property="og:description" content="${esc(ogDesc)}">
@@ -840,7 +840,7 @@ const BLOG_POSTS = [
   {
     lang: 'ko',
     path: '/blog/mbti-vs-bigfive-ocean/',
-    lastmod: '2026-11-17',
+    lastmod: '2026-11-19',
     datePublished: '2026-11-14',
   },
   {
@@ -993,8 +993,8 @@ function buildEnHome() {
   const strings = extractStrings(html);
   html = applyDataI18n(html, strings.en);
   html = html.replace('<html lang="ko">', '<html lang="en">');
-  html = html.replace(/<title>[^<]*<\/title>/, '<title>Free Big Five Personality Test (3 min) | AI-OCEAN</title>');
-  const enDesc = 'Take a free Big Five (OCEAN) personality test — 25 questions, about 3 minutes. Get AI tools and career matches tailored to your type.';
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>Free Big Five Personality & Career Test (3 min) | OCEAN AI Navigator</title>');
+  const enDesc = 'OCEAN AI Navigator (OCEAN AI): take a free Big Five (OCEAN) personality and career test — 25 questions, about 3 minutes. Get AI tools and career matches tailored to your type.';
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(enDesc)}">`);
   html = html.replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${SITE}/en/">`);
   const hl = `${HREFLANG_START}
@@ -1008,11 +1008,11 @@ ${HREFLANG_END}`;
   if (hs !== -1 && he !== -1) html = html.slice(0, hs) + hl + html.slice(he + HREFLANG_END.length);
 
   html = html.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${SITE}/en/">`);
-  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="Free Big Five Personality Test (3 min) | AI-OCEAN">');
+  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="Free Big Five Personality & Career Test (3 min) | OCEAN AI Navigator">');
   html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(enDesc)}">`);
-  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="Free Big Five Personality Test (3 min) | AI-OCEAN">');
+  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="Free Big Five Personality & Career Test (3 min) | OCEAN AI Navigator">');
   html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(enDesc)}">`);
-  html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="AI-OCEAN — Get AI tools matched to your Big Five personality.">');
+  html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="OCEAN AI Navigator — Get AI tools matched to your Big Five personality.">');
   html = html.replace(/<meta property="og:locale" content="[^"]*">/, '<meta property="og:locale" content="en_US">');
   html = html.replace(/<meta property="og:locale:alternate" content="[^"]*">/, '<meta property="og:locale:alternate" content="ko_KR">');
 
@@ -1055,8 +1055,8 @@ function buildEsHome() {
   const map = Object.assign({}, strings.en || {}, strings.es || {});
   html = applyDataI18n(html, map);
   html = html.replace('<html lang="ko">', '<html lang="es">');
-  html = html.replace(/<title>[^<]*<\/title>/, '<title>Test de personalidad Big Five gratis (3 min) | AI-OCEAN</title>');
-  const esDesc = 'Un test de personalidad Big Five (OCEAN) gratis: 25 preguntas, unos 3 minutos. Recibe herramientas de IA y recomendaciones de carrera según tu tipo.';
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>Test gratis de personalidad y carrera Big Five (3 min) | OCEAN AI Navigator</title>');
+  const esDesc = 'OCEAN AI Navigator (OCEAN AI) — un test de personalidad y carrera Big Five (OCEAN) gratis: 25 preguntas, unos 3 minutos. Recibe herramientas de IA y recomendaciones de carrera según tu tipo.';
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(esDesc)}">`);
   html = html.replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${SITE}/es/">`);
   const hs = html.indexOf(HREFLANG_START);
@@ -1064,11 +1064,11 @@ function buildEsHome() {
   if (hs !== -1 && he !== -1) html = html.slice(0, hs) + HOME_HREFLANG + html.slice(he + HREFLANG_END.length);
 
   html = html.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${SITE}/es/">`);
-  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="Test de personalidad Big Five gratis (3 min) | AI-OCEAN">');
+  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="Test gratis de personalidad y carrera Big Five (3 min) | OCEAN AI Navigator">');
   html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(esDesc)}">`);
-  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="Test de personalidad Big Five gratis (3 min) | AI-OCEAN">');
+  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="Test gratis de personalidad y carrera Big Five (3 min) | OCEAN AI Navigator">');
   html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(esDesc)}">`);
-  html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="AI-OCEAN — Encuentra las herramientas de IA que van con tu personalidad.">');
+  html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="OCEAN AI Navigator — Encuentra las herramientas de IA que van con tu personalidad.">');
   html = html.replace(/<meta property="og:locale" content="[^"]*">/, '<meta property="og:locale" content="es_419">');
   html = html.replace(/<meta property="og:locale:alternate" content="[^"]*">/, '<meta property="og:locale:alternate" content="en_US">');
 
@@ -1137,7 +1137,7 @@ ${hreflangTags(SITE + '/blog/', SITE + '/en/blog/')}
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ko_KR">
-<meta property="og:site_name" content="AI-OCEAN">
+<meta property="og:site_name" content="OCEAN AI Navigator">
 <meta property="og:url" content="${SITE}/en/blog/">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
