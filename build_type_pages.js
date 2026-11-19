@@ -993,8 +993,8 @@ function buildEnHome() {
   const strings = extractStrings(html);
   html = applyDataI18n(html, strings.en);
   html = html.replace('<html lang="ko">', '<html lang="en">');
-  html = html.replace(/<title>[^<]*<\/title>/, '<title>AI-OCEAN | Your Personality-Based AI Prescription</title>');
-  const enDesc = 'Get AI tools matched to your Big Five (OCEAN) personality. 25 questions, about 3 minutes, free.';
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>Free Big Five Personality Test (3 min) | AI-OCEAN</title>');
+  const enDesc = 'Take a free Big Five (OCEAN) personality test — 25 questions, about 3 minutes. Get AI tools and career matches tailored to your type.';
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(enDesc)}">`);
   html = html.replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${SITE}/en/">`);
   const hl = `${HREFLANG_START}
@@ -1008,9 +1008,9 @@ ${HREFLANG_END}`;
   if (hs !== -1 && he !== -1) html = html.slice(0, hs) + hl + html.slice(he + HREFLANG_END.length);
 
   html = html.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${SITE}/en/">`);
-  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="AI-OCEAN | Your Personality-Based AI Prescription">');
+  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="Free Big Five Personality Test (3 min) | AI-OCEAN">');
   html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(enDesc)}">`);
-  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="AI-OCEAN | Your Personality-Based AI Prescription">');
+  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="Free Big Five Personality Test (3 min) | AI-OCEAN">');
   html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(enDesc)}">`);
   html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="AI-OCEAN — Get AI tools matched to your Big Five personality.">');
   html = html.replace(/<meta property="og:locale" content="[^"]*">/, '<meta property="og:locale" content="en_US">');
@@ -1055,8 +1055,8 @@ function buildEsHome() {
   const map = Object.assign({}, strings.en || {}, strings.es || {});
   html = applyDataI18n(html, map);
   html = html.replace('<html lang="ko">', '<html lang="es">');
-  html = html.replace(/<title>[^<]*<\/title>/, '<title>AI-OCEAN | Tu receta de IA según tu personalidad</title>');
-  const esDesc = 'Encuentra las herramientas de IA que van contigo, según tu personalidad Big Five (OCEAN). 25 preguntas, unos 3 minutos, gratis.';
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>Test de personalidad Big Five gratis (3 min) | AI-OCEAN</title>');
+  const esDesc = 'Un test de personalidad Big Five (OCEAN) gratis: 25 preguntas, unos 3 minutos. Recibe herramientas de IA y recomendaciones de carrera según tu tipo.';
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(esDesc)}">`);
   html = html.replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${SITE}/es/">`);
   const hs = html.indexOf(HREFLANG_START);
@@ -1064,9 +1064,9 @@ function buildEsHome() {
   if (hs !== -1 && he !== -1) html = html.slice(0, hs) + HOME_HREFLANG + html.slice(he + HREFLANG_END.length);
 
   html = html.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${SITE}/es/">`);
-  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="AI-OCEAN | Tu receta de IA según tu personalidad">');
+  html = html.replace(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="Test de personalidad Big Five gratis (3 min) | AI-OCEAN">');
   html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(esDesc)}">`);
-  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="AI-OCEAN | Tu receta de IA según tu personalidad">');
+  html = html.replace(/<meta name="twitter:title" content="[^"]*">/, '<meta name="twitter:title" content="Test de personalidad Big Five gratis (3 min) | AI-OCEAN">');
   html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(esDesc)}">`);
   html = html.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="AI-OCEAN — Encuentra las herramientas de IA que van con tu personalidad.">');
   html = html.replace(/<meta property="og:locale" content="[^"]*">/, '<meta property="og:locale" content="es_419">');
