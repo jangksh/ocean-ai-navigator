@@ -84,7 +84,7 @@ window.ES = {
     done: 'Análisis AI-OCEAN completo', radar: 'Mi radar OCEAN', insight: 'Tu informe de personalidad',
     profile: 'Mi perfil de fortalezas OCEAN', strengthBadge: 'Fortaleza', growBadge: 'A crecer',
     strengths: 'Fortalezas clave', growth: 'Áreas para crecer',
-    shareTitle: 'Comparte tu resultado', shareSub: 'Comparte tu tipo: tus amigos también pueden hacerlo en 3 minutos',
+    shareTitle: 'Compara tu OCEAN con un amigo', shareSub: 'Cuando termine el test gratis (unos 3 min), ambos verán sus perfiles lado a lado.',
     copyIG: 'Copiar para Instagram', kakao: 'KakaoTalk',
     aiTitle: 'Tu plan de juego con IA', aiHint: 'Toca un encabezado para ver la rutina matutina y los usos avanzados · toca un nombre para ir al sitio',
     main: 'MOTOR PRINCIPAL', specialist: 'ESPECIALISTA', specialistTool: 'Herramienta especialista',
