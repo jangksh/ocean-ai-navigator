@@ -21,7 +21,10 @@
     '/blog/mbti-vs-bigfive-ocean/': { en: '/en/blog/', ko: '/blog/mbti-vs-bigfive-ocean/', es: '/es/' },
     '/blog/free-personality-test-career-bigfive/': { en: '/en/blog/', ko: '/blog/free-personality-test-career-bigfive/', es: '/es/' },
     '/en/blog/interpret-big-five-scores/': { en: '/en/blog/interpret-big-five-scores/', ko: '/blog/', es: '/es/' },
-    '/blog/big-five-personality-test-for-careers/': { en: '/en/blog/big-five-personality-test-for-careers/', ko: '/blog/', es: '/es/' }
+    '/blog/big-five-personality-test-for-careers/': { en: '/en/blog/big-five-personality-test-for-careers/', ko: '/blog/', es: '/es/' },
+    // No Spanish teams page yet — send es to the English inquiry page.
+    '/teams/': { en: '/en/teams/', ko: '/teams/', es: '/en/teams/' },
+    '/en/teams/': { en: '/en/teams/', ko: '/teams/', es: '/en/teams/' }
   };
 
   var CRAWLER_UA = /Googlebot|AdsBot-Google|Mediapartners-Google|Google-InspectionTool|bingbot|BingPreview|Yandex(Bot|Images)?|Baiduspider|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|Bytespider|GPTBot|ClaudeBot|CCBot|anthropic-ai|ChatGPT-User|meta-externalagent/i;

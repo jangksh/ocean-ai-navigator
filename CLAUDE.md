@@ -16,6 +16,7 @@ Big 5(OCEAN) 심리 측정 기반의 성향 분석 웹사이트.
 ├── subscribe_config.js # 이메일 구독 endpoint (비어 있으면 결과 화면 구독 카드 숨김)
 ├── email/              # 5일 강의 + 주간 팁 원고(copy.js), 생성물 content.json, 발송기 apps_script/Code.gs, README.md(설정)
 ├── privacy/index.html  # 개인정보 안내 (한국어 URL). 영어는 en/privacy/
+├── teams/index.html, en/teams/index.html  # 팀·HR 문의 (내비·sitemap에는 아직 없음)
 ├── build_type_pages.js # 한/영/스 유형 페이지 + /en/ /es/ 홈 + sitemap.xml 생성기 (node로 실행)
 ├── scripts/            # OG 이미지 생성 (generate_og_images.py, export_og_meta.js)
 ├── og/types/           # 유형별 1200×630 공유 이미지 (ko/en/es)
