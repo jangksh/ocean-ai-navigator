@@ -1887,55 +1887,6 @@ body.lang-hint-open .landing-header { top: var(--lang-hint-h, 40px) !important; 
 body.lang-hint-open .lang-switcher { top: calc(var(--lang-hint-h, 40px) + 16px) !important; }
 body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
 
-/* First-visit language chooser (kept in DOM, never shown: path decides language) */
-.lang-chooser {
-  position: fixed; inset: 0; z-index: 10050;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px 16px;
-  background: rgba(15, 15, 35, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-.lang-chooser[hidden] { display: none !important; }
-.lang-chooser-card {
-  width: 100%; max-width: 400px;
-  background: #fff;
-  border-radius: 24px;
-  padding: 36px 28px 28px;
-  box-shadow: 0 20px 60px rgba(15,15,35,0.25);
-  text-align: center;
-}
-.lang-chooser-brand {
-  font-size: 13px; font-weight: 800; letter-spacing: 0.08em;
-  color: var(--wave-1); margin-bottom: 16px;
-}
-.lang-chooser-card h2 {
-  margin: 0 0 6px; font-size: 22px; letter-spacing: -0.4px;
-  color: var(--text-primary); font-weight: 800;
-}
-.lang-chooser-sub {
-  margin: 0 0 24px; font-size: 15px; color: var(--text-secondary);
-}
-.lang-chooser-actions { display: grid; gap: 10px; }
-.lang-chooser-btn {
-  display: block; width: 100%;
-  background: #fff;
-  border: 1.5px solid var(--card-border);
-  border-radius: 14px;
-  padding: 14px 16px;
-  font-size: 16px; font-weight: 700;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: inherit;
-}
-.lang-chooser-btn:hover, .lang-chooser-btn:focus-visible {
-  border-color: var(--wave-1);
-  color: var(--wave-1);
-  background: var(--dim-C-bg);
-  box-shadow: 0 0 0 3px rgba(76,110,245,0.12);
-  outline: none;
-}
 </style>
 </head>
 <body>
@@ -1952,14 +1903,6 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
   <button type="button" class="lang-hint-dismiss" id="langHintDismiss" aria-label="Dismiss">&times;</button>
 </div>
 
-<div id="langChooser" class="lang-chooser" hidden role="dialog" aria-modal="true" aria-labelledby="langChooserTitle">
-  <div class="lang-chooser-card">
-    <div class="lang-chooser-brand">OCEAN AI</div>
-    <h2 id="langChooserTitle">Choose your language</h2>
-    <p class="lang-chooser-sub">언어를 선택하세요 · Elige tu idioma</p>
-    <div class="lang-chooser-actions" id="langChooserActions"></div>
-  </div>
-</div>
 
 <!-- ══════════════════════════════════════
      SCREEN 1: LANDING
@@ -3476,11 +3419,6 @@ const SITE_LANGS = [
   { id: 'es', label: 'Español', short: 'ES' }
 ];
 
-function shouldShowLangChooser() {
-  // Path (/ , /en/, /es/) decides the language. The full-screen chooser is not used.
-  return false;
-}
-
 const LANG_HINT_KEY = 'ocean_lang_hint_dismissed';
 function browserSiteLang() {
   if (typeof oceanBrowserSiteLang === 'function') return oceanBrowserSiteLang() || '';
@@ -3528,6 +3466,7 @@ function hideLangHint() {
 function maybeShowLangHint() {
   const root = document.getElementById('langHint');
   if (!root) return;
+  if (/[?&]start=1(&|$)/.test(location.search)) return;
   try {
     if (typeof oceanIsCrawler === 'function' && oceanIsCrawler(navigator.userAgent)) return;
   } catch (e) {}
@@ -3565,39 +3504,6 @@ function maybeShowLangHint() {
     const h = root.getBoundingClientRect().height;
     document.body.style.setProperty('--lang-hint-h', Math.ceil(h) + 'px');
   });
-}
-
-function hideLangChooser() {
-  const root = document.getElementById('langChooser');
-  if (root) root.hidden = true;
-  document.body.style.overflow = '';
-}
-
-function chooseSiteLang(id) {
-  if (!SITE_LANGS.some(l => l.id === id)) return;
-  try { localStorage.setItem('ocean_lang', id); } catch (e) {}
-  hideLangChooser();
-  const dest = (typeof oceanPairUrl === 'function') ? oceanPairUrl(id) : langHomeFallback(id);
-  const here = location.pathname + location.search + location.hash;
-  if (dest !== here) location.href = dest;
-}
-
-function maybeShowLangChooser() {
-  if (!shouldShowLangChooser()) return;
-  const root = document.getElementById('langChooser');
-  const actions = document.getElementById('langChooserActions');
-  if (!root || !actions) return;
-  actions.innerHTML = SITE_LANGS.map(lang =>
-    `<button type="button" class="lang-chooser-btn" data-lang="${lang.id}" lang="${lang.id}">${lang.label}</button>`
-  ).join('');
-  actions.onclick = function (e) {
-    const btn = e.target.closest('[data-lang]');
-    if (btn) chooseSiteLang(btn.getAttribute('data-lang'));
-  };
-  root.hidden = false;
-  document.body.style.overflow = 'hidden';
-  const first = actions.querySelector('button');
-  if (first) first.focus();
 }
 
 const RESULT_STORAGE_KEY = 'ocean_result';
@@ -4076,6 +3982,11 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
   window.scrollTo(0, 0);
+  if (id === 'quiz' || id === 'jobs' || id === 'loading' || id === 'results') {
+    hideLangHint();
+  } else if (id === 'landing') {
+    maybeShowLangHint();
+  }
   if (id === 'personas') {
     ensurePersonas().then(() => { if (typeof renderPersonaGrid === 'function') renderPersonaGrid(); });
   }
@@ -4877,7 +4788,7 @@ function renderResults(scores) {
     <!-- SNS Share (결과 공유 — 보완 포인트 바로 다음) -->
     <div class="sns-share-section fade-up-d4">
       <div class="sns-section-title">🔗 ${L('결과를 공유해보세요', U.shareTitle)}</div>
-      <div class="sns-section-sub">${L('나의 AI 성향 분석 결과를 친구들과 비교해보세요', U.shareSub)}</div>
+      <div class="sns-section-sub">${L('내 성격 유형을 친구에게 공유해 보세요. 친구도 3분 만에 해 볼 수 있어요', U.shareSub)}</div>
       <div class="sns-btn-row">
         <button class="sns-btn sns-fb" onclick="shareFacebook()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>

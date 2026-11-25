@@ -111,8 +111,7 @@ const startPath = (lang) => lang === 'en' ? '/en/?start=1' : lang === 'es' ? '/e
 
 function startHref(lang, utm = {}) {
   // ?lang=ko|en|es is an explicit language choice: i18n_router.js saves it to
-  // ocean_lang, and the home language chooser (shouldShowLangChooser) stays hidden.
-  // The URL path alone does not suppress the popup for first-time visitors.
+  // ocean_lang, and the home language-mismatch banner will not offer a switch.
   const parts = [['lang', lang], ...Object.entries(utm)]
     .filter(([, v]) => v)
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`);
