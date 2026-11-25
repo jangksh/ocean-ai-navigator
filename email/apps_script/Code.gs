@@ -163,11 +163,38 @@ function buildEmail_(content, step, rec, links) {
   return { subject: subject, html: w.html, text: w.text };
 }
 
+function normCode_(raw) {
+  if (raw == null || raw === '') return '';
+  var s = String(raw).trim();
+  if (/^\d{1,5}$/.test(s)) s = s.padStart(5, '0');
+  return /^[01]{5}$/.test(s) ? s : '';
+}
+function normJob_(raw) {
+  if (raw == null || raw === '') return '';
+  var s = String(raw).trim();
+  if (!/^\d{1,2}$/.test(s)) return '';
+  var n = parseInt(s, 10);
+  return (n >= 1 && n <= 15) ? String(n).padStart(2, '0') : '';
+}
+function resultUrlFor_(code, job, lang) {
+  var c = normCode_(code);
+  if (!c) return '';
+  var l = langOf_(lang);
+  var prefix = CONFIG.SITE_URL + (l === 'en' ? '/en/' : l === 'es' ? '/es/' : '/');
+  var j = normJob_(job);
+  return prefix + (j ? '?job=' + j : '') + '#r=' + c;
+}
+
 function confirmEmail_(content, rec, links) {
   var c = pack_(content, rec.lang);
+  var resultUrl = resultUrlFor_(rec.code, rec.job, rec.lang);
+  var resultNote = pick_(c.labels.confirmResultNote, content.en.labels.confirmResultNote);
   var bodyHtml = '<p style="margin:0 0 18px;line-height:1.65">' + esc_(c.labels.confirmBody) + '</p>' +
-    '<p style="margin:0 0 8px"><a href="' + links.confirm + '" style="display:inline-block;padding:12px 22px;background:#2b7fff;color:#fff;text-decoration:none;border-radius:8px;font-weight:700">' + esc_(c.labels.confirmBtn) + '</a></p>';
-  var w = wrapEmail_(bodyHtml, c.labels.confirmBody + '\n\n' + links.confirm, c, links);
+    '<p style="margin:0 0 16px"><a href="' + links.confirm + '" style="display:inline-block;padding:12px 22px;background:#2b7fff;color:#fff;text-decoration:none;border-radius:8px;font-weight:700">' + esc_(c.labels.confirmBtn) + '</a></p>' +
+    (resultUrl ? '<p style="margin:0 0 8px;font-size:13.5px;line-height:1.6;color:#475569">' + esc_(resultNote) + '<br><a href="' + esc_(resultUrl) + '" style="color:#2b7fff;word-break:break-all">' + esc_(resultUrl) + '</a></p>' : '');
+  var bodyText = c.labels.confirmBody + '\n\n' + links.confirm +
+    (resultUrl ? '\n\n' + resultNote + '\n' + resultUrl : '');
+  var w = wrapEmail_(bodyHtml, bodyText, c, links);
   return { subject: c.labels.confirmSubject, html: w.html, text: w.text };
 }
 
@@ -213,8 +240,11 @@ function send_(to, mail, transactional) {
   if (CONFIG.REPLY_TO) opts.replyTo = CONFIG.REPLY_TO;
   MailApp.sendEmail(to, mail.subject, mail.text, opts);
 }
-function page_(title, body) {
-  return HtmlService.createHtmlOutput('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:12vh auto;padding:0 20px;color:#1f2937"><h2>' + esc_(title) + '</h2><p style="line-height:1.6">' + esc_(body) + '</p><p><a href="' + CONFIG.SITE_URL + '">thepersonalityai.com</a></p></body>')
+function page_(title, body, resultUrl, resultBtnLabel) {
+  var resultHtml = resultUrl
+    ? '<p style="margin:18px 0"><a href="' + esc_(resultUrl) + '" style="display:inline-block;padding:11px 20px;background:#2b7fff;color:#fff;text-decoration:none;border-radius:8px;font-weight:700">' + esc_(resultBtnLabel || resultUrl) + '</a></p>'
+    : '';
+  return HtmlService.createHtmlOutput('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:12vh auto;padding:0 20px;color:#1f2937"><h2>' + esc_(title) + '</h2><p style="line-height:1.6">' + esc_(body) + '</p>' + resultHtml + '<p><a href="' + CONFIG.SITE_URL + '">thepersonalityai.com</a></p></body>')
     .setTitle('AI-OCEAN');
 }
 
@@ -245,7 +275,7 @@ function doPost(e) {
     var content = getContent_();
     if (mine) setRow_(sh, mine.row, { created_at: new Date(now), token: token, code: code, job: job, lang: lang, utm: utm });
     else sh.appendRow([new Date(now), email, token, 'pending', code, job, lang, '', 0, '', utm]);
-    send_(email, confirmEmail_(content, { code: code, lang: lang }, linksFor_(token)), true);
+    send_(email, confirmEmail_(content, { code: code, job: job, lang: lang }, linksFor_(token)), true);
   } finally { lock.releaseLock(); }
   return ok;
 }
@@ -265,18 +295,20 @@ function doGet(e) {
       return page_(c.labels.unsubTitle, c.labels.unsubBody);
     }
     if (r.status === 'unsub') return page_(c.labels.badLink, '');
+    var resultUrl = resultUrlFor_(r.code, r.job, lang);
+    var resultBtn = pick_(c.labels.confirmedResultBtn, content.en.labels.confirmedResultBtn);
     if (r.status === 'pending') {
       if (Date.now() - new Date(r.created_at).getTime() > CONFIG.PENDING_EXPIRE_DAYS * DAY) return page_(c.labels.badLink, '');
       var now = Date.now();
       if (!CONFIG.POSTAL_ADDRESS) {                                      // 주소 설정 전: 확인만 기록하고 1일차는 주소가 생기면 sendDue 가 보낸다
         setRow_(sh, r.row, { status: 'active', confirmed_at: new Date(now), sent_count: 0 });
-        return page_(c.labels.confirmedTitle, c.labels.confirmedBody);
+        return page_(c.labels.confirmedTitle, c.labels.confirmedBody, resultUrl, resultBtn);
       }
       // 발송이 먼저: 한도 초과 등으로 실패하면 상태를 바꾸지 않아 링크를 다시 누를 수 있다
       send_(r.email, buildEmail_(content, { kind: 'course', day: 1 }, { code: String(r.code).padStart(5, '0'), lang: lang }, linksFor_(t)));
       setRow_(sh, r.row, { status: 'active', confirmed_at: new Date(now), sent_count: 1, last_sent_at: new Date(now) });
     }
-    return page_(c.labels.confirmedTitle, c.labels.confirmedBody);
+    return page_(c.labels.confirmedTitle, c.labels.confirmedBody, resultUrl, resultBtn);
   } finally { lock.releaseLock(); }
 }
 

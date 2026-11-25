@@ -1584,6 +1584,24 @@ html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform:
 .sub-msg { font-size: 14px; line-height: 1.6; margin-top: 10px; }
 .sub-msg.ok { color: #1B7F4B; font-weight: 600; }
 .sub-msg.err { color: #C92A2A; }
+/* ── 유료 전체 PDF 리포트 CTA 카드 ── */
+.report-cta-card {
+  background: linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 100%); border: 1.5px solid #D0BFFF;
+  border-radius: 20px; padding: 24px 22px; margin-bottom: 20px; box-shadow: var(--shadow-sm); text-align: center;
+}
+.report-cta-badge {
+  display: inline-block; font-size: 12px; font-weight: 800; color: #5F3DC4; background: #EDE9FE;
+  padding: 4px 10px; border-radius: 99px; margin-bottom: 10px; letter-spacing: -0.1px;
+}
+.report-cta-title { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.3px; }
+.report-cta-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; max-width: 520px; margin-left: auto; margin-right: auto; }
+.report-cta-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 24px; font-size: 15px; font-weight: 800; border: none; border-radius: 12px; cursor: pointer;
+  background: #5F3DC4; color: #fff; text-decoration: none; font-family: inherit;
+}
+.report-cta-btn:hover { filter: brightness(0.95); }
+.report-cta-note { font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5; }
 @media (max-width: 480px) { .sub-form { flex-direction: column; } .sub-form button { width: 100%; } }
 
 .sns-share-section {
@@ -3607,16 +3625,41 @@ function resultHashCode() {
   return m ? m[1] : null;
 }
 
+function defaultScoresForCode(code) {
+  if (!/^[01]{5}$/.test(code || '')) return null;
+  const keys = ['O', 'C', 'E', 'A', 'N'];
+  const scores = {};
+  keys.forEach((k, i) => { scores[k] = code[i] === '1' ? 72 : 28; });
+  return scores;
+}
+
+function queryJobId() {
+  try {
+    const j = parseInt(new URLSearchParams(location.search).get('job'), 10);
+    return (j >= 1 && j <= 15) ? j : null;
+  } catch (e) { return null; }
+}
+
 async function restoreStoredResult() {
   if (/[?&]start=1(&|$)/.test(location.search)) return false;
   const stored = readStoredResult();
   const hashCode = resultHashCode();
-  if (!stored || !hashCode || hashCode !== stored.code) return false;
-  if (stored.job != null) selectedJob = stored.job;
-  window._lastScores = stored.scores;
+  if (!hashCode) return false;
+  const qJob = queryJobId();
+  let scores = null;
+  if (stored && hashCode === stored.code) {
+    scores = stored.scores;
+    if (qJob != null) selectedJob = qJob;
+    else if (stored.job != null) selectedJob = stored.job;
+  } else {
+    scores = defaultScoresForCode(hashCode);
+    if (qJob != null) selectedJob = qJob;
+  }
+  if (!scores) return false;
+  window._lastScores = scores;
   await ensureResultData(selectedJob, window.LANG);
   showScreen('results');
-  renderResults(stored.scores);
+  renderResults(scores);
   return true;
 }
 
@@ -4561,31 +4604,116 @@ function toggleV2AI(card) { card.classList.toggle('open'); }
 //  GA: subscribe_view / subscribe_submit / subscribe_error — 이메일 주소는 절대 GA로 보내지 않는다.
 // ═══════════════════════════════════════════════════════
 const SUB_PREVIEW = /[?&]subscribe_preview=1(&|$)/.test(location.search);
-function subEnabled() { return SUB_PREVIEW || !!((window.SUBSCRIBE_CONFIG || {}).endpoint); }
+const SAVE_PREVIEW = /[?&]save_result_preview=1(&|$)/.test(location.search);
+const REPORT_PREVIEW = /[?&]report_preview=1(&|$)/.test(location.search);
+function subEnabled() { return SUB_PREVIEW || SAVE_PREVIEW || !!((window.SUBSCRIBE_CONFIG || {}).endpoint); }
+function saveResultOn() {
+  if (SAVE_PREVIEW) return true;
+  const sc = window.SUBSCRIBE_CONFIG || {};
+  const pc = window.PAID_REPORT_CONFIG || {};
+  return !!(sc.SAVE_RESULT_ENABLED || pc.PAID_SPLIT_ENABLED);
+}
+function reportPurchaseUrl() {
+  const sc = window.SUBSCRIBE_CONFIG || {};
+  const pc = window.PAID_REPORT_CONFIG || {};
+  return String(sc.REPORT_PURCHASE_URL || pc.PURCHASE_URL || '').trim();
+}
 function subDone() { try { return localStorage.getItem('ocean_sub') === '1'; } catch (e) { return false; } }
 function subscribeCardHTML(code, typeName) {
   if (!subEnabled()) return '';
+  const saveOn = saveResultOn();
+  const isPreview = SUB_PREVIEW || SAVE_PREVIEW;
   const priv = window.LANG === 'ko' ? '/privacy/' : window.LANG === 'es' ? '/es/privacy/' : '/en/privacy/';
-  const title = L('📬 내 유형의 AI 활용 가이드를 메일로 받아보세요', '📬 Get your AI guide by email', '📬 Recibe por correo la guía de IA de tu tipo');
-  const sub = L('5일 동안 하루 한 통씩 짧은 강의, 이후 10주 동안 매주 한 통씩 내 유형에 맞춘 팁을 보내드립니다. 무료이고 언제든 취소할 수 있습니다.',
-                'Five short daily lessons, then one tip a week for 10 weeks, written for your type. Free. Unsubscribe anytime.',
-                'Cinco lecciones diarias cortas y, después, un consejo a la semana durante 10 semanas, escrito para tu tipo. Es gratis y puedes cancelar cuando quieras.');
-  setTimeout(() => track('subscribe_view', Object.assign({ persona_code: code, preview: SUB_PREVIEW ? 1 : 0 }, jobParams())), 0);
+  const title = saveOn
+    ? L('📌 내 결과 링크를 이메일로 저장해 두세요', '📌 Save your result link by email', '📌 Guarda el enlace de tu resultado por correo')
+    : L('📬 내 유형의 AI 활용 가이드를 메일로 받아보세요', '📬 Get your AI guide by email', '📬 Recibe por correo la guía de IA de tu tipo');
+  const sub = saveOn
+    ? L('결과는 이 브라우저에만 임시 저장됩니다. 이메일을 남기시면 다른 기기에서도 내 결과와 직군 맞춤 AI 처방을 다시 볼 수 있는 링크를 보내드립니다. 무료이며 광고 메일은 보내지 않습니다.',
+        'Your result is only stored in this browser. Leave your email to get a confirmation email with a direct link back to your type and job-specific AI prescription on any device. Free, no promo emails.',
+        'Tu resultado solo se guarda en este navegador. Deja tu correo para recibir un mensaje de confirmación con el enlace directo a tu tipo y receta de IA en cualquier dispositivo. Gratis y sin correos promocionales.')
+    : L('5일 동안 하루 한 통씩 짧은 강의, 이후 10주 동안 매주 한 통씩 내 유형에 맞춘 팁을 보내드립니다. 무료이고 언제든 취소할 수 있습니다.',
+        'Five short daily lessons, then one tip a week for 10 weeks, written for your type. Free. Unsubscribe anytime.',
+        'Cinco lecciones diarias cortas y, después, un consejo a la semana durante 10 semanas, escrito para tu tipo. Es gratis y puedes cancelar cuando quieras.');
+  const btnText = saveOn
+    ? L('내 결과 링크 받기', 'Send my result link', 'Enviar enlace de mi resultado')
+    : L('가이드 받기', 'Send me the guide', 'Quiero la guía');
+  const fineText = saveOn
+    ? L('입력하시면 확인 메일을 보내드립니다. 받은편지함(스팸함 포함)에서 확인 버튼을 누르면 내 결과 링크가 저장됩니다. 이메일은 결과 링크 전달에만 사용되며 언제든 취소할 수 있습니다.',
+        'We\'ll email you a confirmation link. Open it from your inbox or spam folder and click confirm to keep your result link. Your email is used only for this, and you can unsubscribe anytime.',
+        'Te enviaremos un correo de confirmación. Ábrelo en tu bandeja o spam y haz clic para confirmar y conservar tu enlace. Lo usamos solo para esto y puedes cancelar cuando quieras.')
+    : L('신청하시면 확인 메일을 보내드립니다. 받은편지함이나 스팸함에서 메일을 연 뒤 링크를 눌러 구독을 완료해 주세요. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.',
+        'We\'ll email you a confirmation. Open it from your inbox or spam folder and click the link to confirm. Your email is used only for this series, and you can unsubscribe anytime.',
+        'Te enviaremos un correo de confirmación. Ábrelo en tu bandeja o en spam y haz clic en el enlace para confirmar. Lo usamos solo para esta serie y puedes cancelar cuando quieras.');
+  const evParams = Object.assign({ persona_code: code, offer: saveOn ? 'save_result' : 'guide', preview: isPreview ? 1 : 0 }, jobParams());
+  setTimeout(() => {
+    track('subscribe_view', evParams);
+    if (saveOn) track('save_result_view', evParams);
+  }, 0);
   if (subDone()) {
-    return `<div class="sub-card fade-up-d2"><div class="sub-title">${title}</div>
-      <div class="sub-msg ok">${L('✅ 이 기기에서 이미 신청 완료되었습니다.', '✅ You\'re already subscribed on this device.', '✅ En este dispositivo ya estás suscrito.')}</div>
-      <div class="sub-fine"><a href="#" onclick="subReset();return false">${L('다른 이메일로 다시 신청', 'Use a different email', 'Usar otro correo')}</a></div></div>`;
+    const doneMsg = saveOn
+      ? L('✅ 이 기기에서 이미 결과 저장 메일을 신청했습니다.', '✅ You already requested your saved result link on this device.', '✅ Ya solicitaste el enlace de tu resultado en este dispositivo.')
+      : L('✅ 이 기기에서 이미 신청 완료되었습니다.', '✅ You\'re already subscribed on this device.', '✅ En este dispositivo ya estás suscrito.');
+    const resetLabel = saveOn
+      ? L('다른 이메일로 다시 보내기', 'Send to a different email', 'Enviar a otro correo')
+      : L('다른 이메일로 다시 신청', 'Use a different email', 'Usar otro correo');
+    return `<div class="sub-card fade-up-d2" id="subCard"><div class="sub-title">${title}</div>
+      <div class="sub-msg ok">${doneMsg}</div>
+      <div class="sub-fine"><a href="#" onclick="subReset();return false">${resetLabel}</a></div></div>`;
   }
-  return `<div class="sub-card fade-up-d2" id="subCard">
+  return `<div class="sub-card fade-up-d2" id="subCard" data-offer="${saveOn ? 'save_result' : 'guide'}">
     <div class="sub-title">${title}</div>
     <div class="sub-sub">${sub}</div>
     <form class="sub-form" onsubmit="submitSubscribe(event)" novalidate>
       <input type="email" name="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="${L('이메일 주소', 'you@email.com', 'tu@email.com')}" aria-label="${L('이메일 주소', 'Email address', 'Correo electrónico')}">
       <div class="sub-hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
-      <button type="submit">${L('가이드 받기', 'Send me the guide', 'Quiero la guía')}</button>
+      <button type="submit">${btnText}</button>
     </form>
     <div class="sub-msg" id="subMsg" role="status" aria-live="polite"></div>
-    <div class="sub-fine">${L('신청하시면 확인 메일을 보내드립니다. 받은편지함이나 스팸함에서 메일을 연 뒤 링크를 눌러 구독을 완료해 주세요. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'We\'ll email you a confirmation. Open it from your inbox or spam folder and click the link to confirm. Your email is used only for this series, and you can unsubscribe anytime.', 'Te enviaremos un correo de confirmación. Ábrelo en tu bandeja o en spam y haz clic en el enlace para confirmar. Lo usamos solo para esta serie y puedes cancelar cuando quieras.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy', 'Privacidad')}</a></div>
+    <div class="sub-fine">${fineText} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy', 'Privacidad')}</a></div>
+  </div>`;
+}
+function buildReportPurchaseHref(baseUrl, code) {
+  if (!baseUrl) return '#';
+  try {
+    const u = new URL(baseUrl, location.href);
+    const jobStr = selectedJob ? String(selectedJob).padStart(2, '0') : '';
+    if (code && !u.searchParams.has('client_reference_id')) {
+      u.searchParams.set('client_reference_id', code + (jobStr ? '_' + jobStr : ''));
+    }
+    return u.toString();
+  } catch (e) { return baseUrl; }
+}
+function trackReportCtaClick(ev) {
+  const code = window._shareData && window._shareData.code;
+  const p = Object.assign({ persona_code: code, price_usd: 3, preview: REPORT_PREVIEW ? 1 : 0 }, jobParams());
+  track('report_cta_click', p);
+  const raw = reportPurchaseUrl();
+  if (!raw) {
+    if (ev) ev.preventDefault();
+    if (typeof showShareToast === 'function') {
+      showShareToast(L('(미리보기) 결제 링크 설정 후 이용할 수 있습니다.', '(Preview) Available once the checkout link is configured.', '(Vista previa) Disponible cuando se configure el enlace de pago.'));
+    }
+  }
+}
+function reportCtaCardHTML(code, typeName) {
+  const rawUrl = reportPurchaseUrl();
+  if (!REPORT_PREVIEW && (!saveResultOn() || !rawUrl)) return '';
+  const href = buildReportPurchaseHref(rawUrl, code);
+  const badge = L('PDF 전체 리포트 · $3 (1회 결제)', 'Full PDF Report · $3 one-time', 'Informe completo en PDF · $3 (pago único)');
+  const title = L('📄 내 유형 전체 리포트 PDF 소장하기', '📄 Get your full personality & AI report (PDF)', '📄 Obtén tu informe completo en PDF');
+  const sub = L('요약·점수 해석·직군 맞춤 AI 생존 전략 전체·시너지 전략·하루 루틴·복사해서 바로 쓰는 프롬프트 모음까지 8~12쪽 PDF 한 권으로 정리해 드려요.',
+                'Keep an 8–12 page PDF with your full OCEAN breakdown, job-matched AI game plan, synergy strategy, daily AI routine, and copy-paste prompt pack.',
+                'Llévate un PDF de 8 a 12 páginas con tu perfil OCEAN completo, tu plan de IA por sector, estrategia de sinergia, rutina diaria y prompts listos para copiar.');
+  const btn = L('전체 리포트 PDF 받기 ($3)', 'Get full PDF report ($3)', 'Obtener informe PDF ($3)');
+  const note = L('Stripe 안전 결제 · 1회 결제 (정기 구독 아님)', 'Secure checkout via Stripe · One-time payment', 'Pago seguro con Stripe · Pago único (sin suscripción)');
+  const evParams = Object.assign({ persona_code: code, price_usd: 3, preview: REPORT_PREVIEW ? 1 : 0 }, jobParams());
+  setTimeout(() => track('report_cta_view', evParams), 0);
+  return `<div class="report-cta-card fade-up-d2" id="reportCtaCard">
+    <div class="report-cta-badge">${badge}</div>
+    <div class="report-cta-title">${title}</div>
+    <div class="report-cta-sub">${sub}</div>
+    <a class="report-cta-btn" href="${href}"${rawUrl ? ' target="_blank" rel="noopener"' : ''} data-cta-position="result_report_pdf" onclick="trackReportCtaClick(event)">${btn}</a>
+    <div class="report-cta-note">${note}</div>
   </div>`;
 }
 function subReset() { try { localStorage.removeItem('ocean_sub'); } catch (e) {} if (window._lastScores) renderResults(window._lastScores); }
@@ -4597,22 +4725,32 @@ async function submitSubscribe(ev) {
   msg.className = 'sub-msg';
   if (bad) { msg.classList.add('err'); msg.textContent = L('이메일 주소를 확인해 주세요.', 'Please check your email address.', 'Revisa tu correo electrónico.'); return; }
   if (f.company && f.company.value) return; // 허니팟
+  const saveOn = saveResultOn();
+  const isPreview = SUB_PREVIEW || SAVE_PREVIEW;
   const code = window._shareData && window._shareData.code;
-  const p = Object.assign({ persona_code: code, preview: SUB_PREVIEW ? 1 : 0 }, jobParams());
+  const p = Object.assign({ persona_code: code, offer: saveOn ? 'save_result' : 'guide', preview: isPreview ? 1 : 0 }, jobParams());
   btn.disabled = true;
   try {
-    if (!SUB_PREVIEW) {
-      const body = new URLSearchParams({ email, code: code || '', job: String(selectedJob || '').padStart(2, '0'), lang: window.LANG, utm: UTM, company: '' });
+    if (!isPreview && window.SUBSCRIBE_CONFIG && window.SUBSCRIBE_CONFIG.endpoint) {
+      const body = new URLSearchParams({ email, code: code || '', job: selectedJob ? String(selectedJob).padStart(2, '0') : '', lang: window.LANG, utm: UTM, company: '' });
       await fetch(window.SUBSCRIBE_CONFIG.endpoint, { method: 'POST', mode: 'no-cors', body });
     }
     track('subscribe_submit', p);
+    if (saveOn) track('save_result_submit', p);
     try { localStorage.setItem('ocean_sub', '1'); } catch (e) {}
     f.style.display = 'none';
     msg.classList.add('ok');
-    msg.textContent = SUB_PREVIEW ? L('(미리보기) 실제 전송은 하지 않았습니다.', '(Preview) Nothing was sent.', '(Vista previa) No se envió nada.')
-      : L('✅ 신청 완료! 확인 메일을 보내드렸어요. 받은편지함(스팸함 포함)을 확인한 뒤, 링크를 눌러 구독을 완료해 주세요.', '✅ You\'re subscribed! We sent a confirmation email. Check your inbox (and spam) and click the link to confirm.', '✅ ¡Listo, estás suscrito! Te enviamos un correo de confirmación. Revisa tu bandeja (y el spam) y haz clic en el enlace para confirmar.');
+    const okMsg = saveOn
+      ? L('✅ 확인 메일을 보내드렸어요! 받은편지함(스팸함 포함)에서 메일을 열어 확인 버튼을 누르면 내 결과 링크가 저장됩니다.',
+          '✅ Sent! Check your inbox (and spam) and click confirm to save your result link.',
+          '✅ ¡Enviado! Revisa tu bandeja (y spam) y haz clic en confirmar para guardar el enlace de tu resultado.')
+      : L('✅ 신청 완료! 확인 메일을 보내드렸어요. 받은편지함(스팸함 포함)을 확인한 뒤, 링크를 눌러 구독을 완료해 주세요.',
+          '✅ You\'re subscribed! We sent a confirmation email. Check your inbox (and spam) and click the link to confirm.',
+          '✅ ¡Listo, estás suscrito! Te enviamos un correo de confirmación. Revisa tu bandeja (y el spam) y haz clic en el enlace para confirmar.');
+    msg.textContent = isPreview ? L('(미리보기) 실제 전송은 하지 않았습니다.', '(Preview) Nothing was sent.', '(Vista previa) No se envió nada.') : okMsg;
   } catch (e) {
     track('subscribe_error', p);
+    if (saveOn) track('save_result_error', p);
     btn.disabled = false;
     msg.classList.add('err');
     msg.textContent = L('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.', 'Something went wrong. Please try again in a moment.', 'Algo salió mal. Inténtalo de nuevo en un momento.');
@@ -4654,7 +4792,7 @@ function renderResults(scores) {
 
   const insightText = v2
     ? v2.insight_v2
-    : (jobPersona ? jobPersona.insight : (locMode ? (master.insight || master.summary) : `${job?.icon} ${job?.label} 분야에서 활동하시는 <strong>'${master.name}'</strong> 유형이군요! ${master.summary}`));
+    : (jobPersona ? jobPersona.insight : (locMode ? (master.insight || master.summary) : (job ? `${job.icon} ${job.label} 분야에서 활동하시는 <strong>'${master.name}'</strong> 유형이군요! ${master.summary}` : `<strong>'${master.name}'</strong> 유형이군요! ${master.summary}`)));
 
   const personaTitle = jobPersona?.title || null;
   const _rec = (PERSONA_AI_REC[code] || 'ChatGPT').split(' + ');
@@ -4817,7 +4955,7 @@ function renderResults(scores) {
       </div>
       <div class="rb-content">
         <div class="rb-job-pill" style="background:${bannerBg};color:${bannerColor};border:1px solid ${bannerColor}33">
-          🌊 ${L('AI-OCEAN 분석 완료', U.done)} &nbsp;·&nbsp; ${job?.icon} ${jobLabel(job)}
+          🌊 ${L('AI-OCEAN 분석 완료', U.done)}${job ? ` &nbsp;·&nbsp; ${job.icon} ${jobLabel(job)}` : ''}
         </div>
         <div class="rb-name" style="color:${bannerColor}">${master.name}</div>
         ${personaTitle ? `<div class="rb-persona-title" style="color:${bannerColor}">"${personaTitle}"</div>` : ''}
@@ -4841,6 +4979,7 @@ function renderResults(scores) {
 
     <!-- 이메일 구독 (결과에 만족한 직후가 가장 반응이 좋다) -->
     ${subscribeCardHTML(code, master.name)}
+    ${reportCtaCardHTML(code, master.name)}
 
     <!-- v2 Strengths & Growth (if available) -->
     ${v2StrengthsSection}
