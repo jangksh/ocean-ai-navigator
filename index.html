@@ -1717,6 +1717,36 @@ html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform:
   font-size: 17px; line-height: 1.6; color: var(--text-primary); font-style: italic;
 }
 
+/* ── paid-report teaser (only when PAID_SPLIT_ENABLED) ── */
+.paid-teaser {
+  margin: 20px 0 8px;
+  padding: 22px 22px 20px;
+  border: 1.5px dashed var(--card-border, #DEE2E6);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
+  text-align: left;
+}
+.paid-teaser-lock { font-size: 22px; margin-bottom: 8px; }
+.paid-teaser-title { font-size: 20px; font-weight: 800; color: var(--text-primary); margin-bottom: 8px; }
+.paid-teaser-sub { font-size: 16px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 14px; }
+.paid-teaser-list { margin: 0 0 18px; padding: 0 0 0 20px; display: flex; flex-direction: column; gap: 8px; }
+.paid-teaser-list li { font-size: 16px; line-height: 1.55; color: var(--text-primary); }
+.paid-teaser-cta {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; border-radius: 12px; padding: 12px 20px;
+  font-size: 16px; font-weight: 800; cursor: pointer;
+  background: var(--wave-1, #1C7ED6); color: #fff;
+}
+.paid-teaser-cta:hover { filter: brightness(0.95); }
+.paid-teaser-cta:disabled { opacity: 0.55; cursor: not-allowed; filter: none; }
+.sub-card-highlight {
+  outline: 3px solid var(--wave-1, #1C7ED6);
+  outline-offset: 4px;
+  transition: outline-color 0.3s;
+}
+.v2-ai-card.paid-free-detail .v2-ai-header { cursor: default; }
+.v2-ai-card.paid-free-detail .v2-ai-header:hover { background: transparent; }
+
 
 .more-fold { margin: 20px 0; border: 1px solid var(--border, #E9ECEF); border-radius: 16px; background: #fff; overflow: hidden; }
 .more-fold > summary { cursor: pointer; list-style: none; padding: 18px 20px; font-weight: 800; font-size: 17px; }
@@ -2694,6 +2724,96 @@ if (typeof OCEAN_V2_DATA === 'undefined') window.OCEAN_V2_DATA = {};
 window.EN_JOB = window.EN_JOB || {};
 window.ES_JOB = window.ES_JOB || {};
 window.SUBSCRIBE_CONFIG = window.SUBSCRIBE_CONFIG || {};
+
+// Paid-report split. Off by default so the live result page is unchanged.
+// When PAID_SPLIT_ENABLED is true, the result shows ~3 free trait-specific
+// details (each AI tool's daily_guide) in "AI 맞춤형 생존 전략" and teasers
+// the remaining tool details plus synergy and daily routine. Content in
+// v2_data.js / job packs is left intact for a future paid PDF.
+// A page may set window.PAID_REPORT_CONFIG before this script; those values win.
+window.PAID_REPORT_CONFIG = Object.assign({
+  PAID_SPLIT_ENABLED: false,
+  CTA_MODE: 'notify', // 'notify' (existing email subscribe) or 'purchase'
+  PURCHASE_URL: '',
+  FREE_DETAIL_COUNT: 3
+}, window.PAID_REPORT_CONFIG || {});
+function paidSplitOn() {
+  return !!(window.PAID_REPORT_CONFIG && window.PAID_REPORT_CONFIG.PAID_SPLIT_ENABLED);
+}
+function paidFreeDetailCount() {
+  const n = Number((window.PAID_REPORT_CONFIG || {}).FREE_DETAIL_COUNT);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : 3;
+}
+function v2ToolList(v2) {
+  return (v2 && Array.isArray(v2.ai_tools)) ? v2.ai_tools : [];
+}
+function paidReportCta(ev) {
+  if (ev) ev.preventDefault();
+  const cfg = window.PAID_REPORT_CONFIG || {};
+  const mode = cfg.CTA_MODE === 'purchase' ? 'purchase' : 'notify';
+  try { track('paid_report_cta', { mode: mode }); } catch (e) {}
+  if (mode === 'purchase') {
+    const url = String(cfg.PURCHASE_URL || '').trim();
+    if (url) { window.location.href = url; return; }
+    const msg = L('전체 리포트는 곧 공개됩니다.', 'The full report is coming soon.', 'El informe completo estará disponible pronto.');
+    if (typeof showShareToast === 'function') showShareToast(msg);
+    return;
+  }
+  const card = document.getElementById('subCard') || document.querySelector('.sub-card');
+  if (card) {
+    card.classList.add('sub-card-highlight');
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const input = card.querySelector('input[type="email"]');
+    if (input) setTimeout(() => { try { input.focus(); } catch (e) {} }, 350);
+    setTimeout(() => card.classList.remove('sub-card-highlight'), 2400);
+  }
+}
+function paidTeaserHTML(v2, U) {
+  if (!paidSplitOn()) return '';
+  const tools = v2ToolList(v2);
+  const lockedCount = Math.max(0, tools.length - paidFreeDetailCount());
+  const hasMorning = tools.some(t => t.morning_tip);
+  const hasPower = tools.some(t => t.power_use);
+  const hasPrompt = tools.some(t => t.prompt_example);
+  const detailBits = [];
+  if (hasMorning) detailBits.push(L('아침 루틴 활용법', U.morning));
+  if (hasPower) detailBits.push(L('이 성향을 위한 파워 활용', U.power));
+  if (hasPrompt) detailBits.push(L('추천 프롬프트', U.prompt));
+  const bullets = [];
+  if (detailBits.length) {
+    bullets.push(L('각 AI 도구의 ' + detailBits.join(' · '), 'For each AI tool: ' + detailBits.join(' · '), 'En cada herramienta de IA: ' + detailBits.join(' · ')));
+  }
+  if (lockedCount) {
+    bullets.push(L(
+      '나머지 ' + lockedCount + '개 도구의 활용 가이드',
+      'Everyday-use guides for ' + lockedCount + ' more tool' + (lockedCount === 1 ? '' : 's'),
+      'Guías de uso diario de ' + lockedCount + ' herramienta' + (lockedCount === 1 ? '' : 's') + ' más'
+    ));
+  }
+  if (v2 && v2.synergy_strategy) bullets.push('🏆 ' + L('AI × 성향 시너지 전략', U.synergy));
+  if (v2 && v2.daily_routine) bullets.push('📅 ' + L('AI와 함께하는 나의 하루', U.day));
+  if (!bullets.length) return '';
+  const cfg = window.PAID_REPORT_CONFIG || {};
+  const mode = cfg.CTA_MODE === 'purchase' ? 'purchase' : 'notify';
+  const purchaseReady = !!(mode === 'purchase' && String(cfg.PURCHASE_URL || '').trim());
+  const ctaLabel = mode === 'purchase'
+    ? (purchaseReady
+        ? L('전체 리포트 보기', (U && U.paidCtaBuy) || 'Get the full report', (U && U.paidCtaBuy) || 'Obtener el informe completo')
+        : L('전체 리포트 곧 공개', (U && U.paidCtaSoon) || 'Full report coming soon', (U && U.paidCtaSoon) || 'Informe completo próximamente'))
+    : L('출시되면 알려주세요', (U && U.paidCtaNotify) || 'Notify me when it\'s ready', (U && U.paidCtaNotify) || 'Avísame cuando esté listo');
+  const ctaDisabled = mode === 'purchase' && !purchaseReady;
+  const title = L('더 자세한 내용은 유료 리포트에서', (U && U.paidTitle) || 'More detail is in the full report', (U && U.paidTitle) || 'Más detalle en el informe completo');
+  const sub = L('무료로는 맞춤형 생존 전략의 특성별 상세 3개를 보여드려요. 아래 내용은 전체 리포트에 담길 예정이에요.', (U && U.paidSub) || 'The free result includes three trait-specific details from your AI game plan. The items below will be in the full report.', (U && U.paidSub) || 'El resultado gratuito incluye tres detalles específicos de tu plan de juego con IA. Lo siguiente irá en el informe completo.');
+  return `
+    <aside class="paid-teaser fade-up-d3" data-cta-mode="${mode}">
+      <div class="paid-teaser-lock" aria-hidden="true">🔒</div>
+      <div class="paid-teaser-title">${title}</div>
+      <div class="paid-teaser-sub">${sub}</div>
+      <ul class="paid-teaser-list">${bullets.map(b => '<li>' + b + '</li>').join('')}</ul>
+      <button type="button" class="paid-teaser-cta" data-cta-position="paid_teaser" onclick="paidReportCta(event)"${ctaDisabled ? ' disabled' : ''}>${ctaLabel}</button>
+    </aside>`;
+}
+
 
 // Lazy-load language packs and result data only when that step needs them.
 const _scriptLoads = Object.create(null);
@@ -4788,9 +4908,15 @@ function renderResults(scores) {
 
   // ── Build AI prescription section ──
   let prescriptionHTML;
-  if (v2 && v2.ai_tools?.length) {
-    // v2 expandable cards — daily_guide always visible, rest in accordion
-    const aiCards = v2.ai_tools.map((t, idx) => {
+  const splitOn = paidSplitOn();
+  const freeDetailCount = paidFreeDetailCount();
+  const v2Tools = v2ToolList(v2);
+  if (v2Tools.length) {
+    // v2 expandable cards — daily_guide always visible, rest in accordion.
+    // When the paid split is on, only the first FREE_DETAIL_COUNT tools show,
+    // and only their daily_guide (the free trait-specific detail) is visible.
+    const aiCards = v2Tools.map((t, idx) => {
+      if (splitOn && idx >= freeDetailCount) return '';
       const isMain = t.type === '메인' || t.type === 'main';
       const badgeColor = isMain ? bannerColor : '#868E96';
       const badgeBg = isMain ? bannerColor + '15' : '#F1F3F5';
@@ -4804,6 +4930,17 @@ function renderResults(scores) {
           <div class="v2-guide-label">📱 ${L('일상 활용 가이드', U.daily)}</div>
           <div class="v2-guide-text">${t.daily_guide}</div>
         </div>` : '';
+      if (splitOn) {
+        return `
+        <div class="v2-ai-card open paid-free-detail">
+          <div class="v2-ai-header">
+            <span class="v2-engine-badge" style="background:${badgeBg};color:${badgeColor}">${isMain ? 'MAIN ENGINE' : (locMode ? (t.type === 'main' ? 'MAIN ENGINE' : U.specialist) : (t.type || '전문 AI'))}</span>
+            <div class="v2-ai-name">${makeAILink(t.name)}</div>
+            <div class="v2-ai-tagline">${t.tagline || ''}</div>
+          </div>
+          ${dailyBlock}
+        </div>`;
+      }
       const hasAccordion = !!(t.morning_tip || t.power_use || t.prompt_example || idx > 0);
       return `
         <div class="v2-ai-card ${idx === 0 ? 'open' : ''}">
@@ -4822,10 +4959,13 @@ function renderResults(scores) {
           </div>` : ''}
         </div>`;
     }).join('');
+    const aiHint = splitOn
+      ? L('특성별 상세 3개(각 도구의 일상 활용 가이드)를 먼저 보여드려요 · 이름 클릭 시 해당 사이트로 이동', U.aiHintPaid || U.aiHint)
+      : L('아침 루틴 &amp; 파워 활용법은 헤더 클릭으로 펼쳐보세요 · 이름 클릭 시 해당 사이트로 이동', U.aiHint);
     prescriptionHTML = `
       <div class="prescription-section fade-up-d3">
         <div class="section-title" style="margin-bottom:4px">🤖 ${L('AI 맞춤형 생존 전략', U.aiTitle)}</div>
-        <div style="font-size:16px;color:var(--text-secondary);margin-bottom:16px">${L('아침 루틴 &amp; 파워 활용법은 헤더 클릭으로 펼쳐보세요 · 이름 클릭 시 해당 사이트로 이동', U.aiHint)}</div>
+        <div style="font-size:16px;color:var(--text-secondary);margin-bottom:16px">${aiHint}</div>
         ${aiCards}
       </div>`;
   } else {
@@ -4848,18 +4988,20 @@ function renderResults(scores) {
       </div>`;
   }
 
-  // ── v2 synergy + daily routine ──
-  const v2SynergySection = v2?.synergy_strategy ? `
+  // ── v2 synergy + daily routine (locked when the paid split is on) ──
+  const v2SynergySection = (!splitOn && v2?.synergy_strategy) ? `
     <div class="v2-text-section fade-up-d3">
       <div class="section-title" style="margin-bottom:14px">🏆 ${L('AI × 성향 시너지 전략', U.synergy)}</div>
       <div class="v2-section-body">${v2.synergy_strategy}</div>
     </div>` : '';
 
-  const v2RoutineSection = v2?.daily_routine ? `
+  const v2RoutineSection = (!splitOn && v2?.daily_routine) ? `
     <div class="v2-text-section fade-up-d3">
       <div class="section-title" style="margin-bottom:14px">📅 ${L('AI와 함께하는 나의 하루', U.day)}</div>
       <div class="v2-section-body">${v2.daily_routine}</div>
     </div>` : '';
+
+  const teaserHTML = paidTeaserHTML(v2, U);
 
   // ── Job-specific extra AI tools (with links) ──
   const usedTools = new Set([mainAI.name, ...specialistAIs.map(a => a.name)].map(n => n.toLowerCase()));
@@ -4946,10 +5088,11 @@ function renderResults(scores) {
 
     <!-- AI Prescription (v2 or v1 fallback) -->
     ${prescriptionHTML}
+    ${teaserHTML}
 
     <!-- 상세 분석 (접힘) -->
     <details class="more-fold fade-up-d3" ontoggle="if(this.open)track('detail_open',{})">
-    <summary>📖 ${L('상세 분석 더 보기', U.more)} <span>${L('OCEAN 프로파일 · 시너지 전략 · 추천 도구 · 하루 루틴', U.moreSub)}</span></summary>
+    <summary>📖 ${L('상세 분석 더 보기', U.more)} <span>${splitOn ? L('OCEAN 프로파일 · 추천 도구', U.moreSubPaid || U.moreSub) : L('OCEAN 프로파일 · 시너지 전략 · 추천 도구 · 하루 루틴', U.moreSub)}</span></summary>
     <div class="ocean-profile-section">
       <div class="section-title" style="margin-bottom:16px">🧬 ${L('나의 OCEAN 강점 프로파일', U.profile)}</div>
       ${oceanProfileRows}
@@ -4975,6 +5118,9 @@ function renderResults(scores) {
 
     <p class="disclaimer" style="text-align:center;padding-bottom:40px">${L('본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작.', U.disclaimer)}</p>
   `;
+
+  const resultsRoot = document.getElementById('resultsContent');
+  if (resultsRoot) resultsRoot.setAttribute('data-paid-split', splitOn ? 'on' : 'off');
 
   // Animate bars after render
   setTimeout(() => {
