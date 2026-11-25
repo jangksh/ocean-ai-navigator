@@ -20,3 +20,16 @@ Files:
 Do not put these keys back under `06` / `14` unless the picker labels change
 or new matching copy is written. A later construction or trades job should
 use a new id, or only reuse these keys after a deliberate remap.
+
+## Update 2026-11-25
+
+New Korean copy now exists for both picker ids, so `06` / `14` are back in
+the live data files:
+
+- `v2_data.js`: `06_*` (IT 개발 / 데이터 / AI) and `14_*` (1인 창업 /
+  프리랜서), 32 type codes each.
+- `ocean-personas.js`: 32 job personas each; `OCEAN_JOB_GROUPS` labels now
+  match the picker.
+
+The construction / install copy in this folder is still unpublished and must
+not be restored under `06` / `14`.
