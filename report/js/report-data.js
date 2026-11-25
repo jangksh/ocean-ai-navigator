@@ -123,12 +123,38 @@
       .trim();
   }
 
-  // Site quiz JOBS IDs 6 and 14 do not match v2/persona job copy
-  // (those records are 건설·채굴 and 설치·정비). Use generic type copy instead.
+  // Site quiz JOBS IDs 6 and 14 lacked matching v2 copy until PR #24.
+  // Auto-disable the generic fallback as soon as all 32 real records exist
+  // in OCEAN_V2_DATA (and are not the archived 건설·채굴 / 설치·정비 copy).
   const JOB_IDS_WITHOUT_JOB_COPY = [6, 14];
 
+  function hasCompleteJobCopy(jobId) {
+    const id = parseInt(jobId, 10);
+    if (!(id >= 1 && id <= 15)) return false;
+    const jg = String(id).padStart(2, '0');
+    const prefix = jg + '_';
+    const data = (typeof OCEAN_V2_DATA !== 'undefined') ? OCEAN_V2_DATA : (root.OCEAN_V2_DATA || {});
+    let count = 0;
+    for (const k in data) {
+      if (Object.prototype.hasOwnProperty.call(data, k) && k.indexOf(prefix) === 0 && /^[01]{5}$/.test(k.slice(3))) {
+        count++;
+      }
+    }
+    if (count < 32) return false;
+    const personas = (typeof OCEAN_JOB_PERSONAS !== 'undefined') ? OCEAN_JOB_PERSONAS : root.OCEAN_JOB_PERSONAS;
+    if (Array.isArray(personas) && personas.length > 0) {
+      const pCount = personas.filter(function (p) { return p && p.jobGroup === jg; }).length;
+      if (pCount < 32) return false;
+    }
+    const sample = data[prefix + '11111'];
+    if (!sample || /건설|토목|지반|채굴|안전모|설치·정비|기계계/.test(sample.insight_v2 || '')) return false;
+    return true;
+  }
+
   function usesGenericTypeCopy(jobId) {
-    return JOB_IDS_WITHOUT_JOB_COPY.indexOf(parseInt(jobId, 10)) !== -1;
+    const id = parseInt(jobId, 10);
+    if (JOB_IDS_WITHOUT_JOB_COPY.indexOf(id) === -1) return false;
+    return !hasCompleteJobCopy(id);
   }
 
   function neuroticismPct(scores) {

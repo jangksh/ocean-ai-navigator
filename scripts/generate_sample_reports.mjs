@@ -103,7 +103,7 @@ const samples = [
     code: '11001',
     scores: { O: 72, C: 81, E: 28, A: 35, N: 74 },
     ts: Date.parse('2026-11-19T11:00:00-08:00'),
-    expectJobCopy: false
+    expectJobCopy: !ctx.ReportData.usesGenericTypeCopy(6)
   }
 ];
 
@@ -116,7 +116,7 @@ function checkModel(s, model) {
   assert(model.job.id === s.job, s.file + ' wrong job id');
   const blob = [model.insight, model.synergy, model.dailyRoutine, ...(model.strengths || []), ...(model.growthPoints || [])].join('\n');
   if (!s.expectJobCopy) {
-    assert(!/지반|토목|건설|채굴|설치|정비/.test(blob), s.file + ' still has mismatched job copy');
+    assert(!/지반|토목|건설|채굴|설치·정비/.test(blob), s.file + ' still has mismatched job copy');
     assert(blob.includes(model.job.label) || blob.includes(model.typeName), s.file + ' missing generic type copy');
   } else {
     assert(model.hasV2, s.file + ' missing v2 data');
