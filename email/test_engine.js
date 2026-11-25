@@ -90,7 +90,7 @@ run('doGet({parameter:{a:"confirm",t:"' + 'f'.repeat(32) + '"}})');            /
 assert.strictEqual(rows[1][3], 'pending');
 const page = run('doGet({parameter:{a:"confirm",t:"' + token + '"}})');
 assert.strictEqual(rows[1][3], 'active'); assert.strictEqual(rows[1][8], 1); assert.strictEqual(sent.length, 2);
-assert.ok(page.html.includes('구독이 완료')); assert.ok(sent[1].subject.includes('환영'));
+assert.ok(page.html.includes('결과 저장이 완료')); assert.ok(sent[1].subject.includes('환영'));
 run('doGet({parameter:{a:"confirm",t:"' + token + '"}})');                      // 두 번 눌러도 중복 발송 없음
 assert.strictEqual(sent.length, 2);
 run('sendDue()'); assert.strictEqual(sent.length, 2);                           // 20시간 전이라 아직
@@ -161,6 +161,42 @@ assert.strictEqual(rows[1][6], 'es');
 assert.strictEqual(sent[0].subject, content.en.labels.confirmSubject);
 content.es.labels.confirmSubject = origSub;
 console.log('Spanish lang kept, unknown lang → en, missing label → en OK');
+
+// 7) 저장 결과 링크 (확인 메일 + 확인 완료 페이지, code/job 유무, 숫자 강제변환, 홍보 문구 없음)
+ctx.CONFIG.POSTAL_ADDRESS = '';
+rows = []; sent = [];
+post({ email: 'save_ko@example.com', code: '01101', job: '4', lang: 'ko' });
+assert.ok(sent[0].html.includes('https://thepersonalityai.com/?job=04#r=01101'), 'KO confirm email missing result link');
+assert.ok(sent[0].text.includes('https://thepersonalityai.com/?job=04#r=01101'), 'KO confirm text missing result link');
+assert.ok(!/\$3|PDF|유료|paid/i.test(sent[0].subject + sent[0].html + sent[0].text), 'KO confirm email must stay transactional');
+const tokKoSave = rows[1][2];
+const pageKoSave = run('doGet({parameter:{a:"confirm",t:"' + tokKoSave + '"}})');
+assert.ok(pageKoSave.html.includes('https://thepersonalityai.com/?job=04#r=01101'), 'KO confirmed page missing result link');
+
+post({ email: 'save_en@example.com', code: '11010', job: '12', lang: 'en' });
+assert.ok(sent[1].html.includes('https://thepersonalityai.com/en/?job=12#r=11010'), 'EN confirm email missing result link');
+assert.ok(!/\$3|PDF|paid/i.test(sent[1].subject + sent[1].html + sent[1].text), 'EN confirm email must stay transactional');
+const pageEnSave = run('doGet({parameter:{a:"confirm",t:"' + rows[2][2] + '"}})');
+assert.ok(pageEnSave.html.includes('https://thepersonalityai.com/en/?job=12#r=11010'), 'EN confirmed page missing result link');
+
+post({ email: 'save_es@example.com', code: '01101', lang: 'es' });
+assert.ok(sent[2].html.includes('https://thepersonalityai.com/es/#r=01101'), 'ES confirm email without job missing result link');
+assert.ok(!sent[2].html.includes('?job='), 'ES confirm email should omit empty job param');
+assert.ok(!/\$3|PDF|paid|pago/i.test(sent[2].subject + sent[2].html + sent[2].text), 'ES confirm email must stay transactional');
+const pageEsSave = run('doGet({parameter:{a:"confirm",t:"' + rows[3][2] + '"}})');
+assert.ok(pageEsSave.html.includes('https://thepersonalityai.com/es/#r=01101'), 'ES confirmed page missing result link');
+
+// Sheets가 앞의 0을 떼고 숫자로 저장한 경우에도 복원, 코드가 없으면 링크 생략
+assert.strictEqual(run('resultUrlFor_(1101, 4, "ko")'), 'https://thepersonalityai.com/?job=04#r=01101');
+assert.strictEqual(run('resultUrlFor_("", 4, "ko")'), '');
+assert.strictEqual(run('resultUrlFor_(null, "", "en")'), '');
+ctx.__a = content; ctx.__l = links;
+const noCodeMail = run('confirmEmail_(__a, { code: "", job: "", lang: "ko" }, __l)');
+assert.ok(!noCodeMail.html.includes('#r='), 'confirm email should omit result link when code missing');
+rows[1][4] = '';
+const pageNoCode = run('doGet({parameter:{a:"confirm",t:"' + tokKoSave + '"}})');
+assert.ok(!pageNoCode.html.includes('#r='), 'confirmed page should omit result link when code missing');
+console.log('Result link in confirm email + confirmed page (ko/en/es, missing code/job) OK');
 
 if (process.argv.includes('--sample')) {
   ctx.CONFIG.POSTAL_ADDRESS = '[postal address]';
