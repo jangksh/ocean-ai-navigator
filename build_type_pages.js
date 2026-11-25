@@ -827,6 +827,12 @@ function buildTypePages() {
 const BLOG_POSTS = [
   {
     lang: 'ko',
+    path: '/blog/job-aptitude-test-vs-bigfive/',
+    lastmod: '2026-11-25',
+    datePublished: '2026-11-25',
+  },
+  {
+    lang: 'ko',
     path: '/blog/sbti-vs-bigfive-ocean/',
     lastmod: '2026-11-17',
     datePublished: '2026-11-17',
@@ -840,7 +846,7 @@ const BLOG_POSTS = [
   {
     lang: 'ko',
     path: '/blog/mbti-vs-bigfive-ocean/',
-    lastmod: '2026-11-19',
+    lastmod: '2026-11-25',
     datePublished: '2026-11-14',
   },
   {
@@ -856,7 +862,7 @@ const BLOG_POSTS = [
   {
     lang: 'en',
     path: '/en/blog/big-five-personality-test-for-careers/',
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-25',
     datePublished: '2026-11-14',
     dateLabel: 'November 14, 2026',
     kicker: 'Career guide',
