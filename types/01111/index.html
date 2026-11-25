@@ -43,6 +43,7 @@
 <script src="/i18n_router.js"></script>
 <script src="/cta_track.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AI-OCEAN","item":"https://thepersonalityai.com/"},{"@type":"ListItem","position":2,"name":"따뜻한 원칙주의 리더 (01111)","item":"https://thepersonalityai.com/types/01111/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"따뜻한 원칙주의 리더(01111) 유형은 어떤 성향인가요?","acceptedAnswer":{"@type":"Answer","text":"따뜻한 원칙주의 리더(01111)는 ‘규정을 지키면서도 모두를 챙기는 우리들의 영웅’ 특징을 보이는 유형으로, Big Five(OCEAN) 기준으로 높은 차원은 성실성·외향성·친화성·정서안정성, 낮은 차원은 개방성입니다. 같은 5자리 코드라도 각 차원 점수(%)의 높낮이에 따라 실제 일하는 방식은 조금씩 달라집니다."}},{"@type":"Question","name":"이 검사는 어떤 근거를 바탕으로 하며 얼마나 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"현대 성격심리학에서 널리 검증된 Big Five(5요인) 모델을 바탕으로, 학술 연구에 쓰이는 공개 문항 저장소 IPIP(International Personality Item Pool) 프레임워크를 참조해 한국어 25문항으로 구성했습니다. 다만 본 검사는 의학적·심리적 진단이 아니라 성향 경향과 AI 도구 활용 방향을 살펴보는 참고용 검사입니다."}},{"@type":"Question","name":"테스트는 무료인가요? 소요 시간은 얼마나 걸리나요?","acceptedAnswer":{"@type":"Answer","text":"네, 회원가입이나 결제 없이 무료로 이용할 수 있습니다. 총 25문항으로 이루어져 있어 보통 약 3분이면 완료되며, 마지막에 직업군을 선택하면 내 OCEAN 점수와 맞춤 AI 추천을 바로 확인할 수 있습니다."}},{"@type":"Question","name":"MBTI와 OCEAN(빅파이브) 유형은 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"MBTI가 성향을 양자택일형 16가지 유형으로 분류한다면, 빅파이브(OCEAN)는 개방성(O)·성실성(C)·외향성(E)·친화성(A)·정서안정성(N) 다섯 가지 차원을 각각 연속 점수(0~100%)로 측정합니다. 이 페이지의 01111 코드는 50% 기준을 요약한 안내표이며, 실제 검사 결과에서는 각 차원의 세부 퍼센트를 함께 확인할 수 있습니다."}}]}</script>
 <style>
 :root{--bg:#F7F8FC;--card:#fff;--line:#E9ECF3;--text:#1A1B2E;--sub:#6C757D;--brand:#4C6EF5;--brand2:#3451D1;--shadow:0 1px 4px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
@@ -93,6 +94,15 @@ h3{font-size:18px;margin:0 0 4px}
 .all{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .all a,.all .cur{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .all a:hover{border-color:var(--brand)}.all .cur{background:#EEF1FF;border-color:var(--brand);color:var(--brand2)}
+.updated-meta{margin:-10px auto 16px;font-size:12.5px;color:var(--sub)}
+.faq-list{display:grid;gap:12px}
+.faq-list h3{font-size:16.5px;margin:0 0 6px}
+.faq-list p{margin:0;font-size:15px;color:var(--sub)}
+.evidence-box{margin-top:16px}
+.evidence-box h3{font-size:15.5px;margin:0 0 6px}
+.evidence-box p{margin:0 0 8px;font-size:14px;color:var(--sub)}
+.evidence-box ul{margin:0;padding-left:1.25em;font-size:13.5px;color:var(--sub)}
+.evidence-box li{margin:0 0 4px}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
 @media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}.cta-top{padding:14px;text-align:center;justify-content:center}.cta-top p{flex-basis:100%}.cta-top .btn{width:100%;text-align:center;white-space:normal}}
 </style>
@@ -107,6 +117,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
     <p class="eyebrow">OCEAN 01111 · The Guardian</p>
     <h1>따뜻한 원칙주의 리더</h1>
     <p class="lead">규정을 지키면서도 모두를 챙기는 우리들의 영웅</p>
+    <p class="updated-meta">최종 업데이트: <time datetime="2026-11-25">2026-11-25</time></p>
     <div class="pills"><span class="pill off" style="background:#F3F0FF;color:#7048E8">O 낮음</span><span class="pill" style="background:#E7F5FF;color:#1971C2">C 높음</span><span class="pill" style="background:#FFF9DB;color:#E67700">E 높음</span><span class="pill" style="background:#EBFBEE;color:#0CA678">A 높음</span><span class="pill" style="background:#FFF5F5;color:#C92A2A">N 높음</span></div>
     <a class="btn" href="/?start=1&amp;lang=ko&amp;utm_source=type&amp;utm_medium=page&amp;utm_content=hero">나의 AI DNA 분석 시작 →</a>
   </div>
@@ -246,6 +257,37 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
         <p class="ai"><strong>전문 AI</strong> Loom — 인생의 중요한 가르침은 부드러운 영상 메시지로 전달해 후배 세대와의 오해 없는 소통 문화를 만드세요.</p>
       </article>
     </div>
+  </section>
+
+  <section aria-labelledby="type-faq-h">
+    <h2 id="type-faq-h">따뜻한 원칙주의 리더 자주 묻는 질문</h2>
+    <div class="faq-list">
+      <article class="card">
+        <h3>따뜻한 원칙주의 리더(01111) 유형은 어떤 성향인가요?</h3>
+        <p>따뜻한 원칙주의 리더(01111)는 ‘규정을 지키면서도 모두를 챙기는 우리들의 영웅’ 특징을 보이는 유형으로, Big Five(OCEAN) 기준으로 높은 차원은 성실성·외향성·친화성·정서안정성, 낮은 차원은 개방성입니다. 같은 5자리 코드라도 각 차원 점수(%)의 높낮이에 따라 실제 일하는 방식은 조금씩 달라집니다.</p>
+      </article>
+      <article class="card">
+        <h3>이 검사는 어떤 근거를 바탕으로 하며 얼마나 정확한가요?</h3>
+        <p>현대 성격심리학에서 널리 검증된 Big Five(5요인) 모델을 바탕으로, 학술 연구에 쓰이는 공개 문항 저장소 IPIP(International Personality Item Pool) 프레임워크를 참조해 한국어 25문항으로 구성했습니다. 다만 본 검사는 의학적·심리적 진단이 아니라 성향 경향과 AI 도구 활용 방향을 살펴보는 참고용 검사입니다.</p>
+      </article>
+      <article class="card">
+        <h3>테스트는 무료인가요? 소요 시간은 얼마나 걸리나요?</h3>
+        <p>네, 회원가입이나 결제 없이 무료로 이용할 수 있습니다. 총 25문항으로 이루어져 있어 보통 약 3분이면 완료되며, 마지막에 직업군을 선택하면 내 OCEAN 점수와 맞춤 AI 추천을 바로 확인할 수 있습니다.</p>
+      </article>
+      <article class="card">
+        <h3>MBTI와 OCEAN(빅파이브) 유형은 무엇이 다른가요?</h3>
+        <p>MBTI가 성향을 양자택일형 16가지 유형으로 분류한다면, 빅파이브(OCEAN)는 개방성(O)·성실성(C)·외향성(E)·친화성(A)·정서안정성(N) 다섯 가지 차원을 각각 연속 점수(0~100%)로 측정합니다. 이 페이지의 01111 코드는 50% 기준을 요약한 안내표이며, 실제 검사 결과에서는 각 차원의 세부 퍼센트를 함께 확인할 수 있습니다.</p>
+      </article>
+    </div>
+    <aside class="card evidence-box">
+      <h3>근거 및 참고 문헌</h3>
+      <p>본 페이지의 성향 구조는 심리학의 5요인 모델(Big Five / OCEAN)을 참고해 설계했습니다. 의학적·임상적 진단이 아니며 자기 이해와 AI 활용 참고용입니다.</p>
+      <ul>
+        <li><a href="https://ipip.ori.org/" target="_blank" rel="noopener noreferrer">IPIP (International Personality Item Pool)</a> — 학술 연구용 공개 성격 측정 문항 저장소</li>
+        <li><a href="https://eric.ed.gov/?id=EJ495688" target="_blank" rel="noopener noreferrer">Goldberg, L. R. (1992)</a>, “The development of markers for the Big-Five factor structure,” <em>Psychological Assessment</em>, 4(1), 26–42</li>
+        <li><a href="https://doi.org/10.1016/0191-8869(92)90236-I" target="_blank" rel="noopener noreferrer">Costa, P. T. Jr., &amp; McCrae, R. R. (1992)</a>, “Four ways five factors are basic,” <em>Personality and Individual Differences</em>, 13(6), 653–665 (NEO-PI-R 및 5요인 모델)</li>
+      </ul>
+    </aside>
   </section>
 
   <div class="cta">

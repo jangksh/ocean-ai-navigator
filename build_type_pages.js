@@ -26,6 +26,9 @@ const ROOT = __dirname;
 const SITE = 'https://thepersonalityai.com';
 const GA_ID = 'G-180ERLEMSE';
 const TODAY = new Date().toISOString().slice(0, 10);
+const TYPE_UPDATED = { ko: '2026-11-25', en: '2026-11-19', es: '2026-11-19' };
+const HOME_UPDATED = '2026-11-25';
+const PRIVACY_UPDATED = '2026-11-19';
 
 // 데이터의 직업군 내용이 사이트에 표시되는 직업군 이름과 맞지 않아 공개 페이지에서는 제외한다.
 //  06: 데이터는 '건설/채굴' 내용인데 퀴즈 화면의 6번 직업군은 'IT 개발/데이터/AI'
@@ -371,6 +374,15 @@ h3{font-size:18px;margin:0 0 4px}
 .all{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .all a,.all .cur{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .all a:hover{border-color:var(--brand)}.all .cur{background:#EEF1FF;border-color:var(--brand);color:var(--brand2)}
+.updated-meta{margin:-10px auto 16px;font-size:12.5px;color:var(--sub)}
+.faq-list{display:grid;gap:12px}
+.faq-list h3{font-size:16.5px;margin:0 0 6px}
+.faq-list p{margin:0;font-size:15px;color:var(--sub)}
+.evidence-box{margin-top:16px}
+.evidence-box h3{font-size:15.5px;margin:0 0 6px}
+.evidence-box p{margin:0 0 8px;font-size:14px;color:var(--sub)}
+.evidence-box ul{margin:0;padding-left:1.25em;font-size:13.5px;color:var(--sub)}
+.evidence-box li{margin:0 0 4px}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
 @media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}.cta-top{padding:14px;text-align:center;justify-content:center}.cta-top p{flex-basis:100%}.cta-top .btn{width:100%;text-align:center;white-space:normal}}
 `;
@@ -699,6 +711,62 @@ function pageFor(code, lang) {
       { '@type': 'ListItem', position: 2, name: `${name} (${code})`, item: url },
     ],
   };
+  const typeUpdated = TYPE_UPDATED[lang] || TYPE_UPDATED.ko;
+  const updatedLabel = isEs ? 'Última actualización' : isEn ? 'Last updated' : '최종 업데이트';
+
+  let faqSectionHtml = '';
+  let faqLdTag = '';
+  if (!isEn && !isEs) {
+    const koFaqs = [
+      {
+        q: `${nameKo}(${code}) 유형은 어떤 성향인가요?`,
+        a: `${nameKo}(${code})는 ‘${String(lead).replace(/[.。]+$/, "")}’ 특징을 보이는 유형으로, Big Five(OCEAN) 기준으로 ${structureLine} 같은 5자리 코드라도 각 차원 점수(%)의 높낮이에 따라 실제 일하는 방식은 조금씩 달라집니다.`,
+      },
+      {
+        q: '이 검사는 어떤 근거를 바탕으로 하며 얼마나 정확한가요?',
+        a: '현대 성격심리학에서 널리 검증된 Big Five(5요인) 모델을 바탕으로, 학술 연구에 쓰이는 공개 문항 저장소 IPIP(International Personality Item Pool) 프레임워크를 참조해 한국어 25문항으로 구성했습니다. 다만 본 검사는 의학적·심리적 진단이 아니라 성향 경향과 AI 도구 활용 방향을 살펴보는 참고용 검사입니다.',
+      },
+      {
+        q: '테스트는 무료인가요? 소요 시간은 얼마나 걸리나요?',
+        a: '네, 회원가입이나 결제 없이 무료로 이용할 수 있습니다. 총 25문항으로 이루어져 있어 보통 약 3분이면 완료되며, 마지막에 직업군을 선택하면 내 OCEAN 점수와 맞춤 AI 추천을 바로 확인할 수 있습니다.',
+      },
+      {
+        q: 'MBTI와 OCEAN(빅파이브) 유형은 무엇이 다른가요?',
+        a: `MBTI가 성향을 양자택일형 16가지 유형으로 분류한다면, 빅파이브(OCEAN)는 개방성(O)·성실성(C)·외향성(E)·친화성(A)·정서안정성(N) 다섯 가지 차원을 각각 연속 점수(0~100%)로 측정합니다. 이 페이지의 ${code} 코드는 50% 기준을 요약한 안내표이며, 실제 검사 결과에서는 각 차원의 세부 퍼센트를 함께 확인할 수 있습니다.`,
+      },
+    ];
+    const faqLd = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: koFaqs.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    };
+    faqLdTag = `\n<script type="application/ld+json">${JSON.stringify(faqLd)}</script>`;
+    const faqCards = koFaqs.map((item) => `
+      <article class="card">
+        <h3>${esc(item.q)}</h3>
+        <p>${esc(item.a)}</p>
+      </article>`).join('');
+    faqSectionHtml = `
+  <section aria-labelledby="type-faq-h">
+    <h2 id="type-faq-h">${esc(nameKo)} 자주 묻는 질문</h2>
+    <div class="faq-list">${faqCards}
+    </div>
+    <aside class="card evidence-box">
+      <h3>근거 및 참고 문헌</h3>
+      <p>본 페이지의 성향 구조는 심리학의 5요인 모델(Big Five / OCEAN)을 참고해 설계했습니다. 의학적·임상적 진단이 아니며 자기 이해와 AI 활용 참고용입니다.</p>
+      <ul>
+        <li><a href="https://ipip.ori.org/" target="_blank" rel="noopener noreferrer">IPIP (International Personality Item Pool)</a> — 학술 연구용 공개 성격 측정 문항 저장소</li>
+        <li><a href="https://eric.ed.gov/?id=EJ495688" target="_blank" rel="noopener noreferrer">Goldberg, L. R. (1992)</a>, “The development of markers for the Big-Five factor structure,” <em>Psychological Assessment</em>, 4(1), 26–42</li>
+        <li><a href="https://doi.org/10.1016/0191-8869(92)90236-I" target="_blank" rel="noopener noreferrer">Costa, P. T. Jr., &amp; McCrae, R. R. (1992)</a>, “Four ways five factors are basic,” <em>Personality and Individual Differences</em>, 13(6), 653–665 (NEO-PI-R 및 5요인 모델)</li>
+      </ul>
+    </aside>
+  </section>
+`;
+  }
 
   return `<!DOCTYPE html>
 <html lang="${htmlLang}">
@@ -740,7 +808,7 @@ ${ogAlts}
 <link rel="stylesheet" href="${fontLink}">
 <script src="/i18n_router.js"></script>
 <script src="/cta_track.js" defer></script>
-<script type="application/ld+json">${JSON.stringify(ld)}</script>
+<script type="application/ld+json">${JSON.stringify(ld)}</script>${faqLdTag}
 <style>${CSS}</style>
 </head>
 <body>
@@ -753,6 +821,7 @@ ${ogAlts}
     <p class="eyebrow">OCEAN ${code} · ${esc(isEs ? nameEn : isEn ? nameKo : nameEn)}</p>
     <h1>${esc(name)}</h1>
     <p class="lead">${esc(lead)}</p>
+    <p class="updated-meta">${updatedLabel}: <time datetime="${typeUpdated}">${typeUpdated}</time></p>
     <div class="pills">${pills}</div>
     <a class="btn" href="${hrefHero}">${heroBtn}</a>
   </div>
@@ -781,7 +850,7 @@ ${ogAlts}
     <div class="jobs">${jobCards}
     </div>
   </section>
-
+${faqSectionHtml}
   <div class="cta">
     <h2 style="margin-bottom:6px">${ctaH}</h2>
     <p>${ctaP}</p>
@@ -871,9 +940,9 @@ const BLOG_POSTS = [
 ];
 
 const BLOG_URLS = [
-  { loc: SITE + '/blog/', lastmod: TODAY, pair: SITE + '/en/blog/' },
+  { loc: SITE + '/blog/', lastmod: '2026-11-25', pair: SITE + '/en/blog/' },
   ...BLOG_POSTS.map((p) => ({ loc: SITE + p.path, lastmod: p.lastmod })),
-  { loc: SITE + '/en/blog/', lastmod: TODAY, pairKo: SITE + '/blog/' },
+  { loc: SITE + '/en/blog/', lastmod: '2026-11-25', pairKo: SITE + '/blog/' },
 ];
 
 function buildSitemap() {
@@ -884,12 +953,12 @@ function buildSitemap() {
     `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}/en/"/>`,
   ].join('\n');
   const paired = [
-    { loc: SITE + '/', lastmod: TODAY, home: true },
-    { loc: SITE + '/en/', lastmod: TODAY, home: true },
-    { loc: SITE + '/es/', lastmod: TODAY, home: true },
-    ...CODES.map((code) => ({ loc: typeUrl(code, 'ko'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
-    ...CODES.map((code) => ({ loc: typeUrl(code, 'en'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
-    ...CODES.map((code) => ({ loc: typeUrl(code, 'es'), lastmod: TODAY, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
+    { loc: SITE + '/', lastmod: HOME_UPDATED, home: true },
+    { loc: SITE + '/en/', lastmod: HOME_UPDATED, home: true },
+    { loc: SITE + '/es/', lastmod: HOME_UPDATED, home: true },
+    ...CODES.map((code) => ({ loc: typeUrl(code, 'ko'), lastmod: TYPE_UPDATED.ko, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
+    ...CODES.map((code) => ({ loc: typeUrl(code, 'en'), lastmod: TYPE_UPDATED.en, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
+    ...CODES.map((code) => ({ loc: typeUrl(code, 'es'), lastmod: TYPE_UPDATED.es, ko: typeUrl(code, 'ko'), en: typeUrl(code, 'en'), es: typeUrl(code, 'es') })),
   ];
   const blogEntries = BLOG_URLS.map((u) => {
     if (u.pair) return { loc: u.loc, lastmod: u.lastmod, ko: u.loc, en: u.pair };
@@ -898,9 +967,9 @@ function buildSitemap() {
   });
   // Append after existing URLs so order and hreflang of current entries stay the same.
   const privacyEntries = [
-    { loc: SITE + '/privacy/', lastmod: TODAY, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
-    { loc: SITE + '/en/privacy/', lastmod: TODAY, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
-    { loc: SITE + '/es/privacy/', lastmod: TODAY, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
+    { loc: SITE + '/privacy/', lastmod: PRIVACY_UPDATED, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
+    { loc: SITE + '/en/privacy/', lastmod: PRIVACY_UPDATED, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
+    { loc: SITE + '/es/privacy/', lastmod: PRIVACY_UPDATED, ko: SITE + '/privacy/', en: SITE + '/en/privacy/', es: SITE + '/es/privacy/' },
   ];
   const urls = paired.concat(blogEntries).concat(privacyEntries);
   const body = urls.map((u) => {
@@ -993,10 +1062,29 @@ function applyDataI18n(html, map) {
   });
 }
 
+
+const FAQ_LD_START = '<!-- FAQ-LD:START -->';
+const FAQ_LD_END = '<!-- FAQ-LD:END -->';
+function replaceFaqLd(html, ldObj) {
+  const s = html.indexOf(FAQ_LD_START);
+  const e = html.indexOf(FAQ_LD_END);
+  if (s === -1 || e === -1) return html;
+  return html.slice(0, s) + FAQ_LD_START + '\n<script type="application/ld+json">' + JSON.stringify(ldObj) + '</script>\n' + FAQ_LD_END + html.slice(e + FAQ_LD_END.length);
+}
+function homeFaqLdFromStrings(map) {
+  const mainEntity = [1, 2, 3, 4].map((i) => ({
+    '@type': 'Question',
+    name: map['faq_q' + i],
+    acceptedAnswer: { '@type': 'Answer', text: map['faq_a' + i] },
+  })).filter((x) => x.name && x.acceptedAnswer.text);
+  return { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity };
+}
+
 function buildEnHome() {
   let html = read('index.html');
   const strings = extractStrings(html);
   html = applyDataI18n(html, strings.en);
+  html = replaceFaqLd(html, homeFaqLdFromStrings(strings.en));
   html = html.replace('<html lang="ko">', '<html lang="en">');
   html = html.replace(/<title>[^<]*<\/title>/, '<title>Free Big Five Personality & Career Test (3 min) | OCEAN AI Navigator</title>');
   const enDesc = 'OCEAN AI Navigator (OCEAN AI): take a free Big Five (OCEAN) personality and career test — 25 questions, about 3 minutes. Get AI tools and career matches tailored to your type.';
@@ -1059,6 +1147,7 @@ function buildEsHome() {
   const strings = extractStrings(html);
   const map = Object.assign({}, strings.en || {}, strings.es || {});
   html = applyDataI18n(html, map);
+  html = replaceFaqLd(html, homeFaqLdFromStrings(map));
   html = html.replace('<html lang="ko">', '<html lang="es">');
   html = html.replace(/<title>[^<]*<\/title>/, '<title>Test gratis de personalidad y carrera Big Five (3 min) | OCEAN AI Navigator</title>');
   const esDesc = 'OCEAN AI Navigator (OCEAN AI) — un test de personalidad y carrera Big Five (OCEAN) gratis: 25 preguntas, unos 3 minutos. Recibe herramientas de IA y recomendaciones de carrera según tu tipo.';

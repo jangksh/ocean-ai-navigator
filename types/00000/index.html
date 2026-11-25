@@ -43,6 +43,7 @@
 <script src="/i18n_router.js"></script>
 <script src="/cta_track.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AI-OCEAN","item":"https://thepersonalityai.com/"},{"@type":"ListItem","position":2,"name":"고집불통 은둔자 (00000)","item":"https://thepersonalityai.com/types/00000/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"고집불통 은둔자(00000) 유형은 어떤 성향인가요?","acceptedAnswer":{"@type":"Answer","text":"고집불통 은둔자(00000)는 ‘변화도 싫고 사람도 싫고 그냥 내 마음대로 살래’ 특징을 보이는 유형으로, Big Five(OCEAN) 기준으로 다섯 차원이 모두 50% 미만인 조합입니다. 같은 5자리 코드라도 각 차원 점수(%)의 높낮이에 따라 실제 일하는 방식은 조금씩 달라집니다."}},{"@type":"Question","name":"이 검사는 어떤 근거를 바탕으로 하며 얼마나 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"현대 성격심리학에서 널리 검증된 Big Five(5요인) 모델을 바탕으로, 학술 연구에 쓰이는 공개 문항 저장소 IPIP(International Personality Item Pool) 프레임워크를 참조해 한국어 25문항으로 구성했습니다. 다만 본 검사는 의학적·심리적 진단이 아니라 성향 경향과 AI 도구 활용 방향을 살펴보는 참고용 검사입니다."}},{"@type":"Question","name":"테스트는 무료인가요? 소요 시간은 얼마나 걸리나요?","acceptedAnswer":{"@type":"Answer","text":"네, 회원가입이나 결제 없이 무료로 이용할 수 있습니다. 총 25문항으로 이루어져 있어 보통 약 3분이면 완료되며, 마지막에 직업군을 선택하면 내 OCEAN 점수와 맞춤 AI 추천을 바로 확인할 수 있습니다."}},{"@type":"Question","name":"MBTI와 OCEAN(빅파이브) 유형은 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"MBTI가 성향을 양자택일형 16가지 유형으로 분류한다면, 빅파이브(OCEAN)는 개방성(O)·성실성(C)·외향성(E)·친화성(A)·정서안정성(N) 다섯 가지 차원을 각각 연속 점수(0~100%)로 측정합니다. 이 페이지의 00000 코드는 50% 기준을 요약한 안내표이며, 실제 검사 결과에서는 각 차원의 세부 퍼센트를 함께 확인할 수 있습니다."}}]}</script>
 <style>
 :root{--bg:#F7F8FC;--card:#fff;--line:#E9ECF3;--text:#1A1B2E;--sub:#6C757D;--brand:#4C6EF5;--brand2:#3451D1;--shadow:0 1px 4px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
@@ -93,6 +94,15 @@ h3{font-size:18px;margin:0 0 4px}
 .all{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .all a,.all .cur{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .all a:hover{border-color:var(--brand)}.all .cur{background:#EEF1FF;border-color:var(--brand);color:var(--brand2)}
+.updated-meta{margin:-10px auto 16px;font-size:12.5px;color:var(--sub)}
+.faq-list{display:grid;gap:12px}
+.faq-list h3{font-size:16.5px;margin:0 0 6px}
+.faq-list p{margin:0;font-size:15px;color:var(--sub)}
+.evidence-box{margin-top:16px}
+.evidence-box h3{font-size:15.5px;margin:0 0 6px}
+.evidence-box p{margin:0 0 8px;font-size:14px;color:var(--sub)}
+.evidence-box ul{margin:0;padding-left:1.25em;font-size:13.5px;color:var(--sub)}
+.evidence-box li{margin:0 0 4px}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
 @media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}.cta-top{padding:14px;text-align:center;justify-content:center}.cta-top p{flex-basis:100%}.cta-top .btn{width:100%;text-align:center;white-space:normal}}
 </style>
@@ -107,6 +117,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
     <p class="eyebrow">OCEAN 00000 · The Hermit</p>
     <h1>고집불통 은둔자</h1>
     <p class="lead">변화도 싫고 사람도 싫고 그냥 내 마음대로 살래</p>
+    <p class="updated-meta">최종 업데이트: <time datetime="2026-11-25">2026-11-25</time></p>
     <div class="pills"><span class="pill off" style="background:#F3F0FF;color:#7048E8">O 낮음</span><span class="pill off" style="background:#E7F5FF;color:#1971C2">C 낮음</span><span class="pill off" style="background:#FFF9DB;color:#E67700">E 낮음</span><span class="pill off" style="background:#EBFBEE;color:#0CA678">A 낮음</span><span class="pill off" style="background:#FFF5F5;color:#C92A2A">N 낮음</span></div>
     <a class="btn" href="/?start=1&amp;lang=ko&amp;utm_source=type&amp;utm_medium=page&amp;utm_content=hero">나의 AI DNA 분석 시작 →</a>
   </div>
@@ -168,7 +179,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>🏢 경영지원 / 인사 / 총무 / 기획</h3>
         
-        <p>당신은 조직에서 가장 조용하게, 가장 묵묵히 움직이는 사람입니다. 화려한 아이디어나 강력한 추진력은 없지만, 소란스럽지 않게 핵심 업무를 처리하고 조직의 기반을 묵묵히 유지하는 역할을 합니다. 당신이 있어야 조직이 조용히 돌아가며, 없을 때 비로소 그 빈자리가 크게 느껴지는 유형입니다.</p>
+        <p>당신은 조직에서 가장 조용하게, 가장 묵묵히 움직이는 사람입니다. 개방성, 성실성, 외향성, 친화성, 정서 안정성도 낮은 이 조합은 어떤 방향으로도 극단적으로 치우치지 않아, 상황에 따라 가장 유연하게 적응하는 경영지원 전문가가 됩니다. 화려한 아이디어나 강력한 추진력은 없지만, 소란스럽지 않게 핵심 업무를 처리하고 조직의 기반을 묵묵히 유지하는 역할을 합니다. 당신이 있어야 조직이 조용히 돌아가며, 없을 때 비로소 그 빈자리가 크게 느껴지는 유형입니다.</p>
         <p class="ai"><strong>메인 AI</strong> Claude — 혼자 처리하는 복잡한 업무의 파트너</p>
         <p class="ai"><strong>전문 AI</strong> Notion AI — 조용히 처리하는 업무의 체계화</p>
         <p class="ai"><strong>전문 AI</strong> ChatGPT — 공문서와 보고서의 빠른 초안 작성</p>
@@ -176,7 +187,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>⚙️ 제조 / 생산 / 엔지니어링 / 장비</h3>
         
-        <p>동료들이 퇴근한 공장 구석에서 혼자 설비를 분해하고 다시 조립하는 것이 당신에게는 가장 자연스러운 일입니다. 어떤 외부 자극도 필요 없이 스스로 자신의 속도로 움직이며, 소란 없이 묵묵히 현장을 유지합니다. 화려한 기술 혁신을 이끌지는 않지만, 공장이 오늘도 조용히 돌아가는 것은 당신 같은 사람들 덕분입니다.</p>
+        <p>동료들이 퇴근한 공장 구석에서 혼자 설비를 분해하고 다시 조립하는 것이 당신에게는 가장 자연스러운 일입니다. 개방성, 성실성, 외향성, 친화성, 정서 안정성도 낮은 이 조합은 제조/엔지니어링 분야에서 '가장 독립적이고 예측 가능한 기술 전문가' 프로파일입니다. 어떤 외부 자극도 필요 없이 스스로 자신의 속도로 움직이며, 소란 없이 묵묵히 현장을 유지합니다. 화려한 기술 혁신을 이끌지는 않지만, 공장이 오늘도 조용히 돌아가는 것은 당신 같은 사람들 덕분입니다.</p>
         <p class="ai"><strong>메인 AI</strong> Claude — 혼자 처리하는 기술 문제의 조용한 파트너</p>
         <p class="ai"><strong>전문 AI</strong> Microsoft Copilot — 보고서와 문서 간단하게 처리</p>
         <p class="ai"><strong>전문 AI</strong> ChatGPT — 기술 학습과 문제 해결의 빠른 검색</p>
@@ -184,7 +195,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>🚚 물류 / 운송 / 유통 / 무역</h3>
         
-        <p>창고 한 켠에서 혼자 재고 확인을 하고 있을 때 당신은 가장 집중됩니다. 화려한 혁신이나 강력한 리더십은 없지만, 매일 정해진 배송을 묵묵히 처리하고 현장을 안정적으로 유지하는 것이 당신의 방식입니다. 조직이 흔들릴 때 가장 믿을 수 있는 이름이 당신입니다.</p>
+        <p>창고 한 켠에서 혼자 재고 확인을 하고 있을 때 당신은 가장 집중됩니다. 개방성, 성실성, 외향성, 친화성, 정서 안정성도 낮은 이 조합은 물류 현장에서 '소란 없이 자기 역할을 완수하는 독립형 전문가'입니다. 화려한 혁신이나 강력한 리더십은 없지만, 매일 정해진 배송을 묵묵히 처리하고 현장을 안정적으로 유지하는 것이 당신의 방식입니다. 조직이 흔들릴 때 가장 믿을 수 있는 이름이 당신입니다.</p>
         <p class="ai"><strong>메인 AI</strong> Claude — 혼자 처리하는 모든 물류 업무의 파트너</p>
         <p class="ai"><strong>전문 AI</strong> Notion AI — 물류 업무 기록과 정보 체계화</p>
         <p class="ai"><strong>전문 AI</strong> Microsoft Copilot — 보고서와 문서 빠르게 처리</p>
@@ -192,7 +203,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>🤝 영업 / 판매 / 고객상담 / 리테일</h3>
         
-        <p>당신의 영업은 화려하지 않습니다. 약속한 것을 지키고, 필요할 때 연락하고, 문제가 생기면 조용히 해결합니다. 대규모 네트워킹이나 화려한 프레젠테이션보다 1:1 신뢰 기반의 조용한 영업이 당신의 방식입니다. 경쟁이 치열한 시장에서 당신은 없어지지 않는 꾸준한 기반을 만드는 사람입니다.</p>
+        <p>당신의 영업은 화려하지 않습니다. 약속한 것을 지키고, 필요할 때 연락하고, 문제가 생기면 조용히 해결합니다. 개방성, 성실성, 외향성, 친화성, 정서 안정성도 낮은 이 조합은 영업 분야에서 '소란 없이 꾸준히 성과를 내는 독립형 영업인'입니다. 대규모 네트워킹이나 화려한 프레젠테이션보다 1:1 신뢰 기반의 조용한 영업이 당신의 방식입니다. 경쟁이 치열한 시장에서 당신은 없어지지 않는 꾸준한 기반을 만드는 사람입니다.</p>
         <p class="ai"><strong>메인 AI</strong> Claude — 영업 업무 전반의 조용한 파트너</p>
         <p class="ai"><strong>전문 AI</strong> HubSpot AI — 영업 활동 자동 추적과 리마인더</p>
         <p class="ai"><strong>전문 AI</strong> ChatGPT — 빠른 제안과 시장 정보 파악</p>
@@ -200,7 +211,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>📣 마케팅 / 홍보 / 광고 / 브랜드</h3>
         
-        <p>마케팅 팀 회의에서 당신은 말을 많이 하지 않습니다. 하지만 회의가 끝나고 자리에 돌아가 데이터를 보면서 조용히 '이 캠페인은 이 부분이 문제야'를 발견합니다. 화려한 아이디어나 강한 팀 리더십은 없지만, 마케팅 데이터를 혼자 차분하게 분석하고 패턴을 찾는 것이 당신의 강점입니다.</p>
+        <p>마케팅 팀 회의에서 당신은 말을 많이 하지 않습니다. 하지만 회의가 끝나고 자리에 돌아가 데이터를 보면서 조용히 '이 캠페인은 이 부분이 문제야'를 발견합니다. 개방성, 성실성, 외향성, 친화성, 정서 안정성도 낮은 이 조합은 마케팅 분야에서 '소란 없이 데이터를 보고 판단하는 독립형 마케터'입니다. 화려한 아이디어나 강한 팀 리더십은 없지만, 마케팅 데이터를 혼자 차분하게 분석하고 패턴을 찾는 것이 당신의 강점입니다.</p>
         <p class="ai"><strong>메인 AI</strong> Claude — 독립적 마케팅 분석과 인사이트 도출</p>
         <p class="ai"><strong>전문 AI</strong> ChatGPT — 마케팅 보고서와 인사이트 문서화</p>
         <p class="ai"><strong>전문 AI</strong> Perplexity — 마케팅 업계 동향과 벤치마크 빠른 조사</p>
@@ -238,6 +249,37 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
         <p class="ai"><strong>전문 AI</strong> YouTube — 그냥 틀어놓기 좋은 영상 친구</p>
       </article>
     </div>
+  </section>
+
+  <section aria-labelledby="type-faq-h">
+    <h2 id="type-faq-h">고집불통 은둔자 자주 묻는 질문</h2>
+    <div class="faq-list">
+      <article class="card">
+        <h3>고집불통 은둔자(00000) 유형은 어떤 성향인가요?</h3>
+        <p>고집불통 은둔자(00000)는 ‘변화도 싫고 사람도 싫고 그냥 내 마음대로 살래’ 특징을 보이는 유형으로, Big Five(OCEAN) 기준으로 다섯 차원이 모두 50% 미만인 조합입니다. 같은 5자리 코드라도 각 차원 점수(%)의 높낮이에 따라 실제 일하는 방식은 조금씩 달라집니다.</p>
+      </article>
+      <article class="card">
+        <h3>이 검사는 어떤 근거를 바탕으로 하며 얼마나 정확한가요?</h3>
+        <p>현대 성격심리학에서 널리 검증된 Big Five(5요인) 모델을 바탕으로, 학술 연구에 쓰이는 공개 문항 저장소 IPIP(International Personality Item Pool) 프레임워크를 참조해 한국어 25문항으로 구성했습니다. 다만 본 검사는 의학적·심리적 진단이 아니라 성향 경향과 AI 도구 활용 방향을 살펴보는 참고용 검사입니다.</p>
+      </article>
+      <article class="card">
+        <h3>테스트는 무료인가요? 소요 시간은 얼마나 걸리나요?</h3>
+        <p>네, 회원가입이나 결제 없이 무료로 이용할 수 있습니다. 총 25문항으로 이루어져 있어 보통 약 3분이면 완료되며, 마지막에 직업군을 선택하면 내 OCEAN 점수와 맞춤 AI 추천을 바로 확인할 수 있습니다.</p>
+      </article>
+      <article class="card">
+        <h3>MBTI와 OCEAN(빅파이브) 유형은 무엇이 다른가요?</h3>
+        <p>MBTI가 성향을 양자택일형 16가지 유형으로 분류한다면, 빅파이브(OCEAN)는 개방성(O)·성실성(C)·외향성(E)·친화성(A)·정서안정성(N) 다섯 가지 차원을 각각 연속 점수(0~100%)로 측정합니다. 이 페이지의 00000 코드는 50% 기준을 요약한 안내표이며, 실제 검사 결과에서는 각 차원의 세부 퍼센트를 함께 확인할 수 있습니다.</p>
+      </article>
+    </div>
+    <aside class="card evidence-box">
+      <h3>근거 및 참고 문헌</h3>
+      <p>본 페이지의 성향 구조는 심리학의 5요인 모델(Big Five / OCEAN)을 참고해 설계했습니다. 의학적·임상적 진단이 아니며 자기 이해와 AI 활용 참고용입니다.</p>
+      <ul>
+        <li><a href="https://ipip.ori.org/" target="_blank" rel="noopener noreferrer">IPIP (International Personality Item Pool)</a> — 학술 연구용 공개 성격 측정 문항 저장소</li>
+        <li><a href="https://eric.ed.gov/?id=EJ495688" target="_blank" rel="noopener noreferrer">Goldberg, L. R. (1992)</a>, “The development of markers for the Big-Five factor structure,” <em>Psychological Assessment</em>, 4(1), 26–42</li>
+        <li><a href="https://doi.org/10.1016/0191-8869(92)90236-I" target="_blank" rel="noopener noreferrer">Costa, P. T. Jr., &amp; McCrae, R. R. (1992)</a>, “Four ways five factors are basic,” <em>Personality and Individual Differences</em>, 13(6), 653–665 (NEO-PI-R 및 5요인 모델)</li>
+      </ul>
+    </aside>
   </section>
 
   <div class="cta">

@@ -43,6 +43,7 @@
 <script src="/i18n_router.js"></script>
 <script src="/cta_track.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AI-OCEAN","item":"https://thepersonalityai.com/"},{"@type":"ListItem","position":2,"name":"걱정 많은 수호천사 (01110)","item":"https://thepersonalityai.com/types/01110/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"걱정 많은 수호천사(01110) 유형은 어떤 성향인가요?","acceptedAnswer":{"@type":"Answer","text":"걱정 많은 수호천사(01110)는 ‘원칙대로 잘하는데 혹시나 잘못될까 봐 늘 노심초사’ 특징을 보이는 유형으로, Big Five(OCEAN) 기준으로 높은 차원은 성실성·외향성·친화성, 낮은 차원은 개방성·정서안정성입니다. 같은 5자리 코드라도 각 차원 점수(%)의 높낮이에 따라 실제 일하는 방식은 조금씩 달라집니다."}},{"@type":"Question","name":"이 검사는 어떤 근거를 바탕으로 하며 얼마나 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"현대 성격심리학에서 널리 검증된 Big Five(5요인) 모델을 바탕으로, 학술 연구에 쓰이는 공개 문항 저장소 IPIP(International Personality Item Pool) 프레임워크를 참조해 한국어 25문항으로 구성했습니다. 다만 본 검사는 의학적·심리적 진단이 아니라 성향 경향과 AI 도구 활용 방향을 살펴보는 참고용 검사입니다."}},{"@type":"Question","name":"테스트는 무료인가요? 소요 시간은 얼마나 걸리나요?","acceptedAnswer":{"@type":"Answer","text":"네, 회원가입이나 결제 없이 무료로 이용할 수 있습니다. 총 25문항으로 이루어져 있어 보통 약 3분이면 완료되며, 마지막에 직업군을 선택하면 내 OCEAN 점수와 맞춤 AI 추천을 바로 확인할 수 있습니다."}},{"@type":"Question","name":"MBTI와 OCEAN(빅파이브) 유형은 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"MBTI가 성향을 양자택일형 16가지 유형으로 분류한다면, 빅파이브(OCEAN)는 개방성(O)·성실성(C)·외향성(E)·친화성(A)·정서안정성(N) 다섯 가지 차원을 각각 연속 점수(0~100%)로 측정합니다. 이 페이지의 01110 코드는 50% 기준을 요약한 안내표이며, 실제 검사 결과에서는 각 차원의 세부 퍼센트를 함께 확인할 수 있습니다."}}]}</script>
 <style>
 :root{--bg:#F7F8FC;--card:#fff;--line:#E9ECF3;--text:#1A1B2E;--sub:#6C757D;--brand:#4C6EF5;--brand2:#3451D1;--shadow:0 1px 4px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
@@ -93,6 +94,15 @@ h3{font-size:18px;margin:0 0 4px}
 .all{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .all a,.all .cur{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .all a:hover{border-color:var(--brand)}.all .cur{background:#EEF1FF;border-color:var(--brand);color:var(--brand2)}
+.updated-meta{margin:-10px auto 16px;font-size:12.5px;color:var(--sub)}
+.faq-list{display:grid;gap:12px}
+.faq-list h3{font-size:16.5px;margin:0 0 6px}
+.faq-list p{margin:0;font-size:15px;color:var(--sub)}
+.evidence-box{margin-top:16px}
+.evidence-box h3{font-size:15.5px;margin:0 0 6px}
+.evidence-box p{margin:0 0 8px;font-size:14px;color:var(--sub)}
+.evidence-box ul{margin:0;padding-left:1.25em;font-size:13.5px;color:var(--sub)}
+.evidence-box li{margin:0 0 4px}
 footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:var(--sub)}
 @media(max-width:560px){.hero{padding:28px 18px}.card{padding:18px}.site-header .in{padding:12px 16px}.site-header nav a,.site-header nav .lang-switch{margin-left:10px}.cta-top{padding:14px;text-align:center;justify-content:center}.cta-top p{flex-basis:100%}.cta-top .btn{width:100%;text-align:center;white-space:normal}}
 </style>
@@ -107,6 +117,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
     <p class="eyebrow">OCEAN 01110 · The Caretaker</p>
     <h1>걱정 많은 수호천사</h1>
     <p class="lead">원칙대로 잘하는데 혹시나 잘못될까 봐 늘 노심초사</p>
+    <p class="updated-meta">최종 업데이트: <time datetime="2026-11-25">2026-11-25</time></p>
     <div class="pills"><span class="pill off" style="background:#F3F0FF;color:#7048E8">O 낮음</span><span class="pill" style="background:#E7F5FF;color:#1971C2">C 높음</span><span class="pill" style="background:#FFF9DB;color:#E67700">E 높음</span><span class="pill" style="background:#EBFBEE;color:#0CA678">A 높음</span><span class="pill off" style="background:#FFF5F5;color:#C92A2A">N 낮음</span></div>
     <a class="btn" href="/?start=1&amp;lang=ko&amp;utm_source=type&amp;utm_medium=page&amp;utm_content=hero">나의 AI DNA 분석 시작 →</a>
   </div>
@@ -200,7 +211,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>🎨 디자인 / 예술 / 패션 / 건축</h3>
         
-        <p>디자인/예술/미디어 분야의 당신은 높은 성실성과 외향성, 친화성을 가진 협업형 창작 리더입니다. 당신은 팀 프로젝트에서 빛을 발하는 유형으로, 클라이언트의 요구를 정확히 파악하고 팀원들과 효율적으로 협력하여 기한 내에 완성도 높은 결과물을 만들어냅니다. 광고, 브랜딩, UX 디자인처럼 실용성과 팀워크가 중요한 분야에서 특히 강합니다. 창의성보다 실행력이 강한 당신은 AI를 도입해 협업 효율을 높이고 반복 작업을 자동화하면 더 많은 시간을 전략적 사고에 투자할 수 있습니다.</p>
+        <p>디자인/예술/미디어 분야의 당신은 높은 성실성과 외향성, 친화성을 가진 협업형 창작 리더입니다. 개방성이 낮아 실험적 avant-garde보다 검증된 미학과 실용적 디자인을 선호하며, 정서 안정성이 낮아 안정적이고 꾸준한 창작 활동을 유지합니다. 당신은 팀 프로젝트에서 빛을 발하는 유형으로, 클라이언트의 요구를 정확히 파악하고 팀원들과 효율적으로 협력하여 기한 내에 완성도 높은 결과물을 만들어냅니다. 광고, 브랜딩, UX 디자인처럼 실용성과 팀워크가 중요한 분야에서 특히 강합니다. 창의성보다 실행력이 강한 당신은 AI를 도입해 협업 효율을 높이고 반복 작업을 자동화하면 더 많은 시간을 전략적 사고에 투자할 수 있습니다.</p>
         <p class="ai"><strong>메인 AI</strong> HubSpot AI — 창작 비즈니스의 통합 관리</p>
         <p class="ai"><strong>전문 AI</strong> ChatGPT — 클라이언트 커뮤니케이션의 최적화</p>
         <p class="ai"><strong>전문 AI</strong> Notion AI — 팀 협업의 두뇌</p>
@@ -216,7 +227,7 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>🏛️ 법률 / 공공 / 경찰 / 소방 / 군인</h3>
         
-        <p>공공/행정/치안 분야의 당신은 높은 성실성, 외향성, 친화성을 가진 체계적 민원 서비스 리더입니다. 민원인에게 따뜻하게 대응하면서도 법과 원칙에서 벗어나지 않는 균형 잡힌 행정 서비스를 제공합니다. 팀 내에서도 협력과 소통에 뛰어나 팀장이나 계장으로서 팀원들을 이끄는 역할에 자연스럽게 어울립니다. 이 성향은 주민센터, 구청 민원 부서, 경찰 민원 처리처럼 대민 서비스와 팀 운영이 결합된 분야에서 특히 빛을 발합니다. AI를 도입해 민원 처리 효율을 높이고, 팀 운영의 체계를 강화할 수 있습니다.</p>
+        <p>공공/행정/치안 분야의 당신은 높은 성실성, 외향성, 친화성을 가진 체계적 민원 서비스 리더입니다. 개방성이 낮아 검증된 절차와 법령을 철저히 따르며, 정서 안정성이 낮아 복잡한 상황에서도 차분함을 유지합니다. 민원인에게 따뜻하게 대응하면서도 법과 원칙에서 벗어나지 않는 균형 잡힌 행정 서비스를 제공합니다. 팀 내에서도 협력과 소통에 뛰어나 팀장이나 계장으로서 팀원들을 이끄는 역할에 자연스럽게 어울립니다. 이 성향은 주민센터, 구청 민원 부서, 경찰 민원 처리처럼 대민 서비스와 팀 운영이 결합된 분야에서 특히 빛을 발합니다. AI를 도입해 민원 처리 효율을 높이고, 팀 운영의 체계를 강화할 수 있습니다.</p>
         <p class="ai"><strong>메인 AI</strong> Claude — 민원 소통 품질 향상 도구</p>
         <p class="ai"><strong>전문 AI</strong> ChatGPT — 팀 운영과 행정 문서 효율화</p>
         <p class="ai"><strong>전문 AI</strong> Notion AI — 팀 협업의 공유 지식 시스템</p>
@@ -224,12 +235,43 @@ footer{max-width:880px;margin:0 auto;padding:0 20px 48px;font-size:13px;color:va
       <article class="card job">
         <h3>🏠 은퇴자 / 시니어 라이프</h3>
         
-        <p>이 조합은 안정적이고 신뢰할 수 있으며 주변 사람들을 잘 돌보는 분입니다. 가족과 지인들에게 든든한 존재로 여겨지며, 약속을 잘 지키고 책임감이 강합니다. 은퇴 후에도 이 강점은 계속됩니다 — 가족을 위한 요리, 손자녀 돌봄, 이웃과의 교류, 봉사활동 등에서 큰 기쁨과 보람을 느낍니다. 완전히 새로운 것에 도전하기보다는 익숙하고 검증된 방법 안에서 깊이를 더하는 것을 선호합니다. AI 도구는 이런 당신이 이미 잘 하고 있는 것들을 더 효율적이고 체계적으로 할 수 있게 도와주는 조용한 조력자가 됩니다.</p>
+        <p>가정주부/은퇴자 역할을 맡고 계신 당신은 성실하고 외향적이며 따뜻하지만, 개방성은 낮고 정서 안정성도 낮은 편입니다. 익숙한 방식과 따뜻한 유대를 지키며 주변 사람들을 잘 돌보지만, 감정의 기복을 살피는 일이 중요합니다. 가족과 지인들에게 든든한 존재로 여겨지며, 약속을 잘 지키고 책임감이 강합니다. 은퇴 후에도 이 강점은 계속됩니다 — 가족을 위한 요리, 손자녀 돌봄, 이웃과의 교류, 봉사활동 등에서 큰 기쁨과 보람을 느낍니다. 완전히 새로운 것에 도전하기보다는 익숙하고 검증된 방법 안에서 깊이를 더하는 것을 선호합니다. AI 도구는 이런 당신이 이미 잘 하고 있는 것들을 더 효율적이고 체계적으로 할 수 있게 도와주는 조용한 조력자가 됩니다.</p>
         <p class="ai"><strong>메인 AI</strong> ChatGPT — 일상의 실용적인 도우미</p>
         <p class="ai"><strong>전문 AI</strong> Naver AI — 한국형 생활 정보의 보고</p>
         <p class="ai"><strong>전문 AI</strong> Kakao AI — 가족과 연결되는 스마트 소통 도구</p>
       </article>
     </div>
+  </section>
+
+  <section aria-labelledby="type-faq-h">
+    <h2 id="type-faq-h">걱정 많은 수호천사 자주 묻는 질문</h2>
+    <div class="faq-list">
+      <article class="card">
+        <h3>걱정 많은 수호천사(01110) 유형은 어떤 성향인가요?</h3>
+        <p>걱정 많은 수호천사(01110)는 ‘원칙대로 잘하는데 혹시나 잘못될까 봐 늘 노심초사’ 특징을 보이는 유형으로, Big Five(OCEAN) 기준으로 높은 차원은 성실성·외향성·친화성, 낮은 차원은 개방성·정서안정성입니다. 같은 5자리 코드라도 각 차원 점수(%)의 높낮이에 따라 실제 일하는 방식은 조금씩 달라집니다.</p>
+      </article>
+      <article class="card">
+        <h3>이 검사는 어떤 근거를 바탕으로 하며 얼마나 정확한가요?</h3>
+        <p>현대 성격심리학에서 널리 검증된 Big Five(5요인) 모델을 바탕으로, 학술 연구에 쓰이는 공개 문항 저장소 IPIP(International Personality Item Pool) 프레임워크를 참조해 한국어 25문항으로 구성했습니다. 다만 본 검사는 의학적·심리적 진단이 아니라 성향 경향과 AI 도구 활용 방향을 살펴보는 참고용 검사입니다.</p>
+      </article>
+      <article class="card">
+        <h3>테스트는 무료인가요? 소요 시간은 얼마나 걸리나요?</h3>
+        <p>네, 회원가입이나 결제 없이 무료로 이용할 수 있습니다. 총 25문항으로 이루어져 있어 보통 약 3분이면 완료되며, 마지막에 직업군을 선택하면 내 OCEAN 점수와 맞춤 AI 추천을 바로 확인할 수 있습니다.</p>
+      </article>
+      <article class="card">
+        <h3>MBTI와 OCEAN(빅파이브) 유형은 무엇이 다른가요?</h3>
+        <p>MBTI가 성향을 양자택일형 16가지 유형으로 분류한다면, 빅파이브(OCEAN)는 개방성(O)·성실성(C)·외향성(E)·친화성(A)·정서안정성(N) 다섯 가지 차원을 각각 연속 점수(0~100%)로 측정합니다. 이 페이지의 01110 코드는 50% 기준을 요약한 안내표이며, 실제 검사 결과에서는 각 차원의 세부 퍼센트를 함께 확인할 수 있습니다.</p>
+      </article>
+    </div>
+    <aside class="card evidence-box">
+      <h3>근거 및 참고 문헌</h3>
+      <p>본 페이지의 성향 구조는 심리학의 5요인 모델(Big Five / OCEAN)을 참고해 설계했습니다. 의학적·임상적 진단이 아니며 자기 이해와 AI 활용 참고용입니다.</p>
+      <ul>
+        <li><a href="https://ipip.ori.org/" target="_blank" rel="noopener noreferrer">IPIP (International Personality Item Pool)</a> — 학술 연구용 공개 성격 측정 문항 저장소</li>
+        <li><a href="https://eric.ed.gov/?id=EJ495688" target="_blank" rel="noopener noreferrer">Goldberg, L. R. (1992)</a>, “The development of markers for the Big-Five factor structure,” <em>Psychological Assessment</em>, 4(1), 26–42</li>
+        <li><a href="https://doi.org/10.1016/0191-8869(92)90236-I" target="_blank" rel="noopener noreferrer">Costa, P. T. Jr., &amp; McCrae, R. R. (1992)</a>, “Four ways five factors are basic,” <em>Personality and Individual Differences</em>, 13(6), 653–665 (NEO-PI-R 및 5요인 모델)</li>
+      </ul>
+    </aside>
   </section>
 
   <div class="cta">
