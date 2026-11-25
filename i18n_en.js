@@ -105,7 +105,7 @@ window.EN = {
     done: 'AI-OCEAN analysis complete', radar: 'My OCEAN radar', insight: 'Your personality report',
     profile: 'My OCEAN strength profile', strengthBadge: 'Strength', growBadge: 'Grow',
     strengths: 'Key strengths', growth: 'Areas to grow',
-    shareTitle: 'Share your result', shareSub: 'Share your type — your friends can take it in 3 min',
+    shareTitle: 'Compare your OCEAN with a friend', shareSub: 'When they finish the free test — about 3 min — you both get a side-by-side profile.',
     copyIG: 'Copy for Instagram', kakao: 'KakaoTalk',
     aiTitle: 'Your AI game plan', aiHint: 'Tap a header to open the morning routine & power-use tips · tap a name to visit the site',
     main: 'MAIN ENGINE', specialist: 'SPECIALIST', specialistTool: 'Specialist tool',
