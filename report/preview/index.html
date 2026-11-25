@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>리포트 미리보기 — AI-OCEAN</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="AI-OCEAN 개인 성향 리포트 내부 미리보기">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root { --navy:#1A1B2E; --muted:#5C6370; --line:#E6E8EE; --accent:#4C6EF5; --bg:#F7F8FC; --ok:#0CA678; --bad:#C92A2A; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--navy); font-family: -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; line-height: 1.55; }
+  header { background: var(--navy); color: #fff; padding: 18px 20px 20px; }
+  header .brand { font-size: 12px; letter-spacing: 0.04em; color: #C5CAE0; }
+  header h1 { margin: 6px 0 4px; font-size: 22px; letter-spacing: -0.3px; }
+  header p { margin: 0; color: #C5CAE0; font-size: 14px; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 18px 80px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 16px; margin: 0 0 14px; box-shadow: 0 1px 2px rgba(26,27,46,0.04); }
+  h2 { font-size: 16px; margin: 0 0 12px; }
+  label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin: 0 0 4px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .scores { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  select, input[type="number"], input[type="date"] {
+    width: 100%; padding: 9px 10px; border: 1px solid #D0D4DD; border-radius: 10px;
+    font: inherit; font-size: 14px; background: #fff; color: var(--navy);
+  }
+  .hint { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  button {
+    appearance: none; border: 0; border-radius: 999px; padding: 11px 18px;
+    font: inherit; font-weight: 700; font-size: 14px; cursor: pointer;
+  }
+  button.primary { background: var(--accent); color: #fff; }
+  button.primary:disabled { opacity: .55; cursor: default; }
+  button.ghost { background: #EEF0F5; color: var(--navy); }
+  #status { font-size: 13.5px; color: var(--muted); }
+  #status.ok { color: var(--ok); }
+  #status.err { color: var(--bad); }
+  .stored { font-size: 13.5px; background: #EEF0FF; border-radius: 12px; padding: 10px 12px; margin: 0 0 12px; }
+  .fine { font-size: 12px; color: var(--muted); margin-top: 16px; }
+  a { color: var(--accent); }
+  @media (max-width: 640px) {
+    .row, .scores { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">AI-OCEAN · 내부 미리보기</div>
+  <h1>개인 성향 리포트</h1>
+  <p>저장된 결과나 유형·직업군을 골라 PDF를 만들어 볼 수 있습니다. 이 페이지는 공개 메뉴에 연결되어 있지 않습니다.</p>
+</header>
+<main>
+  <div class="card" id="storedCard" hidden>
+    <h2>이 기기에 저장된 결과</h2>
+    <div class="stored" id="storedInfo"></div>
+    <div class="actions">
+      <button class="primary" type="button" id="btnStored">저장된 결과로 PDF 만들기</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>유형과 직업군 선택</h2>
+    <div class="row">
+      <div>
+        <label for="job">직업군</label>
+        <select id="job"></select>
+      </div>
+      <div>
+        <label for="code">유형 코드</label>
+        <select id="code"></select>
+      </div>
+    </div>
+    <div class="hint" id="typeHint"></div>
+    <div class="scores" style="margin-top:14px">
+      <div><label for="scO">개방성 %</label><input id="scO" type="number" min="0" max="100" step="1"></div>
+      <div><label for="scC">성실성 %</label><input id="scC" type="number" min="0" max="100" step="1"></div>
+      <div><label for="scE">외향성 %</label><input id="scE" type="number" min="0" max="100" step="1"></div>
+      <div><label for="scA">친화성 %</label><input id="scA" type="number" min="0" max="100" step="1"></div>
+      <div><label for="scN">정서안정성 %</label><input id="scN" type="number" min="0" max="100" step="1"></div>
+    </div>
+    <div style="margin-top:12px;max-width:240px">
+      <label for="testDate">검사일 (선택)</label>
+      <input id="testDate" type="date">
+    </div>
+    <div class="actions">
+      <button class="primary" type="button" id="btnMake">PDF 만들기</button>
+      <button class="ghost" type="button" id="btnDefaults">코드 기본 점수 채우기</button>
+      <span id="status"></span>
+    </div>
+    <p class="hint">점수를 비우면 코드의 높음/낮음에 맞춰 72% 또는 28%로 채웁니다. 주소에 <code>#r=10111</code>과 <code>?job=10</code>을 넣으면 그 값으로 시작합니다.</p>
+  </div>
+  <p class="fine">데이터는 이 브라우저에서만 처리되며, 서버로 점수를 보내지 않습니다. 미리보기용 페이지입니다.</p>
+</main>
+
+<script src="/ocean-personas.js"></script>
+<script src="/v2_data.js"></script>
+<script src="/report/js/jspdf.umd.min.js"></script>
+<script src="/report/js/report-data.js"></script>
+<script src="/report/js/report-pdf.js"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const jobSel = $('job');
+  const codeSel = $('code');
+  const statusEl = $('status');
+  let fontsPromise = null;
+  let generating = false;
+
+  function setStatus(msg, kind) {
+    statusEl.textContent = msg || '';
+    statusEl.className = kind || '';
+  }
+
+  function fonts() {
+    if (!fontsPromise) fontsPromise = ReportPDF.loadFonts('/report/fonts');
+    return fontsPromise;
+  }
+
+  ReportData.JOBS.forEach((j) => {
+    const o = document.createElement('option');
+    o.value = String(j.id);
+    o.textContent = String(j.id).padStart(2, '0') + ' · ' + j.label;
+    jobSel.appendChild(o);
+  });
+
+  const masters = (typeof OCEAN_MASTER_PERSONAS !== 'undefined' ? OCEAN_MASTER_PERSONAS : []).slice().sort((a, b) => a.code.localeCompare(b.code));
+  if (!masters.length) {
+    for (let i = 0; i < 32; i++) {
+      const code = i.toString(2).padStart(5, '0');
+      masters.push({ code: code, name: code, summary: '' });
+    }
+  }
+  masters.forEach((m) => {
+    const o = document.createElement('option');
+    o.value = m.code;
+    o.textContent = m.code + ' · ' + (m.name || '');
+    codeSel.appendChild(o);
+  });
+
+  function currentScores() {
+    const raw = {
+      O: $('scO').value, C: $('scC').value, E: $('scE').value,
+      A: $('scA').value, N: $('scN').value
+    };
+    const any = Object.values(raw).some((v) => v !== '');
+    if (!any) return null;
+    return ReportData.normalizeScores(raw);
+  }
+
+  function fillScores(scores) {
+    if (!scores) return;
+    $('scO').value = scores.O;
+    $('scC').value = scores.C;
+    $('scE').value = scores.E;
+    $('scA').value = scores.A;
+    $('scN').value = scores.N;
+  }
+
+  function syncHint() {
+    const m = ReportData.masterPersona(codeSel.value);
+    const job = ReportData.findJob(jobSel.value);
+    const generic = job && ReportData.usesGenericTypeCopy(job.id);
+    const v2 = (!generic && job) ? ReportData.v2Record(job.id, codeSel.value) : null;
+    const note = generic
+      ? '이 직업군은 직군 맞춤 문장이 선택지와 아직 맞지 않아, 유형 일반 해석으로 만듭니다.'
+      : (v2 ? '이 조합의 직군 맞춤 문장이 있습니다.' : '이 조합의 직군 맞춤 문장을 찾지 못했습니다.');
+    $('typeHint').textContent = (m && m.summary ? m.summary + '  ' : '') + note;
+  }
+
+  function applyDefaults() {
+    fillScores(ReportData.defaultScoresForCode(codeSel.value));
+    const code = codeSel.value;
+    const derived = ReportData.scoresToCode(currentScores() || ReportData.defaultScoresForCode(code));
+    if (derived !== code) fillScores(ReportData.defaultScoresForCode(code));
+    syncHint();
+  }
+
+  function queryJob() {
+    const q = new URLSearchParams(location.search);
+    const job = parseInt(q.get('job') || '', 10);
+    return (job >= 1 && job <= 15) ? job : null;
+  }
+
+  function initFromUrlAndStorage() {
+    const stored = ReportData.readStoredResult();
+    const hashCode = ReportData.resultHashCode(location.hash);
+    const qJob = queryJob();
+    if (stored) {
+      $('storedCard').hidden = false;
+      const job = stored.job ? ReportData.findJob(stored.job) : null;
+      const m = ReportData.masterPersona(stored.code);
+      $('storedInfo').textContent =
+        (m.name || stored.code) + ' (' + stored.code + ')' +
+        (job ? ' · ' + job.label : '') +
+        ' · ' + stored.scores.O + '/' + stored.scores.C + '/' + stored.scores.E + '/' + stored.scores.A + '/' + stored.scores.N +
+        (stored.ts ? ' · ' + ReportData.formatKoDate(stored.ts) : '');
+      $('btnStored').addEventListener('click', () => make(stored));
+    }
+    if (hashCode) codeSel.value = hashCode;
+    if (qJob) jobSel.value = String(qJob);
+    else if (stored && stored.job) jobSel.value = String(stored.job);
+    if (stored && (!hashCode || hashCode === stored.code)) fillScores(stored.scores);
+    else applyDefaults();
+    if (stored && stored.ts) {
+      const d = new Date(stored.ts);
+      if (!isNaN(d)) $('testDate').value = d.toISOString().slice(0, 10);
+    }
+    syncHint();
+  }
+
+  async function make(source) {
+    if (generating) return;
+    generating = true;
+    setStatus('리포트를 만드는 중…');
+    $('btnMake').disabled = true;
+    try {
+      const jobId = source && source.job != null ? source.job : parseInt(jobSel.value, 10);
+      let scores = source && source.scores ? source.scores : currentScores();
+      const code = (source && source.code) || codeSel.value;
+      if (!scores) scores = ReportData.defaultScoresForCode(code);
+      const ts = source && source.ts ? source.ts : ($('testDate').value ? $('testDate').value + 'T12:00:00' : Date.now());
+      const model = ReportData.buildModel({ scores: scores, job: jobId, code: code, ts: ts });
+      const fontSet = await fonts();
+      const doc = await ReportPDF.generate(model, { fonts: fontSet });
+      ReportPDF.download(doc, ReportData.suggestedFilename(model));
+      if (!model.usedJobCopy) setStatus('유형 일반 해석으로 PDF를 만들었습니다.', 'ok');
+      else setStatus('PDF를 내려받았습니다.', 'ok');
+    } catch (err) {
+      console.error(err);
+      setStatus((err && err.message) || 'PDF를 만들지 못했습니다.', 'err');
+    } finally {
+      generating = false;
+      $('btnMake').disabled = false;
+    }
+  }
+
+  jobSel.addEventListener('change', syncHint);
+  codeSel.addEventListener('change', function () {
+    applyDefaults();
+    if (history.replaceState) {
+      const q = new URLSearchParams(location.search);
+      q.set('job', jobSel.value);
+      history.replaceState(null, '', location.pathname + '?' + q.toString() + '#r=' + codeSel.value);
+    }
+  });
+  jobSel.addEventListener('change', function () {
+    if (history.replaceState) {
+      const q = new URLSearchParams(location.search);
+      q.set('job', jobSel.value);
+      history.replaceState(null, '', location.pathname + '?' + q.toString() + (codeSel.value ? '#r=' + codeSel.value : ''));
+    }
+  });
+  $('btnDefaults').addEventListener('click', applyDefaults);
+  $('btnMake').addEventListener('click', () => make(null));
+
+  initFromUrlAndStorage();
+  fonts().catch((e) => setStatus(e.message || '글꼴을 불러오지 못했습니다.', 'err'));
+})();
+</script>
+</body>
+</html>
