@@ -902,7 +902,7 @@ const BLOG_POSTS = [
   {
     lang: 'ko',
     path: '/blog/sbti-vs-bigfive-ocean/',
-    lastmod: '2026-11-17',
+    lastmod: '2026-11-26',
     datePublished: '2026-11-17',
   },
   {
