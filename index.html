@@ -2002,6 +2002,114 @@ body.lang-hint-open .landing-header { top: var(--lang-hint-h, 40px) !important; 
 body.lang-hint-open .lang-switcher { top: calc(var(--lang-hint-h, 40px) + 16px) !important; }
 body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
 
+
+/* ── Friend Compare Referral Banner & Side-by-Side Comparison ── */
+.friend-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: linear-gradient(135deg, #EEF3FF 0%, #F7F4FF 100%);
+  border: 1.5px solid #C5D4FF; border-radius: 16px;
+  padding: 12px 16px; margin: 0 auto 20px; max-width: 680px;
+  text-align: left; box-shadow: var(--shadow-sm);
+}
+.friend-banner[hidden] { display: none !important; }
+.friend-banner-quiz { max-width: 100%; margin: 0 0 20px; }
+.friend-banner-body { flex: 1; min-width: 0; font-size: 14px; line-height: 1.5; color: var(--text-primary); font-weight: 600; }
+.friend-banner-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.friend-banner-cta {
+  border: none; border-radius: 10px; padding: 8px 14px;
+  background: var(--wave-1); color: #fff; font-size: 13px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; font-family: inherit;
+}
+.friend-banner-cta:hover { background: var(--wave-2); }
+.friend-banner-close {
+  border: none; background: transparent; color: var(--text-secondary);
+  font-size: 18px; line-height: 1; padding: 4px 6px; cursor: pointer; font-family: inherit;
+}
+@media (max-width: 560px) {
+  .friend-banner { flex-wrap: wrap; padding: 12px 14px; }
+  .friend-banner-actions { width: 100%; justify-content: space-between; }
+}
+
+.fc-primary-actions {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 0 0 12px;
+}
+.fc-cta-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 800;
+  border: none; cursor: pointer; font-family: inherit; transition: transform 0.16s, filter 0.16s;
+}
+.fc-cta-btn:hover { transform: translateY(-1px); filter: brightness(0.95); }
+.fc-cta-kakao { background: #FEE500; color: #3C1E1E; }
+.fc-cta-copy { background: var(--wave-1); color: #fff; }
+.fc-share-notice {
+  font-size: 12.5px; color: var(--text-secondary); margin: 0 auto 16px;
+  max-width: 460px; line-height: 1.5;
+}
+@media (max-width: 480px) {
+  .fc-primary-actions { flex-direction: column; }
+  .fc-cta-btn { width: 100%; }
+}
+
+.friend-compare-section {
+  background: #fff; border: 1.5px solid #C5D4FF;
+  border-radius: 20px; padding: 24px 22px; margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.fc-eyebrow {
+  display: inline-block; font-size: 12px; font-weight: 800;
+  color: var(--wave-1); background: var(--dim-C-bg);
+  border-radius: 999px; padding: 4px 12px; margin-bottom: 8px;
+}
+.fc-title { font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 0 0 16px; letter-spacing: -0.3px; }
+.fc-pair-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;
+}
+.fc-person-card {
+  border: 1px solid var(--card-border); border-radius: 14px; padding: 12px;
+  background: var(--ocean-deep); text-align: center; min-width: 0;
+}
+.fc-person-card.is-self { background: #F4F7FF; border-color: #C5D4FF; }
+.fc-person-card.is-peer { background: #FFF9EF; border-color: #FFE0A3; }
+.fc-role { font-size: 11.5px; font-weight: 800; color: var(--text-secondary); margin-bottom: 4px; }
+.fc-person-card.is-self .fc-role { color: var(--wave-1); }
+.fc-person-card.is-peer .fc-role { color: #C25E00; }
+.fc-emoji { font-size: 26px; line-height: 1.2; margin-bottom: 4px; }
+.fc-name { font-size: 14px; font-weight: 800; color: var(--text-primary); line-height: 1.35; word-break: keep-all; }
+.fc-code {
+  display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; color: var(--text-secondary); background: #fff;
+  border: 1px solid var(--card-border); border-radius: 999px; padding: 2px 8px;
+}
+.fc-summary {
+  background: var(--ocean-deep); border-left: 3px solid var(--wave-1);
+  border-radius: 0 12px 12px 0; padding: 12px 14px; margin-bottom: 16px;
+  font-size: 14.5px; font-weight: 600; color: var(--text-primary); line-height: 1.55;
+}
+.fc-radar-wrap { text-align: center; margin-bottom: 16px; }
+.fc-legend { display: flex; justify-content: center; gap: 18px; font-size: 12.5px; font-weight: 700; margin-bottom: 6px; }
+.fc-legend-item { display: inline-flex; align-items: center; gap: 6px; color: var(--text-primary); }
+.fc-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.fc-radar-wrap canvas { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+.fc-bars { display: flex; flex-direction: column; gap: 12px; }
+.fc-bar-row { border-top: 1px solid var(--card-border); padding-top: 10px; }
+.fc-bar-row:first-child { border-top: none; padding-top: 0; }
+.fc-bar-head { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; font-weight: 700; margin-bottom: 6px; gap: 8px; }
+.fc-diff { font-size: 11.5px; font-weight: 700; color: var(--text-secondary); background: var(--ocean-deep); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.fc-bar-pair { display: flex; flex-direction: column; gap: 5px; }
+.fc-bar-line { display: grid; grid-template-columns: 44px 1fr 40px; align-items: center; gap: 8px; font-size: 12px; }
+.fc-bar-who { font-weight: 700; color: var(--text-secondary); white-space: nowrap; }
+.fc-bar-track { height: 9px; background: #F1F3F5; border-radius: 99px; overflow: hidden; }
+.fc-bar-fill { height: 100%; border-radius: 99px; }
+.fc-bar-val { text-align: right; font-weight: 800; color: var(--text-primary); }
+.fc-footer { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--card-border); text-align: center; }
+.fc-loop-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 22px; border-radius: 12px; border: none;
+  background: var(--wave-1); color: #fff; font-size: 14.5px; font-weight: 800;
+  cursor: pointer; font-family: inherit; width: 100%; max-width: 340px;
+}
+.fc-loop-btn:hover { background: var(--wave-2); }
+.fc-loop-note { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -2033,6 +2141,13 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
     </div>
   </nav>
   <div class="hero-wrapper" style="width:100%;">
+    <div id="friendLandingBanner" class="friend-banner" hidden role="region">
+      <div class="friend-banner-body" id="friendLandingText"></div>
+      <div class="friend-banner-actions">
+        <button type="button" class="friend-banner-cta" id="friendLandingCta" onclick="startQuiz()"></button>
+        <button type="button" class="friend-banner-close" onclick="dismissFriendBanner()" aria-label="Close">&times;</button>
+      </div>
+    </div>
     <!-- 2-col hero -->
     <div class="landing-hero-grid">
       <div class="hero-text-side">
@@ -2610,6 +2725,12 @@ body.lang-hint-open #screen-landing { padding-top: var(--lang-hint-h, 40px); }
       </div>
     </div>
 
+    <div id="friendQuizBanner" class="friend-banner friend-banner-quiz" hidden role="region">
+      <div class="friend-banner-body" id="friendQuizText"></div>
+      <div class="friend-banner-actions">
+        <button type="button" class="friend-banner-close" onclick="dismissFriendBanner()" aria-label="Close">&times;</button>
+      </div>
+    </div>
     <div id="questionArea"></div>
 
     <div class="quiz-nav">
@@ -3501,6 +3622,7 @@ function setLang(lang, persist) {
   renderTypeShowcase();
   applyQuizStatic();
   applyTypeLinks();
+  if (typeof updateFriendBanners === 'function') updateFriendBanners();
   const act = document.querySelector('.screen.active');
   if (act && act.id === 'screen-quiz' && typeof shuffledQuestions !== 'undefined' && shuffledQuestions.length) renderQuestion();
   if (act && act.id === 'screen-results' && window._lastScores) {
@@ -3548,7 +3670,8 @@ function saveLangSwitchState() {
       currentQ: currentQ,
       answers: answers,
       shuffledQuestions: shuffledQuestions,
-      scores: window._lastScores || null
+      scores: window._lastScores || null,
+      friendRef: window._lastFriendRef || (typeof getActiveFriendRef === 'function' ? getActiveFriendRef() : null)
     }));
   } catch (e) {}
 }
@@ -3564,6 +3687,10 @@ async function restoreLangSwitchState() {
     if (typeof s.currentQ === 'number') currentQ = s.currentQ;
     if (Array.isArray(s.shuffledQuestions)) shuffledQuestions = s.shuffledQuestions;
     if (s.scores) window._lastScores = s.scores;
+    if (s.friendRef) {
+      if (s.screen === 'results') window._lastFriendRef = s.friendRef;
+      else if (typeof saveFriendRef === 'function') saveFriendRef(s.friendRef, s.friendRef.campaign || 'friend_compare');
+    }
     if (s.screen && s.screen !== 'landing') {
       if (s.screen === 'results' && s.scores && typeof renderResults === 'function') {
         return ensureResultData(selectedJob, window.LANG).then(() => {
@@ -3640,11 +3767,136 @@ function typePageUrl(code) {
   return 'https://thepersonalityai.com/types/' + c + '/';
 }
 
-function shareResultUrl(source) {
+const FRIEND_REF_KEY = 'ocean_friend_ref';
+const FRIEND_REF_TTL_MS = 24 * 60 * 60 * 1000;
+
+function encodeFriendRef(scores) {
+  if (!scores) return '';
+  const dims = ['O', 'C', 'E', 'A', 'N'];
+  const vals = {};
+  for (const k of dims) {
+    const n = Number(scores[k]);
+    if (!Number.isFinite(n)) return '';
+    vals[k] = Math.max(0, Math.min(100, Math.round(n)));
+  }
+  return 'v1_o' + vals.O + 'c' + vals.C + 'e' + vals.E + 'a' + vals.A + 'n' + vals.N;
+}
+
+function parseFriendRef(raw) {
+  if (typeof raw !== 'string') return null;
+  const m = /^v1_o(\d{1,3})c(\d{1,3})e(\d{1,3})a(\d{1,3})n(\d{1,3})$/.exec(raw.trim());
+  if (!m) return null;
+  const dims = ['O', 'C', 'E', 'A', 'N'];
+  const scores = {};
+  for (let i = 0; i < dims.length; i++) {
+    const v = Number(m[i + 1]);
+    if (!Number.isInteger(v) || v < 0 || v > 100) return null;
+    scores[dims[i]] = v;
+  }
+  const code = scoresToCode(scores);
+  if (!/^[01]{5}$/.test(code)) return null;
+  return { scores, code };
+}
+
+function saveFriendRef(parsed, campaign) {
+  try {
+    if (!parsed || !parsed.scores) return;
+    sessionStorage.setItem(FRIEND_REF_KEY, JSON.stringify({
+      scores: parsed.scores,
+      code: parsed.code || scoresToCode(parsed.scores),
+      lang: window.LANG || 'ko',
+      ts: Date.now(),
+      campaign: campaign || 'friend_compare'
+    }));
+  } catch (e) {}
+}
+
+function readFriendRef() {
+  try {
+    const raw = sessionStorage.getItem(FRIEND_REF_KEY);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (!obj || !obj.scores) return null;
+    if (obj.ts && (Date.now() - Number(obj.ts)) > FRIEND_REF_TTL_MS) {
+      sessionStorage.removeItem(FRIEND_REF_KEY);
+      return null;
+    }
+    const dims = ['O', 'C', 'E', 'A', 'N'];
+    const scores = {};
+    for (const k of dims) {
+      const v = Number(obj.scores[k]);
+      if (!Number.isFinite(v) || v < 0 || v > 100) return null;
+      scores[k] = Math.round(v);
+    }
+    const code = scoresToCode(scores);
+    if (!/^[01]{5}$/.test(code)) return null;
+    return { scores, code, lang: obj.lang || 'ko', ts: obj.ts || Date.now(), campaign: obj.campaign || 'friend_compare' };
+  } catch (e) { return null; }
+}
+
+function clearFriendRef() {
+  try { sessionStorage.removeItem(FRIEND_REF_KEY); } catch (e) {}
+}
+
+function getActiveFriendRef() {
+  return readFriendRef();
+}
+
+function friendBannerCopy() {
+  return {
+    text: L(
+      '친구가 OCEAN 비교를 제안했어요. 검사를 마치면 두 사람 결과를 나란히 볼 수 있어요. 무료 · 약 3분.',
+      'A friend invited you to compare OCEAN types. Finish the test to see both profiles, side by side. Free · about 3 min.',
+      'Un amigo te invitó a comparar sus tipos OCEAN. Termina el test para ver ambos perfiles lado a lado. Gratis · unos 3 min.'
+    ),
+    cta: L('무료 테스트 시작 · 3분', 'Start free test · 3 min', 'Empezar test gratis · 3 min')
+  };
+}
+
+function updateFriendBanners() {
+  const hasRef = !!getActiveFriendRef();
+  const dismissed = !!window._friendBannerDismissed;
+  const copy = friendBannerCopy();
+  const lb = document.getElementById('friendLandingBanner');
+  const qb = document.getElementById('friendQuizBanner');
+  if (lb) {
+    const lt = document.getElementById('friendLandingText');
+    const lc = document.getElementById('friendLandingCta');
+    if (lt) lt.textContent = copy.text;
+    if (lc) lc.textContent = copy.cta;
+    lb.hidden = !(hasRef && !dismissed);
+  }
+  if (qb) {
+    const qt = document.getElementById('friendQuizText');
+    if (qt) qt.textContent = copy.text;
+    qb.hidden = !(hasRef && !dismissed);
+  }
+}
+
+function dismissFriendBanner() {
+  window._friendBannerDismissed = true;
+  updateFriendBanners();
+}
+
+function shareResultUrl(source, content) {
   const d = window._shareData || {};
-  const base = typePageUrl(d.code);
-  const src = String(source || 'social').toLowerCase().replace(/[^\w.\-]/g, '').slice(0, 40) || 'social';
-  return base + '?utm_source=' + encodeURIComponent(src) + '&utm_medium=social&utm_campaign=result_share';
+  const base = siteHomeUrl();
+  const clean = v => String(v || '').toLowerCase().replace(/[^\w.\-]/g, '').slice(0, 40);
+  const SRC_MAP = { kakao: 'kakaotalk', twitter: 'x', x: 'x', fb: 'facebook', facebook: 'facebook', ig: 'instagram', instagram: 'instagram', tiktok: 'tiktok', copy: 'copy' };
+  const rawSrc = clean(source);
+  const utmSource = SRC_MAP[rawSrc] || rawSrc || 'social';
+  const utmContent = clean(content) || (utmSource === 'copy' ? 'copy_link' : utmSource === 'kakaotalk' ? 'kakao_fallback' : utmSource);
+  const lang = (window.LANG === 'en' || window.LANG === 'es') ? window.LANG : 'ko';
+  const ref = encodeFriendRef(d.scores);
+  const params = new URLSearchParams();
+  params.set('start', '1');
+  params.set('lang', lang);
+  if (ref) params.set('ref', ref);
+  params.set('utm_source', utmSource);
+  params.set('utm_medium', 'referral');
+  params.set('utm_campaign', 'friend_compare');
+  params.set('utm_content', utmContent);
+  return base + '?' + params.toString();
 }
 
 const SITE_LANGS = [
@@ -3833,6 +4085,25 @@ const ENTRY_SOURCE = /[?&]start=1(&|$)/.test(location.search) ? 'type_page' : 'd
 function track(name, params) {
   try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {}
 }
+function initFriendRefFromUrl() {
+  try {
+    const q = new URLSearchParams(location.search);
+    if (!q.has('ref')) return;
+    const rawRef = q.get('ref');
+    const clean = v => String(v || '').toLowerCase().replace(/[^\w.\-]/g, '').slice(0, 40);
+    const parsed = parseFriendRef(rawRef);
+    const utmCampaign = clean(q.get('utm_campaign'));
+    const utmContent = clean(q.get('utm_content'));
+    if (parsed) {
+      saveFriendRef(parsed, utmCampaign || 'friend_compare');
+      track('referral_land', { ref_valid: true, language: window.LANG, utm_content: utmContent || '' });
+    } else {
+      clearFriendRef();
+      track('referral_land', { ref_valid: false, language: window.LANG, utm_content: utmContent || '' });
+    }
+  } catch (e) {}
+}
+initFriendRefFromUrl();
 function jobParams() {
   const j = JOBS.find(x => x.id === selectedJob);
   return j ? { job_id: String(selectedJob).padStart(2, '0'), job_label: j.label, language: window.LANG } : { language: window.LANG };
@@ -3854,12 +4125,14 @@ document.addEventListener('click', function (e) {
       track('outbound_click', p);
     }
   }
-  const sb = t.closest('.sns-btn');
+  const sb = t.closest('.sns-btn, [data-share-method]');
   if (sb) {
-    const raw = (sb.className.match(/sns-(?!btn)\w+/) || [''])[0].replace('sns-', '');
-    const SHARE_METHOD = { fb: 'facebook', x: 'x', ig: 'instagram', kakao: 'kakao', tiktok: 'tiktok' };
+    const explicit = sb.getAttribute('data-share-method');
+    const raw = explicit || (sb.className.match(/sns-(?!btn)\w+/) || [''])[0].replace('sns-', '');
+    const SHARE_METHOD = { fb: 'facebook', x: 'x', ig: 'instagram', kakao: 'kakao', tiktok: 'tiktok', copy: 'copy' };
     const net = SHARE_METHOD[raw] || raw || 'unknown';
-    track('share_click', { method: net, network: net });
+    const pCode = (window._shareData && window._shareData.code) || '';
+    track('share_click', { method: net, network: net, share_type: 'friend_compare', persona_code: pCode });
   }
   const cta = t.closest('[data-cta-position]');
   if (cta) {
@@ -4277,7 +4550,19 @@ function confirmJobAndContinue() {
 
 function startQuiz() {
   const _scr = document.getElementById('screen-results');
-  track('test_start', Object.assign({ entry: ENTRY_SOURCE, is_retake: !!(_scr && _scr.classList.contains('active')) }, jobParams()));
+  const isRetake = !!(_scr && _scr.classList.contains('active'));
+  if (isRetake) {
+    clearFriendRef();
+    window._lastFriendRef = null;
+  }
+  const activeRef = getActiveFriendRef();
+  const startParams = Object.assign({
+    entry: activeRef ? 'referral_compare' : ENTRY_SOURCE,
+    is_retake: isRetake
+  }, jobParams());
+  if (activeRef) startParams.has_ref = 1;
+  track('test_start', startParams);
+  if (typeof updateFriendBanners === 'function') updateFriendBanners();
   clearResultHash();
   currentQ = 0;
   shuffledQuestions = [...QUESTIONS].sort(() => Math.random() - 0.5);
@@ -4383,7 +4668,8 @@ function initNavStars() {
 //  CALCULATE
 // ═══════════════════════════════════════════════════════
 function calculateResults() {
-  track('test_complete', jobParams());
+  const activeRef = getActiveFriendRef();
+  track('test_complete', Object.assign(activeRef ? { has_ref: 1 } : {}, jobParams()));
   initNavStars();
   showScreen('loading');
 
@@ -5031,9 +5317,95 @@ function renderResults(scores) {
   // 공유 데이터 전역 저장 (onclick에 JSON 직접 삽입 시 쌍따옴표가 속성을 깨뜨리는 버그 방지)
   window._shareData = { name: master.name, code: code, scores: scores };
 
+  const peerRef = window._lastFriendRef || getActiveFriendRef();
+  let compareSectionHTML = '';
+  let compareMeta = null;
+  if (peerRef && peerRef.scores) {
+    window._lastFriendRef = peerRef;
+    clearFriendRef();
+    const peerCode = peerRef.code || scoresToCode(peerRef.scores);
+    const peerEmoji = PERSONA_EMOJI[peerCode] || '✨';
+    const peerName = peerPersonaName(peerCode);
+    const compareDimMeta = [
+      { key: 'O', label: locMode ? pack.dims[0].label : OCEAN_DIM_META[0].label, color: barColors.O },
+      { key: 'C', label: locMode ? pack.dims[1].label : OCEAN_DIM_META[1].label, color: barColors.C },
+      { key: 'E', label: locMode ? pack.dims[2].label : OCEAN_DIM_META[2].label, color: barColors.E },
+      { key: 'A', label: locMode ? pack.dims[3].label : OCEAN_DIM_META[3].label, color: barColors.A },
+      { key: 'N', label: locMode ? pack.dims[4].label : OCEAN_DIM_META[4].label, color: barColors.N }
+    ];
+    const diffs = compareDimMeta.map(dm => ({
+      key: dm.key, label: dm.label,
+      self: scores[dm.key] || 0, peer: peerRef.scores[dm.key] || 0,
+      gap: Math.abs((scores[dm.key] || 0) - (peerRef.scores[dm.key] || 0))
+    }));
+    const maxDimGap = Math.max.apply(null, diffs.map(x => x.gap));
+    const compareSummary = buildCompareSummary(diffs);
+    const friendRoleLabel = L('친구', 'Friend', 'Amigo');
+    const selfRoleLabel = L('나', 'You', 'Tú');
+    const compareBarsHTML = compareDimMeta.map(dm => {
+      const sv = Math.round(scores[dm.key] || 0);
+      const pv = Math.round(peerRef.scores[dm.key] || 0);
+      const gap = Math.abs(sv - pv);
+      const diffTxt = L('차이 ' + gap + '%p', gap + ' pts diff', 'Dif. ' + gap + ' pts');
+      return `
+        <div class="fc-bar-row">
+          <div class="fc-bar-head">
+            <span style="color:${dm.color}">${dm.label}</span>
+            <span class="fc-diff">${diffTxt}</span>
+          </div>
+          <div class="fc-bar-pair">
+            <div class="fc-bar-line">
+              <span class="fc-bar-who" style="color:#C25E00">${friendRoleLabel}</span>
+              <div class="fc-bar-track"><div class="fc-bar-fill" style="width:${pv}%;background:#E67700"></div></div>
+              <span class="fc-bar-val">${pv}%</span>
+            </div>
+            <div class="fc-bar-line">
+              <span class="fc-bar-who" style="color:#3451D1">${selfRoleLabel}</span>
+              <div class="fc-bar-track"><div class="fc-bar-fill" style="width:${sv}%;background:${dm.color}"></div></div>
+              <span class="fc-bar-val">${sv}%</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+    compareMeta = { peerCode, maxDimGap };
+    compareSectionHTML = `
+      <div class="friend-compare-section fade-up" id="friendCompareSection">
+        <div class="fc-eyebrow">🤝 ${L('친구와 OCEAN 비교', 'Friend OCEAN Compare', 'Comparación OCEAN')}</div>
+        <h2 class="fc-title">${L('두 사람의 OCEAN 비교', 'Your OCEAN, side by side', 'Sus perfiles OCEAN lado a lado')}</h2>
+        <div class="fc-pair-grid">
+          <div class="fc-person-card is-peer">
+            <div class="fc-role">${friendRoleLabel}</div>
+            <div class="fc-emoji">${peerEmoji}</div>
+            <div class="fc-name">${peerName}</div>
+            <div class="fc-code">${peerCode}</div>
+          </div>
+          <div class="fc-person-card is-self">
+            <div class="fc-role">${selfRoleLabel}</div>
+            <div class="fc-emoji">${emoji}</div>
+            <div class="fc-name">${master.name}</div>
+            <div class="fc-code">${code}</div>
+          </div>
+        </div>
+        <div class="fc-summary">${compareSummary}</div>
+        <div class="fc-radar-wrap">
+          <div class="fc-legend">
+            <span class="fc-legend-item"><i class="fc-dot" style="background:#E67700"></i>${friendRoleLabel}</span>
+            <span class="fc-legend-item"><i class="fc-dot" style="background:#4C6EF5"></i>${selfRoleLabel}</span>
+          </div>
+          <canvas id="compareRadarChart" width="340" height="280"></canvas>
+        </div>
+        <div class="fc-bars">${compareBarsHTML}</div>
+        <div class="fc-footer">
+          <button type="button" class="fc-loop-btn" data-share-method="copy" onclick="copyCompareLink()">🔗 ${L('다른 친구와도 비교하기', 'Compare with another friend', 'Comparar con otro amigo')}</button>
+          <div class="fc-loop-note">${L('내 점수 다섯 개로 새 비교 링크를 만들어요 (이름·이메일 없음)', 'Creates a new invite link with your five scores (no name or email)', 'Crea un nuevo enlace con tus cinco puntajes (sin nombre ni correo)')}</div>
+        </div>
+      </div>`;
+  }
+
   const rc = document.getElementById('resultsContent');
   rc.classList.add('ra');
   rc.innerHTML = `
+    ${compareSectionHTML}
     <!-- 유형 카드 -->
     <div class="ra-card ra-banner result-banner-16p fade-up" style="background:linear-gradient(135deg,${bannerBg} 0%,#fff 100%)">
       <div class="ra-emoji" style="background:${bannerColor};box-shadow:0 0 0 6px ${bannerColor}22">${emoji}</div>
@@ -5052,9 +5424,20 @@ function renderResults(scores) {
       <div class="ra-bars">${traitBars}</div>
     </div>
 
-    <!-- 공유 (아이콘 한 줄) -->
+    <!-- 공유: 비교 초대 + 아이콘 한 줄 -->
     <div class="ra-card ra-share sns-share-section fade-up-d1">
-      <div class="ra-share-title">🔗 ${L('결과 공유하기', 'Share your result', 'Comparte tu resultado')}</div>
+      <div class="sns-section-title">🤝 ${L('친구도 해보고 OCEAN 비교하기', U.shareTitle)}</div>
+      <div class="sns-section-sub">${L('링크를 받은 친구가 테스트를 마치면, 두 사람의 성향을 나란히 볼 수 있어요. 무료 · 약 3분.', U.shareSub)}</div>
+      <div class="fc-primary-actions">
+        <button type="button" class="fc-cta-btn fc-cta-kakao" data-share-method="kakao" onclick="shareKakao()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.57 1.522 4.837 3.836 6.237L4.89 20.5l4.194-2.617A10.1 10.1 0 0012 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
+          ${L('카카오톡으로 비교 초대', 'Share to KakaoTalk', 'Invitar por KakaoTalk')}
+        </button>
+        <button type="button" class="fc-cta-btn fc-cta-copy" data-share-method="copy" onclick="copyCompareLink()">
+          🔗 ${L('링크 복사', 'Copy link', 'Copiar enlace')}
+        </button>
+      </div>
+      <div class="fc-share-notice">${L('링크를 받은 사람이 내 점수 다섯 개를 보게 됩니다. 이름과 이메일은 들어가지 않아요.', 'Anyone with this link can see your five scores. It does not include your name or email.', 'Quien tenga este enlace podrá ver tus cinco puntajes. No incluye tu nombre ni correo.')}</div>
       <div class="ra-share-row">
         ${shareBtn('sns-fb', 'shareFacebook', 'Facebook', '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>')}
         ${shareBtn('sns-x', 'shareTwitterX', 'X (Twitter)', '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>')}
@@ -5095,6 +5478,8 @@ function renderResults(scores) {
   `;
 
   // Animate bars after render
+  drawRadar(scores);
+  if (peerRef && peerRef.scores) drawCompareRadar(scores, peerRef.scores);
   setTimeout(() => {
     document.querySelectorAll('#resultsContent .op-dim-bar-fill').forEach(el => {
       el.style.width = el.dataset.pct + '%';
@@ -5106,7 +5491,15 @@ function renderResults(scores) {
   }, 100);
 
   persistResult(scores);
-  track('result_view', Object.assign({ persona_code: code, main_ai: (mainAI && mainAI.name) || '' }, jobParams()));
+  track('result_view', Object.assign({ persona_code: code, main_ai: (mainAI && mainAI.name) || '' }, compareMeta ? { has_ref: 1 } : {}, jobParams()));
+  if (compareMeta) {
+    track('compare_view', {
+      persona_code_self: code,
+      persona_code_peer: compareMeta.peerCode,
+      max_dim_gap: compareMeta.maxDimGap,
+      language: window.LANG
+    });
+  }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -5192,8 +5585,135 @@ function drawRadar(scores) {
 // ═══════════════════════════════════════════════════════
 //  UTILS
 // ═══════════════════════════════════════════════════════
+function peerPersonaName(code) {
+  if (window.LANG === 'es' && window.ES && ES.master && ES.master[code] && ES.master[code].name) return ES.master[code].name;
+  if (window.LANG === 'en') return (typeof PERSONA_EN_NAME !== 'undefined' && PERSONA_EN_NAME[code]) || code;
+  const m = (typeof getMasterPersona === 'function' && getMasterPersona(code)) || null;
+  if (m && m.name) return m.name;
+  const f = (typeof FEATURED_PERSONAS !== 'undefined') && FEATURED_PERSONAS.find(p => p.code === code);
+  return (f && f.name) || code;
+}
+
+function buildCompareSummary(diffs) {
+  let maxDiff = diffs[0];
+  let minDiff = diffs[0];
+  for (const d of diffs) {
+    if (d.gap > maxDiff.gap) maxDiff = d;
+    if (d.gap < minDiff.gap) minDiff = d;
+  }
+  const sharedHigh = diffs.filter(d => d.self >= 50 && d.peer >= 50 && d.key !== maxDiff.key)
+    .sort((a, b) => Math.min(b.self, b.peer) - Math.min(a.self, a.peer))[0];
+  const sharedLow = diffs.filter(d => d.self < 50 && d.peer < 50 && d.key !== maxDiff.key)
+    .sort((a, b) => Math.max(a.self, a.peer) - Math.max(b.self, b.peer))[0];
+  if (maxDiff.gap <= 10) {
+    return L(
+      '다섯 가지 OCEAN 차원 전반이 비슷하고, 그중 ' + maxDiff.label + '에서 ' + maxDiff.gap + '%p 차이로 가장 달라요.',
+      'Your five OCEAN dimensions are quite close overall, with the biggest gap in ' + maxDiff.label + ' (' + maxDiff.gap + ' pts).',
+      'Sus cinco dimensiones OCEAN son bastante cercanas en general, con la mayor diferencia en ' + maxDiff.label + ' (' + maxDiff.gap + ' pts).'
+    );
+  }
+  if (sharedHigh) {
+    return L(
+      '두 분 모두 ' + sharedHigh.label + '이 높고, ' + maxDiff.label + '에서 가장 차이가 커요 (' + maxDiff.gap + '%p 차이).',
+      'You both score high on ' + sharedHigh.label + ', and ' + maxDiff.label + ' is where you differ most (' + maxDiff.gap + ' pts apart).',
+      'Ambos puntúan alto en ' + sharedHigh.label + ', y donde más se diferencian es en ' + maxDiff.label + ' (' + maxDiff.gap + ' pts).'
+    );
+  }
+  if (sharedLow) {
+    return L(
+      '두 분 모두 ' + sharedLow.label + ' 점수가 낮은 편이고, ' + maxDiff.label + '에서 가장 차이가 커요 (' + maxDiff.gap + '%p 차이).',
+      'You both score lower on ' + sharedLow.label + ', and ' + maxDiff.label + ' is where you differ most (' + maxDiff.gap + ' pts apart).',
+      'Ambos puntúan más bajo en ' + sharedLow.label + ', y donde más se diferencian es en ' + maxDiff.label + ' (' + maxDiff.gap + ' pts).'
+    );
+  }
+  return L(
+    minDiff.label + '은 비슷하고, ' + maxDiff.label + '에서 가장 차이가 커요 (' + maxDiff.gap + '%p 차이).',
+    'You are closest on ' + minDiff.label + ', while ' + maxDiff.label + ' is where you differ most (' + maxDiff.gap + ' pts apart).',
+    'Están más cerca en ' + minDiff.label + ', mientras que en ' + maxDiff.label + ' es donde más se diferencian (' + maxDiff.gap + ' pts).'
+  );
+}
+
+function drawCompareRadar(selfScores, peerScores) {
+  const canvas = document.getElementById('compareRadarChart');
+  if (!canvas || !selfScores || !peerScores) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2;
+  const R = Math.min(W, H) / 2 - (isLoc() ? 58 : 38);
+  const dims = ['O', 'C', 'E', 'A', 'N'];
+  const pack = i18nPack();
+  const labels = pack && pack.dimShort ? pack.dimShort : ['개방성', '성실성', '외향성', '친화성', '안정성'];
+  const colors = ['#7048E8', '#1971C2', '#E67700', '#0CA678', '#C92A2A'];
+  const n = dims.length;
+  const angle = (i) => (Math.PI * 2 * i / n) - Math.PI / 2;
+
+  ctx.clearRect(0, 0, W, H);
+  for (let r = 1; r <= 5; r++) {
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const x = cx + Math.cos(angle(i)) * (R * r / 5);
+      const y = cy + Math.sin(angle(i)) * (R * r / 5);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(0,0,0,0.07)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  for (let i = 0; i < n; i++) {
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle(i)) * R, cy + Math.sin(angle(i)) * R);
+    ctx.strokeStyle = 'rgba(0,0,0,0.09)';
+    ctx.stroke();
+  }
+
+  function plotPoly(sc, fill, stroke, dashed) {
+    ctx.save();
+    ctx.beginPath();
+    dims.forEach((d, i) => {
+      const pct = Math.max(0, Math.min(100, sc[d] || 0)) / 100;
+      const x = cx + Math.cos(angle(i)) * R * pct;
+      const y = cy + Math.sin(angle(i)) * R * pct;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+    if (dashed) ctx.setLineDash([5, 4]);
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+    ctx.restore();
+    dims.forEach((d, i) => {
+      const pct = Math.max(0, Math.min(100, sc[d] || 0)) / 100;
+      const x = cx + Math.cos(angle(i)) * R * pct;
+      const y = cy + Math.sin(angle(i)) * R * pct;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = stroke;
+      ctx.fill();
+    });
+  }
+
+  plotPoly(peerScores, 'rgba(230,119,0,0.12)', '#E67700', true);
+  plotPoly(selfScores, 'rgba(76,110,245,0.14)', '#4C6EF5', false);
+
+  ctx.font = '600 12.5px Segoe UI, "Noto Sans KR", sans-serif';
+  ctx.textAlign = 'center';
+  dims.forEach((d, i) => {
+    const lx = cx + Math.cos(angle(i)) * (R + 22);
+    const ly = cy + Math.sin(angle(i)) * (R + 22);
+    ctx.fillStyle = colors[i];
+    ctx.fillText(labels[i], lx, ly + 4);
+  });
+}
+
 function goHome() {
   selectedJob = null;
+  clearFriendRef();
+  window._lastFriendRef = null;
+  if (typeof updateFriendBanners === 'function') updateFriendBanners();
   document.querySelectorAll('.job-btn-16p').forEach(b => b.classList.remove('selected'));
   document.getElementById('btnStart').disabled = true;
   clearResultHash();
@@ -5259,6 +5779,68 @@ function renderTypeShowcase() {
 // ═══════════════════════════════════════════════════════
 
 
+// Kakao JavaScript SDK configuration (placeholder until Sangho registers
+// thepersonalityai.com in Kakao Developers and supplies the JavaScript key).
+// Keep KAKAO_JS_KEY empty to disable SDK loading and use Web Share / clipboard fallback.
+const KAKAO_JS_KEY = '';
+// Set KAKAO_SDK_URL / KAKAO_SDK_INTEGRITY from https://developers.kakao.com/docs/latest/ko/javascript/download when enabling.
+const KAKAO_SDK_URL = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js';
+const KAKAO_SDK_INTEGRITY = '';
+let _kakaoSdkPromise = null;
+
+function ensureKakaoSdk() {
+  if (!KAKAO_JS_KEY) return Promise.reject(new Error('KAKAO_JS_KEY not configured'));
+  if (window.Kakao && window.Kakao.Share) {
+    if (!window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY);
+    return Promise.resolve(window.Kakao);
+  }
+  if (_kakaoSdkPromise) return _kakaoSdkPromise;
+  _kakaoSdkPromise = new Promise(function (resolve, reject) {
+    var s = document.createElement('script');
+    s.src = KAKAO_SDK_URL;
+    if (KAKAO_SDK_INTEGRITY) {
+      s.integrity = KAKAO_SDK_INTEGRITY;
+      s.crossOrigin = 'anonymous';
+    }
+    s.onload = function () {
+      try {
+        if (window.Kakao && !window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY);
+        if (window.Kakao && window.Kakao.Share) resolve(window.Kakao);
+        else reject(new Error('Kakao.Share unavailable'));
+      } catch (e) { reject(e); }
+    };
+    s.onerror = function () { reject(new Error('Kakao SDK load failed')); };
+    document.head.appendChild(s);
+  });
+  return _kakaoSdkPromise;
+}
+
+function _compareInviteBody() {
+  return L(
+    '나랑 OCEAN 성향 비교해볼래?\n무료 · 약 3분, 25문항이면 두 사람 결과가 나란히 나와.',
+    'Want to compare OCEAN types with me?\nFree · about 3 min. 25 questions, then a side-by-side look at both profiles.',
+    '¿Comparamos nuestros tipos OCEAN?\nGratis · unos 3 min. 25 preguntas y verás ambos perfiles lado a lado.'
+  );
+}
+
+function copyCompareLink() {
+  var shareUrl = shareResultUrl('copy', 'copy_link');
+  var copiedMsg = L(
+    '비교 링크를 복사했어요. 카카오톡이나 채팅창에 붙여 넣어 주세요.',
+    'Comparison link copied. Paste it into a chat.',
+    'Enlace de comparación copiado. Pégalo en tu chat.'
+  );
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl).then(function () {
+      showShareToast(copiedMsg);
+    }).catch(function () {
+      showShareToast(L('공유 실패 — 링크를 직접 복사해 주세요: ', UI().shareFail) + shareUrl);
+    });
+  } else {
+    showShareToast(L('공유 실패 — 링크를 직접 복사해 주세요: ', UI().shareFail) + shareUrl);
+  }
+}
+
 function _shareText() {
   var d = window._shareData || {};
   var name = d.name || '', code = d.code || '', scores = d.scores || {};
@@ -5266,19 +5848,19 @@ function _shareText() {
     var U = UI();
     return 'Acabo de hacer el test AI-OCEAN y soy "' + name + '" (' + code + ').\n'
       + 'Apertura ' + (scores.O||0) + '% · Responsabilidad ' + (scores.C||0) + '% · Extraversión ' + (scores.E||0) + '% · Amabilidad ' + (scores.A||0) + '% · Estabilidad ' + (scores.N||0) + '%\n'
-      + '¿Y tú? 25 preguntas, unos 3 minutos, y te dice tu tipo y la IA que mejor te va.\n\n'
+      + 'Haz el test gratis (unos 3 min) y compara tu OCEAN conmigo.\n\n'
       + (U.tags || '#PersonalidadIA #TestOCEAN #BigFive');
   }
   if (window.LANG !== 'ko') {
     var U = UI();
     return 'I just took the AI-OCEAN test and got "' + name + '" (' + code + ').\n'
       + 'Openness ' + (scores.O||0) + '% · Conscientiousness ' + (scores.C||0) + '% · Extraversion ' + (scores.E||0) + '% · Agreeableness ' + (scores.A||0) + '% · Stability ' + (scores.N||0) + '%\n'
-      + 'Your turn? 25 questions, about 3 minutes, and you get your type plus the AI that fits you.\n\n'
+      + 'Take the 3-min test and compare your OCEAN with mine.\n\n'
       + (U.tags || '#AIPersonality #OCEANTest #BigFive #MyAIPrescription');
   }
   return '방금 AI-OCEAN 테스트 해봤는데, 나는 "' + name + '" 유형이래요. (' + code + ')\n'
     + '개방성 ' + (scores.O||0) + '% · 성실성 ' + (scores.C||0) + '% · 외향성 ' + (scores.E||0) + '% · 친화성 ' + (scores.A||0) + '% · 안정성 ' + (scores.N||0) + '%\n'
-    + '너도 해볼래? 25문항, 3분이면 내 유형이랑 맞는 AI가 나와요.\n\n'
+    + '3분 테스트하고 나랑 OCEAN 성향 비교해 볼래요?\n\n'
     + '#AI성향분석 #OCEAN테스트 #빅파이브 #나의AI처방전';
 }
 
@@ -5329,27 +5911,76 @@ function copyInstagram() {
   });
 }
 
+function _kakaoFallbackShare() {
+  var shareUrl = shareResultUrl('kakao', 'kakao_fallback');
+  var body = _compareInviteBody();
+  var text = body + '\n' + shareUrl;
+  var copiedToast = L(
+    '비교 링크를 복사했어요. 카카오톡이나 채팅창에 붙여 넣어 주세요.',
+    'Comparison link copied. Paste it into a chat.',
+    'Enlace de comparación copiado. Pégalo en tu chat.'
+  );
+  var copyFallback = function () {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showShareToast(copiedToast);
+      }).catch(function () {
+        showShareToast(L('공유 실패 — 링크를 직접 복사해 카카오톡에 붙여넣기 해주세요: ', UI().shareFail) + shareUrl);
+      });
+    } else {
+      showShareToast(L('공유 실패 — 링크를 직접 복사해 카카오톡에 붙여넣기 해주세요: ', UI().shareFail) + shareUrl);
+    }
+  };
+  if (navigator.share) {
+    navigator.share({
+      title: L('나랑 OCEAN 성향 비교해볼래?', 'Want to compare OCEAN types with me?', '¿Comparamos nuestros tipos OCEAN?'),
+      text: body,
+      url: shareUrl
+    }).catch(copyFallback);
+  } else {
+    copyFallback();
+  }
+}
+
+function buildKakaoFeedPayload(code, feedUrl) {
+  var c = /^[01]{5}$/.test(String(code || '')) ? String(code) : '';
+  var imgSuffix = window.LANG === 'en' ? '.en.png' : window.LANG === 'es' ? '.es.png' : '.png';
+  var imageUrl = c ? ('https://thepersonalityai.com/og/types/' + c + imgSuffix) : 'https://thepersonalityai.com/og-image.png';
+  return {
+    objectType: 'feed',
+    content: {
+      title: L('나랑 OCEAN 성향 비교해볼래?', 'Want to compare OCEAN types with me?', '¿Comparamos nuestros tipos OCEAN?'),
+      description: L(
+        '무료 · 약 3분. 25문항이 끝나면 두 사람 결과를 나란히 볼 수 있어요.',
+        'Free · about 3 min. 25 questions, then a side-by-side look at both profiles.',
+        'Gratis · unos 3 min. 25 preguntas y verás ambos perfiles lado a lado.'
+      ),
+      imageUrl: imageUrl,
+      imageWidth: 1200,
+      imageHeight: 630,
+      link: { webUrl: feedUrl, mobileWebUrl: feedUrl }
+    },
+    buttons: [
+      {
+        title: L('무료 테스트 시작 · 3분', 'Start free test · 3 min', 'Empezar test gratis · 3 min'),
+        link: { webUrl: feedUrl, mobileWebUrl: feedUrl }
+      }
+    ]
+  };
+}
+
 function shareKakao() {
   var d = window._shareData || {};
-  var name = d.name || '';
-  var shareUrl = shareResultUrl('kakao');
-  var text = _shareText() + '\n\n👉 ' + shareUrl;
-  if (navigator.share) {
-    navigator.share({ title: L('AI-OCEAN 성향 분석 — ', 'AI-OCEAN Personality Result — ', 'Resultado de personalidad AI-OCEAN — ') + name, text: text, url: shareUrl })
-      .catch(function() {
-        navigator.clipboard.writeText(text).then(function() {
-          showShareToast(L('🔗 링크 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.', UI().linkCopied));
-        }).catch(function() {
-          showShareToast(L('공유 실패 — 링크를 직접 복사해 카카오톡에 붙여넣기 해주세요: ', UI().shareFail) + shareUrl);
-        });
-      });
-  } else {
-    navigator.clipboard.writeText(text).then(function() {
-      showShareToast(L('🔗 링크 복사 완료! 카카오톡 대화창에 붙여넣기 해주세요.', UI().linkCopied));
-    }).catch(function() {
-      showShareToast(L('공유 실패 — 링크를 직접 복사해 카카오톡에 붙여넣기 해주세요: ', UI().shareFail) + shareUrl);
-    });
+  if (!KAKAO_JS_KEY) {
+    _kakaoFallbackShare();
+    return;
   }
+  var feedUrl = shareResultUrl('kakao', 'kakao_feed');
+  ensureKakaoSdk().then(function (Kakao) {
+    Kakao.Share.sendDefault(buildKakaoFeedPayload(d.code, feedUrl));
+  }).catch(function () {
+    _kakaoFallbackShare();
+  });
 }
 
 function shareTiktok() {
@@ -5376,6 +6007,7 @@ function shareTiktok() {
 (async function boot() {
   await ensureLangPack(window.LANG);
   init();
+  updateFriendBanners();
   maybeShowLangHint();
   if (await restoreLangSwitchState()) { hideLangHint(); return; }
   if (await restoreStoredResult()) { hideLangHint(); return; }
