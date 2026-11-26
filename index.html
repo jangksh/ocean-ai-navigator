@@ -1593,7 +1593,6 @@ html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform:
 }
 .sns-section-title { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.3px; }
 .sns-section-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
-.sns-btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .sns-btn {
   display: flex; align-items: center; gap: 8px;
   padding: 11px 18px; border-radius: 12px;
@@ -3298,6 +3297,7 @@ const STRINGS = {
     js_start: '결과 보기 →',
     footer_contact: '문의',
     disclaimer: 'Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작. 본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다.',
+    shareTitle: '친구도 해보고 OCEAN 비교하기', shareSub: '링크를 받은 친구가 테스트를 마치면, 두 사람의 성향을 나란히 볼 수 있어요. 무료 · 약 3분.',
     about_back: '← 테스트로 돌아가기',
     about_hero_label: '📖 심리학 기반 신뢰 지표',
     about_h2: 'Big 5 OCEAN이란<br>무엇인가?',
@@ -5106,7 +5106,7 @@ function fixTraitPct(text, scores, code) {
     }
     return scores[k];
   };
-  return text.replace(/(\d{1,3})(\s?%)/g, (m, num, pct, off) => {
+  text = text.replace(/(\d{1,3})(\s?%)/g, (m, num, pct, off) => {
     const n = +num;
     if (n > 100) return m;
     const pre = text.slice(Math.max(0, off - 40), off);
@@ -5138,7 +5138,148 @@ function fixTraitPct(text, scores, code) {
     { const v = fwd(); if (v != null) return v + pct; }
     return m;
   });
+  return fixTraitWording(text, scores, code);
 }
+
+// 특성 방향(높/낮, high/low 등)이 실제 점수나 유형 코드와 반대면 바로잡는다.
+// 예: 안정형인데 "불안감이 높아", 친화성 높은 유형인데 "88% 낮은 친화성".
+function fixTraitWording(text, scores, code) {
+  if (!text || typeof text !== 'string') return text;
+  const scoreOf = (k) => {
+    if (scores && scores[k] != null && isFinite(Number(scores[k]))) return Number(scores[k]);
+    if (!code) return null;
+    const idx = { O: 0, C: 1, E: 2, A: 3, N: 4 }[k];
+    return idx == null ? null : (code[idx] === '1' ? 70 : 30);
+  };
+  const isHigh = (k) => { const v = scoreOf(k); return v == null ? null : v >= 50; };
+  const wantHigh = (key) => key === 'Neu' ? (isHigh('N') === false) : isHigh(key);
+  const keyOfKo = (name) => {
+    if (/신경/.test(name)) return 'Neu';
+    if (/안정/.test(name)) return 'N';
+    if (/개방/.test(name)) return 'O';
+    if (/성실/.test(name)) return 'C';
+    if (/외향/.test(name)) return 'E';
+    if (/친화/.test(name)) return 'A';
+    return null;
+  };
+  const flipKoPol = (pol, want) => {
+    const pairs = want
+      ? [['낮은','높은'],['낮아서','높아서'],['낮아도','높아도'],['낮지만','높지만'],['낮고','높고'],['낮게','높게'],['낮음','높음'],['낮아','높아'],['낮','높']]
+      : [['높은','낮은'],['높아서','낮아서'],['높아도','낮아도'],['높지만','낮지만'],['높고','낮고'],['높게','낮게'],['높음','낮음'],['높아','낮아'],['높','낮']];
+    for (const [a, b] of pairs) if (pol.startsWith(a)) return b + pol.slice(a.length);
+    return pol;
+  };
+  const traits = '개방성|성실성|외향성|친화성|정서\\s*적?\\s*안정성|안정성|신경성|신경증';
+  text = text.replace(new RegExp('(높은|낮은)\\s*(' + traits + ')', 'g'), (m, pol, name) => {
+    const want = wantHigh(keyOfKo(name));
+    if (want == null) return m;
+    if (pol.startsWith('높') === want) return m;
+    return flipKoPol(pol, want) + ' ' + name;
+  });
+  text = text.replace(new RegExp('(' + traits + ')((?:이|은|도)?(?:\\s*매우)?\\s*)(높(?:아서|아도|지만|고|게|음|아)?|낮(?:아서|아도|지만|고|게|음|아)?)', 'g'), (m, name, mid, pol) => {
+    const want = wantHigh(keyOfKo(name));
+    if (want == null) return m;
+    if (pol.startsWith('높') === want) return m;
+    return name + mid + flipKoPol(pol, want);
+  });
+
+  const flipCase = (orig, next) => orig[0] === orig[0].toUpperCase() ? next[0].toUpperCase() + next.slice(1) : next;
+  const enRules = [
+    [/\b(high|low)(\s+in)?(\s+)(openness)\b/gi, 'O'],
+    [/\b(high|low)(\s+in)?(\s+)(conscientiousness)\b/gi, 'C'],
+    [/\b(high|low)(\s+in)?(\s+)(extraversion)\b/gi, 'E'],
+    [/\b(high|low)(\s+in)?(\s+)(agreeableness)\b/gi, 'A'],
+    [/\b(high|low)(\s+in)?(\s+)(emotional\s+stability)\b/gi, 'N'],
+    [/\b(high|low)(\s+in)?(\s+)(neuroticism)\b/gi, 'Neu']
+  ];
+  for (const [re, key] of enRules) {
+    text = text.replace(re, (m, pol, inn, sp, name) => {
+      const want = wantHigh(key);
+      if (want == null) return m;
+      const saidHigh = pol.toLowerCase() === 'high';
+      if (saidHigh === want) return m;
+      return flipCase(pol, want ? 'high' : 'low') + (inn || '') + (sp || ' ') + name;
+    });
+  }
+  const esNoun = [
+    ['apertura', 'O'], ['responsabilidad', 'C'], ['extraversi[oó]n', 'E'],
+    ['amabilidad', 'A'], ['estabilidad(?:\\s+emocional)?', 'N'], ['neuroticismo', 'Neu']
+  ];
+  for (const [noun, key] of esNoun) {
+    text = text.replace(new RegExp('\\b(alta|alto|baja|bajo)(\\s+)(' + noun + ')\\b', 'gi'), (m, pol, sp, name) => {
+      const want = wantHigh(key);
+      if (want == null) return m;
+      const saidHigh = /^alt/i.test(pol);
+      if (saidHigh === want) return m;
+      const fem = /a$/i.test(pol);
+      const next = want ? (fem ? 'alta' : 'alto') : (fem ? 'baja' : 'bajo');
+      return flipCase(pol, next) + sp + name;
+    });
+    text = text.replace(new RegExp('\\b(' + noun + ')(\\s+)(muy\\s+)?(alta|alto|baja|bajo)\\b', 'gi'), (m, name, sp, muy, pol) => {
+      const want = wantHigh(key);
+      if (want == null) return m;
+      const saidHigh = /^alt/i.test(pol);
+      if (saidHigh === want) return m;
+      const fem = /a$/i.test(pol);
+      const next = want ? (fem ? 'alta' : 'alto') : (fem ? 'baja' : 'bajo');
+      return name + sp + (muy || '') + flipCase(pol, next);
+    });
+  }
+
+
+  // 높/낮를 고친 뒤에도 원인-결과가 반대로 남는 문장만 최소 수정
+  text = text.replace(/공감 부족:(\s*(?:\d+%\s*)?높은 친화성)/g, '관계 살피기:$1');
+  text = text.replace(/높은 친화성으로 인해 팀 내 유대가 약할 수 있으니/g, '높은 친화성을 팀 유대에 더 자주 쓰되');
+  text = text.replace(/높은 친화성으로 ([^,]{2,40})를 간과하기 쉬우니/g, '높은 친화성으로 $1를 더 자주 살피되');
+  text = text.replace(/정서\s*적?\s*안정성이\s*높아\s*불안한/g, '정서 안정성이 높아 침착한');
+  text = text.replace(/정서\s*적?\s*안정성이 높아서 ([^.]{0,80})밤새 걱정하고/g, '정서 안정성이 높아서 $1중심을 잡고');
+  text = text.replace(/낮은 개방성(\([^)]*\))?으로 아무도 시도하지 않은 ([^을를]{2,30})을 거침없이 전개하고/g, '낮은 개방성$1으로 검증된 $2을 차근히 다듬고');
+  text = text.replace(/낮은 개방성(\([^)]*\))?으로 트렌드에 민감하고/g, '낮은 개방성$1으로 검증된 방식을 선호하고');
+  text = text.replace(/낮은 개방성(\([^)]*\))?으로 새로운 ([^을를]{2,30})을 끊임없이 시도하고/g, '낮은 개방성$1으로 검증된 $2을 안정적으로 활용하고');
+
+  if (isHigh('N') === true) {
+    const ABOUT_OTHER = /학생|친구들|친구의|친구가\s|팀원|고객|아이(?:들)?|학부모|상대방|반 친구|김철수/;
+    const ABOUT_SELF = /당신|당신은|당신이|your\b|you\b|tú\b|\btu\b/i;
+    const pairs = [
+      [/높은\s*불안감이/g, '세심한 관찰력이'],
+      [/높은\s*불안감과/g, '세심한 관찰력과'],
+      [/높은\s*불안감을/g, '세심한 위험 감지를'],
+      [/높은\s*불안감은/g, '세심한 관찰력은'],
+      [/높은\s*불안감/g, '세심한 위험 감지'],
+      [/불안감이\s*높아서/g, '빈틈없이 대비하려고'],
+      [/불안감이\s*높은(?!\s*날)/g, '신중한'],
+      [/불안감이\s*높아(?!\s*날)/g, '신중해서'],
+      [/불안이\s*높아서/g, '빈틈없이 대비하려고'],
+      [/감정\s*기복이\s*크고/g, '추진력이 강하고'],
+      [/감정\s*기복이\s*크지만/g, '감정은 비교적 안정되어 있지만'],
+      [/감정\s*기복이\s*크/g, '감정 기복이 적'],
+      [/\bhighly anxious\b/gi, 'careful and thorough'],
+      [/\bhigh anxiety\b/gi, 'careful attention to risk'],
+      [/\balta ansiedad\b/gi, 'atención cuidadosa al riesgo']
+    ];
+    const spans = [];
+    let last = 0, cut;
+    const reCut = /(?<=[.!?]|다\.|요\.|죠\.|니다\.|습니다\.)\s+/g;
+    const parts = [];
+    let prev = 0, mm;
+    while ((mm = reCut.exec(text))) {
+      parts.push([prev, mm.index + mm[0].length]);
+      prev = mm.index + mm[0].length;
+    }
+    parts.push([prev, text.length]);
+    let out = '';
+    for (const [a, b] of parts) {
+      let s = text.slice(a, b);
+      if (!(ABOUT_OTHER.test(s) && !ABOUT_SELF.test(s))) {
+        for (const [re, rep] of pairs) s = s.replace(re, rep);
+      }
+      out += s;
+    }
+    text = out;
+  }
+  return text;
+}
+
 function fixTraitPctDeep(obj, scores, code) {
   if (typeof obj === 'string') return fixTraitPct(obj, scores, code);
   if (Array.isArray(obj)) return obj.map(x => fixTraitPctDeep(x, scores, code));
