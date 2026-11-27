@@ -917,8 +917,18 @@ const BLOG_POSTS = [
   },
   {
     lang: 'en',
+    path: '/en/blog/conscientiousness-at-work-job-search/',
+    lastmod: '2026-11-27',
+    datePublished: '2026-11-27',
+    dateLabel: 'November 27, 2026',
+    kicker: 'Guide',
+    title: 'Conscientiousness at Work: What a High (or Low) Score Should Change About Your Job Search',
+    excerpt: 'Conscientiousness is the Big Five trait most consistently linked to job performance, but your score is not a verdict. See what a high or low score should change about how you search.',
+  },
+  {
+    lang: 'en',
     path: '/en/blog/interpret-big-five-scores/',
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-27',
     datePublished: '2026-11-18',
     dateLabel: 'November 18, 2026',
     kicker: 'Guide',
@@ -928,7 +938,7 @@ const BLOG_POSTS = [
   {
     lang: 'en',
     path: '/en/blog/big-five-personality-test-for-careers/',
-    lastmod: '2026-11-25',
+    lastmod: '2026-11-27',
     datePublished: '2026-11-14',
     dateLabel: 'November 14, 2026',
     kicker: 'Career guide',
@@ -940,7 +950,7 @@ const BLOG_POSTS = [
 const BLOG_URLS = [
   { loc: SITE + '/blog/', lastmod: '2026-11-25', pair: SITE + '/en/blog/' },
   ...BLOG_POSTS.map((p) => ({ loc: SITE + p.path, lastmod: p.lastmod })),
-  { loc: SITE + '/en/blog/', lastmod: '2026-11-25', pairKo: SITE + '/blog/' },
+  { loc: SITE + '/en/blog/', lastmod: '2026-11-27', pairKo: SITE + '/blog/' },
 ];
 
 function buildSitemap() {
