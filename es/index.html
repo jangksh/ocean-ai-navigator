@@ -1593,7 +1593,6 @@ html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform:
 }
 .sns-section-title { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.3px; }
 .sns-section-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
-.sns-btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .sns-btn {
   display: flex; align-items: center; gap: 8px;
   padding: 11px 18px; border-radius: 12px;
@@ -1736,6 +1735,111 @@ html[lang="es"] #screen-jobs .ts-label { letter-spacing: 0.06em; text-transform:
   box-shadow: var(--shadow-sm);
 }
 .v2-section-body { font-size: 20px; line-height: 1.8; color: var(--text-primary); }
+
+/* ══ 결과지 A안 (2026-11) — 짧고 읽기 쉬운 결과 화면 ══
+   본문 16px / 줄간격 1.6, 카드 패딩 18px, 카드 간격 12px. 접힌 상세는 <details>. */
+#resultsContent.ra { max-width: 560px; padding: 12px 14px 8px; font-size: 16px; line-height: 1.6; }
+#resultsContent.ra .ra-card {
+  background: #fff; border: 1px solid var(--card-border); border-radius: 18px;
+  padding: 18px; margin: 0 0 12px; box-shadow: var(--shadow-sm);
+}
+#resultsContent.ra .ra-h { font-size: 17px; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.35; }
+#resultsContent.ra .ra-muted { color: var(--text-secondary); }
+.ra-clamp1, .ra-clamp2, .ra-clamp3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.ra-clamp1 { -webkit-line-clamp: 1; } .ra-clamp2 { -webkit-line-clamp: 2; } .ra-clamp3 { -webkit-line-clamp: 3; }
+.ra-more { background: none; border: 0; padding: 6px 0 0; color: #7048E8; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; }
+
+/* 유형 카드 */
+#resultsContent.ra .ra-banner { position: relative; overflow: hidden; display: flex; flex-direction: row; text-align: left; gap: 14px; align-items: center; padding: 18px; min-height: 0; margin: 0 0 12px; border-radius: 18px; box-shadow: var(--shadow-sm); }
+.ra-emoji { position: relative; z-index: 1; flex-shrink: 0; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; color: #fff; }
+.ra-banner .rb-content { min-width: 0; }
+.ra-banner .rb-job-pill { font-size: 11.5px; letter-spacing: 0; text-transform: none; padding: 3px 10px; margin: 0 0 6px; flex-wrap: wrap; }
+.ra-banner .rb-name { font-size: 22px; line-height: 1.25; letter-spacing: -0.4px; margin: 0 0 2px; }
+.ra-banner .rb-persona-title { font-size: 13.5px; font-weight: 700; opacity: .85; margin: 0; }
+.ra-banner .rb-tagline { font-size: 14px; line-height: 1.45; margin: 2px 0 0; max-width: none; }
+
+/* 점수 카드: 레이더 + 막대 */
+#resultsContent.ra .ra-scores { padding: 14px 16px; display: block; }
+.ra-scores-head { width: 100%; }
+.ra-scores-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ra-scores-head .ra-h { margin: 0; }
+.ra-scores-head small { font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
+.ra-scores canvas { display: block; margin: 2px auto 4px; width: 100%; max-width: 300px; height: auto; aspect-ratio: 340 / 260; }
+.ra-bars { display: grid; grid-template-columns: max-content 1fr auto auto; align-items: center; column-gap: 8px; row-gap: 12px; font-size: 14px; margin-top: 4px; }
+.ra-bar { display: contents; }
+.ra-bar-l { font-weight: 700; white-space: nowrap; min-width: 64px; }
+.ra-bar-t { height: 10px; min-width: 60px; background: #F1F3F5; border-radius: 99px; overflow: hidden; }
+.ra-bar-t i { display: block; height: 100%; width: 0; border-radius: 99px; transition: width .8s ease; }
+.ra-bar-p { min-width: 38px; text-align: right; font-weight: 800; }
+.ra-badge { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 99px; white-space: nowrap; }
+
+/* 공유 아이콘 한 줄 */
+#resultsContent.ra .ra-share { padding: 12px 14px; text-align: center; }
+.ra-share-title { font-size: 13.5px; font-weight: 700; margin-bottom: 8px; }
+.ra-share-row { display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; }
+#resultsContent.ra .ra-share-row .sns-btn { width: 44px; height: 44px; min-width: 0; padding: 0; border-radius: 50%; justify-content: center; flex: 0 0 44px; gap: 0; }
+#resultsContent.ra .ra-share-row .sns-btn svg { width: 19px; height: 19px; }
+
+/* 공감 리포트 */
+#resultsContent.ra .insight-text { font-size: 16px; line-height: 1.6; }
+
+/* 강점 | 보완 탭 */
+.ra-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.ra-tab { flex: 1; text-align: center; padding: 8px 4px; border-radius: 10px; background: #F1F3F5; font-weight: 700; font-size: 14px; cursor: pointer; border: 0; font-family: inherit; color: #495057; }
+.ra-tab.on { background: #7048E8; color: #fff; }
+.ra-list { margin: 0; padding-left: 18px; }
+.ra-list li { margin: 4px 0; font-size: 15.5px; line-height: 1.55; }
+
+/* 이메일 카드 */
+#resultsContent.ra .sub-card { padding: 16px; margin: 0 0 12px; border-radius: 18px; text-align: left; }
+#resultsContent.ra .sub-title { font-size: 16px; line-height: 1.4; }
+#resultsContent.ra .sub-sub { font-size: 14px; margin-bottom: 10px; }
+#resultsContent.ra .sub-form { max-width: none; flex-direction: row; }
+#resultsContent.ra .sub-form button { width: auto; padding: 0 14px; }
+.sub-fine-fold { margin-top: 6px; font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; }
+.sub-fine-fold > summary { list-style: none; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub-fine-fold > summary::-webkit-details-marker { display: none; }
+.sub-fine-fold a { color: inherit; text-decoration: underline; }
+.sub-fine-fold > div { padding-top: 4px; }
+
+/* AI 섹션 */
+.ra-ai-main { background: #F3F0FF; border-radius: 12px; padding: 12px; }
+.ra-ai-main .ai-tool-link { font-size: 16px; font-weight: 800; }
+.ra-ai-tag { font-size: 14px; color: var(--text-secondary); }
+.ra-ai-guide { font-size: 15px; margin-top: 6px; line-height: 1.55; }
+.ra-mini { margin-top: 4px; font-size: 14px; }
+.ra-mini > summary { color: #7048E8; font-weight: 700; cursor: pointer; padding: 4px 0; }
+.ra-mini > div { padding: 2px 0 4px; font-size: 14.5px; line-height: 1.55; }
+.ra-mini .v2-prompt-box { font-size: 14px; margin-top: 4px; }
+.ra-chips-label { margin: 10px 0 2px; font-size: 13px; color: var(--text-secondary); }
+.ra-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ra-chip { background: #F1F3F5; border-radius: 14px; font-size: 13.5px; max-width: 100%; }
+.ra-chip > summary { list-style: none; cursor: pointer; padding: 5px 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ra-chip > summary::-webkit-details-marker { display: none; }
+.ra-chip[open] { flex-basis: 100%; }
+.ra-chip[open] > summary { white-space: normal; }
+.ra-chip > div { padding: 0 11px 10px; font-size: 14px; line-height: 1.55; }
+
+/* 하단 접기 3개 */
+.ra-fold { background: #fff; border: 1px solid var(--card-border); border-radius: 14px; margin: 0 0 8px; padding: 0 16px; box-shadow: var(--shadow-sm); }
+.ra-fold > summary { padding: 13px 0; font-weight: 700; font-size: 15.5px; cursor: pointer; }
+.ra-fold > div { padding-bottom: 14px; font-size: 15px; line-height: 1.6; }
+.ra-fold .op-dim-row { margin: 0 0 10px; padding: 0; }
+.ra-trait { margin: 8px 0; }
+.ra-trait b { display: block; }
+
+/* 마무리 버튼 */
+.ra-end { margin-top: 12px; }
+.ra-btn { display: block; width: 100%; text-align: center; padding: 13px; border-radius: 12px; font-weight: 800; font-size: 15px; border: 0; margin-top: 8px; font-family: inherit; text-decoration: none; cursor: pointer; }
+.ra-btn.p { background: #2B7FFF; color: #fff; }
+.ra-btn.s { background: #fff; color: var(--text-primary); box-shadow: 0 0 0 1px var(--card-border); }
+.ra-home { display: block; text-align: center; margin: 10px auto 0; font-size: 13px; color: var(--text-secondary); background: none; border: 0; cursor: pointer; font-family: inherit; text-decoration: underline; }
+#resultsContent.ra .disclaimer { font-size: 11.5px; line-height: 1.5; margin-top: 14px; }
+@media (min-width: 600px) {
+  #resultsContent.ra { font-size: 17px; }
+  #resultsContent.ra .insight-text { font-size: 17px; }
+  .ra-banner .rb-name { font-size: 26px; }
+}
 
 /* ── Tools match description ── */
 .tools-match-desc {
@@ -3124,6 +3228,7 @@ const STRINGS = {
     js_start: '결과 보기 →',
     footer_contact: '문의',
     disclaimer: 'Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작. 본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다.',
+    shareTitle: '친구도 해보고 OCEAN 비교하기', shareSub: '링크를 받은 친구가 테스트를 마치면, 두 사람의 성향을 나란히 볼 수 있어요. 무료 · 약 3분.',
     about_back: '← 테스트로 돌아가기',
     about_hero_label: '📖 심리학 기반 신뢰 지표',
     about_h2: 'Big 5 OCEAN이란<br>무엇인가?',
@@ -4854,7 +4959,8 @@ function subscribeCardHTML(code, typeName) {
   if (!subEnabled()) return '';
   const priv = window.LANG === 'ko' ? '/privacy/' : window.LANG === 'es' ? '/es/privacy/' : '/en/privacy/';
   const title = L('📬 내 유형의 AI 활용 가이드를 메일로 받아보세요', '📬 Get your AI guide by email', '📬 Recibe por correo la guía de IA de tu tipo');
-  const sub = L('5일 동안 하루 한 통씩 짧은 강의, 이후 10주 동안 매주 한 통씩 내 유형에 맞춘 팁을 보내드립니다. 무료이고 언제든 취소할 수 있습니다.',
+  const sub = L('5일 강의 + 10주 맞춤 팁, 무료 · 언제든 취소', 'Five daily lessons + 10 weekly tips. Free, unsubscribe anytime.', 'Cinco lecciones + 10 consejos semanales. Gratis, cancela cuando quieras.');
+  const subLong = L('5일 동안 하루 한 통씩 짧은 강의, 이후 10주 동안 매주 한 통씩 내 유형에 맞춘 팁을 보내드립니다. 무료이고 언제든 취소할 수 있습니다.',
                 'Five short daily lessons, then one tip a week for 10 weeks, written for your type. Free. Unsubscribe anytime.',
                 'Cinco lecciones diarias cortas y, después, un consejo a la semana durante 10 semanas, escrito para tu tipo. Es gratis y puedes cancelar cuando quieras.');
   setTimeout(() => track('subscribe_view', Object.assign({ persona_code: code, preview: SUB_PREVIEW ? 1 : 0 }, jobParams())), 0);
@@ -4872,7 +4978,7 @@ function subscribeCardHTML(code, typeName) {
       <button type="submit">${L('가이드 받기', 'Send me the guide', 'Quiero la guía')}</button>
     </form>
     <div class="sub-msg" id="subMsg" role="status" aria-live="polite"></div>
-    <div class="sub-fine">${L('신청하시면 확인 메일을 보내드립니다. 받은편지함이나 스팸함에서 메일을 연 뒤 링크를 눌러 구독을 완료해 주세요. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'We\'ll email you a confirmation. Open it from your inbox or spam folder and click the link to confirm. Your email is used only for this series, and you can unsubscribe anytime.', 'Te enviaremos un correo de confirmación. Ábrelo en tu bandeja o en spam y haz clic en el enlace para confirmar. Lo usamos solo para esta serie y puedes cancelar cuando quieras.')} <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy', 'Privacidad')}</a></div>
+    <details class="sub-fine-fold" ontoggle="if(this.open)track('detail_open',{section:'email_fine_print'})"><summary>${L('확인 메일의 링크를 눌러야 구독이 완료돼요', 'Confirm via the link in our email to finish', 'Confirma con el enlace del correo para terminar')} · <a href="${priv}" target="_blank" rel="noopener">${L('개인정보 안내', 'Privacy', 'Privacidad')}</a> ▾</summary><div>${subLong} ${L('신청하시면 확인 메일을 보내드립니다. 받은편지함이나 스팸함에서 메일을 연 뒤 링크를 눌러 구독을 완료해 주세요. 이메일은 이 시리즈 발송에만 사용하며, 언제든 구독을 취소할 수 있습니다.', 'We\'ll email you a confirmation. Open it from your inbox or spam folder and click the link to confirm. Your email is used only for this series, and you can unsubscribe anytime.', 'Te enviaremos un correo de confirmación. Ábrelo en tu bandeja o en spam y haz clic en el enlace para confirmar. Lo usamos solo para esta serie y puedes cancelar cuando quieras.')}</div></details>
   </div>`;
 }
 function subReset() { try { localStorage.removeItem('ocean_sub'); } catch (e) {} if (window._lastScores) renderResults(window._lastScores); }
@@ -4906,6 +5012,228 @@ async function submitSubscribe(ev) {
   }
 }
 
+const TRAIT_PCT_LABELS = [
+  [/정서\s?적?\s?안정성|emotional stability|estabilidad emocional|안정성|stability|estabilidad/i, 'N'],
+  [/신경증|신경성|정서적\s?민감성|neuroticism|neuroticismo|sensibilidad/i, '~N'],
+  [/개방성|openness|apertura/i, 'O'],
+  [/성실성|성실함|계획성|양심성|신중함|신중성|conscientiousness|responsabilidad/i, 'C'],
+  [/내향성|introversion|introversión/i, '~E'],
+  [/외향성|사교성|extraversion|extroversion|extraversión/i, 'E'],
+  [/친화성|우호성|협력성|협력심|친화력|agreeableness|amabilidad/i, 'A']
+];
+const TRAIT_PCT_ANY = new RegExp(TRAIT_PCT_LABELS.map(l => l[0].source).join('|'), 'gi');
+function traitKeyOf(label) {
+  for (const [re, k] of TRAIT_PCT_LABELS) if (new RegExp('^(?:' + re.source + ')$', 'i').test(label)) return k;
+  return null;
+}
+function fixTraitPct(text, scores, code) {
+  if (!text || typeof text !== 'string' || !scores) return text;
+  const val = (k, n) => {
+    if (k === '~N') return 100 - scores.N;
+    if (k === '~E') return 100 - scores.E;
+    if (k === 'N*') { // 글자 N 만 있을 때: 코드의 안정성 방향과 맞으면 안정성, 반대면 신경증
+      const stable = code ? code[4] === '1' : scores.N >= 50;
+      return ((n >= 50) === stable) ? scores.N : 100 - scores.N;
+    }
+    return scores[k];
+  };
+  text = text.replace(/(\d{1,3})(\s?%)/g, (m, num, pct, off) => {
+    const n = +num;
+    if (n > 100) return m;
+    const pre = text.slice(Math.max(0, off - 40), off);
+    // 1) O95%, C 92%, A:98%, (N:85%)
+    const lm = pre.match(/(?:^|[^A-Za-z])([OCEAN])\s?[:(]?\s?$/);
+    if (lm) {
+      let k = lm[1];
+      if (k === 'N') { // 앞 문맥이 불안/신경증이면 100-N, 안정이면 N, 아니면 코드 방향으로 추정
+        const near = pre.slice(-16);
+        k = /불안|신경|예민|걱정|민감|neurot|anxi|ansie/i.test(near) ? '~N' : /안정|침착|stabil|estabil/i.test(near) ? 'N' : 'N*';
+      }
+      const v = val(k, n); return v == null ? m : v + pct;
+    }
+    // 2) "95%의 성실성", "45%의 신경증", "95% de apertura": 숫자 바로 뒤 특성 이름이 우선
+    const post = text.slice(off + m.length, off + m.length + 30);
+    const fwd = () => { TRAIT_PCT_ANY.lastIndex = 0; const f = TRAIT_PCT_ANY.exec(post); if (f && f.index <= 5) { const k = traitKeyOf(f[0]); return k ? val(k, n) : null; } return null; };
+    if (/^\s?(?:의|of|de)\s/i.test(post)) { const v = fwd(); if (v != null) return v + pct; }
+    // 3) 특성 이름 뒤 가까이 (성실성 88%, 정서 안정성이 낮아(25%), conscientiousness 32%)
+    let last = null, r; TRAIT_PCT_ANY.lastIndex = 0;
+    while ((r = TRAIT_PCT_ANY.exec(pre))) last = r;
+    if (last) {
+      const gap = pre.slice(last.index + last[0].length).replace(/<[^>]+>/g, '');
+      if (gap.length <= 14 && !/[\d%.!?;]/.test(gap)) {
+        const k = traitKeyOf(last[0]); const v = k && val(k, n);
+        if (v != null) return v + pct;
+      }
+    }
+    // 4) 그 밖에 숫자 바로 뒤 특성 이름 ("95% 개방성")
+    { const v = fwd(); if (v != null) return v + pct; }
+    return m;
+  });
+  return fixTraitWording(text, scores, code);
+}
+
+// 특성 방향(높/낮, high/low 등)이 실제 점수나 유형 코드와 반대면 바로잡는다.
+// 예: 안정형인데 "불안감이 높아", 친화성 높은 유형인데 "88% 낮은 친화성".
+function fixTraitWording(text, scores, code) {
+  if (!text || typeof text !== 'string') return text;
+  const scoreOf = (k) => {
+    if (scores && scores[k] != null && isFinite(Number(scores[k]))) return Number(scores[k]);
+    if (!code) return null;
+    const idx = { O: 0, C: 1, E: 2, A: 3, N: 4 }[k];
+    return idx == null ? null : (code[idx] === '1' ? 70 : 30);
+  };
+  const isHigh = (k) => { const v = scoreOf(k); return v == null ? null : v >= 50; };
+  const wantHigh = (key) => key === 'Neu' ? (isHigh('N') === false) : isHigh(key);
+  const keyOfKo = (name) => {
+    if (/신경/.test(name)) return 'Neu';
+    if (/안정/.test(name)) return 'N';
+    if (/개방/.test(name)) return 'O';
+    if (/성실/.test(name)) return 'C';
+    if (/외향/.test(name)) return 'E';
+    if (/친화/.test(name)) return 'A';
+    return null;
+  };
+  const flipKoPol = (pol, want) => {
+    const pairs = want
+      ? [['낮은','높은'],['낮아서','높아서'],['낮아도','높아도'],['낮지만','높지만'],['낮고','높고'],['낮게','높게'],['낮음','높음'],['낮아','높아'],['낮','높']]
+      : [['높은','낮은'],['높아서','낮아서'],['높아도','낮아도'],['높지만','낮지만'],['높고','낮고'],['높게','낮게'],['높음','낮음'],['높아','낮아'],['높','낮']];
+    for (const [a, b] of pairs) if (pol.startsWith(a)) return b + pol.slice(a.length);
+    return pol;
+  };
+  const traits = '개방성|성실성|외향성|친화성|정서\\s*적?\\s*안정성|안정성|신경성|신경증';
+  text = text.replace(new RegExp('(높은|낮은)\\s*(' + traits + ')', 'g'), (m, pol, name) => {
+    const want = wantHigh(keyOfKo(name));
+    if (want == null) return m;
+    if (pol.startsWith('높') === want) return m;
+    return flipKoPol(pol, want) + ' ' + name;
+  });
+  text = text.replace(new RegExp('(' + traits + ')((?:이|은|도)?(?:\\s*매우)?\\s*)(높(?:아서|아도|지만|고|게|음|아)?|낮(?:아서|아도|지만|고|게|음|아)?)', 'g'), (m, name, mid, pol) => {
+    const want = wantHigh(keyOfKo(name));
+    if (want == null) return m;
+    if (pol.startsWith('높') === want) return m;
+    return name + mid + flipKoPol(pol, want);
+  });
+
+  const flipCase = (orig, next) => orig[0] === orig[0].toUpperCase() ? next[0].toUpperCase() + next.slice(1) : next;
+  const enRules = [
+    [/\b(high|low)(\s+in)?(\s+)(openness)\b/gi, 'O'],
+    [/\b(high|low)(\s+in)?(\s+)(conscientiousness)\b/gi, 'C'],
+    [/\b(high|low)(\s+in)?(\s+)(extraversion)\b/gi, 'E'],
+    [/\b(high|low)(\s+in)?(\s+)(agreeableness)\b/gi, 'A'],
+    [/\b(high|low)(\s+in)?(\s+)(emotional\s+stability)\b/gi, 'N'],
+    [/\b(high|low)(\s+in)?(\s+)(neuroticism)\b/gi, 'Neu']
+  ];
+  for (const [re, key] of enRules) {
+    text = text.replace(re, (m, pol, inn, sp, name) => {
+      const want = wantHigh(key);
+      if (want == null) return m;
+      const saidHigh = pol.toLowerCase() === 'high';
+      if (saidHigh === want) return m;
+      return flipCase(pol, want ? 'high' : 'low') + (inn || '') + (sp || ' ') + name;
+    });
+  }
+  const esNoun = [
+    ['apertura', 'O'], ['responsabilidad', 'C'], ['extraversi[oó]n', 'E'],
+    ['amabilidad', 'A'], ['estabilidad(?:\\s+emocional)?', 'N'], ['neuroticismo', 'Neu']
+  ];
+  for (const [noun, key] of esNoun) {
+    text = text.replace(new RegExp('\\b(alta|alto|baja|bajo)(\\s+)(' + noun + ')\\b', 'gi'), (m, pol, sp, name) => {
+      const want = wantHigh(key);
+      if (want == null) return m;
+      const saidHigh = /^alt/i.test(pol);
+      if (saidHigh === want) return m;
+      const fem = /a$/i.test(pol);
+      const next = want ? (fem ? 'alta' : 'alto') : (fem ? 'baja' : 'bajo');
+      return flipCase(pol, next) + sp + name;
+    });
+    text = text.replace(new RegExp('\\b(' + noun + ')(\\s+)(muy\\s+)?(alta|alto|baja|bajo)\\b', 'gi'), (m, name, sp, muy, pol) => {
+      const want = wantHigh(key);
+      if (want == null) return m;
+      const saidHigh = /^alt/i.test(pol);
+      if (saidHigh === want) return m;
+      const fem = /a$/i.test(pol);
+      const next = want ? (fem ? 'alta' : 'alto') : (fem ? 'baja' : 'bajo');
+      return name + sp + (muy || '') + flipCase(pol, next);
+    });
+  }
+
+
+  // 높/낮를 고친 뒤에도 원인-결과가 반대로 남는 문장만 최소 수정
+  text = text.replace(/공감 부족:(\s*(?:\d+%\s*)?높은 친화성)/g, '관계 살피기:$1');
+  text = text.replace(/높은 친화성으로 인해 팀 내 유대가 약할 수 있으니/g, '높은 친화성을 팀 유대에 더 자주 쓰되');
+  text = text.replace(/높은 친화성으로 ([^,]{2,40})를 간과하기 쉬우니/g, '높은 친화성으로 $1를 더 자주 살피되');
+  text = text.replace(/정서\s*적?\s*안정성이\s*높아\s*불안한/g, '정서 안정성이 높아 침착한');
+  text = text.replace(/정서\s*적?\s*안정성이 높아서 ([^.]{0,80})밤새 걱정하고/g, '정서 안정성이 높아서 $1중심을 잡고');
+  text = text.replace(/낮은 개방성(\([^)]*\))?으로 아무도 시도하지 않은 ([^을를]{2,30})을 거침없이 전개하고/g, '낮은 개방성$1으로 검증된 $2을 차근히 다듬고');
+  text = text.replace(/낮은 개방성(\([^)]*\))?으로 트렌드에 민감하고/g, '낮은 개방성$1으로 검증된 방식을 선호하고');
+  text = text.replace(/낮은 개방성(\([^)]*\))?으로 새로운 ([^을를]{2,30})을 끊임없이 시도하고/g, '낮은 개방성$1으로 검증된 $2을 안정적으로 활용하고');
+
+  if (isHigh('N') === true) {
+    const ABOUT_OTHER = /학생|친구들|친구의|친구가\s|팀원|고객|아이(?:들)?|학부모|상대방|반 친구|김철수/;
+    const ABOUT_SELF = /당신|당신은|당신이|your\b|you\b|tú\b|\btu\b/i;
+    const pairs = [
+      [/높은\s*불안감이/g, '세심한 관찰력이'],
+      [/높은\s*불안감과/g, '세심한 관찰력과'],
+      [/높은\s*불안감을/g, '세심한 위험 감지를'],
+      [/높은\s*불안감은/g, '세심한 관찰력은'],
+      [/높은\s*불안감/g, '세심한 위험 감지'],
+      [/불안감이\s*높아서/g, '빈틈없이 대비하려고'],
+      [/불안감이\s*높은(?!\s*날)/g, '신중한'],
+      [/불안감이\s*높아(?!\s*날)/g, '신중해서'],
+      [/불안이\s*높아서/g, '빈틈없이 대비하려고'],
+      [/감정\s*기복이\s*크고/g, '추진력이 강하고'],
+      [/감정\s*기복이\s*크지만/g, '감정은 비교적 안정되어 있지만'],
+      [/감정\s*기복이\s*크/g, '감정 기복이 적'],
+      [/\bhighly anxious\b/gi, 'careful and thorough'],
+      [/\bhigh anxiety\b/gi, 'careful attention to risk'],
+      [/\balta ansiedad\b/gi, 'atención cuidadosa al riesgo']
+    ];
+    const spans = [];
+    let last = 0, cut;
+    const reCut = /(?<=[.!?]|다\.|요\.|죠\.|니다\.|습니다\.)\s+/g;
+    const parts = [];
+    let prev = 0, mm;
+    while ((mm = reCut.exec(text))) {
+      parts.push([prev, mm.index + mm[0].length]);
+      prev = mm.index + mm[0].length;
+    }
+    parts.push([prev, text.length]);
+    let out = '';
+    for (const [a, b] of parts) {
+      let s = text.slice(a, b);
+      if (!(ABOUT_OTHER.test(s) && !ABOUT_SELF.test(s))) {
+        for (const [re, rep] of pairs) s = s.replace(re, rep);
+      }
+      out += s;
+    }
+    text = out;
+  }
+  return text;
+}
+
+function fixTraitPctDeep(obj, scores, code) {
+  if (typeof obj === 'string') return fixTraitPct(obj, scores, code);
+  if (Array.isArray(obj)) return obj.map(x => fixTraitPctDeep(x, scores, code));
+  if (obj && typeof obj === 'object') { const o = {}; for (const k in obj) o[k] = fixTraitPctDeep(obj[k], scores, code); return o; }
+  return obj;
+}
+
+// 결과지 A안 UI 토글
+function raTab(btn) {
+  const card = btn.closest('.ra-card'); if (!card) return;
+  const n = btn.dataset.n;
+  card.querySelectorAll('.ra-tab').forEach(b => { const on = b.dataset.n === n; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
+  card.querySelectorAll('.ra-list').forEach(u => { u.style.display = u.dataset.n === n ? '' : 'none'; });
+  if (n === '2') track('detail_open', { section: 'growth' });
+}
+function raToggleInsight(btn) {
+  const el = document.getElementById('raInsight'); if (!el) return;
+  const open = el.classList.toggle('ra-clamp3') === false;
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  btn.textContent = open ? L('접기 ▴', 'Show less ▴', 'Ver menos ▴') : L('더 보기 ▾', 'Read more ▾', 'Leer más ▾');
+  if (open) track('detail_open', { section: 'insight' });
+}
+
 function renderResults(scores) {
   window._lastScores = scores;
   const code = scoresToCode(scores);
@@ -4936,12 +5264,13 @@ function renderResults(scores) {
 
   // v2 enriched data lookup
   const v2Key = String(selectedJob).padStart(2, '0') + '_' + code;
-  const v2 = locMode ? (locJob && locJob.v2 ? locJob.v2 : null) : (OCEAN_V2_DATA[v2Key] || null);
+  // 템플릿 본문의 예시 점수(%)는 사용자의 실제 점수로 바꿔서 보여준다 (fixTraitPctDeep)
+  const v2 = fixTraitPctDeep(locMode ? (locJob && locJob.v2 ? locJob.v2 : null) : (OCEAN_V2_DATA[v2Key] || null), scores, code);
   const enNoJob = locMode && !locJob;
 
   const insightText = v2
     ? v2.insight_v2
-    : (jobPersona ? jobPersona.insight : (locMode ? (master.insight || master.summary) : `${job?.icon} ${job?.label} 분야에서 활동하시는 <strong>'${master.name}'</strong> 유형이군요! ${master.summary}`));
+    : (jobPersona ? fixTraitPct(jobPersona.insight, scores, code) : (locMode ? (master.insight || master.summary) : `${job?.icon} ${job?.label} 분야에서 활동하시는 <strong>'${master.name}'</strong> 유형이군요! ${master.summary}`));
 
   const personaTitle = jobPersona?.title || null;
   const _rec = (PERSONA_AI_REC[code] || 'ChatGPT').split(' + ');
@@ -4964,131 +5293,99 @@ function renderResults(scores) {
     </div>
   `).join('');
 
-  // OCEAN strength profile rows
-  const oceanProfileRows = OCEAN_DIM_META.map((dim, i) => {
+  // ── 결과지 A안: 첫 화면에 5개 특성 막대(%) ──
+  const dimLabel = (dim, i) => locMode ? pack.dims[i].label : dim.label;
+  const barLabel = (dim, i) => locMode ? ((pack.dimShort && pack.dimShort[i]) || pack.dims[i].label) : dim.label;
+  const traitBars = OCEAN_DIM_META.map((dim, i) => {
     const isHigh = code[i] === '1';
     const pct = scores[dim.key];
-    const insight = locMode ? (isHigh ? pack.dims[i].hi : pack.dims[i].lo) : (isHigh ? dim.highInsight : dim.lowInsight);
+    const col = barColors[dim.key];
     const badge = locMode ? (isHigh ? U.strengthBadge : U.growBadge) : (isHigh ? '강점' : '보완');
-    const badgeBg = isHigh ? barColors[dim.key] + '18' : '#F1F3F5';
-    const badgeColor = isHigh ? barColors[dim.key] : '#888';
-    return `
-      <div class="op-dim-row">
-        <div class="op-dim-icon">${dim.icon}</div>
-        <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span class="op-dim-label" style="color:${barColors[dim.key]}">${locMode ? pack.dims[i].label : dim.label}</span>
-            <span class="op-insight-badge" style="background:${badgeBg};color:${badgeColor}">${badge}</span>
-            <div class="op-dim-bar-wrap" style="flex:1">
-              <div class="op-dim-bar-fill" style="width:0%;background:${barColors[dim.key]}" data-pct="${pct}"></div>
-            </div>
-            <span class="op-dim-pct" style="color:${barColors[dim.key]}">${pct}%</span>
-          </div>
-          <div class="op-dim-insight">${insight}</div>
-        </div>
-      </div>`;
+    return `<div class="ra-bar"><span class="ra-bar-l" style="color:${col}">${barLabel(dim, i)}</span><span class="ra-bar-t"><i class="op-dim-bar-fill" style="background:${col}" data-pct="${pct}"></i></span><span class="ra-bar-p" style="color:${col}">${pct}%</span><span class="ra-badge" style="background:${isHigh ? col + '18' : '#F1F3F5'};color:${isHigh ? col : '#888'}">${badge}</span></div>`;
   }).join('');
 
-  // ── v2 strengths & growth sections ──
+  // 특성별 상세 (접힘)
+  const traitDetails = OCEAN_DIM_META.map((dim, i) => {
+    const isHigh = code[i] === '1';
+    const insight = locMode ? (isHigh ? pack.dims[i].hi : pack.dims[i].lo) : (isHigh ? dim.highInsight : dim.lowInsight);
+    return `<p class="ra-trait"><b style="color:${barColors[dim.key]}">${dim.icon} ${dimLabel(dim, i)} ${scores[dim.key]}%</b>${insight}</p>`;
+  }).join('');
+
+  // ── 강점 | 보완 탭 (각 3개까지) ──
+  const raItem = s => {
+    const m = String(s).match(/^([^:：]{2,40})[:：]\s*([\s\S]*)$/);
+    return m ? `<li><b>${m[1]}</b> ${m[2]}</li>` : `<li>${s}</li>`;
+  };
   const v2StrengthsSection = v2 && v2.strengths?.length ? `
-    <div class="ocean-profile-section fade-up-d2">
-      <div class="section-title" style="margin-bottom:16px">✅ ${L('핵심 강점', U.strengths)}</div>
-      <ul class="v2-list">
-        ${v2.strengths.map(s => `<li class="v2-list-item"><div class="v2-dot" style="background:#0CA678"></div><span>${s}</span></li>`).join('')}
-      </ul>
-    </div>
-    <div class="ocean-profile-section fade-up-d2">
-      <div class="section-title" style="margin-bottom:16px">🔧 ${L('보완 포인트', U.growth)}</div>
-      <ul class="v2-list">
-        ${(v2.growth_points||[]).map(g => `<li class="v2-list-item"><div class="v2-dot" style="background:#F59F00"></div><span>${g}</span></li>`).join('')}
-      </ul>
+    <div class="ra-card ocean-profile-section fade-up-d2" id="raSG">
+      <div class="ra-tabs" role="tablist">
+        <button class="ra-tab on" role="tab" aria-selected="true" data-n="1" onclick="raTab(this)">✅ ${L('핵심 강점', U.strengths)}</button>
+        ${(v2.growth_points || []).length ? `<button class="ra-tab" role="tab" aria-selected="false" data-n="2" onclick="raTab(this)">🔧 ${L('보완 포인트', U.growth)}</button>` : ''}
+      </div>
+      <ul class="ra-list" data-n="1">${v2.strengths.slice(0, 3).map(raItem).join('')}</ul>
+      <ul class="ra-list" data-n="2" style="display:none">${(v2.growth_points || []).slice(0, 3).map(raItem).join('')}</ul>
     </div>` : '';
 
-  // ── Build AI prescription section ──
+  // ── AI 섹션: 메인 도구 1개 + 나머지는 한 줄 칩 ──
+  const aiTitle = `<div class="ra-h">🤖 ${L('AI 맞춤형 생존 전략', U.aiTitle)}</div>`;
+  const otherLabel = L('함께 쓰면 좋은 AI', 'Also useful for you', 'También te sirven');
   let prescriptionHTML;
   if (v2 && v2.ai_tools?.length) {
-    // v2 expandable cards — daily_guide always visible, rest in accordion
-    const aiCards = v2.ai_tools.map((t, idx) => {
-      const isMain = t.type === '메인' || t.type === 'main';
-      const badgeColor = isMain ? bannerColor : '#868E96';
-      const badgeBg = isMain ? bannerColor + '15' : '#F1F3F5';
-      const promptBlock = t.prompt_example ? `
-        <div class="v2-guide-block">
-          <div class="v2-guide-label">💬 ${L('추천 프롬프트', U.prompt)}</div>
-          <div class="v2-prompt-box">${t.prompt_example}</div>
-        </div>` : '';
-      const dailyBlock = t.daily_guide ? `
-        <div class="v2-ai-daily">
-          <div class="v2-guide-label">📱 ${L('일상 활용 가이드', U.daily)}</div>
-          <div class="v2-guide-text">${t.daily_guide}</div>
-        </div>` : '';
-      const hasAccordion = !!(t.morning_tip || t.power_use || t.prompt_example || idx > 0);
-      return `
-        <div class="v2-ai-card ${idx === 0 ? 'open' : ''}">
-          <div class="v2-ai-header" onclick="toggleV2AI(this.parentElement)">
-            <span class="v2-engine-badge" style="background:${badgeBg};color:${badgeColor}">${isMain ? 'MAIN ENGINE' : (locMode ? (t.type === 'main' ? 'MAIN ENGINE' : U.specialist) : (t.type || '전문 AI'))}</span>
-            <div class="v2-ai-name">${makeAILink(t.name)}</div>
-            <div class="v2-ai-tagline">${t.tagline || ''}</div>
-            ${hasAccordion ? '<div class="v2-expand-icon">▾</div>' : ''}
-          </div>
-          ${idx === 0 ? dailyBlock : ''}
-          ${hasAccordion || dailyBlock ? `<div class="v2-ai-body">
-            ${idx === 0 ? '' : dailyBlock}
-            ${t.morning_tip ? `<div class="v2-guide-block"><div class="v2-guide-label">☀️ ${L('아침 루틴 활용법', U.morning)}</div><div class="v2-guide-text">${t.morning_tip}</div></div>` : ''}
-            ${t.power_use ? `<div class="v2-guide-block"><div class="v2-guide-label">⚡ ${L('이 성향을 위한 파워 활용', U.power)}</div><div class="v2-guide-text">${t.power_use}</div></div>` : ''}
-            ${promptBlock}
-          </div>` : ''}
-        </div>`;
-    }).join('');
+    const mainIdx = Math.max(0, v2.ai_tools.findIndex(t => t.type === '메인' || t.type === 'main'));
+    const main = v2.ai_tools[mainIdx];
+    const others = v2.ai_tools.filter((_, i) => i !== mainIdx);
+    const tips = [
+      main.morning_tip ? `<div>☀️ <b>${L('아침 루틴 활용법', U.morning)}</b><br>${main.morning_tip}</div>` : '',
+      main.power_use ? `<div style="margin-top:6px">⚡ <b>${L('이 성향을 위한 파워 활용', U.power)}</b><br>${main.power_use}</div>` : '',
+      main.prompt_example ? `<div style="margin-top:6px">💬 <b>${L('추천 프롬프트', U.prompt)}</b><div class="v2-prompt-box">${main.prompt_example}</div></div>` : ''
+    ].join('');
+    const chips = others.map(t => `
+      <details class="ra-chip" ontoggle="if(this.open)track('detail_open',{section:'ai_tool',tool_name:${JSON.stringify(String(t.name || '')).replace(/"/g, '&quot;')}})">
+        <summary>${t.name}${t.tagline ? ' · ' + t.tagline : ''}</summary>
+        <div>${makeAILink(t.name)}${t.daily_guide ? `<div style="margin-top:4px">${t.daily_guide}</div>` : ''}${t.prompt_example ? `<div class="v2-prompt-box">${t.prompt_example}</div>` : ''}</div>
+      </details>`).join('');
     prescriptionHTML = `
-      <div class="prescription-section fade-up-d3">
-        <div class="section-title" style="margin-bottom:4px">🤖 ${L('AI 맞춤형 생존 전략', U.aiTitle)}</div>
-        <div style="font-size:16px;color:var(--text-secondary);margin-bottom:16px">${L('아침 루틴 &amp; 파워 활용법은 헤더 클릭으로 펼쳐보세요 · 이름 클릭 시 해당 사이트로 이동', U.aiHint)}</div>
-        ${aiCards}
+      <div class="ra-card prescription-section fade-up-d3">
+        ${aiTitle}
+        <div class="ra-ai-main">
+          <span class="ra-badge" style="background:${bannerColor};color:#fff">MAIN</span>
+          ${makeAILink(main.name)} <span class="ra-ai-tag">${main.tagline ? '— ' + main.tagline : ''}</span>
+          ${main.daily_guide ? `<div class="ra-ai-guide ra-clamp2">📱 ${main.daily_guide}</div>` : ''}
+          ${tips ? `<details class="ra-mini" ontoggle="if(this.open)track('detail_open',{section:'ai_tips'})"><summary>${L('아침 루틴 · 파워 활용 · 추천 프롬프트', 'Morning routine · Power use · Prompt', 'Rutina matutina · Uso avanzado · Prompt')}</summary><div>${tips}</div></details>` : ''}
+        </div>
+        ${chips ? `<div class="ra-chips-label">${otherLabel}</div><div class="ra-chips">${chips}</div>` : ''}
       </div>`;
   } else {
-    // v1 fallback with links added
-    const toolCards = specialistAIs.map(ai => `
-      <div class="tool-card">
-        <div class="tool-name">${makeAILink(ai.name)}</div>
-        <div class="tool-category">${L('전문 AI 도구', U.specialistTool)}</div>
-        <div class="tool-reason">${ai.reason}</div>
-      </div>`).join('');
+    const chips = specialistAIs.map(ai => `
+      <details class="ra-chip" ontoggle="if(this.open)track('detail_open',{section:'ai_tool',tool_name:${JSON.stringify(String(ai.name || '')).replace(/"/g, '&quot;')}})">
+        <summary>${ai.name}</summary>
+        <div>${makeAILink(ai.name)}<div style="margin-top:4px">${fixTraitPct(ai.reason, scores, code)}</div></div>
+      </details>`).join('');
     prescriptionHTML = `
-      <div class="prescription-section fade-up-d3">
-        <div class="section-title" style="margin-bottom:16px">🤖 ${L('나의 AI 처방전', U.rxTitle)}</div>
-        <div class="main-engine-card">
-          <div class="rx-label">MAIN ENGINE</div>
-          <div class="engine-name">${makeAILink(mainAI.name)}</div>
-          <div class="engine-scenario">💊 <strong>${L('처방 이유:', U.rxWhy)}</strong> ${mainAI.reason}</div>
+      <div class="ra-card prescription-section fade-up-d3">
+        <div class="ra-h">🤖 ${L('나의 AI 처방전', U.rxTitle)}</div>
+        <div class="ra-ai-main">
+          <span class="ra-badge" style="background:${bannerColor};color:#fff">MAIN</span>
+          ${makeAILink(mainAI.name)}
+          <div class="ra-ai-guide ra-clamp2">💊 ${fixTraitPct(mainAI.reason, scores, code)}</div>
         </div>
-        ${toolCards ? `<div class="rx-label" style="margin-bottom:12px;padding-left:4px">SPECIALIST TOOLS</div><div class="tools-grid">${toolCards}</div>` : ''}
+        ${chips ? `<div class="ra-chips-label">${otherLabel}</div><div class="ra-chips">${chips}</div>` : ''}
       </div>`;
   }
 
-  // ── v2 synergy + daily routine ──
-  const v2SynergySection = v2?.synergy_strategy ? `
-    <div class="v2-text-section fade-up-d3">
-      <div class="section-title" style="margin-bottom:14px">🏆 ${L('AI × 성향 시너지 전략', U.synergy)}</div>
-      <div class="v2-section-body">${v2.synergy_strategy}</div>
-    </div>` : '';
+  // ── 하단 접기 3개: 특성별 상세 / 시너지 전략 / AI와 함께하는 하루 ──
+  const fold = (section, title, body) => body ? `
+    <details class="ra-fold fade-up-d3" ontoggle="if(this.open)track('detail_open',{section:'${section}'})">
+      <summary>${title}</summary><div>${body}</div>
+    </details>` : '';
+  const foldsHTML =
+    fold('traits', `🧬 ${L('특성별 상세 (5가지)', 'Trait details (5)', 'Detalle por rasgo (5)')}`, traitDetails) +
+    fold('synergy', `🏆 ${L('AI × 성향 시너지 전략', U.synergy)}`, v2?.synergy_strategy || '') +
+    fold('daily_routine', `📅 ${L('AI와 함께하는 나의 하루', U.day)}`, v2?.daily_routine || '');
 
-  const v2RoutineSection = v2?.daily_routine ? `
-    <div class="v2-text-section fade-up-d3">
-      <div class="section-title" style="margin-bottom:14px">📅 ${L('AI와 함께하는 나의 하루', U.day)}</div>
-      <div class="v2-section-body">${v2.daily_routine}</div>
-    </div>` : '';
+  const typeLink = typePagePath(code).replace(/^https:\/\/thepersonalityai\.com/, '');
+  const shareBtn = (cls, fn, label, svg) => `<button class="sns-btn ${cls}" onclick="${fn}()" aria-label="${label}" title="${label}">${svg}</button>`;
 
-  // ── Job-specific extra AI tools (with links) ──
-  const usedTools = new Set([mainAI.name, ...specialistAIs.map(a => a.name)].map(n => n.toLowerCase()));
-  const jobExtraTools = (JOB_AI_TOOLS[selectedJob] || []).map((t, i) => ({ name: t.name, use: locMode && window.EN && EN.jobToolUse[selectedJob] ? EN.jobToolUse[selectedJob][i] : t.use })).filter(t => !usedTools.has(t.name.toLowerCase())).slice(0, 4);
-  const jobExtraCards = jobExtraTools.map(t => `
-    <div class="job-ai-extra-card">
-      <div class="jaec-name">${makeAILink(t.name)}</div>
-      <div class="jaec-use">${t.use}</div>
-    </div>`).join('');
-
-  const masterNameEsc = master.name.replace(/'/g, "\\'");
   // 공유 데이터 전역 저장 (onclick에 JSON 직접 삽입 시 쌍따옴표가 속성을 깨뜨리는 버그 방지)
   window._shareData = { name: master.name, code: code, scores: scores };
 
@@ -5177,49 +5474,30 @@ function renderResults(scores) {
       </div>`;
   }
 
-  document.getElementById('resultsContent').innerHTML = `
+  const rc = document.getElementById('resultsContent');
+  rc.classList.add('ra');
+  rc.innerHTML = `
     ${compareSectionHTML}
-    <!-- Banner -->
-    <div class="result-banner-16p fade-up">
-      <div class="rb-bg" style="background:linear-gradient(135deg,${bannerBg} 0%,white 100%)"></div>
-      <div class="char-stage-rb" style="flex-shrink:0">
-        <div class="csrb-ring1" style="border-color:${bannerColor}"></div>
-        <div class="csrb-ring2" style="border-color:${bannerColor}"></div>
-        <div class="csrb-bg" style="background:${bannerColor};border-radius:50%;position:absolute;width:54%;height:54%"></div>
-        <span class="csrb-emoji">${emoji}</span>
-      </div>
+    <!-- 유형 카드 -->
+    <div class="ra-card ra-banner result-banner-16p fade-up" style="background:linear-gradient(135deg,${bannerBg} 0%,#fff 100%)">
+      <div class="ra-emoji" style="background:${bannerColor};box-shadow:0 0 0 6px ${bannerColor}22">${emoji}</div>
       <div class="rb-content">
-        <div class="rb-job-pill" style="background:${bannerBg};color:${bannerColor};border:1px solid ${bannerColor}33">
-          🌊 ${L('AI-OCEAN 분석 완료', U.done)} &nbsp;·&nbsp; ${job?.icon} ${jobLabel(job)}
-        </div>
+        <div class="rb-job-pill" style="background:#fff;color:${bannerColor};border:1px solid ${bannerColor}33">🌊 ${L('분석 완료', U.done)} · ${job?.icon || ''} ${jobLabel(job)}</div>
         <div class="rb-name" style="color:${bannerColor}">${master.name}</div>
         ${personaTitle ? `<div class="rb-persona-title" style="color:${bannerColor}">"${personaTitle}"</div>` : ''}
-        <div class="rb-tagline" style="color:var(--text-secondary)">${master.summary}</div>
-        <div class="rb-code-row">${rbCodeItems}</div>
+        <div class="rb-tagline ra-muted">${master.summary}</div>
       </div>
     </div>
 
-    <!-- Radar Chart -->
-    <div class="chart-section fade-up-d1">
-      <div class="section-title">📊 ${L('나의 OCEAN 레이더', U.radar)}</div>
-      <canvas id="radarChart" width="340" height="340"></canvas>
+    <!-- OCEAN 점수: 레이더 + 5개 막대 -->
+    <div class="ra-card ra-scores chart-section fade-up-d1">
+      <div class="ra-scores-head"><div class="ra-h">📊 ${L('나의 OCEAN 점수', 'My OCEAN scores', 'Mis puntajes OCEAN')}</div><small>${L('50% 이상 = 강점', '50%+ = strength', '50% o más = fortaleza')}</small></div>
+      <canvas id="radarChart" width="340" height="260" aria-hidden="true"></canvas>
+      <div class="ra-bars">${traitBars}</div>
     </div>
 
-    <!-- Insight -->
-    <div class="insight-section fade-up-d2">
-      <div class="section-title">🎭 ${L('성향 공감 리포트', U.insight)}</div>
-      <div class="insight-text">${insightText}</div>
-      ${enNoJob ? `<div style="margin-top:14px;font-size:14px;color:var(--text-secondary)">${U.koNote}</div>` : ''}
-    </div>
-
-    <!-- 이메일 구독 (결과에 만족한 직후가 가장 반응이 좋다) -->
-    ${subscribeCardHTML(code, master.name)}
-
-    <!-- v2 Strengths & Growth (if available) -->
-    ${v2StrengthsSection}
-
-    <!-- SNS Share (결과 공유 — 보완 포인트 바로 다음) -->
-    <div class="sns-share-section fade-up-d4">
+    <!-- 공유: 비교 초대 + 아이콘 한 줄 -->
+    <div class="ra-card ra-share sns-share-section fade-up-d1">
       <div class="sns-section-title">🤝 ${L('친구도 해보고 OCEAN 비교하기', U.shareTitle)}</div>
       <div class="sns-section-sub">${L('링크를 받은 친구가 테스트를 마치면, 두 사람의 성향을 나란히 볼 수 있어요. 무료 · 약 3분.', U.shareSub)}</div>
       <div class="fc-primary-actions">
@@ -5232,71 +5510,56 @@ function renderResults(scores) {
         </button>
       </div>
       <div class="fc-share-notice">${L('링크를 받은 사람이 내 점수 다섯 개를 보게 됩니다. 이름과 이메일은 들어가지 않아요.', 'Anyone with this link can see your five scores. It does not include your name or email.', 'Quien tenga este enlace podrá ver tus cinco puntajes. No incluye tu nombre ni correo.')}</div>
-      <div class="sns-btn-row">
-        <button class="sns-btn sns-fb" onclick="shareFacebook()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Facebook
-        </button>
-        <button class="sns-btn sns-x" onclick="shareTwitterX()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          X (Twitter)
-        </button>
-        <button class="sns-btn sns-ig" onclick="copyInstagram()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          ${L('Instagram 복사', U.copyIG)}
-        </button>
-        <button class="sns-btn sns-kakao" onclick="shareKakao()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.57 1.522 4.837 3.836 6.237L4.89 20.5l4.194-2.617A10.1 10.1 0 0012 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
-          ${L('카카오톡', U.kakao)}
-        </button>
-        <button class="sns-btn sns-tiktok" onclick="shareTiktok()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.21 8.21 0 0 0 4.79 1.52V6.77a4.85 4.85 0 0 1-1.02-.08z"/></svg>
-          TikTok
-        </button>
+      <div class="ra-share-row">
+        ${shareBtn('sns-fb', 'shareFacebook', 'Facebook', '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>')}
+        ${shareBtn('sns-x', 'shareTwitterX', 'X (Twitter)', '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>')}
+        ${shareBtn('sns-ig', 'copyInstagram', L('Instagram 복사', U.copyIG), '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>')}
+        ${shareBtn('sns-kakao', 'shareKakao', L('카카오톡', U.kakao), '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.57 1.522 4.837 3.836 6.237L4.89 20.5l4.194-2.617A10.1 10.1 0 0012 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>')}
+        ${shareBtn('sns-tiktok', 'shareTiktok', 'TikTok', '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.21 8.21 0 0 0 4.79 1.52V6.77a4.85 4.85 0 0 1-1.02-.08z"/></svg>')}
       </div>
     </div>
 
-    <div class="result-contact">${L('문의', 'Contact', 'Contacto')}: <a href="mailto:oceanainavigator@gmail.com">oceanainavigator@gmail.com</a></div>
+    <!-- 성향 공감 리포트 (3줄 + 더 보기) -->
+    <div class="ra-card insight-section fade-up-d2">
+      <div class="ra-h">🎭 ${L('성향 공감 리포트', U.insight)}</div>
+      <div class="insight-text ra-clamp3" id="raInsight">${insightText}</div>
+      <button class="ra-more" id="raInsightMore" type="button" aria-expanded="false" onclick="raToggleInsight(this)">${L('더 보기 ▾', 'Read more ▾', 'Leer más ▾')}</button>
+      ${enNoJob ? `<div style="margin-top:10px;font-size:13.5px;color:var(--text-secondary)">${U.koNote}</div>` : ''}
+    </div>
 
-    <!-- AI Prescription (v2 or v1 fallback) -->
+    <!-- 강점 | 보완 -->
+    ${v2StrengthsSection}
+
+    <!-- 이메일 구독 -->
+    ${subscribeCardHTML(code, master.name)}
+
+    <!-- AI -->
     ${prescriptionHTML}
 
-    <!-- 상세 분석 (접힘) -->
-    <details class="more-fold fade-up-d3" ontoggle="if(this.open)track('detail_open',{})">
-    <summary>📖 ${L('상세 분석 더 보기', U.more)} <span>${L('OCEAN 프로파일 · 시너지 전략 · 추천 도구 · 하루 루틴', U.moreSub)}</span></summary>
-    <div class="ocean-profile-section">
-      <div class="section-title" style="margin-bottom:16px">🧬 ${L('나의 OCEAN 강점 프로파일', U.profile)}</div>
-      ${oceanProfileRows}
-    </div>
-    ${v2SynergySection}
+    <!-- 상세 (접힘) -->
+    ${foldsHTML}
 
-    <!-- Job AI Extra Tools -->
-    ${jobExtraCards ? `
-    <div class="job-ai-extra-section fade-up-d3">
-      <div class="section-title" style="margin-bottom:4px">🏆 ${locMode ? U.extraTitle(jobLabel(job)) : `${job?.label} 직군 추천 AI 도구`}</div>
-      <div style="font-size:16px;color:var(--text-secondary);margin-bottom:0">${L('당신의 직업군에서 가장 효과적인 AI 도구들입니다', U.extraSub)}</div>
-      <div class="job-ai-extra-grid">${jobExtraCards}</div>
-    </div>` : ''}
-
-    ${v2RoutineSection}
-    </details>
-
-    <!-- Retake -->
-    <div class="retake-section">
-      <button class="btn-retake" onclick="goHome()">🏠 ${L('처음으로', U.home)}</button>
-      <button class="btn-retake btn-primary" data-cta-position="result_retake" onclick="startQuiz()" style="padding:14px 32px;font-size:15px">🔄 ${L('다시 테스트하기', U.retake)}</button>
+    <!-- 마무리 -->
+    <div class="ra-end retake-section" style="display:block;padding:0">
+      <button class="ra-btn p btn-retake btn-primary" data-cta-position="result_retake" onclick="startQuiz()">🔄 ${L('다시 테스트하기', U.retake)}</button>
+      <a class="ra-btn s" href="${typeLink}" data-cta-position="result_type_page">📖 ${L(`내 유형(${code}) 자세히 보기`, `More about my type (${code})`, `Más sobre mi tipo (${code})`)}</a>
+      <button class="ra-home" onclick="goHome()">🏠 ${L('처음으로', U.home)}</button>
     </div>
 
-    <p class="disclaimer" style="text-align:center;padding-bottom:40px">${L('본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작.', U.disclaimer)}</p>
+    <p class="disclaimer" style="text-align:center;padding-bottom:32px">${L('본 테스트는 의학적 진단이 아니며, AI 활용을 돕기 위한 성향 참고용입니다. Big Five(OCEAN) 모델 기반 — IPIP 공개 프레임워크 참조, 한국어 문항 자체 제작.', U.disclaimer)}</p>
   `;
 
   // Animate bars after render
   drawRadar(scores);
   if (peerRef && peerRef.scores) drawCompareRadar(scores, peerRef.scores);
   setTimeout(() => {
-    document.querySelectorAll('.op-dim-bar-fill').forEach(el => {
+    document.querySelectorAll('#resultsContent .op-dim-bar-fill').forEach(el => {
       el.style.width = el.dataset.pct + '%';
     });
+    drawRadar(scores);
+    // 3줄 안에 다 들어가면 '더 보기' 숨김
+    const ins = document.getElementById('raInsight'), more = document.getElementById('raInsightMore');
+    if (ins && more && ins.scrollHeight <= ins.clientHeight + 2) more.style.display = 'none';
   }, 100);
 
   persistResult(scores);
@@ -5381,13 +5644,13 @@ function drawRadar(scores) {
   });
 
   // Labels
-  ctx.font = '13px Segoe UI, sans-serif';
+  ctx.font = '600 13px Segoe UI, "Noto Sans KR", sans-serif';
   ctx.textAlign = 'center';
   dims.forEach((d, i) => {
     const lx = cx + Math.cos(angle(i)) * (R + 24);
     const ly = cy + Math.sin(angle(i)) * (R + 24);
     ctx.fillStyle = colors[i];
-    ctx.fillText(labels[i], lx, ly + 4);
+    ctx.fillText(labels[i] + ' ' + scores[d], lx, ly + 4);
   });
 }
 
