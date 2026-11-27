@@ -26,15 +26,13 @@ const ROOT = __dirname;
 const SITE = 'https://thepersonalityai.com';
 const GA_ID = 'G-180ERLEMSE';
 const TODAY = new Date().toISOString().slice(0, 10);
-const TYPE_UPDATED = { ko: '2026-11-25', en: '2026-11-19', es: '2026-11-19' };
+const TYPE_UPDATED = { ko: '2026-11-26', en: '2026-11-26', es: '2026-11-26' };
 const HOME_UPDATED = '2026-11-25';
 const PRIVACY_UPDATED = '2026-11-19';
 
-// 데이터의 직업군 내용이 사이트에 표시되는 직업군 이름과 맞지 않아 공개 페이지에서는 제외한다.
-//  06: 데이터는 '건설/채굴' 내용인데 퀴즈 화면의 6번 직업군은 'IT 개발/데이터/AI'
-//  14: v2는 대부분 '1인 창업/프리랜서'인데 일부(14_11111, 14_01001)와 직업군 페르소나는 '설치/정비/수리' 내용
-// 데이터가 정리되면 이 목록에서 빼면 된다.
-const EXCLUDED_JOB_GROUPS = new Set(['06', '14']);
+// 공개 유형 페이지에서 빼 둘 직업군. 지금은 없음.
+// 06(IT 개발/데이터/AI)과 14(1인 창업/프리랜서)는 PR #24 한국어 문구 반영 후 다시 넣었다.
+const EXCLUDED_JOB_GROUPS = new Set();
 
 // ───────────────────────── 데이터 로드 ─────────────────────────
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
