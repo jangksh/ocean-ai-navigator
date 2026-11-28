@@ -906,7 +906,7 @@ const BLOG_POSTS = [
   {
     lang: 'ko',
     path: '/blog/free-personality-test-career-bigfive/',
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-28',
     datePublished: '2026-11-16',
   },
   {
